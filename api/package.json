@@ -5,7 +5,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
     "db:push": "drizzle-kit push:pg",
-    "db:seed": "bun run ./drizzle/seed/index.ts"
+    "db:seed": "bun run ./drizzle/seed/index.ts",
+    "deploy:dev": "cd ./cdk && cdk deploy"
   },
   "dependencies": {
     "drizzle-orm": "^0.28.6",
