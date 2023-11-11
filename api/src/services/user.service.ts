@@ -1,9 +1,9 @@
-import {db, users} from "../schema";
+import { db, users } from '../schema'
 
 export class UserService {
     async getAll(): Promise<any> {
-        return db.select().from(users);
+        return db.select().from(users)
     }
 }
 
-export default new UserService();
+export default new UserService()

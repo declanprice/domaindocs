@@ -4,8 +4,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
-    "push:db": "drizzle-kit push:pg",
-    "seed:db": "bun run ./drizzle/seed/index.ts"
+    "db:push": "drizzle-kit push:pg",
+    "db:seed": "bun run ./drizzle/seed/index.ts"
   },
   "dependencies": {
     "drizzle-orm": "^0.28.6",

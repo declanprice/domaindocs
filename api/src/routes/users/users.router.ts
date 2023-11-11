@@ -1,9 +1,9 @@
-import {Elysia} from "elysia";
+import { Elysia } from 'elysia'
 
-import {setup} from "../setup";
+import { setup } from '../setup'
 
 export const usersRouter = new Elysia({ prefix: '/users' })
     .use(setup)
     .get('/', async ({ userService }) => {
-        return userService.getAll();
+        return userService.getAll()
     })

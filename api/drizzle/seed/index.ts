@@ -1,8 +1,8 @@
-import {randomUUID} from "crypto";
-import process from "process";
+import { randomUUID } from 'crypto'
+import process from 'process'
 
-import {db, users} from "../../src/schema";
+import { db, users } from '../../src/schema/db'
 
-await db.insert(users).values([{id: randomUUID()}]);
+await db.insert(users).values([{ id: randomUUID() }])
 
-process.exit(0);
+process.exit(0)
