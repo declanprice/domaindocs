@@ -1,3 +1,3 @@
-export const ViewDomainPage = () => {
+export const DomainSettingsPage = () => {
     return <> domain settings page</>
 }

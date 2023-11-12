@@ -1,28 +1,42 @@
 import './App.css'
-
-import { createSignal } from 'solid-js'
-
-import { CheckboxField, InputField } from '@components'
+import { authService } from '@services'
+import { Layout } from './layout/Layout.tsx'
+import { Route, Router, Routes } from '@solidjs/router'
+import { AuthSignInPage } from './pages/auth/AuthSignInPage.tsx'
+import { AuthSignUpPage } from './pages/auth/AuthSignUpPage.tsx'
+import { DomainPage } from './pages/domain/DomainPage.tsx'
+import { DomainSettingsPage } from './pages/domain/DomainSettingsPage.tsx'
 
 const App = () => {
-    const [isChecked, setIsChecked] = createSignal<boolean>(false)
-    const [value, setValue] = createSignal<string>('')
+    const user = authService.authUser()
+
+    if (user === null) {
+        return (
+            <Router>
+                <Routes>
+                    <Route path="/sign-in" component={AuthSignInPage} />
+                    <Route path="/sign-up" component={AuthSignUpPage} />
+                    <Route path="/*" component={AuthSignInPage} />
+                </Routes>
+            </Router>
+        )
+    }
 
     return (
-        <>
-            <InputField
-                label={'Input label'}
-                value={value()}
-                placeholder={'place holder here'}
-                onChange={setValue}
-            />
+        <Layout>
+            <Router>
+                <Routes>
+                    <Route path="/domain/:domainId" component={DomainPage} />
 
-            <CheckboxField
-                label={'My label'}
-                isChecked={isChecked()}
-                onChange={setIsChecked}
-            />
-        </>
+                    <Route
+                        path="/domain/:domainId/settings"
+                        component={DomainSettingsPage}
+                    />
+
+                    <Route path="/*" component={DomainPage} />
+                </Routes>
+            </Router>
+        </Layout>
     )
 }
 

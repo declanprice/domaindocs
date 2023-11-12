@@ -2,7 +2,6 @@ import { toId } from '@utils'
 
 type CheckboxFieldProps = {
     label: string
-
     isChecked: boolean
     onChange: (isChecked: boolean) => void
 }
