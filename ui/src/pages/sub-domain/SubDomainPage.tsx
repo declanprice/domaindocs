@@ -2,16 +2,28 @@ import { EditDomainNameModal } from '../domain/components/EditDomainNameModal.ts
 import { ServiceCard } from './components/ServiceCard.tsx'
 import { Button, TeamCard } from '@components'
 import { useNavigate, useParams } from '@solidjs/router'
+import { EditServiceSummaryModal } from '../service/components/EditServiceSummaryModal.tsx'
+import { createEffect } from 'solid-js'
+import {
+    fetchSubDomainView,
+    subDomainView
+} from '../../services/sub-domain-view.service.ts'
 
 export const SubDomainPage = () => {
     const params = useParams()
     const nav = useNavigate()
 
+    createEffect(() => {
+        fetchSubDomainView(params.subDomainId)
+    })
+
     return (
         <div class="flex flex-col p-4">
             <div class="flex items-center">
                 <div class="flex-1 flex items-center">
-                    <h1 class="text-lg font-bold">Sub Domain - Order</h1>
+                    <h1 class="text-lg font-bold">
+                        Sub Domain - {subDomainView()?.name}
+                    </h1>
 
                     <a
                         class="ml-4 text-blue-500 cursor-pointer underline text-sm"
@@ -35,6 +47,26 @@ export const SubDomainPage = () => {
             </div>
 
             <div class="flex flex-col mt-8">
+                <div class="flex items-center">
+                    <h1 class="text-md font-bold">Summary</h1>
+
+                    <a
+                        class="ml-4 text-blue-500 cursor-pointer underline text-sm"
+                        data-modal-target="edit-service-summary-modal"
+                        data-modal-toggle="edit-service-summary-modal"
+                    >
+                        Edit
+                    </a>
+
+                    <EditServiceSummaryModal />
+                </div>
+
+                <p class="mt-2 mb-3 text-gray-500 dark:text-gray-400 w-2/5">
+                    {subDomainView()?.summary}
+                </p>
+            </div>
+
+            <div class="flex flex-col mt-8">
                 <div class="flex items-center mb-2">
                     <h1 class="text-md font-bold">Teams</h1>
 
@@ -47,9 +79,9 @@ export const SubDomainPage = () => {
                     </a>
                 </div>
 
-                <TeamCard teamName={'Team Orion'} />
-
-                <TeamCard teamName={'Team Keplar'} />
+                {subDomainView()?.ownedBy.map((t) => (
+                    <TeamCard teamName={t.name} />
+                ))}
             </div>
 
             <div class="flex flex-col mt-8">
@@ -65,9 +97,9 @@ export const SubDomainPage = () => {
                     </a>
                 </div>
 
-                <ServiceCard serviceName={'Order API'} />
-
-                <ServiceCard serviceName={'Order UI'} />
+                {subDomainView()?.services.map((s) => (
+                    <ServiceCard serviceName={s.name} />
+                ))}
             </div>
         </div>
     )

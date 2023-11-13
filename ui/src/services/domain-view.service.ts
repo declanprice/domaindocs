@@ -5,6 +5,7 @@ export type DomainView = {
     name: string
     summary: string
     subDomains: {
+        subDomainId: string
         name: string
         teamCount: number
         serviceCount: number
@@ -25,16 +26,19 @@ const domainViews: { [key: string]: DomainView } = {
             'Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.',
         subDomains: [
             {
+                subDomainId: '1',
                 name: 'Restaurant',
                 teamCount: 5,
                 serviceCount: 10
             },
             {
+                subDomainId: '2',
                 name: 'Customer',
                 teamCount: 5,
                 serviceCount: 10
             },
             {
+                subDomainId: '3',
                 name: 'Order',
                 teamCount: 5,
                 serviceCount: 10
@@ -48,11 +52,13 @@ const domainViews: { [key: string]: DomainView } = {
             'Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.',
         subDomains: [
             {
+                subDomainId: '1',
                 name: 'Restaurant',
                 teamCount: 5,
                 serviceCount: 10
             },
             {
+                subDomainId: '2',
                 name: 'Order',
                 teamCount: 5,
                 serviceCount: 10
