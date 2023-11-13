@@ -1,15 +1,18 @@
-import { useSearchParams } from '@solidjs/router'
+import { useNavigate, useSearchParams } from '@solidjs/router'
 import { createEffect } from 'solid-js'
 import {
     documentationView,
     fetchDocumentationView
 } from '../../services/documentation-view.service.ts'
 import { toId } from '@utils'
-import { Button } from '@components'
+import { Button, Menu } from '@components'
+import { NewFolderModal } from './components/NewFolderModal.tsx'
 
 type DocumentationPageProps = {}
 
 export const DocumentationPage = (props: DocumentationPageProps) => {
+    const nav = useNavigate()
+
     const [searchParams] = useSearchParams()
 
     createEffect(() => {
@@ -74,19 +77,34 @@ export const DocumentationPage = (props: DocumentationPageProps) => {
                                 <h4 class="flex-1">{d.name}</h4>
 
                                 <div class="flex ">
-                                    <Button label={'Open'} />
-                                    <Button label={'Remove'} />
+                                    <a class="mt-4 ml-4 text-blue-500 cursor-pointer underline text-sm">
+                                        Open
+                                    </a>
+                                    <a class="mt-4 ml-4 text-blue-500 cursor-pointer underline text-sm">
+                                        Remove
+                                    </a>
                                 </div>
                             </div>
                         ))}
 
-                        <a
-                            class="ml-2 text-blue-500 cursor-pointer underline text-sm"
-                            data-modal-target="new-document-modal"
-                            data-modal-toggle="new-document-modal"
-                        >
-                            New Document
-                        </a>
+                        <Menu
+                            label={`Add Document to ${f.name}`}
+                            items={[
+                                {
+                                    label: 'File',
+                                    onClick: () => {
+                                        nav(
+                                            `/documentation/${f.folderId}/upload-files`
+                                        )
+                                    }
+                                },
+                                { label: 'Text Editor', onClick: () => {} },
+                                {
+                                    label: 'Whiteboard Editor',
+                                    onClick: () => {}
+                                }
+                            ]}
+                        />
                     </div>
                 </div>
             ))}
@@ -98,6 +116,8 @@ export const DocumentationPage = (props: DocumentationPageProps) => {
             >
                 New Folder
             </a>
+
+            <NewFolderModal />
         </div>
     )
 }

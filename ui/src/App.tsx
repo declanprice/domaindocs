@@ -11,6 +11,7 @@ import { ServicePage } from './pages/service/ServicePage.tsx'
 import { UserSettingsPage } from './pages/user/UserSettingsPage.tsx'
 import { Match, Switch } from 'solid-js'
 import { DocumentationPage } from './pages/documentation/DocumentationPage.tsx'
+import { DocumentationUploadFilesPage } from './pages/documentation/DocumentationUploadFilesPage.tsx'
 
 const App = () => {
     return (
@@ -52,6 +53,11 @@ const App = () => {
                             <Route
                                 path={'/documentation'}
                                 component={DocumentationPage}
+                            />
+
+                            <Route
+                                path={'/documentation/:folderId/upload-files'}
+                                component={DocumentationUploadFilesPage}
                             />
 
                             <Route
