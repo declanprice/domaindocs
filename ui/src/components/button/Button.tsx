@@ -8,24 +8,22 @@ type ButtonProps = {
 }
 
 export const Button = (props: ButtonProps) => {
-    const { label, class: clazz, target, onClick } = props
-
     return (
         <button
-            data-modal-target={target}
-            data-modal-toggle={target}
+            data-modal-target={props.target}
+            data-modal-toggle={props.target}
             type="button"
             class={twMerge(
                 'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800',
-                clazz
+                props.class
             )}
             onclick={() => {
-                if (onClick) {
-                    onClick()
+                if (props.onClick) {
+                    props.onClick()
                 }
             }}
         >
-            {label}
+            {props.label}
         </button>
     )
 }

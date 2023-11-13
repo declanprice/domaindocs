@@ -9,9 +9,7 @@ export type InputFieldProps = {
 }
 
 export const InputField = (props: InputFieldProps) => {
-    const { label, disabled, placeholder, value, onChange } = props
-
-    const inputId = toId(`${label}-input-field`)
+    const inputId = toId(`${props.label}-input-field`)
 
     return (
         <div>
@@ -19,17 +17,17 @@ export const InputField = (props: InputFieldProps) => {
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 for={inputId}
             >
-                {label}
+                {props.label}
             </label>
             <input
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 type="text"
                 id={inputId}
-                placeholder={placeholder}
-                disabled={disabled}
-                value={value}
+                placeholder={props.placeholder}
+                disabled={props.disabled}
+                value={props.value}
                 onChange={(e: any) => {
-                    onChange(e.target.value)
+                    props.onChange(e.target.value)
                 }}
             />
         </div>

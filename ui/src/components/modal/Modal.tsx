@@ -8,13 +8,11 @@ interface ModalProps {
 }
 
 export const Modal = (props: ModalProps) => {
-    const { id, header, body, footer } = props
-
-    const isHeaderString = typeof header === 'string'
+    const isHeaderString = typeof props.header === 'string'
 
     return (
         <div
-            id={id}
+            id={props.id}
             tabIndex="-1"
             aria-hidden="true"
             class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto text-base text-left md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -24,16 +22,16 @@ export const Modal = (props: ModalProps) => {
                     <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                         {isHeaderString ? (
                             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                {header}
+                                {props.header}
                             </h3>
                         ) : (
-                            { header }
+                            <>{props.header}</>
                         )}
 
                         <button
                             type="button"
                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                            data-modal-hide={id}
+                            data-modal-hide={props.id}
                         >
                             <svg
                                 aria-hidden="true"
@@ -51,9 +49,9 @@ export const Modal = (props: ModalProps) => {
                             <span class="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <div class="p-6 space-y-6">{body}</div>
+                    <div class="p-6 space-y-6">{props.body}</div>
                     <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                        {footer}
+                        {props.footer}
                     </div>
                 </div>
             </div>

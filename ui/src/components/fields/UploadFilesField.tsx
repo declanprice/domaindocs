@@ -2,14 +2,12 @@ import { toId } from '@utils'
 
 type UploadFilesField = {
     label: string
-    onChange: (files: FileList) => void
+    onChange: (files: FileList | null) => void
 }
 
 export const UploadFilesField = (props: UploadFilesField) => {
-    const { label, onChange } = props
-
-    const fieldId = toId(`${label}-uploadfiles-field`)
-    const labelId = toId(`${label}-uploadfiles-label`)
+    const fieldId = toId(`${props.label}-uploadfiles-field`)
+    const labelId = toId(`${props.label}-uploadfiles-label`)
 
     return (
         <>
@@ -18,7 +16,7 @@ export const UploadFilesField = (props: UploadFilesField) => {
                 for={fieldId}
                 id={labelId}
             >
-                {label}
+                {props.label}
             </label>
 
             <input
@@ -27,7 +25,7 @@ export const UploadFilesField = (props: UploadFilesField) => {
                 type="file"
                 multiple
                 onChange={(e) => {
-                    onChange(e.target.files)
+                    props.onChange(e.target.files)
                 }}
             />
         </>
