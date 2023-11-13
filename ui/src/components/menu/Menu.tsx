@@ -14,16 +14,15 @@ type MenuProps = {
 }
 
 export const Menu = (props: MenuProps) => {
-    const { label, class: clazz, items, content, iconButton } = props
+    const buttonId = toId(`${props.label}-menu-button`)
+    const menuId = toId(`${props.label}-menu`)
 
-    const buttonId = toId(`${label}-menu-button`)
-    const menuId = toId(`${label}-menu`)
-
-    if (!items && !content) throw new Error('provide items or content')
+    if (!props.items && !props.content)
+        throw new Error('provide items or content')
 
     return (
         <>
-            {iconButton ? (
+            {props.iconButton ? (
                 <button
                     id={buttonId}
                     data-dropdown-toggle={menuId}
@@ -50,11 +49,11 @@ export const Menu = (props: MenuProps) => {
                     data-dropdown-trigger="click"
                     class={twMerge(
                         'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800',
-                        clazz
+                        props.class
                     )}
                     type="button"
                 >
-                    {label}
+                    {props.label}
                     <svg
                         class="w-2.5 h-2.5 ms-3"
                         aria-hidden="true"
@@ -82,7 +81,7 @@ export const Menu = (props: MenuProps) => {
                     aria-labelledby={buttonId}
                 >
                     <For
-                        each={items}
+                        each={props.items}
                         children={(item) => (
                             <li>
                                 <a
@@ -98,7 +97,7 @@ export const Menu = (props: MenuProps) => {
                     />
                 </ul>
 
-                {content}
+                {props.content}
             </div>
         </>
     )

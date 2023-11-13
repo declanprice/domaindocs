@@ -1,2 +1,2 @@
 export * from './auth.service.ts'
-export * from './domains.service.ts'
+export * from './selectable-domains.service.ts'

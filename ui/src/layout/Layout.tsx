@@ -1,28 +1,27 @@
 import { ParentProps } from 'solid-js'
-import { authService, domainsService } from '@services'
+import {
+    authUser,
+    fetchSelectableDomains,
+    selectableDomains,
+    selectedDomain
+} from '@services'
 import { Button, Menu } from '@components'
-
-import { UserMenu } from './UserMenu.tsx'
 import { useNavigate } from '@solidjs/router'
+import { UserMenu } from './UserMenu.tsx'
 
 export const Layout = (props: ParentProps) => {
-    const authUser = authService.authUser()
-    const domains = domainsService.domains()
-
     const nav = useNavigate()
-
-    if (!authUser || !domains) return null
 
     return (
         <div class="flex flex-col h-full">
             <div class="flex m-4 pb-4 border-b-2 border-b-gray-200">
                 <div class="flex-1">
                     <Menu
-                        label={'My Domain Name'}
-                        items={domains.map((d) => ({
+                        label={selectedDomain()?.name || ''}
+                        items={selectableDomains().map((d) => ({
                             label: d.name,
                             onClick: () => {
-                                nav(`/domain/${d.id}`, { replace: true })
+                                nav(`/domain/${d.id}`)
                             }
                         }))}
                         content={
@@ -39,11 +38,17 @@ export const Layout = (props: ParentProps) => {
                         }
                     />
 
-                    <Button class="ml-2" label={'Manage Teams'} />
+                    <Button
+                        class="ml-2"
+                        label={'Manage Teams'}
+                        onClick={() => {
+                            fetchSelectableDomains()
+                        }}
+                    />
                 </div>
 
                 <div class="flex mr-2">
-                    <UserMenu authUser={authUser} />
+                    <UserMenu authUser={authUser()!} />
                 </div>
             </div>
 

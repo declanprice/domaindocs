@@ -1,4 +1,4 @@
-import { AuthenticatedUser } from '@services'
+import { AuthenticatedUser, signOut } from '@services'
 
 type UserMenuProps = {
     authUser: AuthenticatedUser
@@ -61,7 +61,9 @@ export const UserMenu = (props: UserMenuProps) => {
                 </ul>
                 <div class="py-2">
                     <a
-                        href="#"
+                        onClick={() => {
+                            signOut()
+                        }}
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                     >
                         Sign out

@@ -6,28 +6,20 @@ export type AuthenticatedUser = {
     displayName: string
 }
 
-export const authService = (() => {
-    const [authUser, setAuthUser] = createSignal<AuthenticatedUser | null>({
+export const [authUser, setAuthUser] = createSignal<AuthenticatedUser | null>({
+    id: '123',
+    displayName: 'Declan Price',
+    email: 'declanprice1@gmail.com'
+})
+
+export const signIn = (options: { email: string; password: string }) => {
+    setAuthUser(() => ({
         id: '123',
         displayName: 'Declan Price',
-        email: 'declanprice1@gmail.com'
-    })
+        email: options.email
+    }))
+}
 
-    const signIn = (options: { email: string; password: string }) => {
-        setAuthUser(() => ({
-            id: '123',
-            displayName: 'Declan Price',
-            email: options.email
-        }))
-    }
-
-    const signOut = () => {
-        setAuthUser(() => null)
-    }
-
-    return {
-        authUser,
-        signIn,
-        signOut
-    }
-})()
+export const signOut = () => {
+    setAuthUser(() => null)
+}
