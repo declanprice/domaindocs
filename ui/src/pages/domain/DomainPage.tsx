@@ -1,22 +1,26 @@
-import { Button, Menu } from '@components'
 import { EditDomainNameModal } from './components/EditDomainNameModal.tsx'
 import { EditDomainSummaryModal } from './components/EditDomainSummaryModal.tsx'
 import { AddSubDomainModal } from './components/AddSubDomainModal.tsx'
 import { SubDomainCard } from './components/SubDomainCard.tsx'
+import { Button } from '@components'
 
 export const DomainPage = () => {
     return (
         <div class="flex flex-col p-4">
             <div class="flex items-center">
-                <h1 class="text-lg font-bold">My Domain Name</h1>
+                <div class="flex-1 flex items-center">
+                    <h1 class="text-lg font-bold">Domain - My Domain Name</h1>
 
-                <a
-                    class="ml-4 text-blue-500 cursor-pointer underline text-sm"
-                    data-modal-target="edit-domain-name"
-                    data-modal-toggle="edit-domain-name"
-                >
-                    Edit
-                </a>
+                    <a
+                        class="ml-4 text-blue-500 cursor-pointer underline text-sm"
+                        data-modal-target="edit-domain-name"
+                        data-modal-toggle="edit-domain-name"
+                    >
+                        Edit
+                    </a>
+                </div>
+
+                <Button label={'Documentation'} />
 
                 <EditDomainNameModal />
             </div>
