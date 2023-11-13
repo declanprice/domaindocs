@@ -8,7 +8,7 @@ type SubDomainCardProps = {
 
 export const SubDomainCard = (props: SubDomainCardProps) => {
     return (
-        <div class="max-w-sm p-4 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
+        <div class="max-w-sm mt-2 p-4 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
             <div class="flex">
                 <a
                     href={'/domain/1/subdomain/1'}
