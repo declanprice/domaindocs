@@ -24,7 +24,7 @@ export const Modal = (props: ModalProps) => {
                     <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                         {isHeaderString ? (
                             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                Terms of Service
+                                {header}
                             </h3>
                         ) : (
                             { header }

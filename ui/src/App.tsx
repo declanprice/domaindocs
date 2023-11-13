@@ -5,7 +5,7 @@ import { Route, Router, Routes } from '@solidjs/router'
 import { AuthSignInPage } from './pages/auth/AuthSignInPage.tsx'
 import { AuthSignUpPage } from './pages/auth/AuthSignUpPage.tsx'
 import { DomainPage } from './pages/domain/DomainPage.tsx'
-import { DomainSettingsPage } from './pages/domain/DomainSettingsPage.tsx'
+import { DomainSettingsPage } from './pages/domain-settings/DomainSettingsPage.tsx'
 
 const App = () => {
     const user = authService.authUser()
