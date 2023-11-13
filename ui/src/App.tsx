@@ -10,6 +10,7 @@ import { SubDomainPage } from './pages/sub-domain/SubDomainPage.tsx'
 import { ServicePage } from './pages/service/ServicePage.tsx'
 import { UserSettingsPage } from './pages/user/UserSettingsPage.tsx'
 import { Match, Switch } from 'solid-js'
+import { DocumentationPage } from './pages/documentation/DocumentationPage.tsx'
 
 const App = () => {
     return (
@@ -47,6 +48,12 @@ const App = () => {
                                 }
                                 component={ServicePage}
                             />
+
+                            <Route
+                                path={'/documentation'}
+                                component={DocumentationPage}
+                            />
+
                             <Route
                                 path={'/settings'}
                                 component={UserSettingsPage}

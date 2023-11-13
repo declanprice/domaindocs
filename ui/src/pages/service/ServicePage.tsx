@@ -3,8 +3,12 @@ import { EditServiceNameModal } from './components/EditServiceNameModal.tsx'
 import { EditServiceSummaryModal } from './components/EditServiceSummaryModal.tsx'
 import { ServiceDependencyCard } from './components/ServiceDependencyCard.tsx'
 import { ServiceTechCard } from './components/ServiceTechCard.tsx'
+import { useNavigate, useParams } from '@solidjs/router'
 
 export const ServicePage = () => {
+    const params = useParams()
+    const nav = useNavigate()
+
     return (
         <div class="flex flex-col p-4">
             <div class="flex items-center">
@@ -20,8 +24,14 @@ export const ServicePage = () => {
                     </a>
                 </div>
 
-                <Button label={'Documentation'} />
-
+                <Button
+                    label={'Documentation'}
+                    onClick={() => {
+                        nav(
+                            `/documentation?domainId=${params.domainId}&subDomainId=${params.subDomainId}&serviceId=${params.serviceId}`
+                        )
+                    }}
+                />
                 <EditServiceNameModal />
             </div>
 

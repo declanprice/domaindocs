@@ -1,8 +1,12 @@
 import { EditDomainNameModal } from '../domain/components/EditDomainNameModal.tsx'
 import { ServiceCard } from './components/ServiceCard.tsx'
 import { Button, TeamCard } from '@components'
+import { useNavigate, useParams } from '@solidjs/router'
 
 export const SubDomainPage = () => {
+    const params = useParams()
+    const nav = useNavigate()
+
     return (
         <div class="flex flex-col p-4">
             <div class="flex items-center">
@@ -18,7 +22,14 @@ export const SubDomainPage = () => {
                     </a>
                 </div>
 
-                <Button label={'Documentation'} />
+                <Button
+                    label={'Documentation'}
+                    onClick={() => {
+                        nav(
+                            `/documentation?domainId=${params.domainId}&subDomainId=${params.subDomainId}`
+                        )
+                    }}
+                />
 
                 <EditDomainNameModal />
             </div>
