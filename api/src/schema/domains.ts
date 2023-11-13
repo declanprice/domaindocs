@@ -1,5 +1,5 @@
 import { pgTable, uuid } from 'drizzle-orm/pg-core'
-import { jsonb, varchar } from 'drizzle-orm/pg-core'
+import { varchar } from 'drizzle-orm/pg-core'
 
 import { users } from './users'
 import { documentation } from './documentation'
@@ -14,24 +14,14 @@ export const domains = pgTable('domains', {
 })
 
 export const domainUsers = pgTable('domain_users', {
-    domainId: uuid('domain_id')
-        .notNull()
-        .references(() => domains.id),
-    userId: uuid('user_ud')
-        .notNull()
-        .references(() => users.id)
-})
-
-export const domainUserProfiles = pgTable('domain_user_profiles', {
     id: uuid('id').notNull().defaultRandom().primaryKey(),
     domainId: uuid('domain_id')
         .notNull()
         .references(() => domains.id),
-    firstName: varchar('first_name').notNull(),
-    lastName: varchar('last_name').notNull(),
+    userId: uuid('user_id')
+        .notNull()
+        .references(() => users.id),
     role: varchar('role').notNull().default('Employee'),
     contactEmail: varchar('contact_email').notNull(),
-    contactNumber: varchar('contact_number').notNull(),
-    aboutMe: varchar('about_me').notNull(),
-    skills: jsonb('skills').notNull().$type<string[]>().default([])
+    contactNumber: varchar('contact_number').notNull()
 })

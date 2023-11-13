@@ -22,7 +22,6 @@ export const CheckboxField = (props: CheckboxFieldProps) => {
                 id={checkboxId}
                 checked={value}
                 disabled={disabled}
-                value={value}
                 onChange={(e: any) => {
                     onChange(e.target.checked)
                 }}
