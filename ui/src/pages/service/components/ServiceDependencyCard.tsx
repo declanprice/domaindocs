@@ -1,7 +1,10 @@
 import { Menu } from '@components'
 
 type ServiceDependencyCardProps = {
-    dependencyName: string
+    serviceId: string
+    serviceName: string
+    subDomainId: string
+    domainId: string
     direction: 'uses' | 'usedBy'
 }
 
@@ -10,15 +13,15 @@ export const ServiceDependencyCard = (props: ServiceDependencyCardProps) => {
         <div class="max-w-sm mt-2 p-4 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
             <div class="flex">
                 <a
-                    href={'/domain/1/subdomain/1'}
+                    href={`/domain/${props.domainId}/subdomain/${props.subDomainId}/service/${props.serviceId}`}
                     class="flex-1 underline text-md font-bold tracking-tight text-gray-900 dark:text-white"
                 >
-                    {props.dependencyName}
+                    {props.serviceName}
                 </a>
 
                 <Menu
                     iconButton={true}
-                    label={`${props.dependencyName}-menu`}
+                    label={`${props.serviceName}-menu`}
                     items={[{ label: 'Remove', onClick: () => {} }]}
                 />
             </div>

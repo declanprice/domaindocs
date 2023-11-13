@@ -1,33 +1,40 @@
 import { createSignal } from 'solid-js'
 
-export type SubDomainView = {
+export type ServiceView = {
     id: string
     name: string
     summary: string
-    teams: {
+    ownedBy: {
         name: string
         teamId: string
     }[]
-    services: {
+    dependencies: {
         name: string
+        domainId: string
+        subDomainId: string
         serviceId: string
+        direction: 'uses' | 'usedBy'
+    }[]
+    techStack: {
+        name: string
     }[]
 }
 
-export const [subDomainView, setSubDomainView] =
-    createSignal<SubDomainView | null>(null)
+export const [serviceView, setServiceView] = createSignal<ServiceView | null>(
+    null
+)
 
-export const fetchSubDomainView = (subDomainId: string) => {
-    setSubDomainView(() => views[subDomainId])
+export const fetchServiceView = (serviceId: string) => {
+    setServiceView(() => views[serviceId])
 }
 
-const views: { [key: string]: SubDomainView } = {
+const views: { [key: string]: ServiceView } = {
     '1': {
         id: '1',
-        name: 'Restaurant',
+        name: 'Customer API',
         summary:
             'Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.',
-        teams: [
+        ownedBy: [
             {
                 name: 'Team Orion',
                 teamId: '1'
@@ -37,23 +44,30 @@ const views: { [key: string]: SubDomainView } = {
                 teamId: '2'
             }
         ],
-        services: [
+        dependencies: [
             {
                 serviceId: '1',
-                name: 'Customer API'
+                domainId: '1',
+                subDomainId: '1',
+                name: 'Customer API',
+                direction: 'uses'
             },
             {
                 serviceId: '2',
-                name: 'Customer UI'
+                domainId: '1',
+                subDomainId: '1',
+                name: 'Customer UI',
+                direction: 'usedBy'
             }
-        ]
+        ],
+        techStack: [{ name: 'React' }, { name: 'NodeJS' }]
     },
     '2': {
         id: '2',
-        name: 'Customer',
+        name: 'Customer UI',
         summary:
             'Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.',
-        teams: [
+        ownedBy: [
             {
                 name: 'Team Orion',
                 teamId: '1'
@@ -63,41 +77,22 @@ const views: { [key: string]: SubDomainView } = {
                 teamId: '2'
             }
         ],
-        services: [
+        dependencies: [
             {
                 serviceId: '1',
-                name: 'Customer API'
+                domainId: '1',
+                subDomainId: '1',
+                name: 'Customer API',
+                direction: 'uses'
             },
             {
                 serviceId: '2',
-                name: 'Customer UI'
-            }
-        ]
-    },
-    '3': {
-        id: '3',
-        name: 'Order',
-        summary:
-            'Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.',
-        teams: [
-            {
-                name: 'Team Orion',
-                teamId: '1'
-            },
-            {
-                name: 'Team Keplar',
-                teamId: '2'
+                domainId: '1',
+                subDomainId: '1',
+                name: 'Customer UI',
+                direction: 'usedBy'
             }
         ],
-        services: [
-            {
-                serviceId: '1',
-                name: 'Customer API'
-            },
-            {
-                serviceId: '2',
-                name: 'Customer UI'
-            }
-        ]
+        techStack: [{ name: 'React' }, { name: 'NodeJS' }]
     }
 }

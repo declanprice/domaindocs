@@ -4,16 +4,27 @@ import { EditServiceSummaryModal } from './components/EditServiceSummaryModal.ts
 import { ServiceDependencyCard } from './components/ServiceDependencyCard.tsx'
 import { ServiceTechCard } from './components/ServiceTechCard.tsx'
 import { useNavigate, useParams } from '@solidjs/router'
+import { createEffect } from 'solid-js'
+import {
+    fetchServiceView,
+    serviceView
+} from '../../services/service-view.service.ts'
 
 export const ServicePage = () => {
     const params = useParams()
     const nav = useNavigate()
 
+    createEffect(() => {
+        fetchServiceView(params.serviceId)
+    })
+
     return (
         <div class="flex flex-col p-4">
             <div class="flex items-center">
                 <div class="flex-1 flex items-center">
-                    <h1 class="text-lg font-bold">Service - Customer API</h1>
+                    <h1 class="text-lg font-bold">
+                        Service - {serviceView()?.name}
+                    </h1>
 
                     <a
                         class="ml-4 text-blue-500 cursor-pointer underline text-sm"
@@ -51,12 +62,7 @@ export const ServicePage = () => {
                 </div>
 
                 <p class="mt-2 mb-3 text-gray-500 dark:text-gray-400 w-2/5">
-                    Track work across the enterprise through an open,
-                    collaborative platform. Link issues across Jira and ingest
-                    data from other software development tools, so your IT
-                    support and operations teams have richer contextual
-                    information to rapidly respond to requests, incidents, and
-                    changes.
+                    {serviceView()?.summary}
                 </p>
             </div>
 
@@ -73,9 +79,9 @@ export const ServicePage = () => {
                     </a>
                 </div>
 
-                <TeamCard teamName={'Team Orion'} />
-
-                <TeamCard teamName={'Team Keplar'} />
+                {serviceView()?.ownedBy.map((t) => (
+                    <TeamCard teamName={t.name} />
+                ))}
             </div>
 
             <div class="flex flex-col mt-8">
@@ -91,15 +97,15 @@ export const ServicePage = () => {
                     </a>
                 </div>
 
-                <ServiceDependencyCard
-                    dependencyName={'Customer API'}
-                    direction={'uses'}
-                />
-
-                <ServiceDependencyCard
-                    dependencyName={'Customer UI'}
-                    direction={'uses'}
-                />
+                {serviceView()?.dependencies.map((d) => (
+                    <ServiceDependencyCard
+                        domainId={d.domainId}
+                        subDomainId={d.subDomainId}
+                        serviceId={d.serviceId}
+                        serviceName={d.name}
+                        direction={d.direction}
+                    />
+                ))}
             </div>
 
             <div class="flex flex-col mt-8">
@@ -115,9 +121,9 @@ export const ServicePage = () => {
                     </a>
                 </div>
 
-                <ServiceTechCard techName={'React'} />
-
-                <ServiceTechCard techName={'NodeJS'} />
+                {serviceView()?.techStack.map((t) => (
+                    <ServiceTechCard techName={t.name} />
+                ))}
             </div>
         </div>
     )

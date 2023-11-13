@@ -79,7 +79,7 @@ export const SubDomainPage = () => {
                     </a>
                 </div>
 
-                {subDomainView()?.ownedBy.map((t) => (
+                {subDomainView()?.teams.map((t) => (
                     <TeamCard teamName={t.name} />
                 ))}
             </div>
