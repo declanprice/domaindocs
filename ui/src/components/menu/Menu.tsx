@@ -1,5 +1,5 @@
-import { Menu as ArkMenu } from '@ark-ui/solid'
 import { For } from 'solid-js'
+import { toId } from '@utils'
 
 type MenuProps = {
     label: string
@@ -12,29 +12,60 @@ type MenuProps = {
 export const Menu = (props: MenuProps) => {
     const { label, items } = props
 
+    const buttonId = toId(`${label}-menu-button`)
+    const menuId = toId(`${label}-menu`)
+
     return (
-        <ArkMenu.Root>
-            <div class="relative inline-block text-left p-2">
-                <ArkMenu.Trigger class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                    {label}
-                </ArkMenu.Trigger>
-                <ArkMenu.Positioner>
-                    <ArkMenu.Content class="z-10  w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        <For
-                            each={items}
-                            children={(item) => (
-                                <ArkMenu.Item
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                    id="search"
-                                    onclick={item.onClick}
+        <>
+            <button
+                id={buttonId}
+                data-dropdown-toggle={menuId}
+                data-dropdown-delay="500"
+                data-dropdown-trigger="hover"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button"
+            >
+                {label}
+                <svg
+                    className="w-2.5 h-2.5 ms-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 10 6"
+                >
+                    <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m1 1 4 4 4-4"
+                    />
+                </svg>
+            </button>
+
+            <div
+                id={menuId}
+                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+            >
+                <ul
+                    class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                    aria-labelledby={buttonId}
+                >
+                    <For
+                        each={items}
+                        children={(item) => (
+                            <li>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                 >
                                     {item.label}
-                                </ArkMenu.Item>
-                            )}
-                        />
-                    </ArkMenu.Content>
-                </ArkMenu.Positioner>
+                                </a>
+                            </li>
+                        )}
+                    />
+                </ul>
             </div>
-        </ArkMenu.Root>
+        </>
     )
 }
