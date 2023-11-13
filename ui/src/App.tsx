@@ -8,6 +8,7 @@ import { DomainPage } from './pages/domain/DomainPage.tsx'
 import { DomainSettingsPage } from './pages/domain-settings/DomainSettingsPage.tsx'
 import { SubDomainPage } from './pages/sub-domain/SubDomainPage.tsx'
 import { ServicePage } from './pages/service/ServicePage.tsx'
+import { UserSettingsPage } from './pages/user/UserSettingsPage.tsx'
 
 const App = () => {
     const user = authService.authUser()
@@ -25,8 +26,8 @@ const App = () => {
     }
 
     return (
-        <Layout>
-            <Router>
+        <Router>
+            <Layout>
                 <Routes>
                     <Route path="/domain/:domainId" component={DomainPage} />
 
@@ -47,10 +48,12 @@ const App = () => {
                         component={ServicePage}
                     />
 
+                    <Route path={'/settings'} component={UserSettingsPage} />
+
                     <Route path="/*" component={DomainPage} />
                 </Routes>
-            </Router>
-        </Layout>
+            </Layout>
+        </Router>
     )
 }
 

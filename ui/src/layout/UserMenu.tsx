@@ -44,7 +44,6 @@ export const UserMenu = (props: UserMenuProps) => {
                 class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
             >
                 <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                    <div class="font-medium ">{authUser}</div>
                     <div class="truncate">{authUser.email}</div>
                 </div>
                 <ul
@@ -53,7 +52,7 @@ export const UserMenu = (props: UserMenuProps) => {
                 >
                     <li>
                         <a
-                            href="#"
+                            href="/settings"
                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                             Settings

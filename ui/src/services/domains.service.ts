@@ -6,7 +6,7 @@ export type Domain = {
 }
 
 export const domainsService = (() => {
-    const [domains, setDomains] = createSignal<Domain[] | null>([
+    const [domains] = createSignal<Domain[] | null>([
         { id: '1', name: 'My Domain Name' },
         { id: '2', name: 'Another Domain Name' },
         { id: '3', name: 'Your Domain' }
