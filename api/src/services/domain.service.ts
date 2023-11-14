@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm'
 
 import { db, domains, domainUsers } from '../schema'
 
-export const domainsService = (() => {
+export const domainService = (() => {
     const getSelectableDomains = async (
         userId: string
     ): Promise<SelectableDomain[]> => {
@@ -16,7 +16,7 @@ export const domainsService = (() => {
 
         return result.map((r) => ({
             id: r.domains.id,
-            name: r.domains.domainName
+            name: r.domains.name
         }))
     }
 

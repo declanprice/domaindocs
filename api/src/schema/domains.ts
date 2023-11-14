@@ -6,7 +6,8 @@ import { documentation } from './documentation'
 
 export const domains = pgTable('domains', {
     id: uuid('id').notNull().defaultRandom().primaryKey(),
-    domainName: varchar('domain_name').notNull(),
+    name: varchar('name').notNull(),
+    summary: varchar('summary').notNull(),
     documentationId: uuid('documentation_id')
         .notNull()
         .references(() => documentation.id)

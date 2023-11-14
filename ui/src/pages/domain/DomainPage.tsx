@@ -4,7 +4,7 @@ import { AddSubDomainModal } from './components/AddSubDomainModal.tsx'
 import { SubDomainCard } from './components/SubDomainCard.tsx'
 import { useNavigate, useParams } from '@solidjs/router'
 import { createEffect, createSignal } from 'solid-js'
-import { domainView, fetchDomainView } from '@services'
+import { domainView, fetchDomainView, selectedDomain } from '@services'
 import { Button } from '@components'
 
 export const DomainPage = () => {
@@ -16,8 +16,12 @@ export const DomainPage = () => {
 
     const nav = useNavigate()
 
-    createEffect(() => {
-        fetchDomainView(params.domainId)
+    createEffect(async () => {
+        if (params.domainId) {
+            await fetchDomainView(params.domainId)
+        } else {
+            nav(`/domain/${selectedDomain()?.id}`)
+        }
     })
 
     return (
