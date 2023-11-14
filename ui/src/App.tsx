@@ -13,6 +13,7 @@ import { Match, Switch } from 'solid-js'
 import { DocumentationPage } from './pages/documentation/DocumentationPage.tsx'
 import { DocumentationUploadFilesPage } from './pages/documentation/DocumentationUploadFilesPage.tsx'
 import { DocumentationTextEditorPage } from './pages/documentation/DocumentationTextEditorPage.tsx'
+import { DocumentationWhiteboardEditorPage } from './pages/documentation/DocumentationWhiteboardEditorPage.tsx'
 
 const App = () => {
     return (
