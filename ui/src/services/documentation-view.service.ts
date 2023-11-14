@@ -22,6 +22,7 @@ export const fetchDocumentationView = (options: {
     subDomainId?: string
     serviceId?: string
 }) => {
+    console.log(options)
     setDocumentationView(() => views['1'])
 }
 

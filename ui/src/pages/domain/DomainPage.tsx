@@ -3,11 +3,15 @@ import { EditDomainSummaryModal } from './components/EditDomainSummaryModal.tsx'
 import { AddSubDomainModal } from './components/AddSubDomainModal.tsx'
 import { SubDomainCard } from './components/SubDomainCard.tsx'
 import { useNavigate, useParams } from '@solidjs/router'
-import { createEffect } from 'solid-js'
+import { createEffect, createSignal } from 'solid-js'
 import { domainView, fetchDomainView } from '@services'
 import { Button } from '@components'
 
 export const DomainPage = () => {
+    const [isEditNameModalOpen, setIsEditNameModalOpen] = createSignal(false)
+    const [isAddSubDomainModalOpen, setIsAddSubDomainModalOpen] =
+        createSignal(false)
+
     const params = useParams()
 
     const nav = useNavigate()
@@ -26,8 +30,9 @@ export const DomainPage = () => {
 
                     <a
                         class="ml-4 text-blue-500 cursor-pointer underline text-sm"
-                        data-modal-target="edit-domain-name"
-                        data-modal-toggle="edit-domain-name"
+                        onClick={() => {
+                            setIsEditNameModalOpen(true)
+                        }}
                     >
                         Edit
                     </a>
@@ -40,7 +45,12 @@ export const DomainPage = () => {
                     }}
                 />
 
-                <EditDomainNameModal />
+                <EditDomainNameModal
+                    isOpen={isEditNameModalOpen()}
+                    onClose={() => {
+                        setIsEditNameModalOpen(false)
+                    }}
+                />
             </div>
 
             <div class="flex flex-col mt-8">
@@ -69,13 +79,19 @@ export const DomainPage = () => {
 
                     <a
                         class="ml-4 text-blue-500 cursor-pointer underline text-sm"
-                        data-modal-target="add-sub-domain-modal"
-                        data-modal-toggle="add-sub-domain-modal"
+                        onClick={() => {
+                            setIsAddSubDomainModalOpen(true)
+                        }}
                     >
                         Add
                     </a>
 
-                    <AddSubDomainModal />
+                    <AddSubDomainModal
+                        isOpen={isAddSubDomainModalOpen()}
+                        onClose={() => {
+                            setIsAddSubDomainModalOpen(false)
+                        }}
+                    />
                 </div>
 
                 {domainView()?.subDomains.map((sd) => (

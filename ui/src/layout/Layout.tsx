@@ -21,7 +21,7 @@ export const Layout = (props: ParentProps) => {
                         items={selectableDomains().map((d) => ({
                             label: d.name,
                             onClick: () => {
-                                nav(`/domain/${d.id}`)
+                                nav(`/domain/${d.id}`, { resolve: true })
                             }
                         }))}
                         content={

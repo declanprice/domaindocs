@@ -6,5 +6,5 @@ export * from './fields/UploadFilesField.tsx'
 export * from './menu/Menu.tsx'
 export * from './button/Button.tsx'
 export * from './modal/Modal.tsx'
-
+export * from './collapse/Collapse.tsx'
 export * from './team/TeamCard.tsx'

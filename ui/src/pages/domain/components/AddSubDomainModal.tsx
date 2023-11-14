@@ -1,9 +1,12 @@
-import { Modal } from '@components'
+import { BaseModelProps, Modal } from '@components'
 
-export const AddSubDomainModal = () => {
+type AddSubDomainModal = {} & BaseModelProps
+
+export const AddSubDomainModal = (props: AddSubDomainModal) => {
     return (
         <Modal
-            id={'add-sub-domain-modal'}
+            isOpen={props.isOpen}
+            onClose={props.onClose}
             header={'Add Sub Domain'}
             body={<></>}
             footer={<></>}

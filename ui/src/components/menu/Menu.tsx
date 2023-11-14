@@ -1,4 +1,4 @@
-import { For, JSX } from 'solid-js'
+import { createSignal, For, JSX, onCleanup, onMount, Show } from 'solid-js'
 import { toId } from '@utils'
 import { twMerge } from 'tailwind-merge'
 
@@ -14,8 +14,27 @@ type MenuProps = {
 }
 
 export const Menu = (props: MenuProps) => {
-    const buttonId = toId(`${props.label}-menu-button`)
+    let ref: HTMLDivElement
+
+    const [isOpen, setIsOpen] = createSignal(false)
+
+    const menuToggleId = toId(`${props.label}-menu-toggle`)
+
     const menuId = toId(`${props.label}-menu`)
+
+    const handleClick = (event: any) => {
+        if (!ref.contains(event.target)) {
+            setIsOpen(false)
+        }
+    }
+
+    onMount(() => {
+        document.addEventListener('click', handleClick)
+    })
+
+    onCleanup(() => {
+        document.removeEventListener('click', handleClick)
+    })
 
     if (!props.items && !props.content)
         throw new Error('provide items or content')
@@ -24,10 +43,10 @@ export const Menu = (props: MenuProps) => {
         <>
             {props.iconButton ? (
                 <button
-                    id={buttonId}
-                    data-dropdown-toggle={menuId}
-                    data-dropdown-delay="500"
-                    data-dropdown-trigger="click"
+                    id={menuToggleId}
+                    onclick={() => {
+                        setIsOpen(true)
+                    }}
                     class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                     type="button"
                 >
@@ -43,10 +62,10 @@ export const Menu = (props: MenuProps) => {
                 </button>
             ) : (
                 <button
-                    id={buttonId}
-                    data-dropdown-toggle={menuId}
-                    data-dropdown-delay="500"
-                    data-dropdown-trigger="click"
+                    id={menuToggleId}
+                    onclick={() => {
+                        setIsOpen(true)
+                    }}
                     class={twMerge(
                         'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800',
                         props.class
@@ -72,33 +91,36 @@ export const Menu = (props: MenuProps) => {
                 </button>
             )}
 
-            <div
-                id={menuId}
-                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-            >
-                <ul
-                    class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                    aria-labelledby={buttonId}
+            <Show when={isOpen()}>
+                <div
+                    id={menuId}
+                    class="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
                 >
-                    <For
-                        each={props.items}
-                        children={(item) => (
-                            <li>
-                                <a
-                                    onclick={() => {
-                                        item.onClick()
-                                    }}
-                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                >
-                                    {item.label}
-                                </a>
-                            </li>
-                        )}
-                    />
-                </ul>
+                    <ul
+                        class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                        aria-labelledby={menuToggleId}
+                    >
+                        <For
+                            each={props.items}
+                            children={(item) => (
+                                <li>
+                                    <a
+                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        onClick={() => {
+                                            item.onClick()
+                                            setIsOpen(false)
+                                        }}
+                                    >
+                                        {item.label}
+                                    </a>
+                                </li>
+                            )}
+                        />
+                    </ul>
 
-                {props.content}
-            </div>
+                    {props.content}
+                </div>
+            </Show>
         </>
     )
 }

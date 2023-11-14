@@ -1,9 +1,12 @@
-import { Modal } from '@components'
+import { BaseModelProps, Modal } from '@components'
 
-export const EditDomainNameModal = () => {
+type EditDomainNameModalProps = {} & BaseModelProps
+
+export const EditDomainNameModal = (props: EditDomainNameModalProps) => {
     return (
         <Modal
-            id={'edit-domain-name'}
+            isOpen={props.isOpen}
+            onClose={props.onClose}
             header={'Edit Domain Name'}
             body={<></>}
             footer={<></>}
