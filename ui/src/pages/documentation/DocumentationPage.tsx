@@ -4,7 +4,6 @@ import {
     documentationView,
     fetchDocumentationView
 } from '../../services/documentation-view.service.ts'
-import { toId } from '@utils'
 import { Collapse, Menu } from '@components'
 import { NewFolderModal } from './components/NewFolderModal.tsx'
 
