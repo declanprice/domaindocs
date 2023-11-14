@@ -23,6 +23,7 @@
     "@tailwindcss/forms": "^0.5.7",
     "@tldraw/tldraw": "^1.29.2",
     "autoprefixer": "^10.4.16",
+    "axios": "^1.6.2",
     "flowbite": "^2.1.1",
     "lucide-solid": "^0.292.0",
     "postcss": "^8.4.31",
@@ -35,5 +36,8 @@
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vite-plugin-solid": "^2.7.0"
-  }
+  },
+  "workspaces": [
+    "../shared-lib"
+  ]
 }

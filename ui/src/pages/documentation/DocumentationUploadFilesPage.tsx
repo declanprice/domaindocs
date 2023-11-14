@@ -30,16 +30,9 @@ export const DocumentationUploadFilesPage = () => {
                             <span class="font-semibold">Click to upload</span>
                             or drag and drop
                         </p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">
-                            SVG, PNG, JPG or GIF (MAX. 800x400px)
-                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                     </div>
-                    <input
-                        id="dropzone-file"
-                        type="file"
-                        class="hidden"
-                        onChange={console.log}
-                    />
+                    <input id="dropzone-file" type="file" class="hidden" onChange={console.log} />
                 </label>
             </div>
 
@@ -50,3 +43,5 @@ export const DocumentationUploadFilesPage = () => {
         </div>
     )
 }
+
+export default DocumentationUploadFilesPage

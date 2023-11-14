@@ -1,5 +1,5 @@
 import './App.css'
-import { authUser } from '@services'
+import { authUser, fetchSelectableDomains, selectedDomain } from '@services'
 import { Layout } from './layout/Layout.tsx'
 import { Route, Router, Routes } from '@solidjs/router'
 import { AuthSignInPage } from './pages/auth/AuthSignInPage.tsx'
@@ -9,12 +9,24 @@ import { DomainSettingsPage } from './pages/domain-settings/DomainSettingsPage.t
 import { SubDomainPage } from './pages/sub-domain/SubDomainPage.tsx'
 import { ServicePage } from './pages/service/ServicePage.tsx'
 import { UserSettingsPage } from './pages/user/UserSettingsPage.tsx'
-import { Match, Switch } from 'solid-js'
-import { DocumentationPage } from './pages/documentation/DocumentationPage.tsx'
-import { DocumentationUploadFilesPage } from './pages/documentation/DocumentationUploadFilesPage.tsx'
-import { DocumentationTextEditorPage } from './pages/documentation/DocumentationTextEditorPage.tsx'
+import { createEffect, lazy, Match, Switch } from 'solid-js'
+import { CreateDomainPage } from './pages/domain/CreateDomainPage.tsx'
+
+const DocumentationPage = lazy(() => import('./pages/documentation/DocumentationPage.tsx'))
+
+const DocumentationUploadFilesPage = lazy(() => import('./pages/documentation/DocumentationUploadFilesPage.tsx'))
+
+const DocumentationTextEditorPage = lazy(() => import('./pages/documentation/DocumentationTextEditorPage.tsx'))
 
 const App = () => {
+    createEffect(async () => {
+        const user = authUser()
+
+        if (user === null) return
+
+        await fetchSelectableDomains(user.id)
+    })
+
     return (
         <Switch>
             <Match when={authUser() === null}>
@@ -27,53 +39,49 @@ const App = () => {
                 </Router>
             </Match>
             <Match when={authUser()}>
-                <Router>
-                    <Layout>
-                        <Routes>
-                            <Route
-                                path="/domain/:domainId"
-                                component={DomainPage}
-                            />
-                            <Route
-                                path="/domain/:domainId/settings"
-                                component={DomainSettingsPage}
-                            />
-                            <Route
-                                path={
-                                    '/domain/:domainId/subdomain/:subDomainId'
-                                }
-                                component={SubDomainPage}
-                            />
-                            <Route
-                                path={
-                                    '/domain/:domainId/subdomain/:subDomainId/service/:serviceId'
-                                }
-                                component={ServicePage}
-                            />
+                <Switch>
+                    <Match when={selectedDomain() === null}>
+                        <CreateDomainPage />
+                    </Match>
 
-                            <Route
-                                path={'/documentation'}
-                                component={DocumentationPage}
-                            />
+                    <Match when={selectedDomain() !== null}>
+                        <Router>
+                            <Layout>
+                                <Routes>
+                                    <Route path="/domain/:domainId" component={DomainPage} />
 
-                            <Route
-                                path={'/documentation/:folderId/upload-files'}
-                                component={DocumentationUploadFilesPage}
-                            />
+                                    <Route path="/domain/:domainId/settings" component={DomainSettingsPage} />
 
-                            <Route
-                                path={'/documentation/:folderId/text-editor'}
-                                component={DocumentationTextEditorPage}
-                            />
+                                    <Route
+                                        path={'/domain/:domainId/subdomain/:subDomainId'}
+                                        component={SubDomainPage}
+                                    />
 
-                            <Route
-                                path={'/settings'}
-                                component={UserSettingsPage}
-                            />
-                            <Route path="/*" component={DomainPage} />
-                        </Routes>
-                    </Layout>
-                </Router>
+                                    <Route
+                                        path={'/domain/:domainId/subdomain/:subDomainId/service/:serviceId'}
+                                        component={ServicePage}
+                                    />
+
+                                    <Route path={'/documentation'} component={DocumentationPage} />
+
+                                    <Route
+                                        path={'/documentation/:folderId/upload-files'}
+                                        component={DocumentationUploadFilesPage}
+                                    />
+
+                                    <Route
+                                        path={'/documentation/:folderId/text-editor'}
+                                        component={DocumentationTextEditorPage}
+                                    />
+
+                                    <Route path={'/settings'} component={UserSettingsPage} />
+
+                                    <Route path="/*" component={DomainPage} />
+                                </Routes>
+                            </Layout>
+                        </Router>
+                    </Match>
+                </Switch>
             </Match>
         </Switch>
     )

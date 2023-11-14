@@ -9,8 +9,8 @@ import { Button } from '@components'
 
 export const DomainPage = () => {
     const [isEditNameModalOpen, setIsEditNameModalOpen] = createSignal(false)
-    const [isAddSubDomainModalOpen, setIsAddSubDomainModalOpen] =
-        createSignal(false)
+
+    const [isAddSubDomainModalOpen, setIsAddSubDomainModalOpen] = createSignal(false)
 
     const params = useParams()
 
@@ -24,9 +24,7 @@ export const DomainPage = () => {
         <div class="flex flex-col p-4">
             <div class="flex items-center">
                 <div class="flex-1 flex items-center">
-                    <h1 class="text-lg font-bold">
-                        Domain - {domainView()?.name}
-                    </h1>
+                    <h1 class="text-lg font-bold">Domain - {domainView()?.name}</h1>
 
                     <a
                         class="ml-4 text-blue-500 cursor-pointer underline text-sm"
@@ -68,9 +66,7 @@ export const DomainPage = () => {
                     <EditDomainSummaryModal />
                 </div>
 
-                <p class="mt-2 mb-3 text-gray-500 dark:text-gray-400 w-2/5">
-                    {domainView()?.summary}
-                </p>
+                <p class="mt-2 mb-3 text-gray-500 dark:text-gray-400 w-2/5">{domainView()?.summary}</p>
             </div>
 
             <div class="flex flex-col mt-8">
@@ -96,6 +92,9 @@ export const DomainPage = () => {
 
                 {domainView()?.subDomains.map((sd) => (
                     <SubDomainCard
+                        onClick={() => {
+                            nav(`/domain/${domainView()?.id}/subdomain/${sd.subDomainId}`)
+                        }}
                         subDomainName={sd.name}
                         servicesCount={sd.serviceCount}
                         teamCount={sd.teamCount}

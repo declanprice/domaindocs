@@ -9,6 +9,7 @@
     "deploy:dev": "cd ./cdk && cdk deploy"
   },
   "dependencies": {
+    "@elysiajs/cors": "^0.7.2",
     "drizzle-orm": "^0.28.6",
     "elysia": "latest",
     "postgres": "^3.4.3"
@@ -17,5 +18,8 @@
     "bun-types": "latest",
     "drizzle-kit": "^0.19.13"
   },
-  "module": "src/index.js"
+  "module": "src/index.js",
+  "workspaces": [
+    "../shared-lib"
+  ]
 }

@@ -4,6 +4,7 @@ type SubDomainCardProps = {
     subDomainName: string
     teamCount: number
     servicesCount: number
+    onClick: () => void
 }
 
 export const SubDomainCard = (props: SubDomainCardProps) => {
@@ -11,11 +12,12 @@ export const SubDomainCard = (props: SubDomainCardProps) => {
         <div class="max-w-sm mt-2 p-4 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
             <div class="flex">
                 <a
-                    href={'/domain/1/subdomain/1'}
                     class="flex-1 underline text-md font-bold tracking-tight text-gray-900 dark:text-white"
+                    onClick={() => props.onClick()}
                 >
                     {props.subDomainName}
                 </a>
+
                 <Menu
                     iconButton={true}
                     label={`${props.subDomainName}-menu`}

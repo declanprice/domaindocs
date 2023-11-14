@@ -1,30 +1,24 @@
-import { createEffect, createSignal } from 'solid-js'
-import { authUser } from './auth.service.ts'
+import { SelectableDomain } from 'shared-lib'
 
-export type SelectableDomain = {
-    id: string
-    name: string
-}
+import { createSignal } from 'solid-js'
+import axiosInstance from './axios.instance.ts'
 
-export const [selectedDomain, setSelectedDomain] =
-    createSignal<SelectableDomain | null>(null)
+export const [selectedDomain, setSelectedDomain] = createSignal<SelectableDomain | null>(null)
 
-export const [selectableDomains, setSelectableDomains] = createSignal<
-    SelectableDomain[]
->([])
+export const [selectableDomains, setSelectableDomains] = createSignal<SelectableDomain[]>([])
 
-export const fetchSelectableDomains = () => {
-    const domains = [
-        { id: '1', name: 'My Domain' },
-        { id: '2', name: 'Another Domain' }
-    ]
+export const fetchSelectableDomains = async (userId: string) => {
+    const response = await axiosInstance.get('domains/selectable', {
+        params: {
+            userId
+        }
+    })
 
-    setSelectedDomain(() => domains[0])
+    const domains: SelectableDomain[] = response.data
+
+    if (domains.length) {
+        setSelectedDomain(() => domains[0])
+    }
+
     setSelectableDomains(() => domains)
 }
-
-createEffect(() => {
-    if (authUser() === null) return
-
-    fetchSelectableDomains()
-})

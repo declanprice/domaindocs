@@ -38,3 +38,5 @@ export const DocumentationTextEditorPage = () => {
         </div>
     )
 }
+
+export default DocumentationTextEditorPage
