@@ -98,7 +98,14 @@ export const DocumentationPage = (props: DocumentationPageProps) => {
                                         )
                                     }
                                 },
-                                { label: 'Text Editor', onClick: () => {} },
+                                {
+                                    label: 'Text Editor',
+                                    onClick: () => {
+                                        nav(
+                                            `/documentation/${f.folderId}/text-editor`
+                                        )
+                                    }
+                                },
                                 {
                                     label: 'Whiteboard Editor',
                                     onClick: () => {}

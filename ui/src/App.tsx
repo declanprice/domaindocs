@@ -12,6 +12,7 @@ import { UserSettingsPage } from './pages/user/UserSettingsPage.tsx'
 import { Match, Switch } from 'solid-js'
 import { DocumentationPage } from './pages/documentation/DocumentationPage.tsx'
 import { DocumentationUploadFilesPage } from './pages/documentation/DocumentationUploadFilesPage.tsx'
+import { DocumentationTextEditorPage } from './pages/documentation/DocumentationTextEditorPage.tsx'
 
 const App = () => {
     return (
@@ -58,6 +59,11 @@ const App = () => {
                             <Route
                                 path={'/documentation/:folderId/upload-files'}
                                 component={DocumentationUploadFilesPage}
+                            />
+
+                            <Route
+                                path={'/documentation/:folderId/text-editor'}
+                                component={DocumentationTextEditorPage}
                             />
 
                             <Route
