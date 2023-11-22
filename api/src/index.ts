@@ -1,15 +1,13 @@
 import { Elysia } from 'elysia'
 import { cors } from '@elysiajs/cors'
 
-import { usersRouter } from './routes/users/users.router'
-import { domainRoutes } from './routes/domains/domain.routes'
-import { viewsRoutes } from './routes/views/views.routers'
+import { organisationsRoutes } from './routes/organisations/organisations.routes'
+import { accountsRoutes } from './routes/accounts/accounts.routes'
 
 const app = new Elysia()
     .use(cors())
-    .use(domainRoutes)
-    .use(usersRouter)
-    .use(viewsRoutes)
+    .use(organisationsRoutes)
+    .use(accountsRoutes)
     .listen(3000)
 
 console.log(

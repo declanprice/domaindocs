@@ -1,22 +1,12 @@
 import './App.css'
-import { authUser, fetchSelectableDomains, selectedDomain } from '@services'
-import { Layout } from './layout/Layout.tsx'
+import { authUser, fetchSelectableOrganisations, selectedOrganisation } from '@services'
 import { Route, Router, Routes } from '@solidjs/router'
+import { createEffect, Match, Switch } from 'solid-js'
+import { Layout } from './layout/Layout.tsx'
 import { AuthSignInPage } from './pages/auth/AuthSignInPage.tsx'
 import { AuthSignUpPage } from './pages/auth/AuthSignUpPage.tsx'
-import { DomainPage } from './pages/domain/DomainPage.tsx'
-import { DomainSettingsPage } from './pages/domain-settings/DomainSettingsPage.tsx'
-import { SubDomainPage } from './pages/sub-domain/SubDomainPage.tsx'
-import { ServicePage } from './pages/service/ServicePage.tsx'
-import { UserSettingsPage } from './pages/user/UserSettingsPage.tsx'
-import { createEffect, lazy, Match, Switch } from 'solid-js'
-import { CreateDomainPage } from './pages/domain/CreateDomainPage.tsx'
-
-const DocumentationPage = lazy(() => import('./pages/documentation/DocumentationPage.tsx'))
-
-const DocumentationUploadFilesPage = lazy(() => import('./pages/documentation/DocumentationUploadFilesPage.tsx'))
-
-const DocumentationTextEditorPage = lazy(() => import('./pages/documentation/DocumentationTextEditorPage.tsx'))
+import { OrganisationPage } from './pages/organisation/OrganisationPage.tsx'
+import { NoOrganisationPage } from './pages/organisation/NoOrganisationPage.tsx'
 
 const App = () => {
     createEffect(async () => {
@@ -24,7 +14,7 @@ const App = () => {
 
         if (user === null) return
 
-        await fetchSelectableDomains(user.id)
+        await fetchSelectableOrganisations(user.id)
     })
 
     return (
@@ -40,43 +30,17 @@ const App = () => {
             </Match>
             <Match when={authUser()}>
                 <Switch>
-                    <Match when={selectedDomain() === null}>
-                        <CreateDomainPage />
+                    <Match when={selectedOrganisation() === null}>
+                        <NoOrganisationPage />
                     </Match>
 
-                    <Match when={selectedDomain() !== null}>
+                    <Match when={selectedOrganisation() !== null}>
                         <Router>
                             <Layout>
                                 <Routes>
-                                    <Route path="/domain/:domainId" component={DomainPage} />
+                                    <Route path="/organisation/:organisationId" component={OrganisationPage} />
 
-                                    <Route path="/domain/:domainId/settings" component={DomainSettingsPage} />
-
-                                    <Route
-                                        path={'/domain/:domainId/subdomain/:subDomainId'}
-                                        component={SubDomainPage}
-                                    />
-
-                                    <Route
-                                        path={'/domain/:domainId/subdomain/:subDomainId/service/:serviceId'}
-                                        component={ServicePage}
-                                    />
-
-                                    <Route path={'/documentation'} component={DocumentationPage} />
-
-                                    <Route
-                                        path={'/documentation/:folderId/upload-files'}
-                                        component={DocumentationUploadFilesPage}
-                                    />
-
-                                    <Route
-                                        path={'/documentation/:folderId/text-editor'}
-                                        component={DocumentationTextEditorPage}
-                                    />
-
-                                    <Route path={'/settings'} component={UserSettingsPage} />
-
-                                    <Route path="/*" component={DomainPage} />
+                                    <Route path="/*" component={OrganisationPage} />
                                 </Routes>
                             </Layout>
                         </Router>

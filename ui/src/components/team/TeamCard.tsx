@@ -10,7 +10,7 @@ export const TeamCard = (props: TeamCardProps) => {
             <div class="flex">
                 <a
                     class="flex-1 underline text-md font-bold tracking-tight text-gray-900 dark:text-white"
-                    href={'/domain/1/subdomain/1'}
+                    href={'/organisation/1/subdomain/1'}
                 >
                     {props.teamName}
                 </a>

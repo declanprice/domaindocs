@@ -1,5 +1,6 @@
-import { pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core'
-import { users } from './users'
+import { integer, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core'
+
+import { accounts } from './accounts'
 
 export const documentation = pgTable('documentation', {
     id: uuid('id').notNull().defaultRandom().primaryKey()
@@ -10,32 +11,29 @@ export const documentationFolders = pgTable('documentation_folders', {
     documentationId: uuid('documentation_id')
         .notNull()
         .references(() => documentation.id),
+    position: integer('position').notNull(),
+    depth: integer('depth').notNull(),
     name: varchar('name').notNull()
 })
 
-export type DocumentationItemType =
-    | 'file'
-    | 'text_editor'
-    | 'white_board_editor'
-    | 'miro_board'
-    | 'api_spec_openapi'
-    | 'api_spec_asyncapi'
+export type DocumentationPageType = 'file' | 'text_editor'
 
-export const documentationItem = pgTable('documentation_item', {
+export const documentationPages = pgTable('documentation_pages', {
     id: uuid('id').notNull().defaultRandom().primaryKey(),
     documentationId: uuid('documentation_id')
         .notNull()
         .references(() => documentation.id),
     documentationFolderId: uuid('documentation_folder_id')
         .notNull()
-        .references(() => documentation.id),
+        .references(() => documentationFolders.id),
     name: varchar('name').notNull(),
-    type: varchar('type').notNull().$type<DocumentationItemType>(),
-    uploadedByUser: uuid('uploaded_by_user')
+    type: varchar('type').notNull().$type<DocumentationPageType>(),
+    createdByUser: uuid('created_by_user')
         .notNull()
-        .references(() => users.id),
+        .references(() => accounts.id),
     timestamp: timestamp('timestamp', { withTimezone: true })
         .notNull()
         .defaultNow(),
-    source: varchar('source').notNull()
+    source: varchar('source').notNull(),
+    position: integer('position').notNull()
 })
