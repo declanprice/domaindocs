@@ -14,7 +14,7 @@ const SignInSchema = object({
 type SignInForm = Input<typeof SignInSchema>
 
 export const AuthSignInPage = () => {
-    const [, { Form, Field }] = createForm<SignInForm>({
+    const [signInForm, { Form, Field }] = createForm<SignInForm>({
         validate: valiForm(SignInSchema)
     })
 
