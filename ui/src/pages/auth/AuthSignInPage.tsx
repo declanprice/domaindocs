@@ -2,6 +2,7 @@ import { IoDocument } from 'solid-icons/io'
 import { Button, InputField } from '@components'
 import { email, Input, minLength, object, string } from 'valibot'
 import { createForm, valiForm } from '@modular-forms/solid'
+import { signIn } from '@services'
 
 const SignInSchema = object({
     email: string([minLength(1, 'Please enter your email.'), email('The email address is badly formatted.')]),
@@ -14,18 +15,22 @@ const SignInSchema = object({
 type SignInForm = Input<typeof SignInSchema>
 
 export const AuthSignInPage = () => {
-    const [signInForm, { Form, Field }] = createForm<SignInForm>({
+    const [, { Form, Field }] = createForm<SignInForm>({
         validate: valiForm(SignInSchema)
     })
 
-    const handleSubmit = (values: SignInForm) => {
-        console.log('form values', values)
+    const handleSubmit = async (values: SignInForm) => {
+        try {
+            await signIn(values)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
         <div class="bg-primary h-full w-full flex justify-center items-center">
             <Form onSubmit={handleSubmit}>
-                <div class="flex flex-col items-center" style={{ width: '300px' }}>
+                <div class="flex flex-col items-center" style={{ width: '400px' }}>
                     <IoDocument size={'4rem'} color="white" />
 
                     <h3 class="text-white text-xl font-bold">Domaindocs</h3>
