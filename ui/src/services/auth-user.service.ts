@@ -2,7 +2,12 @@ import { createSignal } from 'solid-js'
 import { AuthenticatedClaims, AuthenticatedUser } from 'shared-lib'
 import axiosClient from './axiosClient.ts'
 
-export const [authUser, setAuthUser] = createSignal<AuthenticatedUser | null>(null)
+export const [authUser, setAuthUser] = createSignal<AuthenticatedUser | null>({
+    username: 'a3718d47-1366-457a-8da5-1203f10598cd',
+    email: 'declanprice1@gmail.com',
+    firstName: 'Declan',
+    lastName: 'Price'
+})
 
 export const signIn = async (options: { email: string; password: string }): Promise<void> => {
     console.log(options)

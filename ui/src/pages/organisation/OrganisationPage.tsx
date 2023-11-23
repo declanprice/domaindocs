@@ -1,15 +1,19 @@
+import { useNavigate, useParams } from '@solidjs/router'
+import { createEffect } from 'solid-js'
+import { selectedOrganisation } from '@services'
+
 export const OrganisationPage = () => {
-    // const params = useParams()
-    //
-    // const nav = useNavigate()
+    const params = useParams()
 
-    // createEffect(async () => {
-    //     if (params.domainId) {
-    //         await fetchDomainView(params.domainId)
-    //     } else {
-    //         nav(`/domain/${selectedDomain()?.id}`)
-    //     }
-    // })
+    const nav = useNavigate()
 
-    return <div class="flex flex-col p-4"></div>
+    createEffect(async () => {
+        if (params.organisationId) {
+            // await fetchOrganisation(params.organisationId)
+        } else {
+            nav(`/organisation/${selectedOrganisation()?.id}`)
+        }
+    })
+
+    return <div class="flex flex-col p-4">asd</div>
 }

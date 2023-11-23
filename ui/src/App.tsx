@@ -15,7 +15,7 @@ const App = () => {
 
         if (user === null) return
 
-        await fetchSelectableOrganisations(user.id)
+        await fetchSelectableOrganisations()
     })
 
     return (

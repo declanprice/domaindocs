@@ -8,12 +8,8 @@ export const [selectedOrganisation, setSelectedOrganisation] = createSignal<Sele
 
 export const [selectableOrganisations, setSelectableOrganisations] = createSignal<SelectableOrganisation[]>([])
 
-export const fetchSelectableOrganisations = async (userId: string) => {
-    const response = await axiosClient.get('organisations/selectable', {
-        params: {
-            userId
-        }
-    })
+export const fetchSelectableOrganisations = async () => {
+    const response = await axiosClient.get('organisations/selectable')
 
     const organisations: SelectableOrganisation[] = response.data
 
