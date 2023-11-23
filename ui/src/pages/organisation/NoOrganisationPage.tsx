@@ -48,7 +48,7 @@ export const NoOrganisationPage = () => {
                         )}
                     </Field>
 
-                    <Button type={'submit'} label={'Create Organisation'} class="bg-white text-black mb-4" />
+                    <Button type={'submit'} label={'Create Organisation'} class="bg-white text-black mb-4 w-full" />
                 </div>
             </Form>
         </div>

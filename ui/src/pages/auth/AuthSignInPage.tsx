@@ -63,7 +63,7 @@ export const AuthSignInPage = () => {
                         )}
                     </Field>
 
-                    <Button type={'submit'} label={'Sign in'} class="bg-white text-black mb-4" />
+                    <Button type={'submit'} label={'Sign in'} class="bg-white text-black mb-4 w-full" />
 
                     <span class="text-gray-300 text-sm">Not a member?, start a 14 day free trial.</span>
                 </div>
