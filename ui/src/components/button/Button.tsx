@@ -14,7 +14,7 @@ export const Button = (props: ButtonProps) => {
     return (
         <button
             class={twMerge(
-                'text-white text-sm bg-secondary focus:ring-4 font-medium rounded-lg p-2',
+                'max-w-64 text-white text-sm bg-secondary focus:ring-4 font-medium rounded-lg p-2',
                 props.class,
                 props.disabled && 'bg-gray-400'
             )}
@@ -27,7 +27,7 @@ export const Button = (props: ButtonProps) => {
             }}
         >
             <div class="flex items-center">
-                {props.label}
+                <span class="truncate">{props.label} </span>
 
                 {props.rightIcon && <div class="ml-2">{props.rightIcon}</div>}
             </div>
