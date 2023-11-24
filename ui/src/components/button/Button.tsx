@@ -29,7 +29,7 @@ export const Button = (props: ButtonProps) => {
             <div class="flex items-center">
                 <span class="truncate">{props.label} </span>
 
-                {props.rightIcon && <div class="ml-2">{props.rightIcon}</div>}
+                {props.rightIcon && <div class="ml-auto pl-2">{props.rightIcon}</div>}
             </div>
         </button>
     )

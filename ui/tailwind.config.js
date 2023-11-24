@@ -16,7 +16,8 @@ module.exports = {
             red: colors.red,
             primary: '#1F2633',
             secondary: '#364259',
-            white: '#ffffff'
+            white: '#ffffff',
+            highlight: '#DBBDC8'
         },
         fontFamily: {
             sans: ['Inter', 'sans-serif']

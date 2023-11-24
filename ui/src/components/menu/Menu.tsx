@@ -10,7 +10,6 @@ type MenuProps = {
     trigger?: JSX.Element
     content?: JSX.Element
     iconButton?: boolean
-    class?: string
 }
 
 export const Menu = (props: MenuProps) => {
