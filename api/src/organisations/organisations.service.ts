@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { AuthenticatedUser, SelectableOrganisation } from 'shared-lib';
 import { CreateOrganisationDto } from './dto/create-organisation.dto';
 import { v4 } from 'uuid';
-import { eq } from 'drizzle-orm';
 import { PrismaService } from '../global';
 
 @Injectable()

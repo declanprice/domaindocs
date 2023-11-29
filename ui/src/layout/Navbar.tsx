@@ -1,7 +1,8 @@
-import { createEffect, createSignal, Show } from 'solid-js'
+import { createEffect, createSignal, For, Show } from 'solid-js'
 import { FiMenu } from 'solid-icons/fi'
 import { IoDocument } from 'solid-icons/io'
 import { SelectOrganisationMenu } from './SelectOrganisation.tsx'
+import { selectedOrganisation } from '@services'
 
 export const Navbar = () => {
     const [isNavBarOpen, setIsNavBarOpen] = createSignal(true)
@@ -42,9 +43,14 @@ export const Navbar = () => {
                     <nav class="flex flex-col items-start w-full p-4 mt-6 flex-1">
                         <a class="text-sm text-highlight">Organisation</a>
                         <a class="text-sm text-white mt-6">Domains</a>
-                        <a class="text-sm text-white mt-6 ml-4">Restaurant</a>
-                        <a class="text-sm text-white mt-6 ml-4">Order</a>
-                        <a class="text-sm text-white mt-6 ml-4">Customer</a>
+                        <For
+                            each={selectedOrganisation()?.domains}
+                            children={(domain) => (
+                                <>
+                                    <a class="text-sm text-white mt-6 ml-4">{domain.name}</a>
+                                </>
+                            )}
+                        />
                         <a class="text-sm text-white mt-6">People Management</a>
                         <a class="text-sm text-white mt-6">Onboarding</a>
                     </nav>

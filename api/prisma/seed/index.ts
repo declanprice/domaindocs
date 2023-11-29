@@ -24,7 +24,7 @@ const createOrganisation = async (options: {
       data: {
         id: organisationId,
         name: `Test Organisation - ${i}`,
-        summary: '',
+        summary: 'organisation summary',
       },
     });
 
@@ -32,8 +32,9 @@ const createOrganisation = async (options: {
       await prisma.domains.create({
         data: {
           id: v4(),
-          name: `Test Domain ${i}`,
           organisationId,
+          name: `Test Domain ${j}`,
+          summary: 'domain summary',
         },
       });
     }

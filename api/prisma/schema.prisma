@@ -41,6 +41,7 @@ model domains {
   id             String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   organisationId String        @db.Uuid
   name           String        @db.VarChar
+  summary        String        @db.VarChar
   organisations  organisations @relation(fields: [organisationId], references: [id])
 }
 
