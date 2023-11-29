@@ -1,21 +1,24 @@
 import { Button, Menu } from '@components'
 import { BiSolidChevronDown } from 'solid-icons/bi'
 import { twMerge } from 'tailwind-merge'
+import { selectableOrganisations, selectedOrganisation, setSelectedOrganisation } from '@services'
 
 export const SelectOrganisationMenu = (props: { buttonClass: string }) => {
     return (
         <Menu
             trigger={
                 <Button
-                    label={'Registers Of Scotland'}
+                    label={selectedOrganisation()?.name!}
                     class={twMerge('font-bold bg-primary text-xs pl-4 pr-4', props.buttonClass)}
                     rightIcon={<BiSolidChevronDown size={'18px'} />}
                 />
             }
-            items={[
-                { label: 'Amazon Webservices', onClick: () => {} },
-                { label: 'Burger King', onClick: () => {} }
-            ]}
+            items={selectableOrganisations().map((o) => ({
+                label: o.name,
+                onClick: () => {
+                    setSelectedOrganisation(o)
+                }
+            }))}
             content={
                 <div class="py-2">
                     <a

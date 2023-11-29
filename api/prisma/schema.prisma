@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgres://postgres:postgres@localhost:5432"
+}
+
+model users {
+  username  String   @id() @db.Uuid
+  email     String   @db.VarChar
+  firstName String   @db.VarChar
+  lastName  String   @db.VarChar
+  people    people[]
+}
+
+model people {
+  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  organisationId  String        @db.Uuid
+  username        String        @db.Uuid
+  role            String        @default("Employee") @db.VarChar
+  contactEmail    String        @db.VarChar
+  contactNumber   String        @db.VarChar
+  contactLocation String        @db.VarChar
+  organisations   organisations @relation(fields: [organisationId], references: [id])
+  users           users         @relation(fields: [username], references: [username])
+
+  @@unique([organisationId, username])
+}
+
+model organisations {
+  id      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name    String    @db.VarChar
+  summary String    @db.VarChar
+  domains domains[]
+  people  people[]
+}
+
+model domains {
+  id             String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  organisationId String        @db.Uuid
+  name           String        @db.VarChar
+  organisations  organisations @relation(fields: [organisationId], references: [id])
+}
+
+// model documentation {
+//   id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+//   documentation_folders documentation_folders[]
+//   documentation_pages   documentation_pages[]
+// }
+//
+// model documentation_folders {
+//   id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+//   documentation_id    String                @db.Uuid
+//   position            Int
+//   depth               Int
+//   name                String                @db.VarChar
+//   documentation       documentation         @relation(fields: [documentation_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "documentation_folders_documentation_id_documentation_id_fk")
+//   documentation_pages documentation_pages[]
+// }
+//
+// model documentation_pages {
+//   id                      String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+//   documentation_id        String                @db.Uuid
+//   documentation_folder_id String                @db.Uuid
+//   name                    String                @db.VarChar
+//   type                    String                @db.VarChar
+//   created_by_username     String                @db.Uuid
+//   timestamp               DateTime              @default(now()) @db.Timestamptz(6)
+//   source                  String                @db.VarChar
+//   position                Int
+//   users                   users                 @relation(fields: [created_by_username], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "documentation_pages_created_by_username_users_username_fk")
+//   documentation_folders   documentation_folders @relation(fields: [documentation_folder_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "documentation_pages_documentation_folder_id_documentation_folde")
+//   documentation           documentation         @relation(fields: [documentation_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "documentation_pages_documentation_id_documentation_id_fk")
+// }
+
+// model products {
+//   id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+//   domain_id String  @db.Uuid
+//   name      String  @db.VarChar
+//   summary   String? @db.VarChar
+//   domains   domains @relation(fields: [domain_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "products_domain_id_domains_id_fk")
+// }
+//
+// model teams {
+//   id              String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+//   name            String         @db.VarChar
+//   organisation_id String         @db.Uuid
+//   team_members    team_members[] @ignore
+//   organisations   organisations  @relation(fields: [organisation_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "teams_organisation_id_organisations_id_fk")
+// }

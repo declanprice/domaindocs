@@ -1,10 +1,10 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { getClaims } from '../get-claims';
-import { Database, InjectDatabase } from '../../../database';
+import { PrismaService } from '../../prisma';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(@InjectDatabase() private readonly database: Database) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -18,8 +18,8 @@ export class AuthGuard implements CanActivate {
         return false;
       }
 
-      const user = await this.database.query.users.findFirst({
-        where: (users, { eq }) => eq(users.username, username),
+      const user = await this.prisma.users.findFirst({
+        where: { username },
       });
 
       if (user) {

@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { InjectDatabase, Database, users } from '../database';
 import { AuthenticatedClaims, AuthenticatedUser } from 'shared-lib';
+import { PrismaService } from '../global';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectDatabase() private readonly database: Database) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async getUser(claims: AuthenticatedClaims): Promise<AuthenticatedUser> {
-    const user = await this.database.query.users.findFirst({
-      where: (users, { eq }) => eq(users.username, claims['cognito:username']),
+    const user = await this.prisma.users.findFirst({
+      where: {
+        username: claims['cognito:username'],
+      },
     });
 
     if (!user) {
@@ -19,16 +21,13 @@ export class UsersService {
   }
 
   async createUser(claims: AuthenticatedClaims): Promise<AuthenticatedUser> {
-    const rows = await this.database
-      .insert(users)
-      .values({
+    return this.prisma.users.create({
+      data: {
         username: claims['cognito:username'],
         email: claims.email,
         firstName: claims['custom:signUpFirstName'],
         lastName: claims['custom:signUpLastName'],
-      })
-      .returning();
-
-    return rows[0];
+      },
+    });
   }
 }
