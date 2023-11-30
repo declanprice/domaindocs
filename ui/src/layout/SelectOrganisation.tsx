@@ -12,7 +12,7 @@ export const SelectOrganisationMenu = (props: { buttonClass?: string }) => {
             trigger={
                 <Button
                     label={selectedOrganisation()?.name!}
-                    class={twMerge('font-bold bg-primary text-xs p-3', props.buttonClass)}
+                    class={twMerge('font-bold bg-white text-primary text-xs p-3', props.buttonClass)}
                     rightIcon={<BiSolidChevronDown size={'18px'} />}
                 />
             }

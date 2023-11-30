@@ -38,7 +38,7 @@ export const Navbar = () => {
 
                     <h3 class="text-white text-xl font-bold mt-4 mb-4">Domaindocs</h3>
 
-                    <SelectOrganisationMenu buttonClass="bg-secondary w-48" />
+                    <SelectOrganisationMenu buttonClass="bg-secondary text-white w-48" />
 
                     <nav class="flex flex-col items-start w-full p-4 mt-6 flex-1">
                         <a class="text-sm text-highlight">Organisation</a>
