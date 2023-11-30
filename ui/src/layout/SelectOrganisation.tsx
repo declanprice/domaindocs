@@ -3,13 +3,13 @@ import { BiSolidChevronDown } from 'solid-icons/bi'
 import { twMerge } from 'tailwind-merge'
 import { selectableOrganisations, selectedOrganisation, setSelectedOrganisation } from '@services'
 
-export const SelectOrganisationMenu = (props: { buttonClass: string }) => {
+export const SelectOrganisationMenu = (props: { buttonClass?: string }) => {
     return (
         <Menu
             trigger={
                 <Button
                     label={selectedOrganisation()?.name!}
-                    class={twMerge('font-bold bg-primary text-xs pl-4 pr-4', props.buttonClass)}
+                    class={twMerge('font-bold bg-primary text-xs p-3', props.buttonClass)}
                     rightIcon={<BiSolidChevronDown size={'18px'} />}
                 />
             }

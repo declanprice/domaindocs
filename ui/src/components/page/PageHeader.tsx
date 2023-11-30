@@ -1,6 +1,6 @@
 export const PageHeader = () => {
     return (
-        <div class="flex items-center justify-center p-6 bg-primary">
+        <div class="flex items-center justify-center p-5 bg-primary shadow-2xl">
             <div style={{ width: '1000px' }}>
                 <div class="flex">
                     <h2 class="flex-1 font-bold text-2xl text-white underline">Organisation</h2>
@@ -10,7 +10,7 @@ export const PageHeader = () => {
                     </button>
                 </div>
 
-                <h5 class="text-white text-md mt-3">Test Organisation - 0 </h5>
+                <h5 class="text-white text-md mt-3">Test Organisation - 0</h5>
             </div>
         </div>
     )

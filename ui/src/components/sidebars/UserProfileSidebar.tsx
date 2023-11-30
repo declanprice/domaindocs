@@ -1,3 +1,3 @@
 export const UserProfileSidebar = () => {
-    return <> user profile side bar</>
+    return <>user profile side bar</>
 }

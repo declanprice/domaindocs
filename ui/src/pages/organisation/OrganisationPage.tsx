@@ -2,6 +2,7 @@ import { useNavigate, useParams } from '@solidjs/router'
 import { createEffect } from 'solid-js'
 import { selectedOrganisation } from '@services'
 import { PageContainer, PageHeader } from '@components'
+import { PageTabs } from '../../components/page/PageTabs.tsx'
 
 export const OrganisationPage = () => {
     const params = useParams()
@@ -21,7 +22,22 @@ export const OrganisationPage = () => {
             <PageHeader />
 
             <PageContainer>
-                <div>content</div>
+                <PageTabs
+                    items={[
+                        {
+                            label: 'Overview',
+                            content: <>overview</>
+                        },
+                        {
+                            label: 'Teams',
+                            content: <>Teams</>
+                        },
+                        {
+                            label: 'Domains',
+                            content: <>Domains</>
+                        }
+                    ]}
+                />
             </PageContainer>
         </>
     )
