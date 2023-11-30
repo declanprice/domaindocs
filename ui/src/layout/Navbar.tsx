@@ -32,11 +32,11 @@ export const Navbar = () => {
             <Show when={isNavBarOpen()}>
                 <div
                     style={{ width: '280px' }}
-                    class="absolute left-0 bottom-0 w-full h-full bg-primary flex flex-col h-full left-0 bottom-0 z-20 items-center p-8"
+                    class="overflow-auto absolute left-0 bottom-0 w-full h-full bg-primary flex flex-col h-full left-0 bottom-0 z-20 items-center p-8"
                 >
                     <IoDocument size={'4rem'} color="white" />
 
-                    <h3 class="text-white text-xl font-bold mt-4 mb-4">Domaindocs</h3>
+                    <h3 class="text-white text-xl font-bold mt-4 mb-8">Domaindocs</h3>
 
                     <SelectOrganisationMenu buttonClass="bg-secondary text-white w-48" />
 
