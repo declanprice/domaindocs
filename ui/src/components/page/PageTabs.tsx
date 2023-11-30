@@ -18,7 +18,7 @@ export const PageTabs = (props: PageTabsProps) => {
 
     return (
         <Tabs.Root value={value()} onValueChange={(e) => setValue(e.value)}>
-            <Tabs.List class="w-full bg-white rounded-lg p-1 shadow">
+            <Tabs.List class="w-full bg-white rounded-lg p-1 shadow my-2">
                 <For
                     each={props.items}
                     children={(item) => (
