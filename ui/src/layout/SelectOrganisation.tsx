@@ -2,8 +2,11 @@ import { Button, Menu } from '@components'
 import { BiSolidChevronDown } from 'solid-icons/bi'
 import { twMerge } from 'tailwind-merge'
 import { selectableOrganisations, selectedOrganisation, setSelectedOrganisation } from '@services'
+import { useNavigate } from '@solidjs/router'
 
 export const SelectOrganisationMenu = (props: { buttonClass?: string }) => {
+    const nav = useNavigate()
+
     return (
         <Menu
             trigger={
@@ -17,6 +20,7 @@ export const SelectOrganisationMenu = (props: { buttonClass?: string }) => {
                 label: o.name,
                 onClick: () => {
                     setSelectedOrganisation(o)
+                    nav(`/organisation/${o.id}`)
                 }
             }))}
             content={
