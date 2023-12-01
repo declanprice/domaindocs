@@ -22,7 +22,7 @@ export const OrganisationOverview = () => {
 
             <h3 class="mt-12 mb-4 text-lg font-semibold text-primary">Contacts</h3>
 
-            <div class="grid grid-cols-4 gap-4">
+            <div class="grid grid-cols-3 gap-4">
                 <PersonContactCard
                     imageUrl={
                         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
