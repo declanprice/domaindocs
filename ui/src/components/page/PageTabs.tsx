@@ -18,13 +18,13 @@ export const PageTabs = (props: PageTabsProps) => {
 
     return (
         <Tabs.Root value={value()} onValueChange={(e) => setValue(e.value)}>
-            <Tabs.List class="w-full bg-white rounded-lg p-1 shadow my-2">
+            <Tabs.List class="w-full bg-white rounded-2xl p-1 shadow my-2">
                 <For
                     each={props.items}
                     children={(item) => (
                         <Tabs.Trigger
                             class={twMerge(
-                                'rounded-lg text-primary font-bold m-2 pl-4 pr-4 pt-2 pb-2',
+                                'rounded-2xl text-primary font-bold m-2 pl-4 pr-4 pt-2 pb-2',
                                 isActive(item.label) && ['bg-secondary', 'text-white']
                             )}
                             value={item.label}
