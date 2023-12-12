@@ -4,6 +4,7 @@ import { selectedOrganisation } from '@services'
 import { PageContainer, PageHeader } from '@components'
 import { PageTabs } from '../../components/page/PageTabs.tsx'
 import { OrganisationOverview } from './OrganisationOverview.tsx'
+import { DomainOverview } from './DomainOverview.tsx'
 
 export const OrganisationPage = () => {
     const params = useParams()
@@ -35,7 +36,7 @@ export const OrganisationPage = () => {
                         },
                         {
                             label: 'Domains',
-                            content: <>Domains</>
+                            content: <DomainOverview />
                         }
                     ]}
                 />
