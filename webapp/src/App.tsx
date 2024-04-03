@@ -1,29 +1,16 @@
 import '@fontsource/poppins'
 import { ChakraProvider } from '@chakra-ui/react'
-import { LayoutShell } from './layout/shell/LayoutShell.tsx'
-import {
-    RouterProvider
-} from 'react-router-dom'
-import { useAuthStore } from '@stores/auth.store.ts'
-import { authenticatedRoutes, unauthenticatedRoutes } from './routes.tsx'
+import { RouterProvider } from 'react-router-dom'
 import { theme } from './theme.tsx'
+import { authorizedRoutes, unauthorizedRoutes } from './routes.tsx'
+import { useAuthStore } from '@stores/auth.store.ts'
 
 const App = () => {
-  const { user } = useAuthStore();
+  const { userId } = useAuthStore();
 
-  return (
-    <ChakraProvider theme={theme}>
-        {
-            user ? (
-                <LayoutShell>
-                    <RouterProvider router={authenticatedRoutes}/>
-                </LayoutShell>
-            ) : (
-                <RouterProvider router={unauthenticatedRoutes}/>
-            )
-        }
-    </ChakraProvider>
-  )
+  return <ChakraProvider theme={theme}>
+      <RouterProvider router={userId ? authorizedRoutes : unauthorizedRoutes} />
+  </ChakraProvider>
 }
 
 export default App

@@ -22,6 +22,9 @@
     "paths": {
       "@stores/*": [
         "./src/stores/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
       ]
     }
   },
