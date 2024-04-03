@@ -27,8 +27,8 @@ export const AccountSetupPage = () => {
         <form onSubmit={handleSubmit(submit)}>
             <Flex direction={'column'} alignItems={'end'} gap={6}>
                 <Heading>About You</Heading>
-                <FormTextInput name={'firstName'} control={control} placeholder={'firstName'} />
-                <FormTextInput name={'lastName'} control={control} placeholder={'lastName'} />
+                <FormTextInput name={'firstName'} control={control} placeholder={'First Name'} />
+                <FormTextInput name={'lastName'} control={control} placeholder={'Last Name'} />
                 <Button type={'submit'} color={'white'} backgroundColor={'gray.700'}>Continue</Button>
             </Flex>
         </form>

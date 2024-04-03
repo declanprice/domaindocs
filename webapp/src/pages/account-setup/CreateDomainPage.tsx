@@ -24,8 +24,8 @@ export const CreateDomainPage = () => {
     return <Flex height={'100%'} width={'100%'} justifyContent={'center'} alignItems={'center'}>
         <form onSubmit={handleSubmit(submit)}>
             <Flex direction={'column'} alignItems={'end'} gap={6}>
-                <Heading>About You</Heading>
-                <FormTextInput name={'domainName'} control={control} placeholder={'domainName'} />
+                <Heading>Create Domain</Heading>
+                <FormTextInput name={'domainName'} control={control} placeholder={'Domain Name'} />
                 <Button type={'submit'} color={'white'} backgroundColor={'gray.700'}>Continue</Button>
                 <Link href={'/auth/sign-in'}>Join an existing domain.</Link>
             </Flex>

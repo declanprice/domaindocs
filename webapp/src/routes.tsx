@@ -25,16 +25,21 @@ export const authorizedRoutes = createBrowserRouter([
         ]
     },
     {
-        path: '/account-setup/about-you',
-        element: <AccountSetupPage/>,
-    },
-    {
-        path: '/account-setup/new-domain',
-        element: <CreateDomainPage />
-    },
-    {
-        path: '/account-setup/wait-for-invite',
-        element: <WaitForInvitePage/>
+        path: '/account-setup',
+        children: [
+            {
+                path: 'about-you',
+                element: <AccountSetupPage/>,
+            },
+            {
+                path: 'new-domain',
+                element: <CreateDomainPage />
+            },
+            {
+                path: 'wait-for-invite',
+                element: <WaitForInvitePage/>
+            },
+        ]
     },
     {
         path: '*',
