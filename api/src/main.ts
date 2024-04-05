@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import supertokens from 'supertokens-node'
-import { SupertokensExceptionFilter } from './auth/auth-exception.filter'
+import supertokens from 'supertokens-node';
+import { SupertokensExceptionFilter } from './auth/auth-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, Link } from '@chakra-ui/react'
+import { Button, Flex, Heading, Link, Show } from '@chakra-ui/react'
 import Passwordless from 'supertokens-web-js/recipe/passwordless';
 import { useForm } from 'react-hook-form'
 import { valibotResolver } from '@hookform/resolvers/valibot'
@@ -28,13 +28,14 @@ export const SignInPage = () => {
     }
 
     return <Flex height={'100%'} width={'100%'} justifyContent={'center'} alignItems={'center'}>
-        <form onSubmit={handleSubmit(sendMagicLink)}>
-            <Flex direction={'column'} alignItems={'end'} gap={6}>
-                <Heading>Domain Docs</Heading>
-                <FormTextInput name={'email'} control={control} placeholder={'email'} />
-                <Button type={'submit'} color={'white'} backgroundColor={'gray.700'}>Sign in with link</Button>
-                <Link href={'/auth/sign-up'}>I don't have an account yet.</Link>
-            </Flex>
-        </form>
+            <form onSubmit={handleSubmit(sendMagicLink)}>
+                <Flex minWidth={300} direction={'column'} alignItems={'end'} gap={6}>
+                    <Heading>Domain Docs</Heading>
+                    <Heading size={'lg'}>Sign In</Heading>
+                    <FormTextInput name={'email'} control={control} placeholder={'type your email here'} />
+                    <Button size={'sm'} width={'100%'} type={'submit'} color={'white'} backgroundColor={'gray.700'}>Sign In</Button>
+                    <Link href={'/auth/sign-up'}>I don't have an account.</Link>
+                </Flex>
+            </form>
     </Flex>
 }

@@ -4,10 +4,11 @@ import { SignInPage } from './pages/auth/sign-in/SignInPage.tsx'
 import { SignUpPage } from './pages/auth/sign-up/SignUpPage.tsx'
 import { VerifyMagicLinkPage } from './pages/auth/VerifyMagicLinkPage.tsx'
 import { MagicLinkSentPage } from './pages/auth/MagicLinkSentPage.tsx'
-import { AccountSetupPage } from './pages/account-setup/AccountSetupPage.tsx'
-import { WaitForInvitePage } from './pages/account-setup/WaitForInvitePage.tsx'
-import { CreateDomainPage } from './pages/account-setup/CreateDomainPage.tsx'
+import { UserSetupPage } from './pages/user-setup/UserSetupPage.tsx'
+import { WaitForInvitePage } from './pages/user-setup/WaitForInvitePage.tsx'
+import { CreateDomainPage } from './pages/user-setup/CreateDomainPage.tsx'
 import { LayoutShell } from './layout/shell/LayoutShell.tsx'
+import { UserSetupGuard } from '@components/guards/UserSetupGuard.tsx'
 
 export const authorizedRoutes = createBrowserRouter([
     {
@@ -16,34 +17,36 @@ export const authorizedRoutes = createBrowserRouter([
     },
     {
         path: '/',
-        element: <LayoutShell/>,
+        element: <UserSetupGuard/>,
         children: [
             {
-                path: "dashboard",
-                element: <DashboardPage />,
-            },
+                path: '',
+                element: <LayoutShell/>,
+                children: [
+                    {
+                        path: "dashboard",
+                        element: <DashboardPage />,
+                    },
+                ]
+            }
         ]
     },
     {
-        path: '/account-setup',
+        path: '/user-setup',
         children: [
             {
+                path: '',
+                element: <Navigate to='/user-setup/about-you'/>
+            },
+            {
                 path: 'about-you',
-                element: <AccountSetupPage/>,
-            },
-            {
-                path: 'new-domain',
-                element: <CreateDomainPage />
-            },
-            {
-                path: 'wait-for-invite',
-                element: <WaitForInvitePage/>
-            },
+                element: <UserSetupPage/>,
+            }
         ]
     },
     {
         path: '*',
-        element: <Navigate to='/dashboard'/>
+        element: <Navigate to='/'/>
     }
 ]);
 

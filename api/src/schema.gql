@@ -2,11 +2,23 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type AuthUserModel {
-  id: String!
-  emails: [String!]!
+type UserModel {
+  userId: String!
+  email: String!
+  firstName: String!
+  lastName: String!
 }
 
 type Query {
-  user(id: String!): AuthUserModel!
+  user(userId: String!): UserModel
+}
+
+type Mutation {
+  createUser(data: UserInput!): UserModel!
+}
+
+input UserInput {
+  userId: String!
+  firstName: String!
+  lastName: String!
 }

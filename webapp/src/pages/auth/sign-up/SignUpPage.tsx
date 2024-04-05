@@ -28,10 +28,11 @@ export const SignUpPage = () => {
 
     return <Flex height={'100%'} width={'100%'} justifyContent={'center'} alignItems={'center'}>
         <form onSubmit={handleSubmit(sendMagicLink)}>
-            <Flex direction={'column'} alignItems={'end'} gap={6}>
+            <Flex minWidth={300} direction={'column'} alignItems={'end'} gap={6}>
                 <Heading>Domain Docs</Heading>
-                <FormTextInput name={'email'} control={control} placeholder={'email'} />
-                <Button type={'submit'} color={'white'} backgroundColor={'gray.700'}>Sign up with link</Button>
+                <Heading size={'lg'}>Sign Up</Heading>
+                <FormTextInput name={'email'} control={control} placeholder={'type your email here'} />
+                <Button size={'sm'} type={'submit'} color={'white'} backgroundColor={'gray.700'}>Sign Up</Button>
                 <Link href={'/auth/sign-in'}>I already have an account.</Link>
             </Flex>
         </form>

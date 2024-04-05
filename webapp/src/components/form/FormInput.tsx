@@ -35,6 +35,7 @@ export const FormTextInput = (props: FormTextInputProps) => {
                onBlur={field.onBlur}
                variant={'filled'}
                placeholder={props.placeholder}
+               size={'sm'}
         />
 
         {props.helperText && (<FormHelperText>{props.helperText}</FormHelperText>) }
