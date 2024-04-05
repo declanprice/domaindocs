@@ -1,35 +1,38 @@
-import {
-    Avatar,
-    Box,
-    Button,
-    Flex,
-    Input,
-    Text,
-    WrapItem,
-} from '@chakra-ui/react'
+import { Avatar, Box, Button, Flex, Text, WrapItem } from '@chakra-ui/react'
 import { FcDocument } from 'react-icons/fc'
+import { CiSearch } from 'react-icons/ci'
 import { IoNotificationsOutline } from 'react-icons/io5'
 
 export const Toolbar = () => {
     return (
         <Flex
-            backgroundColor={'gray.700'}
+            backgroundColor={'gray.800'}
             alignItems={'center'}
             height={'45px'}
             px={4}
         >
-            <Box mr={8}>
-                <FcDocument size={34} />
+            <Box mr={4}>
+                <FcDocument size={18} />
             </Box>
 
             <Button
-                color={'gray.900'}
+                color={'gray.100'}
                 size={'sm'}
                 width={'250px'}
-                backgroundColor={'gray.100'}
+                fontWeight={'light'}
+                backgroundColor={'gray.700'}
                 overflow={'hidden'}
+                mx={4}
+                sx={{
+                    _hover: {
+                        backgroundColor: 'gray.500',
+                    },
+                }}
             >
-                search registers of scotland
+                <Flex alignItems={'center'}>
+                    <CiSearch color={'gray.700'} />
+                    <Text ml={2}>Search..</Text>
+                </Flex>
             </Button>
 
             <Box flex={1}></Box>
