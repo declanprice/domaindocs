@@ -19,10 +19,10 @@ SuperTokens.init({
 })
 
 type AuthStoreState = {
-    userId: string | null,
-    user: User | null,
-    setUserId: (userId: string) => void,
-    setUser: (user: User) => void,
+    userId: string | null
+    user: User | null
+    setUserId: (userId: string) => void
+    setUser: (user: User) => void
     signIn: (linkCode: string, preAuthSessionId: string) => Promise<void>
     signOut: () => Promise<void>
     checkSession: () => Promise<void>
@@ -58,14 +58,11 @@ export const useAuthStore = create<AuthStoreState>(
                     } as any)
 
                     if (response.status === 'OK') {
-                        const userId = response.user.id;
+                        const userId = response.user.id
 
-                        const result = await gqlClient.request(
-                            GET_USER,
-                            {
-                                userId
-                            }
-                        );
+                        const result: any = await gqlClient.request(GET_USER, {
+                            userId,
+                        })
 
                         set((state) => {
                             state.userId = userId
@@ -79,12 +76,9 @@ export const useAuthStore = create<AuthStoreState>(
                     if (doesExist) {
                         const userId = await Session.getUserId()
 
-                        const result = await gqlClient.request(
-                            GET_USER,
-                            {
-                                userId
-                            }
-                        );
+                        const result: any = await gqlClient.request(GET_USER, {
+                            userId,
+                        })
 
                         set((state) => {
                             state.userId = userId

@@ -1,15 +1,19 @@
-import { Box, Flex, List, ListItem, Text } from '@chakra-ui/react'
+import { Button, Flex, List, ListItem, Text } from '@chakra-ui/react'
 import { DomainSelectorMenu } from './DomainSelectMenu.tsx'
 import { FiHome } from 'react-icons/fi'
 import { NavLink } from 'react-router-dom'
 import { TbCategory2 } from 'react-icons/tb'
 import { BsPeople } from 'react-icons/bs'
-import { FaProjectDiagram } from 'react-icons/fa'
+import { LiaProjectDiagramSolid } from 'react-icons/lia'
 import { IoDocumentTextOutline } from 'react-icons/io5'
 import { MdOutlineSdStorage } from 'react-icons/md'
 import { RiLockPasswordLine } from 'react-icons/ri'
 import { MdOutlineForum } from 'react-icons/md'
 import { MdOutlineManageHistory } from 'react-icons/md'
+import { TbLayoutSidebarLeftCollapse } from 'react-icons/tb'
+import { useLayoutStore } from '@stores/layout.store.ts'
+import { IoPersonAddOutline } from 'react-icons/io5'
+import { LuBadgeHelp } from 'react-icons/lu'
 
 const NavListItem = (props: { icon: any; label: string; to: string }) => {
     const { icon, label, to } = props
@@ -23,7 +27,7 @@ const NavListItem = (props: { icon: any; label: string; to: string }) => {
                 px={2}
                 rounded={'md'}
                 _hover={{
-                    backgroundColor: 'hover',
+                    backgroundColor: 'gray.100',
                 }}
                 width={'100%'}
             >
@@ -39,23 +43,36 @@ const NavListItem = (props: { icon: any; label: string; to: string }) => {
 }
 
 export const FullNavBar = () => {
+    const { closeNavBar } = useLayoutStore()
+
     return (
         <Flex
             height={'100%'}
-            width={'520px'}
-            maxW={'520px'}
+            width={'400px'}
             background={'lightgray'}
             direction={'column'}
+            borderRight={'1px solid'}
+            borderColor={'border'}
         >
-            <Box
+            <Flex
                 p={2}
                 width={'100%'}
                 height={'55px'}
                 borderBottom={'1px solid'}
                 borderColor={'border'}
+                alignItems={'center'}
             >
                 <DomainSelectorMenu />
-            </Box>
+
+                <Button
+                    size={'sm'}
+                    variant={'ghost'}
+                    ml={'auto'}
+                    onClick={closeNavBar}
+                >
+                    <TbLayoutSidebarLeftCollapse color={'gray.900'} />
+                </Button>
+            </Flex>
 
             <Flex
                 width={'100%'}
@@ -89,7 +106,7 @@ export const FullNavBar = () => {
                     />
 
                     <NavListItem
-                        icon={<FaProjectDiagram color={'gray.900'} />}
+                        icon={<LiaProjectDiagramSolid color={'gray.900'} />}
                         label={'Projects & Services'}
                         to={'/projects-and-services'}
                     />
@@ -142,13 +159,13 @@ export const FullNavBar = () => {
                     width={'100%'}
                 >
                     <NavListItem
-                        icon={<MdOutlineForum color={'gray.900'} />}
+                        icon={<IoPersonAddOutline color={'gray.900'} />}
                         label={'Invite'}
                         to={'/invite'}
                     />
 
                     <NavListItem
-                        icon={<MdOutlineManageHistory color={'gray.900'} />}
+                        icon={<LuBadgeHelp color={'gray.900'} />}
                         label={'Help'}
                         to={'/help'}
                     />
