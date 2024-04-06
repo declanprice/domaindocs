@@ -8,6 +8,6 @@ export const theme = extendTheme({
     colors: {
         lightgray: '#F7F8F9',
         border: '#E8E8E8',
-        hover: '#F1F0F0'
-    }
+        hover: '#F1F0F0',
+    },
 })

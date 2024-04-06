@@ -1,14 +1,15 @@
-import { Avatar, Box, Button, Flex, Text, WrapItem } from '@chakra-ui/react'
+import { Box, Button, Flex, Text } from '@chakra-ui/react'
 import { FcDocument } from 'react-icons/fc'
 import { CiSearch } from 'react-icons/ci'
 import { IoNotificationsOutline } from 'react-icons/io5'
-
-export const Toolbar = () => {
+import { UserMenu } from './UserMenu.tsx'
+import { IconButton } from '@chakra-ui/react'
+export const HeadingToolbar = () => {
     return (
         <Flex
             backgroundColor={'gray.800'}
             alignItems={'center'}
-            height={'45px'}
+            height={'40px'}
             px={4}
         >
             <Box mr={4}>
@@ -17,7 +18,7 @@ export const Toolbar = () => {
 
             <Button
                 color={'gray.100'}
-                size={'sm'}
+                size={'xs'}
                 width={'250px'}
                 fontWeight={'light'}
                 backgroundColor={'gray.700'}
@@ -38,15 +39,15 @@ export const Toolbar = () => {
             <Box flex={1}></Box>
 
             <Flex alignItems={'center'} gap={4}>
-                <IoNotificationsOutline size={18} color={'white'} />
+                <IconButton
+                    aria-label={'notification'}
+                    size={'xs'}
+                    variant={'ghost'}
+                    _hover={{ backgroundColor: 'gray.700' }}
+                    icon={<IoNotificationsOutline size={14} color={'white'} />}
+                />
 
-                <WrapItem>
-                    <Avatar
-                        size={'sm'}
-                        name="Dan Abrahmov"
-                        src="https://bit.ly/dan-abramov"
-                    />
-                </WrapItem>
+                <UserMenu />
             </Flex>
         </Flex>
     )

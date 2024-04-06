@@ -1,7 +1,5 @@
-import { PageShell } from '../../layout/page/PageShell.tsx'
+import { Flex } from '@chakra-ui/react'
 
 export const DashboardPage = () => {
-    return <PageShell>
-        dashboard
-    </PageShell>
+    return <Flex>dashboard</Flex>
 }

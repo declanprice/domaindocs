@@ -1,5 +1,5 @@
 import { Button, Flex, List, ListItem, Text } from '@chakra-ui/react'
-import { DomainSelectorMenu } from './DomainSelectMenu.tsx'
+import { DomainSelectorMenu } from './DomainSelectorMenu.tsx'
 import { FiHome } from 'react-icons/fi'
 import { NavLink } from 'react-router-dom'
 import { TbCategory2 } from 'react-icons/tb'
@@ -33,7 +33,7 @@ const NavListItem = (props: { icon: any; label: string; to: string }) => {
             >
                 {icon}
                 <NavLink to={to}>
-                    <Text fontSize={14} color={'gray.900'}>
+                    <Text fontSize={12} color={'gray.900'}>
                         {label}
                     </Text>
                 </NavLink>
@@ -42,13 +42,13 @@ const NavListItem = (props: { icon: any; label: string; to: string }) => {
     )
 }
 
-export const FullNavBar = () => {
+export const NavBar = () => {
     const { closeNavBar } = useLayoutStore()
 
     return (
         <Flex
             height={'100%'}
-            width={'400px'}
+            width={'340px'}
             background={'lightgray'}
             direction={'column'}
             borderRight={'1px solid'}
@@ -83,60 +83,79 @@ export const FullNavBar = () => {
                 <List
                     width={'100%'}
                     gap={2}
-                    p={4}
+                    p={3}
                     display={'flex'}
                     flexDir={'column'}
                 >
                     <NavListItem
-                        icon={<FiHome color={'gray.900'} />}
+                        icon={<FiHome color={'gray.900'} size={14} />}
                         label={'Home'}
                         to={'/overview'}
                     />
 
                     <NavListItem
-                        icon={<TbCategory2 color={'gray.900'} />}
+                        icon={<TbCategory2 color={'gray.900'} size={14} />}
                         label={'Subdomains'}
                         to={'/subdomains'}
                     />
 
                     <NavListItem
-                        icon={<BsPeople color={'gray.900'} />}
+                        icon={<BsPeople color={'gray.900'} size={14} />}
                         label={'People & Teams'}
                         to={'/people-and-teams'}
                     />
 
                     <NavListItem
-                        icon={<LiaProjectDiagramSolid color={'gray.900'} />}
+                        icon={
+                            <LiaProjectDiagramSolid
+                                color={'gray.900'}
+                                size={14}
+                            />
+                        }
                         label={'Projects & Services'}
                         to={'/projects-and-services'}
                     />
 
                     <NavListItem
-                        icon={<IoDocumentTextOutline color={'gray.900'} />}
+                        icon={
+                            <IoDocumentTextOutline
+                                color={'gray.900'}
+                                size={14}
+                            />
+                        }
                         label={'Documentation'}
                         to={'/documentation'}
                     />
 
                     <NavListItem
-                        icon={<MdOutlineSdStorage color={'gray.900'} />}
+                        icon={
+                            <MdOutlineSdStorage color={'gray.900'} size={14} />
+                        }
                         label={'Storage'}
                         to={'/storage'}
                     />
 
                     <NavListItem
-                        icon={<RiLockPasswordLine color={'gray.900'} />}
+                        icon={
+                            <RiLockPasswordLine color={'gray.900'} size={14} />
+                        }
                         label={'Secrets'}
                         to={'/secrets'}
                     />
 
                     <NavListItem
-                        icon={<MdOutlineForum color={'gray.900'} />}
+                        icon={<MdOutlineForum color={'gray.900'} size={14} />}
                         label={'Forums'}
                         to={'/forums'}
                     />
 
                     <NavListItem
-                        icon={<MdOutlineManageHistory color={'gray.900'} />}
+                        icon={
+                            <MdOutlineManageHistory
+                                color={'gray.900'}
+                                size={14}
+                            />
+                        }
                         label={'Onboarding Console'}
                         to={'/onboarding'}
                     />
@@ -159,13 +178,15 @@ export const FullNavBar = () => {
                     width={'100%'}
                 >
                     <NavListItem
-                        icon={<IoPersonAddOutline color={'gray.900'} />}
+                        icon={
+                            <IoPersonAddOutline color={'gray.900'} size={14} />
+                        }
                         label={'Invite'}
                         to={'/invite'}
                     />
 
                     <NavListItem
-                        icon={<LuBadgeHelp color={'gray.900'} />}
+                        icon={<LuBadgeHelp color={'gray.900'} size={14} />}
                         label={'Help'}
                         to={'/help'}
                     />
