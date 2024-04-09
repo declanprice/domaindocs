@@ -7,6 +7,11 @@ import { MagicLinkSentPage } from './pages/auth/MagicLinkSentPage.tsx'
 import { AccountSetupPage } from './pages/account-setup/AccountSetupPage.tsx'
 import { Layout } from './layout/Layout.tsx'
 import { AccountSetupGuard } from '@components/guards/AccountSetupGuard.tsx'
+import { SubdomainLayoutPage } from './pages/subdomain/SubdomainLayoutPage.tsx'
+import { SubdomainOverviewPage } from './pages/subdomain/SubdomainOverviewPage.tsx'
+import { SubdomainPeoplePage } from './pages/subdomain/SubdomainPeoplePage.tsx'
+import { SubdomainTeamsPage } from './pages/subdomain/SubdomainTeamsPage.tsx'
+import { SubdomainProjectsPage } from './pages/subdomain/SubdomainProjectsPage.tsx'
 
 export const authorizedRoutes = createBrowserRouter([
     {
@@ -24,6 +29,28 @@ export const authorizedRoutes = createBrowserRouter([
                     {
                         path: 'home',
                         element: <HomePage />,
+                    },
+                    {
+                        path: 'subdomains',
+                        element: <SubdomainLayoutPage />,
+                        children: [
+                            {
+                                path: '',
+                                element: <SubdomainOverviewPage />,
+                            },
+                            {
+                                path: 'people',
+                                element: <SubdomainPeoplePage />,
+                            },
+                            {
+                                path: 'teams',
+                                element: <SubdomainTeamsPage />,
+                            },
+                            {
+                                path: 'projects',
+                                element: <SubdomainProjectsPage />,
+                            },
+                        ],
                     },
                 ],
             },

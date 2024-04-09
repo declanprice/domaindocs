@@ -118,7 +118,7 @@ export const SimpleNavBar = () => {
                 <SimpleNavItem
                     icon={<TbCategory2 color={'gray.900'} size={14} />}
                     label={'Subdomains'}
-                    to={'/subdomains'}
+                    to={'/subdomain'}
                 />
 
                 <SimpleNavItem

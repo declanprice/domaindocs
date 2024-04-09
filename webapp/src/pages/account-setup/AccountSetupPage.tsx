@@ -5,8 +5,7 @@ import { valibotResolver } from '@hookform/resolvers/valibot'
 import { object, string } from 'valibot'
 import { FormTextInput } from '@components/form/FormInput.tsx'
 import { useMutation } from '@tanstack/react-query'
-import { gqlClient } from '../../graphql/client.ts'
-import { CREATE_USER } from '../../graphql/user/mutations.ts'
+import { createAccount } from '../../graphql/user/mutations.ts'
 import { useToast } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useAuthStore } from '@stores/auth.store.ts'
@@ -20,13 +19,11 @@ export const AccountSetupPage = () => {
 
     const { mutate, data, error, isPending } = useMutation({
         mutationKey: ['createAccount'],
-        mutationFn: async (data: any) => {
-            return gqlClient.request(CREATE_USER, {
-                data: {
-                    userId,
-                    firstName: data.firstName,
-                    lastName: data.lastName,
-                },
+        mutationFn: (data: any) => {
+            return createAccount({
+                userId: userId!,
+                firstName: data.firstName,
+                lastName: data.lastName,
             })
         },
     })
@@ -70,7 +67,7 @@ export const AccountSetupPage = () => {
             justifyContent={'center'}
             alignItems={'center'}
         >
-            <form onSubmit={handleSubmit(mutate)}>
+            <form onSubmit={handleSubmit(mutate as any)}>
                 <Flex direction={'column'} alignItems={'end'} gap={6}>
                     <Heading>About You</Heading>
                     <FormTextInput

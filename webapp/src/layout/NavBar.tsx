@@ -56,7 +56,9 @@ export const NavBar = () => {
             <Flex
                 p={2}
                 width={'100%'}
-                height={'55px'}
+                height={'45px'}
+                minHeight={'45px'}
+                maxHeight={'45px'}
                 borderBottom={'1px solid'}
                 borderColor={'border'}
                 alignItems={'center'}
@@ -95,7 +97,7 @@ export const NavBar = () => {
                     <NavListItem
                         icon={<TbCategory2 color={'gray.900'} size={14} />}
                         label={'Subdomains'}
-                        to={'/subdomains'}
+                        to={'/subdomain'}
                     />
 
                     <NavListItem
