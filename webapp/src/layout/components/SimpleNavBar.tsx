@@ -9,18 +9,17 @@ import {
 } from '@chakra-ui/react'
 import { FiHome } from 'react-icons/fi'
 import { NavLink } from 'react-router-dom'
-import { TbCategory2 } from 'react-icons/tb'
-import { BsPeople } from 'react-icons/bs'
+import { TbCategory2, TbUsersGroup } from 'react-icons/tb'
 import { LiaProjectDiagramSolid } from 'react-icons/lia'
 import { IoDocumentTextOutline } from 'react-icons/io5'
 import { MdOutlineSdStorage } from 'react-icons/md'
 import { RiLockPasswordLine } from 'react-icons/ri'
-import { MdOutlineForum } from 'react-icons/md'
 import { MdOutlineManageHistory } from 'react-icons/md'
 import { IoPersonAddOutline } from 'react-icons/io5'
 import { LuBadgeHelp } from 'react-icons/lu'
 import { TbLayoutSidebarRightCollapse } from 'react-icons/tb'
 import { useLayoutStore } from '@stores/layout.store.ts'
+import { GoPeople } from 'react-icons/go'
 
 const SimpleDomainSelectorMenu = () => {
     return (
@@ -123,17 +122,23 @@ export const SimpleNavBar = () => {
                 />
 
                 <SimpleNavItem
-                    icon={<BsPeople color={'gray.900'} size={14} />}
-                    label={'People & Teams'}
-                    to={'/people-and-teams'}
+                    icon={<GoPeople color={'gray.900'} size={14} />}
+                    label={'People'}
+                    to={'/people'}
+                />
+
+                <SimpleNavItem
+                    icon={<TbUsersGroup color={'gray.900'} size={14} />}
+                    label={'Teams'}
+                    to={'/teams'}
                 />
 
                 <SimpleNavItem
                     icon={
                         <LiaProjectDiagramSolid color={'gray.900'} size={14} />
                     }
-                    label={'Projects & Services'}
-                    to={'/projects-and-services'}
+                    label={'Projects'}
+                    to={'/projects'}
                 />
 
                 <SimpleNavItem
@@ -146,20 +151,14 @@ export const SimpleNavBar = () => {
 
                 <SimpleNavItem
                     icon={<MdOutlineSdStorage color={'gray.900'} size={14} />}
-                    label={'Storage'}
-                    to={'/storage'}
+                    label={'Files'}
+                    to={'/files'}
                 />
 
                 <SimpleNavItem
                     icon={<RiLockPasswordLine color={'gray.900'} size={14} />}
                     label={'Secrets'}
                     to={'/secrets'}
-                />
-
-                <SimpleNavItem
-                    icon={<MdOutlineForum color={'gray.900'} size={14} />}
-                    label={'Forums'}
-                    to={'/forums'}
                 />
 
                 <SimpleNavItem

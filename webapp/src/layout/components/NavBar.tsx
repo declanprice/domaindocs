@@ -3,18 +3,17 @@ import { DomainSelectorMenu } from './DomainSelectorMenu.tsx'
 import { FiHome } from 'react-icons/fi'
 import { NavLink } from 'react-router-dom'
 import { TbCategory2 } from 'react-icons/tb'
-import { BsPeople } from 'react-icons/bs'
 import { LiaProjectDiagramSolid } from 'react-icons/lia'
 import { IoDocumentTextOutline } from 'react-icons/io5'
 import { MdOutlineSdStorage } from 'react-icons/md'
 import { RiLockPasswordLine } from 'react-icons/ri'
-import { MdOutlineForum } from 'react-icons/md'
 import { MdOutlineManageHistory } from 'react-icons/md'
 import { TbLayoutSidebarLeftCollapse } from 'react-icons/tb'
 import { useLayoutStore } from '@stores/layout.store.ts'
 import { IoPersonAddOutline } from 'react-icons/io5'
 import { LuBadgeHelp } from 'react-icons/lu'
-
+import { GoPeople } from 'react-icons/go'
+import { TbUsersGroup } from 'react-icons/tb'
 const NavListItem = (props: { icon: any; label: string; to: string }) => {
     const { icon, label, to } = props
 
@@ -100,9 +99,15 @@ export const NavBar = () => {
                     />
 
                     <NavListItem
-                        icon={<BsPeople color={'gray.900'} size={14} />}
-                        label={'People & Teams'}
-                        to={'/people-and-teams'}
+                        icon={<GoPeople color={'gray.900'} size={14} />}
+                        label={'People'}
+                        to={'/people'}
+                    />
+
+                    <NavListItem
+                        icon={<TbUsersGroup color={'gray.900'} size={14} />}
+                        label={'Teams'}
+                        to={'/teams'}
                     />
 
                     <NavListItem
@@ -112,8 +117,8 @@ export const NavBar = () => {
                                 size={14}
                             />
                         }
-                        label={'Projects & Services'}
-                        to={'/projects-and-services'}
+                        label={'Projects'}
+                        to={'/projects'}
                     />
 
                     <NavListItem
@@ -131,8 +136,8 @@ export const NavBar = () => {
                         icon={
                             <MdOutlineSdStorage color={'gray.900'} size={14} />
                         }
-                        label={'Storage'}
-                        to={'/storage'}
+                        label={'Files'}
+                        to={'/files'}
                     />
 
                     <NavListItem
@@ -144,19 +149,13 @@ export const NavBar = () => {
                     />
 
                     <NavListItem
-                        icon={<MdOutlineForum color={'gray.900'} size={14} />}
-                        label={'Forums'}
-                        to={'/forums'}
-                    />
-
-                    <NavListItem
                         icon={
                             <MdOutlineManageHistory
                                 color={'gray.900'}
                                 size={14}
                             />
                         }
-                        label={'Onboarding Console'}
+                        label={'Onboarding'}
                         to={'/onboarding'}
                     />
                 </List>

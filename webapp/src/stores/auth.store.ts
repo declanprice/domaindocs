@@ -86,7 +86,7 @@ export const useAuthStore = create<AuthStoreState>(
                     }
                 },
             }
-        })
-    ),
-    { name: 'auth-store' }
+        }),
+        { name: 'auth-store' }
+    )
 )
