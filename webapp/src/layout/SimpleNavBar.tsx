@@ -102,6 +102,7 @@ export const SimpleNavBar = () => {
             <List
                 py={1}
                 flex={1}
+                overflowY={'auto'}
                 borderBottom={'1px solid'}
                 borderColor={'border'}
                 display={'flex'}

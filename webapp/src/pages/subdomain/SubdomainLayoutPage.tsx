@@ -1,18 +1,97 @@
 import { PageToolbar } from '@components/page/PageToolbar.tsx'
-import { Outlet } from 'react-router-dom'
-import { Flex } from '@chakra-ui/react'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { Box, Flex } from '@chakra-ui/react'
 import { TbCategory2 } from 'react-icons/tb'
+import {
+    SubdomainOption,
+    SubdomainSelectMenu,
+} from './components/SubdomainSelectMenu.tsx'
+import React, { useState } from 'react'
 
 export const SubdomainLayoutPage = () => {
+    const [active, setActive] = useState<SubdomainOption>({
+        id: '1',
+        name: 'Supporting',
+    })
+
+    const navigate = useNavigate()
+
+    const location = useLocation()
+
+    console.log(location)
+
     return (
-        <Flex direction="column" height={'100%'} width={'100%'}>
+        <Flex direction="column" width={'100%'}>
             <PageToolbar
-                icon={<TbCategory2 color={'gray.900'} size={14} />}
-                title={'Subdomain'}
-                tabs={[]}
-                actions={[]}
+                title={
+                    <SubdomainSelectMenu
+                        options={[
+                            {
+                                id: '1',
+                                name: 'Supporting',
+                            },
+                            {
+                                id: '2',
+                                name: 'Finance',
+                            },
+                        ]}
+                        onSelect={(option) => {
+                            setActive(option)
+
+                            navigate(`/subdomains/${option.id}/overview`)
+                        }}
+                        value={active}
+                    />
+                }
+                tabs={[
+                    {
+                        label: 'Overview',
+                        isActive: location.pathname.includes(
+                            `/subdomains/${active.id}/overview`
+                        ),
+                        onClick: () => {
+                            navigate(`/subdomains/${active.id}/overview`)
+                        },
+                    },
+                    {
+                        label: 'People',
+                        isActive: location.pathname.includes(
+                            `/subdomains/${active.id}/people`
+                        ),
+                        onClick: () => {
+                            navigate(`/subdomains/${active.id}/people`)
+                        },
+                    },
+                    {
+                        label: 'Teams',
+                        isActive: location.pathname.includes(
+                            `/subdomains/${active.id}/teams`
+                        ),
+                        onClick: () => {
+                            navigate(`/subdomains/${active.id}/teams`)
+                        },
+                    },
+                    {
+                        label: 'Projects',
+                        isActive: location.pathname.includes(
+                            `/subdomains/${active.id}/projects`
+                        ),
+                        onClick: () => {
+                            navigate(`/subdomains/${active.id}/projects`)
+                        },
+                    },
+                ]}
+                actions={[
+                    {
+                        label: 'New Subdomain',
+                        onClick: () => {},
+                    },
+                ]}
             />
-            <Outlet />
+
+            <Box height={'100%'} width={'100%'} overflowY={'auto'}>
+                <Outlet />
+            </Box>
         </Flex>
     )
 }

@@ -9,9 +9,9 @@ export const Layout = () => {
     const { isFullNavBar } = useLayoutStore()
 
     return (
-        <Flex width={'100%'} height={'100%'} direction={'column'}>
+        <Flex direction={'column'} height={'inherit'} overflow={'hidden'}>
             <HeadingToolbar />
-            <Flex width={'100%'} height={'100%'}>
+            <Flex height={'inherit'}>
                 {isFullNavBar && <NavBar />}
                 {!isFullNavBar && <SimpleNavBar />}
                 <Outlet />

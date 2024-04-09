@@ -18,7 +18,7 @@ const NavListItem = (props: { icon: any; label: string; to: string }) => {
     const { icon, label, to } = props
 
     return (
-        <ListItem width={'100%'}>
+        <ListItem width={'100%'} key={props.label}>
             <Flex
                 alignItems={'center'}
                 gap={2}
@@ -47,7 +47,8 @@ export const NavBar = () => {
     return (
         <Flex
             height={'100%'}
-            width={'340px'}
+            width={'280px'}
+            minWidth={'280px'}
             background={'lightgray'}
             direction={'column'}
             borderRight={'1px solid'}
@@ -80,6 +81,8 @@ export const NavBar = () => {
                 direction={'column'}
                 borderBottom={'1px solid'}
                 borderColor={'border'}
+                overflowY={'auto'}
+                flex={1}
             >
                 <List
                     width={'100%'}
@@ -163,36 +166,28 @@ export const NavBar = () => {
                 </List>
             </Flex>
 
-            <Flex
-                width={'100%'}
-                height={'100%'}
-                direction={'column'}
+            <List
                 justifyContent={'flex-end'}
+                borderTop={'1px solid'}
+                borderColor={'border'}
+                p={2}
+                gap={2}
+                display={'flex'}
+                flexDir={'column'}
+                width={'100%'}
             >
-                <List
-                    borderTop={'1px solid'}
-                    borderColor={'border'}
-                    gap={2}
-                    p={4}
-                    display={'flex'}
-                    flexDir={'column'}
-                    width={'100%'}
-                >
-                    <NavListItem
-                        icon={
-                            <IoPersonAddOutline color={'gray.900'} size={14} />
-                        }
-                        label={'Invite'}
-                        to={'/invite'}
-                    />
+                <NavListItem
+                    icon={<IoPersonAddOutline color={'gray.900'} size={14} />}
+                    label={'Invite'}
+                    to={'/invite'}
+                />
 
-                    <NavListItem
-                        icon={<LuBadgeHelp color={'gray.900'} size={14} />}
-                        label={'Help'}
-                        to={'/help'}
-                    />
-                </List>
-            </Flex>
+                <NavListItem
+                    icon={<LuBadgeHelp color={'gray.900'} size={14} />}
+                    label={'Help'}
+                    to={'/help'}
+                />
+            </List>
         </Flex>
     )
 }

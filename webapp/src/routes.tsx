@@ -31,11 +31,11 @@ export const authorizedRoutes = createBrowserRouter([
                         element: <HomePage />,
                     },
                     {
-                        path: 'subdomains',
+                        path: 'subdomains/:id',
                         element: <SubdomainLayoutPage />,
                         children: [
                             {
-                                path: '',
+                                path: 'overview',
                                 element: <SubdomainOverviewPage />,
                             },
                             {

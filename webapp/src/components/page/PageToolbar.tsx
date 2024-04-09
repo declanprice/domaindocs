@@ -1,14 +1,24 @@
-import { Button, Flex, Text } from '@chakra-ui/react'
+import { Button, Flex } from '@chakra-ui/react'
+
+type PageTabOption = {
+    isActive: boolean
+    label: string
+    onClick: () => void
+}
+
+type PageActionOption = {
+    label: string
+    onClick: () => void
+}
 
 type PageToolbarProps = {
-    icon?: any
     title?: any
-    tabs?: []
-    actions?: []
+    tabs?: PageTabOption[]
+    actions?: PageActionOption[]
 }
 
 export const PageToolbar = (props: PageToolbarProps) => {
-    const { icon, title, tabs, actions } = props
+    const { title, tabs, actions } = props
 
     return (
         <Flex
@@ -21,66 +31,45 @@ export const PageToolbar = (props: PageToolbarProps) => {
             gap={2}
             px={4}
         >
-            {icon && <>{icon}</>}
-
-            {title && <Text fontSize={14}>{title}</Text>}
+            {title && <> {title} </>}
 
             {tabs && (
                 <Flex ml={10} height={'100%'} alignItems={'flex-end'} flex={1}>
-                    <Button
-                        size={'sm'}
-                        variant={'ghost'}
-                        borderBottom={'1px solid'}
-                        borderRadius={0}
-                        colorScheme="gray"
-                        fontWeight={'regular'}
-                    >
-                        Overview
-                    </Button>
-
-                    <Button
-                        size={'sm'}
-                        variant={'ghost'}
-                        borderRadius={0}
-                        colorScheme="gray"
-                        fontWeight={'regular'}
-                    >
-                        People
-                    </Button>
-
-                    <Button
-                        size={'sm'}
-                        variant={'ghost'}
-                        borderRadius={0}
-                        colorScheme="gray"
-                        fontWeight={'regular'}
-                    >
-                        Teams
-                    </Button>
-
-                    <Button
-                        size={'sm'}
-                        variant={'ghost'}
-                        borderRadius={0}
-                        colorScheme="gray"
-                        fontWeight={'regular'}
-                    >
-                        Projects
-                    </Button>
+                    {tabs.map((tab) => (
+                        <Button
+                            key={tab.label}
+                            size={'sm'}
+                            fontSize={12}
+                            variant={'ghost'}
+                            borderBottom={
+                                tab.isActive ? '1px solid' : undefined
+                            }
+                            borderRadius={0}
+                            colorScheme="gray"
+                            fontWeight={'regular'}
+                            onClick={tab.onClick}
+                        >
+                            {tab.label}
+                        </Button>
+                    ))}
                 </Flex>
             )}
 
             {actions && (
                 <Flex>
-                    <Button
-                        variant={'ghost'}
-                        size={'sm'}
-                        fontWeight={'regular'}
-                        fontSize={12}
-                        colorScheme="gray"
-                    >
-                        New Subdomain
-                    </Button>
+                    {actions.map((action) => (
+                        <Button
+                            key={action.label}
+                            variant={'ghost'}
+                            size={'sm'}
+                            fontWeight={'regular'}
+                            fontSize={12}
+                            colorScheme="gray"
+                            onClick={action.onClick}
+                        >
+                            {action.label}
+                        </Button>
+                    ))}
                 </Flex>
             )}
         </Flex>
