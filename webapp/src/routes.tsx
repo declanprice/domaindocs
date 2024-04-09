@@ -1,46 +1,44 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
-import { DashboardPage } from './pages/dashboard/DashboardPage.tsx'
+import { HomePage } from './pages/home/HomePage.tsx'
 import { SignInPage } from './pages/auth/sign-in/SignInPage.tsx'
 import { SignUpPage } from './pages/auth/sign-up/SignUpPage.tsx'
 import { VerifyMagicLinkPage } from './pages/auth/VerifyMagicLinkPage.tsx'
 import { MagicLinkSentPage } from './pages/auth/MagicLinkSentPage.tsx'
-import { UserSetupPage } from './pages/user-setup/UserSetupPage.tsx'
-import { WaitForInvitePage } from './pages/user-setup/WaitForInvitePage.tsx'
-import { CreateDomainPage } from './pages/user-setup/CreateDomainPage.tsx'
+import { AccountSetupPage } from './pages/account-setup/AccountSetupPage.tsx'
 import { Layout } from './layout/Layout.tsx'
-import { UserSetupGuard } from '@components/guards/UserSetupGuard.tsx'
+import { AccountSetupGuard } from '@components/guards/AccountSetupGuard.tsx'
 
 export const authorizedRoutes = createBrowserRouter([
     {
         path: '/',
-        element: <Navigate to="/dashboard" />,
+        element: <Navigate to="/home" />,
     },
     {
         path: '/',
-        element: <UserSetupGuard />,
+        element: <AccountSetupGuard />,
         children: [
             {
                 path: '',
                 element: <Layout />,
                 children: [
                     {
-                        path: 'dashboard',
-                        element: <DashboardPage />,
+                        path: 'home',
+                        element: <HomePage />,
                     },
                 ],
             },
         ],
     },
     {
-        path: '/user-setup',
+        path: '/account-setup',
         children: [
             {
                 path: '',
-                element: <Navigate to="/user-setup/about-you" />,
+                element: <Navigate to="/account-setup/about-you" />,
             },
             {
                 path: 'about-you',
-                element: <UserSetupPage />,
+                element: <AccountSetupPage />,
             },
         ],
     },

@@ -10,6 +10,7 @@ export const HeadingToolbar = () => {
             backgroundColor={'gray.800'}
             alignItems={'center'}
             height={'40px'}
+            minHeight={'40px'}
             px={4}
         >
             <Box mr={4}>
