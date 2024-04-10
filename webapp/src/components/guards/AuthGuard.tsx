@@ -1,20 +1,12 @@
-import { Navigate, Outlet, useLoaderData, useLocation } from 'react-router-dom'
-import { CheckSession, useAuthStore } from '@state/stores/auth.store.ts'
-
-export const authGuardLoader = async (): Promise<boolean> => {
-    return useAuthStore.getState()?.checkSession()
-}
+import { Navigate, Outlet } from 'react-router-dom'
+import { useAuthStore } from '@state/stores/auth.store.ts'
 
 export const AuthGuard = () => {
-    const hasSession = useLoaderData() as CheckSession
+    console.debug('Running: AuthGuard')
 
-    const location = useLocation()
+    const { userId } = useAuthStore()
 
-    if (hasSession && location.pathname.includes('/auth')) {
-        return <Navigate to={'/'} />
-    }
-
-    if (!hasSession) {
+    if (!userId) {
         return <Navigate to={'/auth/sign-in'} />
     }
 

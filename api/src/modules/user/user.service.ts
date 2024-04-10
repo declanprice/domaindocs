@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
-import { Session } from '../../auth/auth-session';
+import { UserSession } from '../../auth/auth-session';
 import { SetupUserDto } from './dto/setup-user.dto';
 import { AuthService } from '../../auth/auth.service';
+import { AuthUserDto } from './dto/auth-user.dto';
 
 @Injectable()
 export class UserService {
@@ -11,26 +12,54 @@ export class UserService {
     readonly prisma: PrismaService,
   ) {}
 
-  async getAuthUser(session: Session) {
-    return this.prisma.user.findUnique({
+  async getAuthUser(session: UserSession) {
+    const result = await this.prisma.user.findUnique({
       where: {
-        userId: session.getUserId(),
+        userId: session.userId,
+      },
+      include: {
+        userDomains: {
+          include: {
+            domain: true,
+          },
+        },
       },
     });
+
+    return new AuthUserDto(
+      result.userId,
+      result.email,
+      result.firstName,
+      result.lastName,
+      result.userDomains.map((u) => u.domain),
+    );
   }
 
-  async setupUser(session: Session, dto: SetupUserDto) {
-    const userId = session.getUserId();
+  async setupUser(session: UserSession, dto: SetupUserDto) {
+    const authUser = await this.authService.getUser(session.userId);
 
-    const authUser = await this.authService.getUser(userId);
-
-    return this.prisma.user.create({
+    const result = await this.prisma.user.create({
       data: {
-        userId: userId,
+        userId: session.userId,
         email: authUser.emails[0],
         firstName: dto.firstName,
         lastName: dto.lastName,
       },
+      include: {
+        userDomains: {
+          include: {
+            domain: true,
+          },
+        },
+      },
     });
+
+    return new AuthUserDto(
+      result.userId,
+      result.email,
+      result.firstName,
+      result.lastName,
+      result.userDomains.map((u) => u.domain),
+    );
   }
 }

@@ -6,44 +6,40 @@ import { VerifyMagicLinkPage } from './pages/auth/VerifyMagicLinkPage.tsx'
 import { MagicLinkSentPage } from './pages/auth/MagicLinkSentPage.tsx'
 import { AccountSetupPage } from './pages/account-setup/AccountSetupPage.tsx'
 import { Layout } from './layout/Layout.tsx'
-import { UserSetupGuard } from '@components/guards/UserSetupGuard.tsx'
 import { SubdomainPageLayout } from './pages/subdomain/SubdomainPageLayout.tsx'
 import { SubdomainOverviewPage } from './pages/subdomain/SubdomainOverviewPage.tsx'
 import { SubdomainPeoplePage } from './pages/subdomain/SubdomainPeoplePage.tsx'
 import { SubdomainTeamsPage } from './pages/subdomain/SubdomainTeamsPage.tsx'
 import { SubdomainProjectsPage } from './pages/subdomain/SubdomainProjectsPage.tsx'
 import { CreateDomainPage } from './pages/account-setup/CreateDomainPage.tsx'
-import { DefaultDomainGuard } from '@components/guards/DefaultDomainGuard.tsx'
-import { AuthGuard, authGuardLoader } from '@components/guards/AuthGuard.tsx'
-import {
-    NoAuthGuard,
-    noAuthGuardLoader,
-} from '@components/guards/NoAuthGuard.tsx'
+import { AuthGuard } from '@components/guards/AuthGuard.tsx'
+import { NoAuthGuard } from '@components/guards/NoAuthGuard.tsx'
+import { DomainGuard } from '@components/guards/DomainGuard.tsx'
+import { UserSetupGuard } from '@components/guards/UserSetupGuard.tsx'
 
 export const routes = createBrowserRouter([
     {
-        path: '/',
-        element: <Navigate to="/home" />,
-    },
-    {
+        path: '',
         element: <AuthGuard />,
-        loader: authGuardLoader,
         children: [
             {
+                path: '',
                 element: <UserSetupGuard />,
                 children: [
                     {
-                        element: <DefaultDomainGuard />,
+                        path: '',
+                        element: <DomainGuard />,
                         children: [
                             {
                                 element: <Layout />,
+                                path: ':domainSlug',
                                 children: [
                                     {
                                         path: 'home',
                                         element: <HomePage />,
                                     },
                                     {
-                                        path: 'subdomains/:id',
+                                        path: 'subdomains/:subdomainSlug',
                                         element: <SubdomainPageLayout />,
                                         children: [
                                             {
@@ -79,40 +75,26 @@ export const routes = createBrowserRouter([
         ],
     },
     {
+        path: 'user-setup',
         element: <AuthGuard />,
-        loader: authGuardLoader,
         children: [
             {
-                path: 'user-setup',
-                children: [
-                    {
-                        path: '',
-                        element: <Navigate to="/user-setup/about-you" />,
-                    },
-                    {
-                        path: 'about-you',
-                        element: <AccountSetupPage />,
-                    },
-                    {
-                        path: 'create-domain',
-                        element: <CreateDomainPage />,
-                    },
-                ],
+                path: 'about-you',
+                element: <AccountSetupPage />,
+            },
+            {
+                path: 'create-domain',
+                element: <CreateDomainPage />,
             },
         ],
     },
     {
         path: 'auth',
+        element: <NoAuthGuard />,
         children: [
             {
-                element: <NoAuthGuard />,
-                loader: noAuthGuardLoader,
-                children: [
-                    {
-                        path: 'sign-in',
-                        element: <SignInPage />,
-                    },
-                ],
+                path: 'sign-in',
+                element: <SignInPage />,
             },
             {
                 path: 'sign-up',
@@ -130,6 +112,6 @@ export const routes = createBrowserRouter([
     },
     {
         path: '*',
-        element: <Navigate to="/" />,
+        element: <Navigate to={''} />,
     },
 ])

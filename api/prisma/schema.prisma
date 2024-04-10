@@ -12,14 +12,15 @@ model User {
   email       String        @unique
   firstName   String
   lastName    String
-  domainUsers DomainUsers[]
+  userDomains DomainUsers[]
 
   @@map("user")
 }
 
 model Domain {
   domainId    String        @id
-  domainName  String
+  slug        String        @unique
+  name        String        @unique
   domainUsers DomainUsers[]
 
   @@map("domain")

@@ -4,7 +4,7 @@ import Session from 'supertokens-web-js/recipe/session'
 import Passwordless from 'supertokens-web-js/recipe/passwordless'
 import { immer } from 'zustand/middleware/immer'
 import SuperTokens from 'supertokens-web-js'
-import { userApi, User } from '@state/api/user-api.ts'
+import { userApi, AuthUser } from '@state/api/user-api.ts'
 
 SuperTokens.init({
     appInfo: {
@@ -17,17 +17,12 @@ SuperTokens.init({
 
 type AuthStoreState = {
     userId: string | null
-    user: User | null
+    user: AuthUser | null
     setUserId: (userId: string) => void
-    setUser: (user: User) => void
+    setUser: (user: AuthUser) => void
     signIn: (linkCode: string, preAuthSessionId: string) => Promise<void>
     signOut: () => Promise<void>
-    checkSession: () => Promise<boolean>
-}
-
-export type CheckSession = {
-    hasSession: boolean
-    user: User | null
+    checkSession: () => Promise<void>
 }
 
 export const useAuthStore = create<AuthStoreState>()(
@@ -41,7 +36,7 @@ export const useAuthStore = create<AuthStoreState>()(
                         state.userId = userId
                     })
                 },
-                setUser: (user: User) => {
+                setUser: (user: AuthUser) => {
                     set((state) => {
                         state.user = user
                     })
@@ -71,10 +66,10 @@ export const useAuthStore = create<AuthStoreState>()(
                         })
                     }
                 },
-                checkSession: async (): Promise<boolean> => {
+                checkSession: async () => {
                     const hasSession = await Session.doesSessionExist()
 
-                    if (!hasSession) return false
+                    if (!hasSession) return
 
                     const userId = await Session.getUserId()
 
@@ -84,8 +79,6 @@ export const useAuthStore = create<AuthStoreState>()(
                         state.userId = userId
                         state.user = result
                     })
-
-                    return true
                 },
             }
         }),

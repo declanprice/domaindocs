@@ -1,18 +1,24 @@
 import { DomainService } from './domain.service';
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../../auth/auth.guard';
+import { CreateDomainDto } from './dto/create-domain.dto';
+import { AuthSession, UserSession } from '../../auth/auth-session';
 
 @Controller('domains')
+@UseGuards(AuthGuard)
 export class DomainController {
   constructor(readonly domainService: DomainService) {}
 
-  @Get('domains')
-  async getDomains() {
-    return [];
-    // return this.domainService.getUserDomains(userId);
+  @Get('')
+  async getDomains(@AuthSession() session: UserSession) {
+    return this.domainService.getUserDomains(session);
   }
 
-  // @Mutation((returns) => DomainModel)
-  // async createDomain(@Args('data') input: UserInput) {
-  //   return this.userService.createUser(input);
-  // }
+  @Post('')
+  async createDomain(
+    @AuthSession() session: UserSession,
+    @Body() dto: CreateDomainDto,
+  ) {
+    return this.domainService.createDomain(session, dto);
+  }
 }

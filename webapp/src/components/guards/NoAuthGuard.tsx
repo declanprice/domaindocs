@@ -1,14 +1,12 @@
-import { Navigate, Outlet, useLoaderData } from 'react-router-dom'
-import { CheckSession, useAuthStore } from '@state/stores/auth.store.ts'
-
-export const noAuthGuardLoader = async (): Promise<boolean> => {
-    return useAuthStore.getState()?.checkSession()
-}
+import { Navigate, Outlet } from 'react-router-dom'
+import { useAuthStore } from '@state/stores/auth.store.ts'
 
 export const NoAuthGuard = () => {
-    const hasSession = useLoaderData() as CheckSession
+    console.debug('Running: NoAuthGuard')
 
-    if (hasSession) {
+    const { userId } = useAuthStore()
+
+    if (userId) {
         return <Navigate to={'/'} />
     }
 

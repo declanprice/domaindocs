@@ -1,6 +1,15 @@
+type AuthUserDomain = {
+  domainId: string;
+  slug: string;
+  name: string;
+};
+
 export class AuthUserDto {
-  userId: string;
-  email: string;
-  firstName: string;
-  lastName: string;
+  constructor(
+    private userId: string,
+    private email: string,
+    private firstName: string,
+    private lastName: string,
+    private domains: AuthUserDomain[],
+  ) {}
 }

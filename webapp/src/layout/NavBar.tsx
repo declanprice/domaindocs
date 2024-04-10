@@ -2,53 +2,70 @@ import { Button, Flex, List, ListItem, Text } from '@chakra-ui/react'
 import { DomainSelectorMenu } from './DomainSelectorMenu.tsx'
 import { FiHome } from 'react-icons/fi'
 import { NavLink } from 'react-router-dom'
-import { TbCategory2 } from 'react-icons/tb'
+import { TbCategory2, TbLayoutSidebarRightCollapse } from 'react-icons/tb'
 import { LiaProjectDiagramSolid } from 'react-icons/lia'
 import { IoDocumentTextOutline } from 'react-icons/io5'
 import { MdOutlineSdStorage } from 'react-icons/md'
 import { RiLockPasswordLine } from 'react-icons/ri'
 import { MdOutlineManageHistory } from 'react-icons/md'
 import { TbLayoutSidebarLeftCollapse } from 'react-icons/tb'
-import { useLayoutStore } from '../state/stores/layout.store.ts'
 import { IoPersonAddOutline } from 'react-icons/io5'
 import { LuBadgeHelp } from 'react-icons/lu'
 import { GoPeople } from 'react-icons/go'
 import { TbUsersGroup } from 'react-icons/tb'
-const NavListItem = (props: { icon: any; label: string; to: string }) => {
-    const { icon, label, to } = props
+import { useUiStore } from '@state/stores/ui.store.ts'
+import { useAuthStore } from '@state/stores/auth.store.ts'
+
+const NavListItem = (props: {
+    icon: any
+    label: string
+    to: string
+    iconOnly: boolean
+}) => {
+    const { icon, label, to, iconOnly } = props
 
     return (
         <ListItem width={'100%'} key={props.label}>
-            <Flex
-                alignItems={'center'}
-                gap={2}
-                py={1}
-                px={2}
-                rounded={'md'}
-                _hover={{
-                    backgroundColor: 'gray.100',
-                }}
-                width={'100%'}
-            >
-                {icon}
-                <NavLink to={to}>
-                    <Text fontSize={12} color={'gray.900'}>
-                        {label}
-                    </Text>
-                </NavLink>
-            </Flex>
+            <NavLink to={to}>
+                <Button
+                    variant={'ghost'}
+                    colorScheme={'gray'}
+                    alignItems={'center'}
+                    justifyContent={'flex-start'}
+                    display={'flex'}
+                    size={'xs'}
+                    width={'100%'}
+                    gap={4}
+                >
+                    {icon}
+
+                    {!iconOnly && (
+                        <Text fontSize={12} color={'gray.900'}>
+                            {label}
+                        </Text>
+                    )}
+                </Button>
+            </NavLink>
         </ListItem>
     )
 }
 
 export const NavBar = () => {
-    const { closeNavBar } = useLayoutStore()
+    const {
+        activeDomain,
+        setActiveDomain,
+        isFullNavBar,
+        closeNavBar,
+        openNavBar,
+    } = useUiStore()
+
+    const { user } = useAuthStore()
 
     return (
         <Flex
             height={'100%'}
-            width={'280px'}
-            minWidth={'280px'}
+            width={isFullNavBar ? '280px' : '55px'}
+            minWidth={isFullNavBar ? '280px' : '55px'}
             background={'lightgray'}
             direction={'column'}
             borderRight={'1px solid'}
@@ -64,17 +81,46 @@ export const NavBar = () => {
                 borderColor={'border'}
                 alignItems={'center'}
             >
-                <DomainSelectorMenu />
+                <DomainSelectorMenu
+                    value={activeDomain!}
+                    options={user!.domains}
+                    onSelect={setActiveDomain}
+                    iconOnly={!isFullNavBar}
+                />
 
-                <Button
-                    size={'sm'}
-                    variant={'ghost'}
-                    ml={'auto'}
-                    onClick={closeNavBar}
-                >
-                    <TbLayoutSidebarLeftCollapse color={'gray.900'} />
-                </Button>
+                {isFullNavBar && (
+                    <Button
+                        size={'sm'}
+                        variant={'ghost'}
+                        ml={'auto'}
+                        onClick={closeNavBar}
+                    >
+                        <TbLayoutSidebarLeftCollapse color={'gray.900'} />
+                    </Button>
+                )}
             </Flex>
+
+            {!isFullNavBar && (
+                <Flex
+                    borderBottom={'1px solid'}
+                    borderColor={'border'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    onClick={openNavBar}
+                >
+                    <Button
+                        my={2}
+                        size={'xs'}
+                        variant={'ghost'}
+                        onClick={() => {}}
+                    >
+                        <TbLayoutSidebarRightCollapse
+                            color={'gray.900'}
+                            size={14}
+                        />
+                    </Button>
+                </Flex>
+            )}
 
             <Flex
                 width={'100%'}
@@ -94,25 +140,29 @@ export const NavBar = () => {
                     <NavListItem
                         icon={<FiHome color={'gray.900'} size={14} />}
                         label={'Home'}
-                        to={'/overview'}
+                        to={`/${activeDomain}/overview`}
+                        iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<TbCategory2 color={'gray.900'} size={14} />}
                         label={'Subdomains'}
-                        to={'/subdomain'}
+                        to={`/${activeDomain}/subdomains`}
+                        iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<GoPeople color={'gray.900'} size={14} />}
                         label={'People'}
-                        to={'/people'}
+                        to={`/${activeDomain}/people`}
+                        iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<TbUsersGroup color={'gray.900'} size={14} />}
                         label={'Teams'}
-                        to={'/teams'}
+                        to={`/${activeDomain}/teams`}
+                        iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
@@ -123,7 +173,8 @@ export const NavBar = () => {
                             />
                         }
                         label={'Projects'}
-                        to={'/projects'}
+                        to={`/${activeDomain}/projects`}
+                        iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
@@ -134,7 +185,8 @@ export const NavBar = () => {
                             />
                         }
                         label={'Documentation'}
-                        to={'/documentation'}
+                        to={`/${activeDomain}/documentation`}
+                        iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
@@ -142,7 +194,8 @@ export const NavBar = () => {
                             <MdOutlineSdStorage color={'gray.900'} size={14} />
                         }
                         label={'Files'}
-                        to={'/files'}
+                        to={`/${activeDomain}/files`}
+                        iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
@@ -150,7 +203,8 @@ export const NavBar = () => {
                             <RiLockPasswordLine color={'gray.900'} size={14} />
                         }
                         label={'Secrets'}
-                        to={'/secrets'}
+                        to={`/${activeDomain}/secrets`}
+                        iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
@@ -161,33 +215,43 @@ export const NavBar = () => {
                             />
                         }
                         label={'Onboarding'}
-                        to={'/onboarding'}
+                        to={`/${activeDomain}/onboarding`}
+                        iconOnly={!isFullNavBar}
                     />
                 </List>
             </Flex>
 
-            <List
-                justifyContent={'flex-end'}
+            <Flex
+                direction={'column'}
                 borderTop={'1px solid'}
                 borderColor={'border'}
-                p={2}
-                gap={2}
-                display={'flex'}
-                flexDir={'column'}
-                width={'100%'}
+                overflowY={'auto'}
+                justifyContent={'flex-end'}
             >
-                <NavListItem
-                    icon={<IoPersonAddOutline color={'gray.900'} size={14} />}
-                    label={'Invite'}
-                    to={'/invite'}
-                />
+                <List
+                    width={'100%'}
+                    gap={2}
+                    p={3}
+                    display={'flex'}
+                    flexDir={'column'}
+                >
+                    <NavListItem
+                        icon={
+                            <IoPersonAddOutline color={'gray.900'} size={14} />
+                        }
+                        label={'Invite'}
+                        to={'/invite'}
+                        iconOnly={!isFullNavBar}
+                    />
 
-                <NavListItem
-                    icon={<LuBadgeHelp color={'gray.900'} size={14} />}
-                    label={'Help'}
-                    to={'/help'}
-                />
-            </List>
+                    <NavListItem
+                        icon={<LuBadgeHelp color={'gray.900'} size={14} />}
+                        label={'Help'}
+                        to={'/help'}
+                        iconOnly={!isFullNavBar}
+                    />
+                </List>
+            </Flex>
         </Flex>
     )
 }
