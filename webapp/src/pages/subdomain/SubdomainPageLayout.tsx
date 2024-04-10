@@ -1,14 +1,13 @@
 import { PageToolbar } from '@components/page/PageToolbar.tsx'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Box, Flex } from '@chakra-ui/react'
-import { TbCategory2 } from 'react-icons/tb'
 import {
     SubdomainOption,
     SubdomainSelectMenu,
 } from './components/SubdomainSelectMenu.tsx'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-export const SubdomainLayoutPage = () => {
+export const SubdomainPageLayout = () => {
     const [active, setActive] = useState<SubdomainOption>({
         id: '1',
         name: 'Supporting',
@@ -17,8 +16,6 @@ export const SubdomainLayoutPage = () => {
     const navigate = useNavigate()
 
     const location = useLocation()
-
-    console.log(location)
 
     return (
         <Flex direction="column" width={'100%'}>

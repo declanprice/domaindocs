@@ -1,30 +1,22 @@
 import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
-import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
-
-import { errorHandler } from 'supertokens-node/framework/express';
+import { Response } from 'express';
 import { Error as STError } from 'supertokens-node';
 
 @Catch(STError)
-export class SupertokensExceptionFilter implements ExceptionFilter {
-  handler: ErrorRequestHandler;
-
-  constructor() {
-    this.handler = errorHandler();
-  }
+export class AuthExceptionFilter implements ExceptionFilter {
+  constructor() {}
 
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
 
-    const resp = ctx.getResponse<Response>();
-    if (resp.headersSent) {
-      return;
-    }
+    const response = ctx.getResponse<Response>();
 
-    this.handler(
-      exception,
-      ctx.getRequest<Request>(),
-      resp,
-      ctx.getNext<NextFunction>(),
-    );
+    response.status(401).json({
+      statusCode: 401,
+      data: null,
+      error: {
+        message: exception.message,
+      },
+    });
   }
 }

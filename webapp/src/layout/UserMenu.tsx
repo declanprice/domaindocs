@@ -11,10 +11,13 @@ import {
 } from '@chakra-ui/react'
 import { CiSettings } from 'react-icons/ci'
 import { PiSignOut } from 'react-icons/pi'
-import { useAuthStore } from '@stores/auth.store.ts'
+import { useAuthStore } from '../state/stores/auth.store.ts'
+import { useNavigate } from 'react-router-dom'
 
 export const UserMenu = () => {
     const { signOut } = useAuthStore()
+
+    const navigate = useNavigate()
 
     const UserMenuButton = (props: {
         icon: any
@@ -70,7 +73,7 @@ export const UserMenu = () => {
                     </Text>
 
                     <UserMenuButton
-                        label={'Account settings'}
+                        label={'User settings'}
                         icon={<CiSettings />}
                     />
 
@@ -79,7 +82,10 @@ export const UserMenu = () => {
                     <UserMenuButton
                         label={'Sign Out'}
                         icon={<PiSignOut />}
-                        onClick={signOut}
+                        onClick={() => {
+                            signOut()
+                            navigate('/auth/sign-in')
+                        }}
                     />
                 </Flex>
             </PopoverContent>

@@ -1,7 +1,6 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 import { BiChevronDown } from 'react-icons/bi'
 import { TbCategory2 } from 'react-icons/tb'
-import React from 'react'
 
 export type SubdomainOption = {
     id: string

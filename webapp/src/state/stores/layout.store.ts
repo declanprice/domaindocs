@@ -8,7 +8,7 @@ type LayoutStoreState = {
     openNavBar: () => void
 }
 
-export const useLayoutStore = create<LayoutStoreState>(
+export const useLayoutStore = create<LayoutStoreState>()(
     devtools(
         immer((set) => ({
             isFullNavBar: true,

@@ -4,14 +4,12 @@ import Session from 'supertokens-web-js/recipe/session'
 import Passwordless from 'supertokens-web-js/recipe/passwordless'
 import { immer } from 'zustand/middleware/immer'
 import SuperTokens from 'supertokens-web-js'
-import { GET_USER } from '../graphql/user/queries.ts'
-import { User } from '@types/user.ts'
-import { gqlClient } from '../graphql/client.ts'
+import { userApi, User } from '@state/api/user-api.ts'
 
 SuperTokens.init({
     appInfo: {
         apiDomain: 'http://localhost:3000',
-        apiBasePath: '/auth',
+        apiBasePath: '/api/auth',
         appName: 'Domaindocs',
     },
     recipeList: [Passwordless.init(), Session.init()],
@@ -24,10 +22,15 @@ type AuthStoreState = {
     setUser: (user: User) => void
     signIn: (linkCode: string, preAuthSessionId: string) => Promise<void>
     signOut: () => Promise<void>
-    checkSession: () => Promise<void>
+    checkSession: () => Promise<boolean>
 }
 
-export const useAuthStore = create<AuthStoreState>(
+export type CheckSession = {
+    hasSession: boolean
+    user: User | null
+}
+
+export const useAuthStore = create<AuthStoreState>()(
     devtools(
         immer((set) => {
             return {
@@ -48,6 +51,7 @@ export const useAuthStore = create<AuthStoreState>(
 
                     set((state) => {
                         state.userId = null
+                        state.user = null
                     })
                 },
                 signIn: async (linkCode: string, preAuthSessionId: string) => {
@@ -59,31 +63,29 @@ export const useAuthStore = create<AuthStoreState>(
                     if (response.status === 'OK') {
                         const userId = response.user.id
 
-                        const result: any = await gqlClient.request(GET_USER, {
-                            userId,
-                        })
+                        const result = await userApi.getAuthUser()
 
                         set((state) => {
                             state.userId = userId
-                            state.user = result.user
+                            state.user = result
                         })
                     }
                 },
-                checkSession: async () => {
-                    const doesExist = await Session.doesSessionExist()
+                checkSession: async (): Promise<boolean> => {
+                    const hasSession = await Session.doesSessionExist()
 
-                    if (doesExist) {
-                        const userId = await Session.getUserId()
+                    if (!hasSession) return false
 
-                        const result: any = await gqlClient.request(GET_USER, {
-                            userId,
-                        })
+                    const userId = await Session.getUserId()
 
-                        set((state) => {
-                            state.userId = userId
-                            state.user = result.user
-                        })
-                    }
+                    const result = await userApi.getAuthUser()
+
+                    set((state) => {
+                        state.userId = userId
+                        state.user = result
+                    })
+
+                    return true
                 },
             }
         }),

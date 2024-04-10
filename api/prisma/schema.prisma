@@ -7,9 +7,32 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Users {
-  userId    String @id
-  email     String @unique
-  firstName String
-  lastName  String
+model User {
+  userId      String        @id
+  email       String        @unique
+  firstName   String
+  lastName    String
+  domainUsers DomainUsers[]
+
+  @@map("user")
+}
+
+model Domain {
+  domainId    String        @id
+  domainName  String
+  domainUsers DomainUsers[]
+
+  @@map("domain")
+}
+
+model DomainUsers {
+  domainId String
+  userId   String
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+  user     User   @relation(fields: [userId], references: [userId])
+
+  @@id([domainId, userId])
+  @@index([userId])
+  @@index([domainId])
+  @@map("domain_users")
 }

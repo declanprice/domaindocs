@@ -75,10 +75,10 @@ Domain Search
 - Full text search secrets
 
 
-Account
-- Account settings
+User
+- User settings
 
 Other
 
 - Personalized Welcome Wizard
-- Initial Account Setup Wizard
+- Initial User Setup Wizard

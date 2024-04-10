@@ -5,26 +5,29 @@ import { valibotResolver } from '@hookform/resolvers/valibot'
 import { object, string } from 'valibot'
 import { FormTextInput } from '@components/form/FormInput.tsx'
 import { useMutation } from '@tanstack/react-query'
-import { createAccount } from '../../graphql/user/mutations.ts'
 import { useToast } from '@chakra-ui/react'
 import { useEffect } from 'react'
-import { useAuthStore } from '@stores/auth.store.ts'
+import { useAuthStore } from '@state/stores/auth.store.ts'
+import { userApi } from '@state/api/user-api.ts'
 
 export const AccountSetupPage = () => {
-    const { userId, setUser } = useAuthStore()
+    const { setUser } = useAuthStore()
 
     const navigate = useNavigate()
 
     const toast = useToast()
 
-    const { mutate, data, error, isPending } = useMutation({
-        mutationKey: ['createAccount'],
-        mutationFn: (data: any) => {
-            return createAccount({
-                userId: userId!,
+    const { mutate, error, isPending } = useMutation({
+        mutationKey: ['setupUser'],
+        mutationFn: async (data: any) => {
+            const user = await userApi.setupUser({
                 firstName: data.firstName,
                 lastName: data.lastName,
             })
+
+            setUser(user)
+
+            navigate('/user-setup/new-domain')
         },
     })
 
@@ -38,13 +41,6 @@ export const AccountSetupPage = () => {
             })
         }
     }, [error])
-
-    useEffect(() => {
-        if (data) {
-            setUser((data as any).createUser)
-            navigate('/user-setup/new-domain')
-        }
-    }, [data])
 
     const { handleSubmit, control } = useForm({
         values: {

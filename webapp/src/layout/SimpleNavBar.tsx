@@ -18,7 +18,7 @@ import { MdOutlineManageHistory } from 'react-icons/md'
 import { IoPersonAddOutline } from 'react-icons/io5'
 import { LuBadgeHelp } from 'react-icons/lu'
 import { TbLayoutSidebarRightCollapse } from 'react-icons/tb'
-import { useLayoutStore } from '@stores/layout.store.ts'
+import { useLayoutStore } from '../state/stores/layout.store.ts'
 import { GoPeople } from 'react-icons/go'
 
 const SimpleDomainSelectorMenu = () => {

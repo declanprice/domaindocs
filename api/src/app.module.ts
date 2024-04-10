@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
-import { GraphqlModule } from './graphql/graphql.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
-import { EmailService } from './shared/services/email.service';
-import { UserModule } from './user/user.module';
+import { UserModule } from './modules/user/user.module';
+import { DomainModule } from './modules/domain/domain.module';
 
 @Module({
   imports: [
@@ -13,13 +12,13 @@ import { UserModule } from './user/user.module';
         appName: 'Domaindocs',
         apiDomain: 'http://localhost:3000',
         websiteDomain: 'http://localhost:5173',
-        apiBasePath: '/auth',
+        apiBasePath: '/api/auth',
         websiteBasePath: '/auth',
       },
     }),
-    GraphqlModule,
     ConfigModule.forRoot({ isGlobal: true }),
     UserModule,
+    DomainModule,
   ],
   controllers: [],
   providers: [],
