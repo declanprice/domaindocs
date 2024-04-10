@@ -32,7 +32,7 @@ export const routes = createBrowserRouter([
                         children: [
                             {
                                 element: <Layout />,
-                                path: ':domainSlug',
+                                path: 'domain/:domainSlug',
                                 children: [
                                     {
                                         path: 'home',
