@@ -4,19 +4,24 @@ import { SignInPage } from './pages/auth/sign-in/SignInPage.tsx'
 import { SignUpPage } from './pages/auth/sign-up/SignUpPage.tsx'
 import { VerifyMagicLinkPage } from './pages/auth/VerifyMagicLinkPage.tsx'
 import { MagicLinkSentPage } from './pages/auth/MagicLinkSentPage.tsx'
-import { AccountSetupPage } from './pages/account-setup/AccountSetupPage.tsx'
-import { Layout } from './layout/Layout.tsx'
-import { SubdomainPageLayout } from './pages/subdomain/SubdomainPageLayout.tsx'
-import { SubdomainOverviewPage } from './pages/subdomain/SubdomainOverviewPage.tsx'
-import { SubdomainPeoplePage } from './pages/subdomain/SubdomainPeoplePage.tsx'
-import { SubdomainTeamsPage } from './pages/subdomain/SubdomainTeamsPage.tsx'
-import { SubdomainProjectsPage } from './pages/subdomain/SubdomainProjectsPage.tsx'
+import { AccountSetupPage } from './pages/user-setup/AccountSetupPage.tsx'
+import { RootLayout } from './layout/RootLayout.tsx'
+import { SubdomainPageLayout } from './pages/subdomains/SubdomainPageLayout.tsx'
+import { SubdomainOverviewPage } from './pages/subdomains/SubdomainOverviewPage.tsx'
+import { SubdomainPeoplePage } from './pages/subdomains/SubdomainPeoplePage.tsx'
+import { SubdomainTeamsPage } from './pages/subdomains/SubdomainTeamsPage.tsx'
+import { SubdomainProjectsPage } from './pages/subdomains/SubdomainProjectsPage.tsx'
 import { DomainSetupPage } from './pages/domain-setup/DomainSetupPage.tsx'
 import { AuthGuard } from '@components/guards/AuthGuard.tsx'
 import { NoAuthGuard } from '@components/guards/NoAuthGuard.tsx'
 import { DomainGuard } from '@components/guards/DomainGuard.tsx'
 import { UserSetupGuard } from '@components/guards/UserSetupGuard.tsx'
 import { PageNotFoundError } from '@components/errors/PageNotFoundError.tsx'
+import { PeoplePageLayout } from './pages/people/PeoplePageLayout.tsx'
+import { OnboardingPageLayout } from './pages/onboarding/OnboardingPageLayout.tsx'
+import { SecretsPageLayout } from './pages/secrets/SecretsPageLayout.tsx'
+import { FilesPageLayout } from './pages/files/FilesPageLayout.tsx'
+import { DocumentationPageLayout } from './pages/documentation/DocumentationPageLayout.tsx'
 
 export const routes = createBrowserRouter([
     {
@@ -33,14 +38,14 @@ export const routes = createBrowserRouter([
                         children: [
                             {
                                 path: ':domainSlug',
-                                element: <Layout />,
+                                element: <RootLayout />,
                                 children: [
                                     {
                                         path: 'home',
                                         element: <HomePage />,
                                     },
                                     {
-                                        path: 'subdomains/:subdomainSlug',
+                                        path: 'sub/:subdomainSlug',
                                         element: <SubdomainPageLayout />,
                                         children: [
                                             {
@@ -66,6 +71,34 @@ export const routes = createBrowserRouter([
                                                 ),
                                             },
                                         ],
+                                    },
+                                    {
+                                        path: 'people',
+                                        element: <PeoplePageLayout />,
+                                    },
+                                    {
+                                        path: 'teams',
+                                        element: <PeoplePageLayout />,
+                                    },
+                                    {
+                                        path: 'projects',
+                                        element: <PeoplePageLayout />,
+                                    },
+                                    {
+                                        path: 'documentation',
+                                        element: <DocumentationPageLayout />,
+                                    },
+                                    {
+                                        path: 'files',
+                                        element: <FilesPageLayout />,
+                                    },
+                                    {
+                                        path: 'secrets',
+                                        element: <SecretsPageLayout />,
+                                    },
+                                    {
+                                        path: 'onboarding',
+                                        element: <OnboardingPageLayout />,
                                     },
                                 ],
                             },

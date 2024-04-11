@@ -1,3 +1,3 @@
 export const TeamsPage = () => {
-    return <>''</>
+    return <>teams page</>
 }

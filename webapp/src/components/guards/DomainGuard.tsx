@@ -15,6 +15,7 @@ export const DomainGuard = () => {
     }
 
     if (!params?.domainSlug) {
+        console.log('i am running')
         const firstAvailableDomain = domains[0]
         return <Navigate to={`/${firstAvailableDomain.slug}/home`} />
     }

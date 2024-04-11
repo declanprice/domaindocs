@@ -1,4 +1,4 @@
-import { Button, Flex, Link, List, ListItem, Text } from '@chakra-ui/react'
+import { Button, Flex, List, ListItem, Text } from '@chakra-ui/react'
 import { DomainSelectorMenu } from './DomainSelectorMenu.tsx'
 import { FiHome } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
@@ -26,10 +26,11 @@ const NavListItem = (props: {
 
     const { icon, label, to, iconOnly } = props
 
+    console.log('to', to)
+
     return (
         <ListItem width={'100%'} key={props.label}>
-            <Link
-                as={Button}
+            <Button
                 variant={'ghost'}
                 colorScheme={'gray'}
                 alignItems={'center'}
@@ -49,7 +50,7 @@ const NavListItem = (props: {
                         {label}
                     </Text>
                 )}
-            </Link>
+            </Button>
         </ListItem>
     )
 }
@@ -58,7 +59,6 @@ export const NavBar = () => {
     const { isFullNavBar, closeNavBar, openNavBar } = useUiStore()
     const domains = useAuthStore((state) => state.user?.domains)
     const { activeDomain, setActiveDomain } = useUiStore()
-
     if (!domains || !activeDomain) return 'active domain not set.'
 
     return (
@@ -140,28 +140,28 @@ export const NavBar = () => {
                     <NavListItem
                         icon={<FiHome color={'gray.900'} size={14} />}
                         label={'Home'}
-                        to={`/domain/${activeDomain}/overview`}
+                        to={`/${activeDomain.slug}/home`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<TbCategory2 color={'gray.900'} size={14} />}
                         label={'Subdomains'}
-                        to={`/domain/${activeDomain}/subdomains`}
+                        to={`/${activeDomain.slug}/subdomains`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<GoPeople color={'gray.900'} size={14} />}
                         label={'People'}
-                        to={`/${activeDomain}/people`}
+                        to={`/${activeDomain.slug}/people`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<TbUsersGroup color={'gray.900'} size={14} />}
                         label={'Teams'}
-                        to={`/${activeDomain}/teams`}
+                        to={`/${activeDomain.slug}/teams`}
                         iconOnly={!isFullNavBar}
                     />
 
@@ -173,7 +173,7 @@ export const NavBar = () => {
                             />
                         }
                         label={'Projects'}
-                        to={`/${activeDomain}/projects`}
+                        to={`/${activeDomain.slug}/projects`}
                         iconOnly={!isFullNavBar}
                     />
 
@@ -185,7 +185,7 @@ export const NavBar = () => {
                             />
                         }
                         label={'Documentation'}
-                        to={`/${activeDomain}/documentation`}
+                        to={`/${activeDomain.slug}/documentation`}
                         iconOnly={!isFullNavBar}
                     />
 
@@ -194,7 +194,7 @@ export const NavBar = () => {
                             <MdOutlineSdStorage color={'gray.900'} size={14} />
                         }
                         label={'Files'}
-                        to={`/${activeDomain}/files`}
+                        to={`/${activeDomain.slug}/files`}
                         iconOnly={!isFullNavBar}
                     />
 
@@ -203,7 +203,7 @@ export const NavBar = () => {
                             <RiLockPasswordLine color={'gray.900'} size={14} />
                         }
                         label={'Secrets'}
-                        to={`/${activeDomain}/secrets`}
+                        to={`/${activeDomain.slug}/secrets`}
                         iconOnly={!isFullNavBar}
                     />
 
@@ -215,7 +215,7 @@ export const NavBar = () => {
                             />
                         }
                         label={'Onboarding'}
-                        to={`/${activeDomain}/onboarding`}
+                        to={`/${activeDomain.slug}/onboarding`}
                         iconOnly={!isFullNavBar}
                     />
                 </List>

@@ -1,3 +1,3 @@
 export const SecretsPageToolbar = () => {
-    return <></>
+    return <>''</>
 }

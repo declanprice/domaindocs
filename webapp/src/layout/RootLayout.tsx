@@ -3,7 +3,7 @@ import { HeadingToolbar } from './HeadingToolbar.tsx'
 import { Outlet } from 'react-router-dom'
 import { NavBar } from './NavBar.tsx'
 
-export const Layout = () => {
+export const RootLayout = () => {
     return (
         <Flex direction={'column'} height={'inherit'} overflow={'hidden'}>
             <HeadingToolbar />

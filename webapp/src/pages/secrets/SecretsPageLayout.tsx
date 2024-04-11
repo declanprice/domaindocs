@@ -1,1 +1,3 @@
-export const SecretsPageLayout = () => {}
+export const SecretsPageLayout = () => {
+    return <>secrets</>
+}
