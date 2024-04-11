@@ -51,15 +51,11 @@ const NavListItem = (props: {
 }
 
 export const NavBar = () => {
-    const {
-        activeDomain,
-        setActiveDomain,
-        isFullNavBar,
-        closeNavBar,
-        openNavBar,
-    } = useUiStore()
+    const { isFullNavBar, closeNavBar, openNavBar } = useUiStore()
+    const domains = useAuthStore((state) => state.user?.domains)
+    const { activeDomain, setActiveDomain } = useUiStore()
 
-    const { user } = useAuthStore()
+    if (!domains || !activeDomain) return 'active domain not set.'
 
     return (
         <Flex
@@ -82,8 +78,8 @@ export const NavBar = () => {
                 alignItems={'center'}
             >
                 <DomainSelectorMenu
-                    value={activeDomain!}
-                    options={user!.domains}
+                    value={activeDomain}
+                    options={domains}
                     onSelect={setActiveDomain}
                     iconOnly={!isFullNavBar}
                 />

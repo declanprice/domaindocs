@@ -7,7 +7,7 @@ import { FormTextInput } from '@components/form/FormInput.tsx'
 import { DefaultError, useMutation } from '@tanstack/react-query'
 import { CreateDomainData, Domain, domainApi } from '@state/api/domain-api.ts'
 
-export const CreateDomainPage = () => {
+export const DomainSetupPage = () => {
     const navigate = useNavigate()
 
     const { mutate } = useMutation<Domain, DefaultError, CreateDomainData>({

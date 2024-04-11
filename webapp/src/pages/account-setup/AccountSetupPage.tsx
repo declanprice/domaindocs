@@ -27,7 +27,7 @@ export const AccountSetupPage = () => {
 
             setUser(user)
 
-            navigate('/user-setup/new-domain')
+            navigate('/domain-setup')
         },
     })
 

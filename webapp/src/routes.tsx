@@ -11,7 +11,7 @@ import { SubdomainOverviewPage } from './pages/subdomain/SubdomainOverviewPage.t
 import { SubdomainPeoplePage } from './pages/subdomain/SubdomainPeoplePage.tsx'
 import { SubdomainTeamsPage } from './pages/subdomain/SubdomainTeamsPage.tsx'
 import { SubdomainProjectsPage } from './pages/subdomain/SubdomainProjectsPage.tsx'
-import { CreateDomainPage } from './pages/account-setup/CreateDomainPage.tsx'
+import { DomainSetupPage } from './pages/domain-setup/DomainSetupPage.tsx'
 import { AuthGuard } from '@components/guards/AuthGuard.tsx'
 import { NoAuthGuard } from '@components/guards/NoAuthGuard.tsx'
 import { DomainGuard } from '@components/guards/DomainGuard.tsx'
@@ -80,12 +80,18 @@ export const routes = createBrowserRouter([
         element: <AuthGuard />,
         children: [
             {
-                path: 'about-you',
+                path: '',
                 element: <AccountSetupPage />,
             },
+        ],
+    },
+    {
+        path: 'domain-setup',
+        element: <AuthGuard />,
+        children: [
             {
-                path: 'create-domain',
-                element: <CreateDomainPage />,
+                path: '',
+                element: <DomainSetupPage />,
             },
         ],
     },
