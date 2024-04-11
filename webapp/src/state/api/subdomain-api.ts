@@ -9,7 +9,6 @@ export type Subdomain = {
     domainId: string
     subdomainId: string
     name: string
-    slug: string
 }
 
 export type SubdomainSearch = {

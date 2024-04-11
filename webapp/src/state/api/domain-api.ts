@@ -7,7 +7,6 @@ export type SetupDomainDto = {
 export type Domain = {
     domainId: string
     name: string
-    slug: string
 }
 
 export const domainApi = (() => {

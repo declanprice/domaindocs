@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Subdomain } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
+import { CreateSubdomainDto } from './dto/create-subdomain.dto';
+import { createSlug } from '../../util/create-slug';
 
 @Injectable()
 export class SubdomainsService {
@@ -18,18 +20,13 @@ export class SubdomainsService {
     });
   }
 
-  // async createSubdomain(session: UserSession, dto: CreateSubdomainDto) {
-  //   return this.prisma.domain.create({
-  //     data: {
-  //       domainId: v4(),
-  //       name: dto.domainName,
-  //       slug: dto.domainName.replace(/\s/g, '').toLowerCase(),
-  //       domainUsers: {
-  //         create: {
-  //           userId: session.userId,
-  //         },
-  //       },
-  //     },
-  //   });
-  // }
+  async createSubdomain(session: UserSession, dto: CreateSubdomainDto) {
+    return this.prisma.subdomain.create({
+      data: {
+        domainId: dto.domainId,
+        subdomainId: createSlug(dto.subdomainName),
+        name: dto.subdomainName,
+      },
+    });
+  }
 }

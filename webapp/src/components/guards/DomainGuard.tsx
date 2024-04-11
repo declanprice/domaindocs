@@ -6,7 +6,7 @@ import { useUiStore } from '@state/stores/ui.store.ts'
 export const DomainGuard = () => {
     console.debug('Running: DomainGuard')
 
-    const params = useParams()
+    const { domainId } = useParams()
     const domains = useAuthStore((state) => state.user?.domains)
     const setActiveDomain = useUiStore((state) => state.setActiveDomain)
 
@@ -14,12 +14,12 @@ export const DomainGuard = () => {
         return <Navigate to={'/domains-setup'} />
     }
 
-    if (!params?.domainSlug) {
+    if (!domainId) {
         const firstAvailableDomain = domains[0]
-        return <Navigate to={`/${firstAvailableDomain.slug}/home`} />
+        return <Navigate to={`/${firstAvailableDomain.domainId}/home`} />
     }
 
-    const activeDomain = domains.find((d) => d.slug === params.domainSlug)
+    const activeDomain = domains.find((d) => d.domainId === domainId)
 
     if (!activeDomain) {
         return <Navigate to={'/page-not-found'} />

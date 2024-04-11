@@ -1,7 +1,7 @@
 import { Button, Flex, List, ListItem, Text } from '@chakra-ui/react'
 import { DomainSelectorMenu } from './DomainSelectorMenu.tsx'
 import { FiHome } from 'react-icons/fi'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { TbCategory2, TbLayoutSidebarRightCollapse } from 'react-icons/tb'
 import { LiaProjectDiagramSolid } from 'react-icons/lia'
 import { IoDocumentTextOutline } from 'react-icons/io5'
@@ -15,6 +15,8 @@ import { GoPeople } from 'react-icons/go'
 import { TbUsersGroup } from 'react-icons/tb'
 import { useUiStore } from '@state/stores/ui.store.ts'
 import { useAuthStore } from '@state/stores/auth.store.ts'
+import { useQuery } from '@tanstack/react-query'
+import { Subdomain, subdomainApi } from '@state/api/subdomain-api.ts'
 
 const NavListItem = (props: {
     icon: any
@@ -26,8 +28,6 @@ const NavListItem = (props: {
 
     const { icon, label, to, iconOnly } = props
 
-    console.log('to', to)
-
     return (
         <ListItem width={'100%'} key={props.label}>
             <Button
@@ -38,6 +38,7 @@ const NavListItem = (props: {
                 display={'flex'}
                 size={'xs'}
                 width={'100%'}
+                fontWeight={'regular'}
                 gap={4}
                 onClick={() => {
                     navigate(to)
@@ -56,10 +57,21 @@ const NavListItem = (props: {
 }
 
 export const NavBar = () => {
+    const params = useParams()
     const { isFullNavBar, closeNavBar, openNavBar } = useUiStore()
     const domains = useAuthStore((state) => state.user?.domains)
     const { activeDomain, setActiveDomain } = useUiStore()
-    if (!domains || !activeDomain) return 'active domains not set.'
+
+    const { data: subdomains } = useQuery<Subdomain[]>({
+        queryKey: ['domainSubdomains'],
+        queryFn: () =>
+            subdomainApi.searchSubdomains({
+                domainId: params.domainId as string,
+            }),
+    })
+
+    if (!subdomains || !domains || !activeDomain)
+        return 'active domains not set.'
 
     return (
         <Flex
@@ -140,28 +152,32 @@ export const NavBar = () => {
                     <NavListItem
                         icon={<FiHome color={'gray.900'} size={14} />}
                         label={'Home'}
-                        to={`/${activeDomain.slug}/home`}
+                        to={`/${activeDomain.domainId}/home`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<TbCategory2 color={'gray.900'} size={14} />}
                         label={'Subdomains'}
-                        to={`/${activeDomain.slug}/subdomains`}
+                        to={
+                            subdomains.length
+                                ? `/${activeDomain.domainId}/sd/${subdomains[0].subdomainId}`
+                                : `/${activeDomain.domainId}/sd-create`
+                        }
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<GoPeople color={'gray.900'} size={14} />}
                         label={'People'}
-                        to={`/${activeDomain.slug}/people`}
+                        to={`/${activeDomain.domainId}/people`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<TbUsersGroup color={'gray.900'} size={14} />}
                         label={'Teams'}
-                        to={`/${activeDomain.slug}/teams`}
+                        to={`/${activeDomain.domainId}/teams`}
                         iconOnly={!isFullNavBar}
                     />
 
@@ -173,7 +189,7 @@ export const NavBar = () => {
                             />
                         }
                         label={'Projects'}
-                        to={`/${activeDomain.slug}/projects`}
+                        to={`/${activeDomain.domainId}/projects`}
                         iconOnly={!isFullNavBar}
                     />
 
@@ -185,7 +201,7 @@ export const NavBar = () => {
                             />
                         }
                         label={'Documentation'}
-                        to={`/${activeDomain.slug}/documentation`}
+                        to={`/${activeDomain.domainId}/documentation`}
                         iconOnly={!isFullNavBar}
                     />
 
@@ -194,7 +210,7 @@ export const NavBar = () => {
                             <MdOutlineSdStorage color={'gray.900'} size={14} />
                         }
                         label={'Files'}
-                        to={`/${activeDomain.slug}/files`}
+                        to={`/${activeDomain.domainId}/files`}
                         iconOnly={!isFullNavBar}
                     />
 
@@ -203,7 +219,7 @@ export const NavBar = () => {
                             <RiLockPasswordLine color={'gray.900'} size={14} />
                         }
                         label={'Secrets'}
-                        to={`/${activeDomain.slug}/secrets`}
+                        to={`/${activeDomain.domainId}/secrets`}
                         iconOnly={!isFullNavBar}
                     />
 
@@ -215,7 +231,7 @@ export const NavBar = () => {
                             />
                         }
                         label={'Onboarding'}
-                        to={`/${activeDomain.slug}/onboarding`}
+                        to={`/${activeDomain.domainId}/onboarding`}
                         iconOnly={!isFullNavBar}
                     />
                 </List>

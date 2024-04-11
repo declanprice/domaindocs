@@ -1,16 +1,12 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 import { BiChevronDown } from 'react-icons/bi'
 import { TbCategory2 } from 'react-icons/tb'
-
-export type SubdomainOption = {
-    id: string
-    name: string
-}
+import { Subdomain } from '@state/api/subdomain-api.ts'
 
 export type SubdomainSelectMenuProps = {
-    value: SubdomainOption
-    options: SubdomainOption[]
-    onSelect: (option: SubdomainOption) => void
+    value: Subdomain
+    options: Subdomain[]
+    onSelect: (option: Subdomain) => void
 }
 
 export const SubdomainSelectMenu = (props: SubdomainSelectMenuProps) => {

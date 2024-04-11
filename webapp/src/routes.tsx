@@ -6,7 +6,7 @@ import { VerifyMagicLinkPage } from './pages/auth/VerifyMagicLinkPage.tsx'
 import { MagicLinkSentPage } from './pages/auth/MagicLinkSentPage.tsx'
 import { AccountSetupPage } from './pages/user-setup/AccountSetupPage.tsx'
 import { RootLayout } from './layout/RootLayout.tsx'
-import { SubdomainPageLayout } from './pages/subdomains/SubdomainPageLayout.tsx'
+import { SubdomainRootPage } from './pages/subdomains/SubdomainRootPage.tsx'
 import { SubdomainOverviewPage } from './pages/subdomains/SubdomainOverviewPage.tsx'
 import { SubdomainPeoplePage } from './pages/subdomains/SubdomainPeoplePage.tsx'
 import { SubdomainTeamsPage } from './pages/subdomains/SubdomainTeamsPage.tsx'
@@ -16,18 +16,15 @@ import { AuthGuard } from '@components/guards/AuthGuard.tsx'
 import { NoAuthGuard } from '@components/guards/NoAuthGuard.tsx'
 import { DomainGuard } from '@components/guards/DomainGuard.tsx'
 import { UserSetupGuard } from '@components/guards/UserSetupGuard.tsx'
-import { PageNotFoundError } from '@components/errors/PageNotFoundError.tsx'
+import { PageNotFoundErrorPage } from '@components/errors/PageNotFoundErrorPage.tsx'
 import { PeoplePageLayout } from './pages/people/PeoplePageLayout.tsx'
 import { OnboardingPageLayout } from './pages/onboarding/OnboardingPageLayout.tsx'
 import { SecretsPageLayout } from './pages/secrets/SecretsPageLayout.tsx'
 import { FilesPageLayout } from './pages/files/FilesPageLayout.tsx'
 import { DocumentationPageLayout } from './pages/documentation/DocumentationPageLayout.tsx'
-import {
-    SubdomainGuard,
-    subdomainGuardLoader,
-} from '@components/guards/SubdomainGuard.tsx'
-import { SetupSubdomainPage } from './pages/subdomains/SetupSubdomainPage.tsx'
-import { SomethingWentWrongPage } from '@components/errors/SomethingWentWrongPage.tsx'
+import { SomethingWentWrongErrorPage } from '@components/errors/SomethingWentWrongErrorPage.tsx'
+import { SubdomainGuard } from '@components/guards/SubdomainGuard.tsx'
+import { SubdomainCreatePage } from './pages/subdomains/SubdomainCreatePage.tsx'
 
 export const routes = createBrowserRouter([
     {
@@ -43,31 +40,37 @@ export const routes = createBrowserRouter([
                         element: <DomainGuard />,
                         children: [
                             {
-                                path: ':domainSlug',
+                                path: ':domainId',
                                 element: <RootLayout />,
                                 children: [
+                                    {
+                                        path: '',
+                                        element: <Navigate to={'home'} />,
+                                    },
                                     {
                                         path: 'home',
                                         element: <HomePage />,
                                     },
                                     {
-                                        path: 'sub',
-                                        loader: subdomainGuardLoader,
+                                        path: 'sd-create',
+                                        element: <SubdomainCreatePage />,
+                                    },
+                                    {
+                                        path: 'sd',
                                         element: <SubdomainGuard />,
-                                        errorElement: (
-                                            <SomethingWentWrongPage />
-                                        ),
                                         children: [
                                             {
-                                                path: 'setup',
-                                                element: <SetupSubdomainPage />,
-                                            },
-                                            {
-                                                path: ':subdomainSlug',
-                                                element: (
-                                                    <SubdomainPageLayout />
-                                                ),
+                                                path: ':subdomainId',
+                                                element: <SubdomainRootPage />,
                                                 children: [
+                                                    {
+                                                        path: '',
+                                                        element: (
+                                                            <Navigate
+                                                                to={'overview'}
+                                                            />
+                                                        ),
+                                                    },
                                                     {
                                                         path: 'overview',
                                                         element: (
@@ -175,8 +178,12 @@ export const routes = createBrowserRouter([
         ],
     },
     {
+        path: 'something-went-wrong',
+        element: <SomethingWentWrongErrorPage />,
+    },
+    {
         path: 'page-not-found',
-        element: <PageNotFoundError />,
+        element: <PageNotFoundErrorPage />,
     },
     {
         path: '*',

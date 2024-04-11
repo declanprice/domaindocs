@@ -18,7 +18,7 @@ export const DomainSetupPage = () => {
         mutationFn: domainApi.setupDomain,
         onSuccess: (data) => {
             setUserDomains(data)
-            navigate(`/${data.slug}/home`)
+            navigate(`/${data.domainId}/home`)
         },
     })
 

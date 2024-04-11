@@ -24,9 +24,8 @@ export class DomainsService {
   async setupDomain(session: UserSession, dto: SetupDomainDto) {
     return this.prisma.domain.create({
       data: {
-        domainId: v4(),
+        domainId: createSlug(dto.domainName),
         name: dto.domainName,
-        slug: createSlug(dto.domainName),
         domainUsers: {
           create: {
             userId: session.userId,

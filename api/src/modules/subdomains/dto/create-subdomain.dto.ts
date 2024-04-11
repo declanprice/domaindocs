@@ -1,7 +1,7 @@
-import { IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
+import { IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateSubdomainDto {
-  @IsUUID()
+  @IsString()
   domainId: string;
 
   @IsString()
