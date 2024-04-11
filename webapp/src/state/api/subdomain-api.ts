@@ -30,6 +30,14 @@ export const subdomainApi = (() => {
         return result.data
     }
 
+    const getOverviewById = async (subdomainId: string): Promise<Subdomain> => {
+        const result = await apiClient.get<Subdomain>(
+            `/subdomains/${subdomainId}/overview`
+        )
+
+        return result.data
+    }
+
     const searchSubdomains = async (
         search: SubdomainSearch
     ): Promise<Subdomain[]> => {
@@ -44,5 +52,6 @@ export const subdomainApi = (() => {
         createSubdomain,
         searchSubdomains,
         getById,
+        getOverviewById,
     }
 })()

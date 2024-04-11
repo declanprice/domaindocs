@@ -68,7 +68,6 @@ export const SubdomainCreatePage = () => {
                 })}
             >
                 <Flex
-                    minWidth={300}
                     direction="column"
                     textAlign="center"
                     alignItems="center"
@@ -83,7 +82,7 @@ export const SubdomainCreatePage = () => {
                     />
 
                     <Button
-                        size={'sm'}
+                        size={'xs'}
                         width={'100%'}
                         type={'submit'}
                         color={'white'}

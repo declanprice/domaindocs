@@ -8,37 +8,28 @@ generator client {
 }
 
 model User {
-  userId      String        @id
-  email       String        @unique
-  firstName   String
-  lastName    String
-  userDomains DomainUsers[]
-  persons     Person[]
+  userId            String             @id
+  email             String             @unique
+  firstName         String
+  lastName          String
+  avatarUri         String
+  domains           DomainUsers[]
+  subdomains        SubdomainUser[]
+  subdomainContacts SubdomainContact[]
+  TeamUser          TeamUser[]
 
   @@map("users")
 }
 
 model Domain {
-  domainId    String        @id
-  name        String        @unique
-  domainUsers DomainUsers[]
-  persons     Person[]
-  subdomains  Subdomain[]
+  domainId       String          @id
+  name           String          @unique
+  users          DomainUsers[]
+  subdomains     Subdomain[]
+  subdomainUsers SubdomainUser[]
+  Team           Team[]
 
   @@map("domains")
-}
-
-model Person {
-  userId String
-  user   User   @relation(fields: [userId], references: [userId])
-
-  domainId String
-  domain   Domain @relation(fields: [domainId], references: [domainId])
-
-  @@id([userId, domainId])
-  @@index([userId])
-  @@index([domainId])
-  @@map("persons")
 }
 
 model DomainUsers {
@@ -55,10 +46,102 @@ model DomainUsers {
 }
 
 model Subdomain {
-  subdomainId String @id
-  domainId    String
-  domain      Domain @relation(fields: [domainId], references: [domainId])
-  name        String @unique
+  subdomainId            String                  @id
+  domainId               String
+  domain                 Domain                  @relation(fields: [domainId], references: [domainId])
+  name                   String                  @unique
+  users                  SubdomainUser[]
+  subdomainContacts      SubdomainContact[]
+  subdomainResourceLinks SubdomainResourceLink[]
+  teams                  TeamSubdomain[]
 
+  @@index([domainId])
   @@map("subdomains")
+}
+
+model SubdomainUser {
+  userId String
+  user   User   @relation(fields: [userId], references: [userId])
+
+  domainId String
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+
+  subdomainId String
+  subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+
+  @@id([userId, subdomainId])
+  @@index([userId])
+  @@index([subdomainId])
+  @@index([domainId])
+  @@map("subdomain_users")
+}
+
+model SubdomainContact {
+  subdomainId String
+  subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [userId])
+
+  @@id([subdomainId, userId])
+  @@index([subdomainId])
+  @@index([userId])
+  @@map("subdomain_contacts")
+}
+
+model SubdomainResourceLink {
+  linkId String @id
+
+  subdomainId String
+  subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+
+  title    String
+  subTitle String
+  href     String
+  iconHref String
+
+  @@index([subdomainId])
+  @@map("subdomain_resource_links")
+}
+
+model Team {
+  teamId  String @id
+  name    String
+  iconUri String
+
+  domainId   String
+  domain     Domain          @relation(fields: [domainId], references: [domainId])
+  users      TeamUser[]
+  subdomains TeamSubdomain[]
+
+  @@index([domainId])
+  @@map("teams")
+}
+
+model TeamUser {
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [teamId])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [userId])
+
+  role String
+
+  @@id([teamId, userId])
+  @@index([teamId])
+  @@index([userId])
+  @@map("team_users")
+}
+
+model TeamSubdomain {
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [teamId])
+
+  subdomainId String
+  subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+
+  @@id([teamId, subdomainId])
+  @@index([teamId])
+  @@index([subdomainId])
+  @@map("team_subdomains")
 }

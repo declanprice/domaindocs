@@ -31,6 +31,11 @@ export class DomainsService {
             userId: session.userId,
           },
         },
+        persons: {
+          create: {
+            userId: session.userId,
+          },
+        },
       },
     });
   }

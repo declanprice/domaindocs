@@ -40,6 +40,14 @@ export class SubdomainsController {
     return this.subdomainsService.getSubdomainById(session, subdomainId);
   }
 
+  @Get(':subdomainId/overview')
+  async getSubdomainOverview(
+    @AuthSession() session: UserSession,
+    @Param('subdomainId') subdomainId: string,
+  ) {
+    return this.subdomainsService.getSubdomainById(session, subdomainId);
+  }
+
   @Post('')
   async createSubdomain(
     @AuthSession() session: UserSession,

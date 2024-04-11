@@ -4,7 +4,6 @@ import { Subdomain, subdomainApi } from '@state/api/subdomain-api.ts'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { SubdomainSelectMenu } from './components/SubdomainSelectMenu.tsx'
-import { i } from 'vite/dist/node/types.d-aGj9QkWt'
 
 export const SubdomainPageToolbar = () => {
     const { domainId, subdomainId } = useParams()
