@@ -11,11 +11,10 @@ export const DomainGuard = () => {
     const setActiveDomain = useUiStore((state) => state.setActiveDomain)
 
     if (!domains?.length) {
-        return <Navigate to={'/domain-setup'} />
+        return <Navigate to={'/domains-setup'} />
     }
 
     if (!params?.domainSlug) {
-        console.log('i am running')
         const firstAvailableDomain = domains[0]
         return <Navigate to={`/${firstAvailableDomain.slug}/home`} />
     }
@@ -28,5 +27,5 @@ export const DomainGuard = () => {
 
     setActiveDomain(activeDomain)
 
-    return <Outlet />
+    return <Outlet context={'domain'} />
 }

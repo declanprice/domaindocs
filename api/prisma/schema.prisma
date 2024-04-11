@@ -13,8 +13,9 @@ model User {
   firstName   String
   lastName    String
   userDomains DomainUsers[]
+  persons     Person[]
 
-  @@map("user")
+  @@map("users")
 }
 
 model Domain {
@@ -22,18 +23,44 @@ model Domain {
   slug        String        @unique
   name        String        @unique
   domainUsers DomainUsers[]
+  persons     Person[]
+  subdomains  Subdomain[]
 
-  @@map("domain")
+  @@map("domains")
+}
+
+model Person {
+  userId String
+  user   User   @relation(fields: [userId], references: [userId])
+
+  domainId String
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+
+  @@id([userId, domainId])
+  @@index([userId])
+  @@index([domainId])
+  @@map("persons")
 }
 
 model DomainUsers {
-  domainId String
-  userId   String
-  domain   Domain @relation(fields: [domainId], references: [domainId])
-  user     User   @relation(fields: [userId], references: [userId])
+  userId String
+  user   User   @relation(fields: [userId], references: [userId])
 
-  @@id([domainId, userId])
+  domainId String
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+
+  @@id([userId, domainId])
   @@index([userId])
   @@index([domainId])
   @@map("domain_users")
+}
+
+model Subdomain {
+  subdomainId String @id
+  domainId    String
+  domain      Domain @relation(fields: [domainId], references: [domainId])
+  name        String @unique
+  slug        String @unique
+
+  @@map("subdomains")
 }

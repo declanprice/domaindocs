@@ -1,3 +1,3 @@
 export const DomainSettingsPage = () => {
-    return 'domain settings'
+    return 'domains settings'
 }

@@ -22,6 +22,12 @@ import { OnboardingPageLayout } from './pages/onboarding/OnboardingPageLayout.ts
 import { SecretsPageLayout } from './pages/secrets/SecretsPageLayout.tsx'
 import { FilesPageLayout } from './pages/files/FilesPageLayout.tsx'
 import { DocumentationPageLayout } from './pages/documentation/DocumentationPageLayout.tsx'
+import {
+    SubdomainGuard,
+    subdomainGuardLoader,
+} from '@components/guards/SubdomainGuard.tsx'
+import { SetupSubdomainPage } from './pages/subdomains/SetupSubdomainPage.tsx'
+import { SomethingWentWrongPage } from '@components/errors/SomethingWentWrongPage.tsx'
 
 export const routes = createBrowserRouter([
     {
@@ -45,30 +51,48 @@ export const routes = createBrowserRouter([
                                         element: <HomePage />,
                                     },
                                     {
-                                        path: 'sub/:subdomainSlug',
-                                        element: <SubdomainPageLayout />,
+                                        path: 'sub',
+                                        loader: subdomainGuardLoader,
+                                        element: <SubdomainGuard />,
+                                        errorElement: (
+                                            <SomethingWentWrongPage />
+                                        ),
                                         children: [
                                             {
-                                                path: 'overview',
-                                                element: (
-                                                    <SubdomainOverviewPage />
-                                                ),
+                                                path: 'setup',
+                                                element: <SetupSubdomainPage />,
                                             },
                                             {
-                                                path: 'people',
+                                                path: ':subdomainSlug',
                                                 element: (
-                                                    <SubdomainPeoplePage />
+                                                    <SubdomainPageLayout />
                                                 ),
-                                            },
-                                            {
-                                                path: 'teams',
-                                                element: <SubdomainTeamsPage />,
-                                            },
-                                            {
-                                                path: 'projects',
-                                                element: (
-                                                    <SubdomainProjectsPage />
-                                                ),
+                                                children: [
+                                                    {
+                                                        path: 'overview',
+                                                        element: (
+                                                            <SubdomainOverviewPage />
+                                                        ),
+                                                    },
+                                                    {
+                                                        path: 'people',
+                                                        element: (
+                                                            <SubdomainPeoplePage />
+                                                        ),
+                                                    },
+                                                    {
+                                                        path: 'teams',
+                                                        element: (
+                                                            <SubdomainTeamsPage />
+                                                        ),
+                                                    },
+                                                    {
+                                                        path: 'projects',
+                                                        element: (
+                                                            <SubdomainProjectsPage />
+                                                        ),
+                                                    },
+                                                ],
                                             },
                                         ],
                                     },
@@ -109,7 +133,7 @@ export const routes = createBrowserRouter([
         ],
     },
     {
-        path: 'user-setup',
+        path: 'users-setup',
         element: <AuthGuard />,
         children: [
             {
@@ -119,7 +143,7 @@ export const routes = createBrowserRouter([
         ],
     },
     {
-        path: 'domain-setup',
+        path: 'domains-setup',
         element: <AuthGuard />,
         children: [
             {

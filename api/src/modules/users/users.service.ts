@@ -6,7 +6,7 @@ import { AuthService } from '../../auth/auth.service';
 import { AuthUserDto } from './dto/auth-user.dto';
 
 @Injectable()
-export class UserService {
+export class UsersService {
   constructor(
     readonly authService: AuthService,
     readonly prisma: PrismaService,
@@ -25,6 +25,8 @@ export class UserService {
         },
       },
     });
+
+    if (!result) return null;
 
     return new AuthUserDto(
       result.userId,

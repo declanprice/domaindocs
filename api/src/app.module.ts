@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './modules/user/user.module';
-import { DomainModule } from './modules/domain/domain.module';
+import { UsersModule } from './modules/users/users.module';
+import { DomainsModule } from './modules/domains/domains.module';
+import { SubdomainsModule } from './modules/subdomains/subdomains.module';
 
 @Module({
   imports: [
@@ -17,8 +18,9 @@ import { DomainModule } from './modules/domain/domain.module';
       },
     }),
     ConfigModule.forRoot({ isGlobal: true }),
-    UserModule,
-    DomainModule,
+    UsersModule,
+    DomainsModule,
+    SubdomainsModule,
   ],
   controllers: [],
   providers: [],

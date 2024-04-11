@@ -5,20 +5,24 @@ import { valibotResolver } from '@hookform/resolvers/valibot'
 import { object, string } from 'valibot'
 import { FormTextInput } from '@components/form/FormInput.tsx'
 import { DefaultError, useMutation } from '@tanstack/react-query'
-import { CreateDomainData, Domain, domainApi } from '@state/api/domain-api.ts'
+import { SetupDomainDto, Domain, domainApi } from '@state/api/domain-api.ts'
+import { useAuthStore } from '@state/stores/auth.store.ts'
 
 export const DomainSetupPage = () => {
     const navigate = useNavigate()
 
-    const { mutate } = useMutation<Domain, DefaultError, CreateDomainData>({
-        mutationKey: ['createDomain'],
-        mutationFn: domainApi.createDomain,
+    const setUserDomains = useAuthStore((state) => state.setUserDomains)
+
+    const { mutate } = useMutation<Domain, DefaultError, SetupDomainDto>({
+        mutationKey: ['setupDomain'],
+        mutationFn: domainApi.setupDomain,
         onSuccess: (data) => {
+            setUserDomains(data)
             navigate(`/${data.slug}/home`)
         },
     })
 
-    const { handleSubmit, control } = useForm<CreateDomainData>({
+    const { handleSubmit, control } = useForm<SetupDomainDto>({
         values: {
             domainName: '',
         },
@@ -29,7 +33,7 @@ export const DomainSetupPage = () => {
         ),
     })
 
-    const submit = (data: CreateDomainData) => {
+    const submit = (data: SetupDomainDto) => {
         return mutate(data)
     }
 

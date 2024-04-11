@@ -7,8 +7,8 @@ export const UserSetupGuard = () => {
     const user = useAuthStore((state) => state.user)
 
     if (!user) {
-        return <Navigate to={'/user-setup'} />
+        return <Navigate to={'/users-setup'} />
     }
 
-    return <Outlet />
+    return <Outlet context={'user-setup'} />
 }

@@ -1,3 +1,3 @@
 export const UserSettingsPageLayout = () => {
-    return 'user settings page layout'
+    return 'users settings page layout'
 }

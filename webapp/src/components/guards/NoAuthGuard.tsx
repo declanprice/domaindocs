@@ -10,5 +10,5 @@ export const NoAuthGuard = () => {
         return <Navigate to={'/'} />
     }
 
-    return <Outlet />
+    return <Outlet context={'no-auth'} />
 }

@@ -1,3 +1,3 @@
 export const UserSettingsPageToolbar = () => {
-    return 'user settings page toolbar'
+    return 'users settings page toolbar'
 }

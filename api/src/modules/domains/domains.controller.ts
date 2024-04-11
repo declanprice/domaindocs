@@ -1,13 +1,13 @@
-import { DomainService } from './domain.service';
+import { DomainsService } from './domains.service';
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
-import { CreateDomainDto } from './dto/create-domain.dto';
+import { SetupDomainDto } from './dto/setup-domain.dto';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 
 @Controller('domains')
 @UseGuards(AuthGuard)
-export class DomainController {
-  constructor(readonly domainService: DomainService) {}
+export class DomainsController {
+  constructor(readonly domainService: DomainsService) {}
 
   @Get('')
   async getDomains(@AuthSession() session: UserSession) {
@@ -15,10 +15,10 @@ export class DomainController {
   }
 
   @Post('')
-  async createDomain(
+  async setupDomain(
     @AuthSession() session: UserSession,
-    @Body() dto: CreateDomainDto,
+    @Body() dto: SetupDomainDto,
   ) {
-    return this.domainService.createDomain(session, dto);
+    return this.domainService.setupDomain(session, dto);
   }
 }

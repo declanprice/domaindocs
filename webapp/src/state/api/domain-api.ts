@@ -1,6 +1,6 @@
 import { apiClient } from '@state/api/api-client.ts'
 
-export type CreateDomainData = {
+export type SetupDomainDto = {
     domainName: string
 }
 
@@ -11,7 +11,7 @@ export type Domain = {
 }
 
 export const domainApi = (() => {
-    const createDomain = async (data: CreateDomainData): Promise<Domain> => {
+    const setupDomain = async (data: SetupDomainDto): Promise<Domain> => {
         const result = await apiClient.post<Domain>('/domains', data)
         return result.data
     }
@@ -23,6 +23,6 @@ export const domainApi = (() => {
 
     return {
         getUserDomains,
-        createDomain,
+        setupDomain: setupDomain,
     }
 })()

@@ -10,5 +10,5 @@ export const AuthGuard = () => {
         return <Navigate to={'/auth/sign-in'} />
     }
 
-    return <Outlet />
+    return <Outlet context={'auth'} />
 }

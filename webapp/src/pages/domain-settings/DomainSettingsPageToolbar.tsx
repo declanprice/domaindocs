@@ -1,3 +1,3 @@
 export const DomainSettingsPageToolbar = () => {
-    return 'domain settings page toolbar'
+    return 'domains settings page toolbar'
 }

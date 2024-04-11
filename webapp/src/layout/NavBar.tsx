@@ -59,7 +59,7 @@ export const NavBar = () => {
     const { isFullNavBar, closeNavBar, openNavBar } = useUiStore()
     const domains = useAuthStore((state) => state.user?.domains)
     const { activeDomain, setActiveDomain } = useUiStore()
-    if (!domains || !activeDomain) return 'active domain not set.'
+    if (!domains || !activeDomain) return 'active domains not set.'
 
     return (
         <Flex
