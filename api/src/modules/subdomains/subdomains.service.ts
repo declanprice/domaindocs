@@ -70,6 +70,7 @@ export class SubdomainsService {
     });
 
     return new SubdomainOverviewDto(
+      result.name,
       new SubdomainSummaryDto(
         result._count.users,
         result._count.teams,

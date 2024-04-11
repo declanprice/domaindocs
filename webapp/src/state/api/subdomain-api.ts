@@ -35,6 +35,7 @@ export type SubdomainSummary = {
 }
 
 export type SubdomainOverview = {
+    name: string
     summary: SubdomainSummary
     resourceLinks: SubdomainResourceLink[]
     contacts: SubdomainContact[]
