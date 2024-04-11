@@ -23,6 +23,13 @@ export const subdomainApi = (() => {
         return result.data
     }
 
+    const getById = async (subdomainId: string): Promise<Subdomain> => {
+        const result = await apiClient.get<Subdomain>(
+            `/subdomains/${subdomainId}`
+        )
+        return result.data
+    }
+
     const searchSubdomains = async (
         search: SubdomainSearch
     ): Promise<Subdomain[]> => {
@@ -36,5 +43,6 @@ export const subdomainApi = (() => {
     return {
         createSubdomain,
         searchSubdomains,
+        getById,
     }
 })()

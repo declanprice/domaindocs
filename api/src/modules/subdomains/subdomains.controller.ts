@@ -4,6 +4,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Query,
   UseGuards,
@@ -29,6 +30,14 @@ export class SubdomainsController {
     throw new BadRequestException({
       message: 'Invalid search request.',
     });
+  }
+
+  @Get(':subdomainId')
+  async getSubdomain(
+    @AuthSession() session: UserSession,
+    @Param('subdomainId') subdomainId: string,
+  ) {
+    return this.subdomainsService.getSubdomainById(session, subdomainId);
   }
 
   @Post('')

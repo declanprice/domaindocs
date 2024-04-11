@@ -20,6 +20,17 @@ export class SubdomainsService {
     });
   }
 
+  async getSubdomainById(
+    session: UserSession,
+    subdomainId: string,
+  ): Promise<Subdomain> {
+    return this.prisma.subdomain.findUniqueOrThrow({
+      where: {
+        subdomainId,
+      },
+    });
+  }
+
   async createSubdomain(session: UserSession, dto: CreateSubdomainDto) {
     return this.prisma.subdomain.create({
       data: {
