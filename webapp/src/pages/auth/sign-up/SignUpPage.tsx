@@ -1,5 +1,5 @@
-import { Button, Flex, Heading, Input, Link } from '@chakra-ui/react'
-import Passwordless from 'supertokens-web-js/recipe/passwordless';
+import { Button, Flex, Heading, Link } from '@chakra-ui/react'
+import Passwordless from 'supertokens-web-js/recipe/passwordless'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { valibotResolver } from '@hookform/resolvers/valibot'
@@ -7,15 +7,17 @@ import { email, object, string } from 'valibot'
 import { FormTextInput } from '../../../components/form/FormInput.tsx'
 
 export const SignUpPage = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     const { handleSubmit, control } = useForm({
         values: {
-            email: ''
+            email: '',
         },
-        resolver: valibotResolver(object({
-            email: string([email('Must be valid email format')])
-        }))
+        resolver: valibotResolver(
+            object({
+                email: string([email('Must be valid email format')]),
+            })
+        ),
     })
 
     const sendMagicLink = async (values: any) => {
@@ -26,15 +28,46 @@ export const SignUpPage = () => {
         navigate('/auth/magic-link-sent')
     }
 
-    return <Flex height={'100%'} width={'100%'} justifyContent={'center'} alignItems={'center'}>
-        <form onSubmit={handleSubmit(sendMagicLink)}>
-            <Flex minWidth={300} direction={'column'} alignItems={'end'} gap={6}>
-                <Heading>Domain Docs</Heading>
-                <Heading size={'lg'}>Sign Up</Heading>
-                <FormTextInput name={'email'} control={control} placeholder={'type your email here'} />
-                <Button size={'sm'} type={'submit'} color={'white'} backgroundColor={'gray.700'}>Sign Up</Button>
-                <Link href={'/auth/sign-in'}>I already have an account.</Link>
-            </Flex>
-        </form>
-    </Flex>
+    return (
+        <Flex
+            height={'100%'}
+            width={'100%'}
+            justifyContent={'center'}
+            alignItems={'center'}
+        >
+            <form onSubmit={handleSubmit(sendMagicLink)}>
+                <Flex
+                    minWidth={300}
+                    direction={'column'}
+                    alignItems={'end'}
+                    gap={6}
+                >
+                    <Heading>Domain Docs</Heading>
+                    <Heading size={'lg'}>Sign Up</Heading>
+                    <FormTextInput
+                        name={'email'}
+                        control={control}
+                        placeholder={'type your email here'}
+                    />
+                    <Button
+                        size={'sm'}
+                        width={'100%'}
+                        type={'submit'}
+                        color={'white'}
+                        backgroundColor={'gray.700'}
+                    >
+                        Sign Up
+                    </Button>
+                    <Link
+                        href={undefined}
+                        onClick={() => {
+                            navigate('/auth/sign-in')
+                        }}
+                    >
+                        I already have an account.
+                    </Link>
+                </Flex>
+            </form>
+        </Flex>
+    )
 }

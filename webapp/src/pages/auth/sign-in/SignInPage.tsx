@@ -58,7 +58,15 @@ export const SignInPage = () => {
                     >
                         Sign In
                     </Button>
-                    <Link href={'/auth/sign-up'}>I don't have an account.</Link>
+
+                    <Link
+                        href={undefined}
+                        onClick={() => {
+                            navigate('/auth/sign-up')
+                        }}
+                    >
+                        I don't have an account.
+                    </Link>
                 </Flex>
             </form>
         </Flex>

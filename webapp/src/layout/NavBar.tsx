@@ -1,7 +1,7 @@
-import { Button, Flex, List, ListItem, Text } from '@chakra-ui/react'
+import { Button, Flex, Link, List, ListItem, Text } from '@chakra-ui/react'
 import { DomainSelectorMenu } from './DomainSelectorMenu.tsx'
 import { FiHome } from 'react-icons/fi'
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { TbCategory2, TbLayoutSidebarRightCollapse } from 'react-icons/tb'
 import { LiaProjectDiagramSolid } from 'react-icons/lia'
 import { IoDocumentTextOutline } from 'react-icons/io5'
@@ -22,30 +22,34 @@ const NavListItem = (props: {
     to: string
     iconOnly: boolean
 }) => {
+    const navigate = useNavigate()
+
     const { icon, label, to, iconOnly } = props
 
     return (
         <ListItem width={'100%'} key={props.label}>
-            <NavLink to={to}>
-                <Button
-                    variant={'ghost'}
-                    colorScheme={'gray'}
-                    alignItems={'center'}
-                    justifyContent={'flex-start'}
-                    display={'flex'}
-                    size={'xs'}
-                    width={'100%'}
-                    gap={4}
-                >
-                    {icon}
+            <Link
+                as={Button}
+                variant={'ghost'}
+                colorScheme={'gray'}
+                alignItems={'center'}
+                justifyContent={'flex-start'}
+                display={'flex'}
+                size={'xs'}
+                width={'100%'}
+                gap={4}
+                onClick={() => {
+                    navigate(to)
+                }}
+            >
+                {icon}
 
-                    {!iconOnly && (
-                        <Text fontSize={12} color={'gray.900'}>
-                            {label}
-                        </Text>
-                    )}
-                </Button>
-            </NavLink>
+                {!iconOnly && (
+                    <Text fontSize={12} color={'gray.900'}>
+                        {label}
+                    </Text>
+                )}
+            </Link>
         </ListItem>
     )
 }

@@ -17,7 +17,7 @@ export const VerifyMagicLinkPage = () => {
             navigate('/auth/sign-up')
         } else {
             signIn(linkCode, preAuthSessionId).then(() => {
-                navigate('/home')
+                navigate('')
             })
         }
     }, [])
