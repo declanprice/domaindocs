@@ -16,6 +16,7 @@ import { AuthGuard } from '@components/guards/AuthGuard.tsx'
 import { NoAuthGuard } from '@components/guards/NoAuthGuard.tsx'
 import { DomainGuard } from '@components/guards/DomainGuard.tsx'
 import { UserSetupGuard } from '@components/guards/UserSetupGuard.tsx'
+import { PageNotFoundError } from '@components/errors/PageNotFoundError.tsx'
 
 export const routes = createBrowserRouter([
     {
@@ -31,8 +32,8 @@ export const routes = createBrowserRouter([
                         element: <DomainGuard />,
                         children: [
                             {
+                                path: ':domainSlug',
                                 element: <Layout />,
-                                path: 'domain/:domainSlug',
                                 children: [
                                     {
                                         path: 'home',
@@ -109,6 +110,10 @@ export const routes = createBrowserRouter([
                 element: <MagicLinkSentPage />,
             },
         ],
+    },
+    {
+        path: 'page-not-found',
+        element: <PageNotFoundError />,
     },
     {
         path: '*',

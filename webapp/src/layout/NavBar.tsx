@@ -140,14 +140,14 @@ export const NavBar = () => {
                     <NavListItem
                         icon={<FiHome color={'gray.900'} size={14} />}
                         label={'Home'}
-                        to={`/${activeDomain}/overview`}
+                        to={`/domain/${activeDomain}/overview`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<TbCategory2 color={'gray.900'} size={14} />}
                         label={'Subdomains'}
-                        to={`/${activeDomain}/subdomains`}
+                        to={`/domain/${activeDomain}/subdomains`}
                         iconOnly={!isFullNavBar}
                     />
 
