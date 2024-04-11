@@ -18,7 +18,7 @@ export class UsersService {
         userId: session.userId,
       },
       include: {
-        userDomains: {
+        domains: {
           include: {
             domain: true,
           },
@@ -33,7 +33,7 @@ export class UsersService {
       result.email,
       result.firstName,
       result.lastName,
-      result.userDomains.map((u) => u.domain),
+      result.domains.map((u) => u.domain),
     );
   }
 
@@ -48,7 +48,7 @@ export class UsersService {
         lastName: dto.lastName,
       },
       include: {
-        userDomains: {
+        domains: {
           include: {
             domain: true,
           },
@@ -61,7 +61,7 @@ export class UsersService {
       result.email,
       result.firstName,
       result.lastName,
-      result.userDomains.map((u) => u.domain),
+      result.domains.map((u) => u.domain),
     );
   }
 }

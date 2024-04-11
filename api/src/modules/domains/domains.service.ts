@@ -1,4 +1,3 @@
-import { v4 } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
@@ -12,7 +11,7 @@ export class DomainsService {
   async getUserDomains(session: UserSession) {
     return this.prisma.domain.findMany({
       where: {
-        domainUsers: {
+        users: {
           some: {
             userId: session.userId,
           },
@@ -26,12 +25,7 @@ export class DomainsService {
       data: {
         domainId: createSlug(dto.domainName),
         name: dto.domainName,
-        domainUsers: {
-          create: {
-            userId: session.userId,
-          },
-        },
-        persons: {
+        users: {
           create: {
             userId: session.userId,
           },

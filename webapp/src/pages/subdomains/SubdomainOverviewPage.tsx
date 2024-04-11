@@ -1,17 +1,19 @@
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { Subdomain, subdomainApi } from '@state/api/subdomain-api.ts'
+import { subdomainApi, SubdomainOverview } from '@state/api/subdomain-api.ts'
+import { LoadingContainer } from '@components/loading/LoadingContainer.tsx'
 
 export const SubdomainOverviewPage = () => {
-    const { domainId, subdomainId } = useParams()
+    const { subdomainId } = useParams()
 
-    const { data: subdomains, isLoading } = useQuery<Subdomain[]>({
+    const { data: overview, isLoading } = useQuery<SubdomainOverview>({
         queryKey: ['subdomainOverview', { subdomainId }],
-        queryFn: () =>
-            subdomainApi.getById({
-                domainId: domainId as string,
-            }),
+        queryFn: () => subdomainApi.getOverviewById(subdomainId as string),
     })
+
+    if (!overview || isLoading) return <LoadingContainer />
+
+    console.log('overview', overview)
 
     return <>subdomain overview</>
 }

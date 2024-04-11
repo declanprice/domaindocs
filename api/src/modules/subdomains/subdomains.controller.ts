@@ -37,7 +37,7 @@ export class SubdomainsController {
     @AuthSession() session: UserSession,
     @Param('subdomainId') subdomainId: string,
   ) {
-    return this.subdomainsService.getSubdomainById(session, subdomainId);
+    return this.subdomainsService.getById(session, subdomainId);
   }
 
   @Get(':subdomainId/overview')
@@ -45,7 +45,7 @@ export class SubdomainsController {
     @AuthSession() session: UserSession,
     @Param('subdomainId') subdomainId: string,
   ) {
-    return this.subdomainsService.getSubdomainById(session, subdomainId);
+    return this.subdomainsService.getOverviewById(session, subdomainId);
   }
 
   @Post('')

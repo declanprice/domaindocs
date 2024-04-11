@@ -11,6 +11,35 @@ export type Subdomain = {
     name: string
 }
 
+export type SubdomainContact = {
+    userId: string
+    firstName: string
+    lastName: string
+    role?: string
+    avatarUri?: string
+}
+
+export type SubdomainResourceLink = {
+    linkId: string
+    title: string
+    subTitle: string
+    href: string
+    iconUri?: string
+}
+
+export type SubdomainSummary = {
+    peopleCount: number
+    teamCount: number
+    projectCount: number
+    description: string
+}
+
+export type SubdomainOverview = {
+    summary: SubdomainSummary
+    resourceLinks: SubdomainResourceLink[]
+    contacts: SubdomainContact[]
+}
+
 export type SubdomainSearch = {
     domainId: string
 }
@@ -30,8 +59,10 @@ export const subdomainApi = (() => {
         return result.data
     }
 
-    const getOverviewById = async (subdomainId: string): Promise<Subdomain> => {
-        const result = await apiClient.get<Subdomain>(
+    const getOverviewById = async (
+        subdomainId: string
+    ): Promise<SubdomainOverview> => {
+        const result = await apiClient.get<SubdomainOverview>(
             `/subdomains/${subdomainId}/overview`
         )
 

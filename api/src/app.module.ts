@@ -4,6 +4,8 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
 import { DomainsModule } from './modules/domains/domains.module';
 import { SubdomainsModule } from './modules/subdomains/subdomains.module';
+import { TeamsModule } from './modules/teams/teams.module';
+import { ProjectsModule } from './modules/projects/projects.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { SubdomainsModule } from './modules/subdomains/subdomains.module';
     UsersModule,
     DomainsModule,
     SubdomainsModule,
+    TeamsModule,
+    ProjectsModule,
   ],
   controllers: [],
   providers: [],

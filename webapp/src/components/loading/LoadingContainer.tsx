@@ -1,5 +1,14 @@
-import { Spinner } from '@chakra-ui/react'
+import { Flex, Spinner } from '@chakra-ui/react'
 
 export const LoadingContainer = () => {
-    return <Spinner />
+    return (
+        <Flex
+            width={'100%'}
+            height={'100%'}
+            align={'center'}
+            justifyContent={'center'}
+        >
+            <Spinner />
+        </Flex>
+    )
 }
