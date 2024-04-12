@@ -18,6 +18,20 @@ export type AuthUser = {
     domains: AuthUserDomain[]
 }
 
+export type User = {
+    userId: string
+    email: string
+    firstName: string
+    lastName: string
+    iconUri?: string
+    roleName?: string
+}
+
+export type UserSearchParams = {
+    domainId: string
+    name: string
+}
+
 export const userApi = (() => {
     const setupUser = async (data: SetupUserData): Promise<AuthUser> => {
         const result = await apiClient.post<AuthUser>('/users/setup', data)
@@ -33,8 +47,16 @@ export const userApi = (() => {
         return result.data
     }
 
+    const searchUsers = async (data: UserSearchParams): Promise<User[]> => {
+        const result = await apiClient.get<User[]>('/users', {
+            params: data,
+        })
+        return result.data
+    }
+
     return {
         getAuthUser,
         setupUser,
+        searchUsers,
     }
 })()

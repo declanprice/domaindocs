@@ -1,22 +1,21 @@
 import {
-    Avatar,
     Text,
-    Box,
     Card,
     CardBody,
     CardHeader,
     Flex,
     List,
+    ListItem,
 } from '@chakra-ui/react'
-
 import { AddIconButton } from '@components/buttons/AddIconButton.tsx'
+import { UserListItem } from '@components/user/UserListItem.tsx'
 
-type Contact = {
+export type Contact = {
     userId: string
     firstName: string
     lastName: string
-    role?: string
-    avatarUri?: string
+    iconUri?: string
+    roleName?: string
 }
 
 type ContactsCardProps = {
@@ -27,22 +26,6 @@ type ContactsCardProps = {
 export const ContactsCard = (props: ContactsCardProps) => {
     const { contacts, onAdd } = props
 
-    const item = (contact: Contact) => (
-        <Flex alignItems="center">
-            <Avatar
-                size={'sm'}
-                src="https://bit.ly/sage-adebayo"
-                title={contact.firstName}
-            />
-            <Box ml="3">
-                <Text fontWeight="regular" fontSize={14}>
-                    {contact.firstName} {contact.lastName}
-                </Text>
-                <Text fontSize={12}>{contact.role}</Text>
-            </Box>
-        </Flex>
-    )
-
     return (
         <Card boxShadow="xs">
             <CardHeader pb={0} fontSize={16}>
@@ -52,7 +35,19 @@ export const ContactsCard = (props: ContactsCardProps) => {
                 </Flex>
             </CardHeader>
             <CardBody>
-                <List>{contacts.map((c) => item(c))}</List>
+                <List>
+                    {contacts.map((c) => (
+                        <ListItem>
+                            <UserListItem
+                                firstName={c.firstName}
+                                lastName={c.lastName}
+                                roleName={c.roleName}
+                                iconUri={c.iconUri}
+                                key={c.userId}
+                            />
+                        </ListItem>
+                    ))}
+                </List>
             </CardBody>
         </Card>
     )

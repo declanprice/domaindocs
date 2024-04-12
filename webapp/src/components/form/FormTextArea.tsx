@@ -4,6 +4,7 @@ import {
     FormErrorMessage,
     FormHelperText,
     Textarea,
+    FormControlProps,
 } from '@chakra-ui/react'
 
 import { Control, useController } from 'react-hook-form'
@@ -14,7 +15,9 @@ type FormTextAreaProps = {
     control: Control<any>
     label?: string
     helperText?: string
-}
+    onChange?: (e: any) => void
+    onBlur?: () => void
+} & Partial<FormControlProps>
 
 export const FormTextArea = (props: FormTextAreaProps) => {
     const { field, fieldState } = useController({
@@ -23,7 +26,7 @@ export const FormTextArea = (props: FormTextAreaProps) => {
     })
 
     return (
-        <FormControl isInvalid={fieldState.invalid}>
+        <FormControl isInvalid={fieldState.invalid} {...props}>
             {props.label && <FormLabel>{props.label}</FormLabel>}
 
             <Textarea
@@ -32,8 +35,18 @@ export const FormTextArea = (props: FormTextAreaProps) => {
                 isDisabled={field.disabled}
                 disabled={field.disabled}
                 ref={field.ref}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
+                onChange={(e) => {
+                    field.onChange(e)
+                    if (props.onChange) {
+                        props.onChange(e)
+                    }
+                }}
+                onBlur={() => {
+                    field.onBlur()
+                    if (props.onBlur) {
+                        props.onBlur()
+                    }
+                }}
                 variant={'filled'}
                 placeholder={props.placeholder}
                 size={'xs'}

@@ -2,22 +2,15 @@ import { useParams } from 'react-router-dom'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { subdomainApi, SubdomainOverview } from '@state/api/subdomain-api.ts'
 import { LoadingContainer } from '@components/loading/LoadingContainer.tsx'
-import { Flex, Heading, Text, useDisclosure, useToast } from '@chakra-ui/react'
+import { Flex, Heading, Text, useToast } from '@chakra-ui/react'
 import { SummaryCard } from '@components/cards/summary/SummaryCard.tsx'
-import { ResourceLinksCard } from '@components/cards/resource-links/ResourceLinksCard.tsx'
-import { ContactsCard } from '@components/cards/contacts/ContactsCard.tsx'
-import { AddContactDialog } from '@components/cards/contacts/AddContactDialog.tsx'
+import { SubdomainContacts } from './components/SubdomainContacts.tsx'
+import { SubdomainPageParams } from './types/SubdomainPageParams.ts'
 
 export const SubdomainOverviewPage = () => {
-    const { subdomainId } = useParams()
+    const { domainId, subdomainId } = useParams() as SubdomainPageParams
 
     const toast = useToast()
-
-    const {
-        isOpen: isAddContactOpen,
-        onOpen: onAddContactOpen,
-        onClose: onAddContactClose,
-    } = useDisclosure()
 
     const {
         data: overview,
@@ -70,18 +63,12 @@ export const SubdomainOverviewPage = () => {
                 onDescriptionChange={updateDescription}
             />
 
-            <ContactsCard
-                contacts={overview.contacts}
-                onAdd={onAddContactOpen}
+            <SubdomainContacts
+                domainId={domainId}
+                subdomainName={overview.name}
+                subdomainId={subdomainId}
+                subdomainContacts={overview.contacts}
             />
-
-            <AddContactDialog
-                title={`Pin a new contact to Supporting subdomain.`}
-                isOpen={isAddContactOpen}
-                onClose={onAddContactClose}
-            />
-
-            <ResourceLinksCard links={overview.resourceLinks} />
         </Flex>
     )
 }

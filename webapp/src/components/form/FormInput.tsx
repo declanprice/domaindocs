@@ -4,6 +4,7 @@ import {
     FormErrorMessage,
     FormHelperText,
     Input,
+    FormControlProps,
 } from '@chakra-ui/react'
 
 import { Control, useController } from 'react-hook-form'
@@ -14,7 +15,9 @@ type FormTextInputProps = {
     control: Control<any>
     label?: string
     helperText?: string
-}
+    onChange?: (e: any) => void
+    onBlur?: () => void
+} & Partial<FormControlProps>
 
 export const FormTextInput = (props: FormTextInputProps) => {
     const { field, fieldState } = useController({
@@ -23,17 +26,28 @@ export const FormTextInput = (props: FormTextInputProps) => {
     })
 
     return (
-        <FormControl isInvalid={fieldState.invalid}>
+        <FormControl isInvalid={fieldState.invalid} {...props}>
             {props.label && <FormLabel>{props.label}</FormLabel>}
 
             <Input
+                autoComplete="off"
                 name={field.name}
                 value={field.value}
                 isDisabled={field.disabled}
                 disabled={field.disabled}
                 ref={field.ref}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
+                onChange={(e) => {
+                    field.onChange(e)
+                    if (props.onChange) {
+                        props.onChange(e)
+                    }
+                }}
+                onBlur={() => {
+                    field.onBlur()
+                    if (props.onBlur) {
+                        props.onBlur()
+                    }
+                }}
                 variant={'filled'}
                 placeholder={props.placeholder}
                 size={'xs'}

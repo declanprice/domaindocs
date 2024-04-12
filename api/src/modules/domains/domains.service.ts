@@ -28,6 +28,11 @@ export class DomainsService {
         domainUsers: {
           create: {
             userId: session.userId,
+            domainUserRole: {
+              create: {
+                name: 'Employee',
+              },
+            },
           },
         },
       },

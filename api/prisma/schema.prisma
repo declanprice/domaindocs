@@ -12,6 +12,7 @@ model User {
   email             String             @unique
   firstName         String
   lastName          String
+  fullName          String
   iconUri           String?
   domainUsers       DomainUser[]
   subdomainUsers    SubdomainUser[]

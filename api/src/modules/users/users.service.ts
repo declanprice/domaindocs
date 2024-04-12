@@ -4,6 +4,8 @@ import { UserSession } from '../../auth/auth-session';
 import { SetupUserDto } from './dto/setup-user.dto';
 import { AuthService } from '../../auth/auth.service';
 import { AuthUserDto } from './dto/auth-user.dto';
+import { SearchUsersDto } from './dto/search-users.dto';
+import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class UsersService {
@@ -11,6 +13,38 @@ export class UsersService {
     readonly authService: AuthService,
     readonly prisma: PrismaService,
   ) {}
+
+  async searchUsers(session: UserSession, dto: SearchUsersDto) {
+    const result = await this.prisma.user.findMany({
+      where: {
+        fullName: {
+          contains: dto.name,
+        },
+      },
+      include: {
+        domainUsers: {
+          where: {
+            domainId: dto.domainId,
+          },
+          include: {
+            domainUserRole: true,
+          },
+          take: 1,
+        },
+      },
+    });
+
+    return result.map(
+      (user) =>
+        new UserDto(
+          user.userId,
+          user.firstName,
+          user.lastName,
+          user.domainUsers[0]?.domainUserRole?.name,
+          user.iconUri,
+        ),
+    );
+  }
 
   async getAuthUser(session: UserSession) {
     const result = await this.prisma.user.findUnique({
@@ -46,6 +80,7 @@ export class UsersService {
         email: authUser.emails[0],
         firstName: dto.firstName,
         lastName: dto.lastName,
+        fullName: `${dto.firstName} ${dto.lastName}`,
       },
       include: {
         domainUsers: {
