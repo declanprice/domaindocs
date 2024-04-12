@@ -51,7 +51,10 @@ export class SubdomainsService {
           include: {
             user: {
               include: {
-                domains: {
+                domainUsers: {
+                  include: {
+                    domainUserRole: true,
+                  },
                   where: {
                     domainId: subdomain.domainId,
                   },
@@ -63,9 +66,9 @@ export class SubdomainsService {
         },
         _count: {
           select: {
-            users: true,
-            teams: true,
-            projects: true,
+            subdomainUsers: true,
+            teamSubdomains: true,
+            projectSubdomains: true,
           },
         },
       },
@@ -74,9 +77,9 @@ export class SubdomainsService {
     return new SubdomainOverviewDto(
       result.name,
       new SubdomainSummaryDto(
-        result._count.users,
-        result._count.teams,
-        result._count.projects,
+        result._count.subdomainUsers,
+        result._count.teamSubdomains,
+        result._count.projectSubdomains,
         result.description,
       ),
       result.subdomainResourceLinks.map(
@@ -95,8 +98,8 @@ export class SubdomainsService {
             c.userId,
             c.user.firstName,
             c.user.lastName,
-            c.user.domains[0].role,
-            c.user.avatarUri,
+            c.user.domainUsers[0].domainUserRole?.name,
+            c.user.iconUri,
           ),
       ),
     );

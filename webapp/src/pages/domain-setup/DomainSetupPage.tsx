@@ -46,7 +46,7 @@ export const DomainSetupPage = () => {
         >
             <form onSubmit={handleSubmit(submit)}>
                 <Flex direction={'column'} alignItems={'end'} gap={6}>
-                    <Heading>Create Domain</Heading>
+                    <Heading size={'lg'}>Create Domain</Heading>
                     <FormTextInput
                         name={'domainName'}
                         control={control}
@@ -55,11 +55,15 @@ export const DomainSetupPage = () => {
                     <Button
                         type={'submit'}
                         color={'white'}
+                        size={'xs'}
                         backgroundColor={'gray.700'}
                     >
                         Continue
                     </Button>
-                    <Link href={'/auth/sign-in'}>Join an existing domain.</Link>
+
+                    <Link href={'/auth/sign-in'} fontSize={12}>
+                        Join an existing domain.
+                    </Link>
                 </Flex>
             </form>
         </Flex>

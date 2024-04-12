@@ -3,7 +3,7 @@ export class SubdomainContactDto {
     private userId: string,
     private firstName: string,
     private lastName: string,
-    private role?: string,
+    private roleName?: string,
     private avatarUri?: string,
   ) {}
 }

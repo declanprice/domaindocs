@@ -6,9 +6,10 @@ import {
     CardBody,
     CardHeader,
     Flex,
-    ListItem,
     List,
 } from '@chakra-ui/react'
+
+import { AddIconButton } from '@components/buttons/AddIconButton.tsx'
 
 type Contact = {
     userId: string
@@ -19,18 +20,25 @@ type Contact = {
 }
 
 type ContactsCardProps = {
+    onAdd: () => void
     contacts: Contact[]
 }
 
 export const ContactsCard = (props: ContactsCardProps) => {
-    const item = () => (
+    const { contacts, onAdd } = props
+
+    const item = (contact: Contact) => (
         <Flex alignItems="center">
-            <Avatar size={'sm'} src="https://bit.ly/sage-adebayo" />
+            <Avatar
+                size={'sm'}
+                src="https://bit.ly/sage-adebayo"
+                title={contact.firstName}
+            />
             <Box ml="3">
                 <Text fontWeight="regular" fontSize={14}>
-                    Declan Price
+                    {contact.firstName} {contact.lastName}
                 </Text>
-                <Text fontSize={12}>Software Developer</Text>
+                <Text fontSize={12}>{contact.role}</Text>
             </Box>
         </Flex>
     )
@@ -38,13 +46,13 @@ export const ContactsCard = (props: ContactsCardProps) => {
     return (
         <Card boxShadow="xs">
             <CardHeader pb={0} fontSize={16}>
-                Contacts
+                <Flex>
+                    <Text flex={1}>Contacts</Text>
+                    <AddIconButton onClick={onAdd} />
+                </Flex>
             </CardHeader>
             <CardBody>
-                <List>
-                    <ListItem mb={2}>{item()}</ListItem>
-                    <ListItem mb={2}>{item()}</ListItem>
-                </List>
+                <List>{contacts.map((c) => item(c))}</List>
             </CardBody>
         </Card>
     )

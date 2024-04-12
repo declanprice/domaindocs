@@ -11,7 +11,7 @@ export class DomainsService {
   async getUserDomains(session: UserSession) {
     return this.prisma.domain.findMany({
       where: {
-        users: {
+        domainUsers: {
           some: {
             userId: session.userId,
           },
@@ -25,7 +25,7 @@ export class DomainsService {
       data: {
         domainId: createSlug(dto.domainName),
         name: dto.domainName,
-        users: {
+        domainUsers: {
           create: {
             userId: session.userId,
           },

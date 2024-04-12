@@ -16,8 +16,8 @@ export type SubdomainContact = {
     userId: string
     firstName: string
     lastName: string
-    role?: string
-    avatarUri?: string
+    roleName?: string
+    iconUri?: string
 }
 
 export type SubdomainResourceLink = {

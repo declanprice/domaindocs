@@ -7,7 +7,6 @@ type SetupUserData = {
 
 export type AuthUserDomain = {
     domainId: string
-    slug: string
     name: string
 }
 
