@@ -9,6 +9,7 @@ export type Subdomain = {
     domainId: string
     subdomainId: string
     name: string
+    description: string
 }
 
 export type SubdomainContact = {
@@ -80,10 +81,24 @@ export const subdomainApi = (() => {
         return result.data
     }
 
+    const updateDescription = async (
+        subdomainId: string,
+        description: string
+    ): Promise<Subdomain> => {
+        const result = await apiClient.put<Subdomain>(
+            `/subdomains/${subdomainId}/description`,
+            {
+                description: description,
+            }
+        )
+
+        return result.data
+    }
     return {
         createSubdomain,
         searchSubdomains,
         getById,
         getOverviewById,
+        updateDescription,
     }
 })()

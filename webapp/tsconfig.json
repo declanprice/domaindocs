@@ -26,6 +26,9 @@
       "@components/*": [
         "./src/components/*"
       ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
       "@state/*": [
         "./src/state/*"
       ]

@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { Subdomain } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
-import { CreateSubdomainDto } from './dto/create-subdomain.dto';
+import { UpdateSubdomainDescriptionDto } from './dto/update-subdomain-description.dto';
 import { createSlug } from '../../util/create-slug';
 import { SubdomainOverviewDto } from './dto/subdomain-overview.dto';
 import { SubdomainSummaryDto } from './dto/subdomain-summary.dto';
 import { SubdomainResourceLinkDto } from './dto/subdomain-resource-link.dto';
 import { SubdomainContactDto } from './dto/subdomain-contact.dto';
+import { CreateSubdomainDto } from './dto/create-subdomain.dto';
+import { SubdomainDto } from './dto/subdomain.dto';
 
 @Injectable()
 export class SubdomainsService {
@@ -101,12 +103,41 @@ export class SubdomainsService {
   }
 
   async createSubdomain(session: UserSession, dto: CreateSubdomainDto) {
-    return this.prisma.subdomain.create({
+    const result = await this.prisma.subdomain.create({
       data: {
         domainId: dto.domainId,
         subdomainId: createSlug(dto.subdomainName),
         name: dto.subdomainName,
       },
     });
+
+    return new SubdomainDto(
+      result.subdomainId,
+      result.domainId,
+      result.name,
+      result.description,
+    );
+  }
+
+  async updateDescription(
+    session: UserSession,
+    subdomainId: string,
+    dto: UpdateSubdomainDescriptionDto,
+  ) {
+    const result = await this.prisma.subdomain.update({
+      where: {
+        subdomainId,
+      },
+      data: {
+        description: dto.description,
+      },
+    });
+
+    return new SubdomainDto(
+      result.subdomainId,
+      result.domainId,
+      result.name,
+      result.description,
+    );
   }
 }

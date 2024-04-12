@@ -6,11 +6,13 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
+import { UpdateSubdomainDescriptionDto } from './dto/update-subdomain-description.dto';
 import { CreateSubdomainDto } from './dto/create-subdomain.dto';
 
 @Controller('subdomains')
@@ -54,5 +56,14 @@ export class SubdomainsController {
     @Body() dto: CreateSubdomainDto,
   ) {
     return this.subdomainsService.createSubdomain(session, dto);
+  }
+
+  @Put(':subdomainId/description')
+  async updateDescription(
+    @AuthSession() session: UserSession,
+    @Param('subdomainId') subdomainId: string,
+    @Body() dto: UpdateSubdomainDescriptionDto,
+  ) {
+    return this.subdomainsService.updateDescription(session, subdomainId, dto);
   }
 }

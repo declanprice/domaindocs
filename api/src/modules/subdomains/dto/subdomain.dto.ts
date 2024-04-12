@@ -1,5 +1,8 @@
 export class SubdomainDto {
-  subdomainId: string;
-  domainId: string;
-  name: string;
+  constructor(
+    private subdomainId: string,
+    private domainId: string,
+    private name: string,
+    private description: string,
+  ) {}
 }

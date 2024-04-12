@@ -3,12 +3,12 @@ import {
     FormLabel,
     FormErrorMessage,
     FormHelperText,
-    Input,
+    Textarea,
 } from '@chakra-ui/react'
 
 import { Control, useController } from 'react-hook-form'
 
-type FormTextInputProps = {
+type FormTextAreaProps = {
     name: string
     placeholder?: string
     control: Control<any>
@@ -16,7 +16,7 @@ type FormTextInputProps = {
     helperText?: string
 }
 
-export const FormTextInput = (props: FormTextInputProps) => {
+export const FormTextArea = (props: FormTextAreaProps) => {
     const { field, fieldState } = useController({
         name: props.name,
         control: props.control,
@@ -26,7 +26,7 @@ export const FormTextInput = (props: FormTextInputProps) => {
         <FormControl isInvalid={fieldState.invalid}>
             {props.label && <FormLabel>{props.label}</FormLabel>}
 
-            <Input
+            <Textarea
                 name={field.name}
                 value={field.value}
                 isDisabled={field.disabled}
