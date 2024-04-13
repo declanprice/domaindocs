@@ -13,6 +13,7 @@ export type Subdomain = {
 }
 
 export type SubdomainContact = {
+    personId: string
     userId: string
     firstName: string
     lastName: string
@@ -101,11 +102,28 @@ export const subdomainsApi = (() => {
 
         return result.data
     }
+
+    const addContacts = async (
+        domainId: string,
+        subdomainId: string,
+        contacts: SubdomainContact[]
+    ): Promise<Subdomain> => {
+        const result = await apiClient.put<Subdomain>(
+            `/domains/${domainId}/subdomains/${subdomainId}/contacts`,
+            {
+                personIds: contacts.map((p) => p.personId),
+            }
+        )
+
+        return result.data
+    }
+
     return {
         createSubdomain,
         searchSubdomains,
         getById,
         getOverviewById,
         updateDescription,
+        addContacts,
     }
 })()

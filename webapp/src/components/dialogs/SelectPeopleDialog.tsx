@@ -30,7 +30,7 @@ export type SelectPeopleDialogProps = {
     onClose: () => void
     onSearch: (name: string) => void
     isSearching: boolean
-    onSelect: (people: Person[]) => void
+    onSelect: (people: Person[]) => Promise<void>
     people?: Person[]
 }
 
@@ -46,6 +46,7 @@ export const SelectPeopleDialog = (props: SelectPeopleDialogProps) => {
     const { isOpen, onClose, title, onSearch, isSearching, people, onSelect } =
         props
 
+    const [isAdding, setIsAdding] = useState(false)
     const [searchName, setSearchName] = useState<string>('')
     const [searchNameDebounced] = useDebounce(searchName, 500)
 
@@ -69,6 +70,7 @@ export const SelectPeopleDialog = (props: SelectPeopleDialogProps) => {
         control: selectedPeopleControl,
         handleSubmit: submitSelectedPeople,
         formState: selectedPeopleForm,
+        reset: selectedPeopleReset,
     } = useForm<SelectedPeopleForm>({
         values: {
             people: [],
@@ -77,7 +79,7 @@ export const SelectPeopleDialog = (props: SelectPeopleDialogProps) => {
             object({
                 people: array(
                     object({
-                        userId: string(),
+                        personId: string(),
                     }),
                     [minLength(1, 'Select at least 1 person')]
                 ),
@@ -101,6 +103,7 @@ export const SelectPeopleDialog = (props: SelectPeopleDialogProps) => {
 
     const closeAndReset = () => {
         searchPeopleReset()
+        selectedPeopleReset()
         onClose()
     }
 
@@ -211,11 +214,18 @@ export const SelectPeopleDialog = (props: SelectPeopleDialogProps) => {
                             size={'xs'}
                             colorScheme={'gray'}
                             variant={'solid'}
-                            isDisabled={!selectedPeopleForm.isValid}
+                            isDisabled={!selectedPeopleForm.isValid || isAdding}
+                            isLoading={isAdding}
                             onClick={() => {
                                 submitSelectedPeople(
-                                    (form: SelectedPeopleForm) => {
-                                        onSelect(form.people)
+                                    async (form: SelectedPeopleForm) => {
+                                        try {
+                                            setIsAdding(true)
+                                            await onSelect(form.people)
+                                            closeAndReset()
+                                        } finally {
+                                            setIsAdding(false)
+                                        }
                                     }
                                 )()
                             }}

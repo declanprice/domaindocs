@@ -10,7 +10,8 @@ import { SubdomainResourceLinkDto } from './dto/subdomain-resource-link.dto';
 import { SubdomainContactDto } from './dto/subdomain-contact.dto';
 import { CreateSubdomainDto } from './dto/create-subdomain.dto';
 import { SubdomainDto } from './dto/subdomain.dto';
-import { AddSubdomainContactDto } from './dto/add-subdomain-contact.dto';
+import { AddSubdomainContactsDto } from './dto/add-subdomain-contacts.dto';
+import { v4 } from 'uuid';
 
 @Injectable()
 export class SubdomainsService {
@@ -48,14 +49,10 @@ export class SubdomainsService {
         subdomainResourceLinks: true,
         subdomainContacts: {
           include: {
-            user: {
+            person: {
               include: {
-                roles: {
-                  where: {
-                    domainId,
-                  },
-                  take: 1,
-                },
+                user: true,
+                role: true,
               },
             },
           },
@@ -91,11 +88,12 @@ export class SubdomainsService {
       result.subdomainContacts.map(
         (c) =>
           new SubdomainContactDto(
-            c.userId,
-            c.user.firstName,
-            c.user.lastName,
-            c.user.iconUri,
-            c.user.roles[0]?.name,
+            c.person.personId,
+            c.person.user.userId,
+            c.person.user.firstName,
+            c.person.user.lastName,
+            c.person.user.iconUri,
+            c.person.role?.name,
           ),
       ),
     );
@@ -144,37 +142,18 @@ export class SubdomainsService {
     );
   }
 
-  async addContact(
+  async addContacts(
     session: UserSession,
     domainId: string,
     subdomainId: string,
-    dto: AddSubdomainContactDto,
-  ): Promise<SubdomainContactDto> {
-    const result = await this.prisma.subdomainContact.create({
-      data: {
+    dto: AddSubdomainContactsDto,
+  ) {
+    await this.prisma.subdomainContact.createMany({
+      data: dto.personIds.map((personId) => ({
+        contactId: v4(),
         subdomainId,
-        userId: dto.userId,
-      },
-      include: {
-        user: {
-          include: {
-            roles: {
-              where: {
-                domainId,
-              },
-              take: 1,
-            },
-          },
-        },
-      },
+        personId,
+      })),
     });
-
-    return new SubdomainContactDto(
-      result.userId,
-      result.user.firstName,
-      result.user.lastName,
-      result.user.iconUri,
-      result.user.roles[0]?.name,
-    );
   }
 }

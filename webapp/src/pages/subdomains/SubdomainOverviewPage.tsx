@@ -69,6 +69,9 @@ export const SubdomainOverviewPage = () => {
                 subdomainName={overview.name}
                 subdomainId={subdomainId}
                 subdomainContacts={overview.contacts}
+                onAddContacts={async () => {
+                    await refetch()
+                }}
             />
         </Flex>
     )

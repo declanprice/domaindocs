@@ -1,6 +1,7 @@
 import { apiClient } from '@state/api/api-client.ts'
 
 export type Person = {
+    personId: string
     userId: string
     email: string
     firstName: string

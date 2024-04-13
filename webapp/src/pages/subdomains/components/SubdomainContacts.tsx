@@ -1,23 +1,29 @@
 import { useEffect, useState } from 'react'
 import { useDisclosure } from '@chakra-ui/react'
-import { useQuery } from '@tanstack/react-query'
-import {
-    Contact,
-    ContactsCard,
-} from '@components/cards/contacts/ContactsCard.tsx'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { ContactsCard } from '@components/cards/contacts/ContactsCard.tsx'
 import { SelectPeopleDialog } from '@components/dialogs/SelectPeopleDialog.tsx'
 import { queryClient } from '@state/query-client.ts'
 import { peopleApi } from '@state/api/people-api.ts'
+
+import { SubdomainContact, subdomainsApi } from '@state/api/subdomains-api.ts'
 
 type SubdomainContacts = {
     subdomainName: string
     subdomainId: string
     domainId: string
-    subdomainContacts: Contact[]
+    subdomainContacts: SubdomainContact[]
+    onAddContacts: (contacts: SubdomainContact[]) => Promise<void>
 }
 
 export const SubdomainContacts = (props: SubdomainContacts) => {
-    const { domainId, subdomainName, subdomainId, subdomainContacts } = props
+    const {
+        domainId,
+        subdomainName,
+        subdomainId,
+        subdomainContacts,
+        onAddContacts,
+    } = props
 
     const [searchName, setSearchName] = useState<string | null>(null)
 
@@ -45,8 +51,16 @@ export const SubdomainContacts = (props: SubdomainContacts) => {
         },
     })
 
+    const { mutateAsync: addContacts } = useMutation({
+        mutationKey: ['addContacts', { domainId, subdomainId }],
+        mutationFn: async (contacts: SubdomainContact[]) => {
+            await subdomainsApi.addContacts(domainId, subdomainId, contacts)
+            await onAddContacts(contacts)
+        },
+    })
+
     useEffect(() => {
-        if (searchName === null) return
+        if (searchName == null) return
         searchPeople().then()
     }, [searchName])
 
@@ -66,8 +80,8 @@ export const SubdomainContacts = (props: SubdomainContacts) => {
                     setSearchName(name)
                 }}
                 isSearching={isSearchingPeople}
-                onSelect={(people) => {
-                    console.log('selected people', people)
+                onSelect={async (people) => {
+                    await addContacts(people)
                 }}
             />
         </>

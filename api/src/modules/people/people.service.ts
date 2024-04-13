@@ -31,6 +31,7 @@ export class PeopleService {
     return result.map(
       (person) =>
         new PersonDto(
+          person.personId,
           person.userId,
           person.user.firstName,
           person.user.lastName,

@@ -13,7 +13,7 @@ import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import { UpdateSubdomainDescriptionDto } from './dto/update-subdomain-description.dto';
 import { CreateSubdomainDto } from './dto/create-subdomain.dto';
-import { AddSubdomainContactDto } from './dto/add-subdomain-contact.dto';
+import { AddSubdomainContactsDto } from './dto/add-subdomain-contacts.dto';
 
 @Controller('domains/:domainId/subdomains')
 @UseGuards(AuthGuard)
@@ -73,14 +73,14 @@ export class SubdomainsController {
     return this.subdomainsService.updateDescription(session, subdomainId, dto);
   }
 
-  @Put(':subdomainId/contact')
+  @Put(':subdomainId/contacts')
   async addContact(
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
     @Param('subdomainId') subdomainId: string,
-    @Body() dto: AddSubdomainContactDto,
+    @Body() dto: AddSubdomainContactsDto,
   ) {
-    return this.subdomainsService.addContact(
+    return this.subdomainsService.addContacts(
       session,
       domainId,
       subdomainId,

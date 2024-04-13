@@ -103,11 +103,12 @@ model SubdomainContact {
   contactId String @id
 
   subdomainId String
-  subdomains  Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+  subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
 
   personId String
   person   Person @relation(fields: [personId], references: [personId])
 
+  @@unique([personId, subdomainId])
   @@index([personId])
   @@index([subdomainId])
 }

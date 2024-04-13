@@ -12,6 +12,7 @@ import {
 import { AddIconButton } from '@components/buttons/AddIconButton.tsx'
 
 export type Contact = {
+    personId: string
     userId: string
     firstName: string
     lastName: string

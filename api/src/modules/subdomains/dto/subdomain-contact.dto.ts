@@ -1,5 +1,6 @@
 export class SubdomainContactDto {
   constructor(
+    private personId: string,
     private userId: string,
     private firstName: string,
     private lastName: string,
