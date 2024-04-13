@@ -7,15 +7,15 @@ import {
   Param,
   Post,
   Put,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import { UpdateSubdomainDescriptionDto } from './dto/update-subdomain-description.dto';
 import { CreateSubdomainDto } from './dto/create-subdomain.dto';
+import { AddSubdomainContactDto } from './dto/add-subdomain-contact.dto';
 
-@Controller('subdomains')
+@Controller('domains/:domainId/subdomains')
 @UseGuards(AuthGuard)
 export class SubdomainsController {
   constructor(readonly subdomainsService: SubdomainsService) {}
@@ -23,15 +23,15 @@ export class SubdomainsController {
   @Get('')
   async querySubdomains(
     @AuthSession() session: UserSession,
-    @Query('domainId') domainId: string,
+    @Param('domainId') domainId: string,
   ) {
-    if (domainId) {
-      return this.subdomainsService.getSubdomainsByDomainId(session, domainId);
+    if (!domainId) {
+      throw new BadRequestException({
+        message: 'Invalid search request.',
+      });
     }
 
-    throw new BadRequestException({
-      message: 'Invalid search request.',
-    });
+    return this.subdomainsService.getSubdomainsByDomainId(session, domainId);
   }
 
   @Get(':subdomainId')
@@ -45,17 +45,23 @@ export class SubdomainsController {
   @Get(':subdomainId/overview')
   async getSubdomainOverview(
     @AuthSession() session: UserSession,
+    @Param('domainId') domainId: string,
     @Param('subdomainId') subdomainId: string,
   ) {
-    return this.subdomainsService.getOverviewById(session, subdomainId);
+    return this.subdomainsService.getOverviewById(
+      session,
+      domainId,
+      subdomainId,
+    );
   }
 
   @Post('')
   async createSubdomain(
     @AuthSession() session: UserSession,
+    @Param('domainId') domainId: string,
     @Body() dto: CreateSubdomainDto,
   ) {
-    return this.subdomainsService.createSubdomain(session, dto);
+    return this.subdomainsService.createSubdomain(session, domainId, dto);
   }
 
   @Put(':subdomainId/description')
@@ -65,5 +71,20 @@ export class SubdomainsController {
     @Body() dto: UpdateSubdomainDescriptionDto,
   ) {
     return this.subdomainsService.updateDescription(session, subdomainId, dto);
+  }
+
+  @Put(':subdomainId/contact')
+  async addContact(
+    @AuthSession() session: UserSession,
+    @Param('domainId') domainId: string,
+    @Param('subdomainId') subdomainId: string,
+    @Body() dto: AddSubdomainContactDto,
+  ) {
+    return this.subdomainsService.addContact(
+      session,
+      domainId,
+      subdomainId,
+      dto,
+    );
   }
 }

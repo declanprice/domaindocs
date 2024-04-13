@@ -8,31 +8,20 @@ import { createSlug } from '../../util/create-slug';
 export class DomainsService {
   constructor(readonly prisma: PrismaService) {}
 
-  async getUserDomains(session: UserSession) {
-    return this.prisma.domain.findMany({
-      where: {
-        domainUsers: {
-          some: {
-            userId: session.userId,
-          },
-        },
-      },
-    });
-  }
-
   async setupDomain(session: UserSession, dto: SetupDomainDto) {
     return this.prisma.domain.create({
       data: {
         domainId: createSlug(dto.domainName),
         name: dto.domainName,
-        domainUsers: {
+        roles: {
           create: {
             userId: session.userId,
-            domainUserRole: {
-              create: {
-                name: 'Employee',
-              },
-            },
+            name: dto.domainName,
+          },
+        },
+        people: {
+          create: {
+            userId: session.userId,
           },
         },
       },

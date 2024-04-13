@@ -10,6 +10,7 @@ import { SubdomainResourceLinkDto } from './dto/subdomain-resource-link.dto';
 import { SubdomainContactDto } from './dto/subdomain-contact.dto';
 import { CreateSubdomainDto } from './dto/create-subdomain.dto';
 import { SubdomainDto } from './dto/subdomain.dto';
+import { AddSubdomainContactDto } from './dto/add-subdomain-contact.dto';
 
 @Injectable()
 export class SubdomainsService {
@@ -34,13 +35,11 @@ export class SubdomainsService {
     });
   }
 
-  async getOverviewById(session: UserSession, subdomainId: string) {
-    const subdomain = await this.prisma.subdomain.findUniqueOrThrow({
-      where: {
-        subdomainId,
-      },
-    });
-
+  async getOverviewById(
+    session: UserSession,
+    domainId: string,
+    subdomainId: string,
+  ) {
     const result = await this.prisma.subdomain.findUniqueOrThrow({
       where: {
         subdomainId,
@@ -51,12 +50,9 @@ export class SubdomainsService {
           include: {
             user: {
               include: {
-                domainUsers: {
-                  include: {
-                    domainUserRole: true,
-                  },
+                roles: {
                   where: {
-                    domainId: subdomain.domainId,
+                    domainId,
                   },
                   take: 1,
                 },
@@ -66,7 +62,7 @@ export class SubdomainsService {
         },
         _count: {
           select: {
-            subdomainUsers: true,
+            subdomainPeople: true,
             teamSubdomains: true,
             projectSubdomains: true,
           },
@@ -77,7 +73,7 @@ export class SubdomainsService {
     return new SubdomainOverviewDto(
       result.name,
       new SubdomainSummaryDto(
-        result._count.subdomainUsers,
+        result._count.subdomainPeople,
         result._count.teamSubdomains,
         result._count.projectSubdomains,
         result.description,
@@ -98,17 +94,21 @@ export class SubdomainsService {
             c.userId,
             c.user.firstName,
             c.user.lastName,
-            c.user.domainUsers[0].domainUserRole?.name,
             c.user.iconUri,
+            c.user.roles[0]?.name,
           ),
       ),
     );
   }
 
-  async createSubdomain(session: UserSession, dto: CreateSubdomainDto) {
+  async createSubdomain(
+    session: UserSession,
+    domainId: string,
+    dto: CreateSubdomainDto,
+  ) {
     const result = await this.prisma.subdomain.create({
       data: {
-        domainId: dto.domainId,
+        domainId,
         subdomainId: createSlug(dto.subdomainName),
         name: dto.subdomainName,
       },
@@ -141,6 +141,40 @@ export class SubdomainsService {
       result.domainId,
       result.name,
       result.description,
+    );
+  }
+
+  async addContact(
+    session: UserSession,
+    domainId: string,
+    subdomainId: string,
+    dto: AddSubdomainContactDto,
+  ): Promise<SubdomainContactDto> {
+    const result = await this.prisma.subdomainContact.create({
+      data: {
+        subdomainId,
+        userId: dto.userId,
+      },
+      include: {
+        user: {
+          include: {
+            roles: {
+              where: {
+                domainId,
+              },
+              take: 1,
+            },
+          },
+        },
+      },
+    });
+
+    return new SubdomainContactDto(
+      result.userId,
+      result.user.firstName,
+      result.user.lastName,
+      result.user.iconUri,
+      result.user.roles[0]?.name,
     );
   }
 }

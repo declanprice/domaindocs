@@ -4,8 +4,8 @@ import Session from 'supertokens-web-js/recipe/session'
 import Passwordless from 'supertokens-web-js/recipe/passwordless'
 import { immer } from 'zustand/middleware/immer'
 import SuperTokens from 'supertokens-web-js'
-import { userApi, AuthUser } from '@state/api/user-api.ts'
-import { Domain } from '@state/api/domain-api.ts'
+import { usersApi, AuthUser } from '@state/api/users-api.ts'
+import { Domain } from '@state/api/domains-api.ts'
 
 SuperTokens.init({
     appInfo: {
@@ -67,7 +67,7 @@ export const useAuthStore = create<AuthStoreState>()(
                     if (response.status === 'OK') {
                         const userId = response.user.id
 
-                        const result = await userApi.getAuthUser()
+                        const result = await usersApi.getAuthUser()
 
                         set((state) => {
                             state.userId = userId
@@ -82,7 +82,7 @@ export const useAuthStore = create<AuthStoreState>()(
 
                     const userId = await Session.getUserId()
 
-                    const result = await userApi.getAuthUser()
+                    const result = await usersApi.getAuthUser()
 
                     set((state) => {
                         state.userId = userId

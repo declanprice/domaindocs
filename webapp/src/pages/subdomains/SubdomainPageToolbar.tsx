@@ -1,6 +1,6 @@
 import { PageToolbar } from '@components/page/PageToolbar.tsx'
 import { useQuery } from '@tanstack/react-query'
-import { Subdomain, subdomainApi } from '@state/api/subdomain-api.ts'
+import { Subdomain, subdomainsApi } from '@state/api/subdomains-api.ts'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { SubdomainSelectMenu } from './components/SubdomainSelectMenu.tsx'
@@ -18,7 +18,7 @@ export const SubdomainPageToolbar = () => {
         enabled: false,
         queryKey: ['domainSubdomains'],
         queryFn: () =>
-            subdomainApi.searchSubdomains({
+            subdomainsApi.searchSubdomains({
                 domainId: domainId as string,
             }),
     })

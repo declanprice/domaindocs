@@ -9,8 +9,8 @@ client.$connect().then(async () => {
   console.log('SEED: clearing data');
 
   await client.subdomain.deleteMany();
-  await client.domainUserRole.deleteMany();
-  await client.domainUser.deleteMany();
+  await client.role.deleteMany();
+  await client.person.deleteMany();
   await client.domain.deleteMany();
   await client.user.deleteMany();
 
@@ -21,7 +21,7 @@ client.$connect().then(async () => {
   await client.domain.create({
     data: {
       ...ros(),
-      domainUsers: {
+      roles: {
         createMany: {
           data: [
             {
@@ -36,7 +36,7 @@ client.$connect().then(async () => {
           ],
         },
       },
-      domainUserRoles: {
+      people: {
         createMany: {
           data: [
             {

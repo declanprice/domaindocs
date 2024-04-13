@@ -8,7 +8,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useToast } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useAuthStore } from '@state/stores/auth.store.ts'
-import { userApi } from '@state/api/user-api.ts'
+import { usersApi } from '@state/api/users-api.ts'
 
 export const AccountSetupPage = () => {
     const { setUser } = useAuthStore()
@@ -20,7 +20,7 @@ export const AccountSetupPage = () => {
     const { mutate, error, isPending } = useMutation({
         mutationKey: ['setupUser'],
         mutationFn: async (data: any) => {
-            const user = await userApi.setupUser({
+            const user = await usersApi.setupUser({
                 firstName: data.firstName,
                 lastName: data.lastName,
             })

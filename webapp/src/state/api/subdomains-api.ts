@@ -46,47 +46,60 @@ export type SubdomainSearch = {
     domainId: string
 }
 
-export const subdomainApi = (() => {
+export const subdomainsApi = (() => {
     const createSubdomain = async (
+        domainId: string,
         data: CreateSubdomainData
     ): Promise<Subdomain> => {
-        const result = await apiClient.post<Subdomain>('/subdomains', data)
+        const result = await apiClient.post<Subdomain>(
+            `/domains/${domainId}/subdomains`,
+            data
+        )
         return result.data
     }
 
-    const getById = async (subdomainId: string): Promise<Subdomain> => {
+    const getById = async (
+        domainId: string,
+        subdomainId: string
+    ): Promise<Subdomain> => {
         const result = await apiClient.get<Subdomain>(
-            `/subdomains/${subdomainId}`
+            `/domains/${domainId}/subdomains/${subdomainId}`
         )
         return result.data
     }
 
     const getOverviewById = async (
+        domainId: string,
         subdomainId: string
     ): Promise<SubdomainOverview> => {
         const result = await apiClient.get<SubdomainOverview>(
-            `/subdomains/${subdomainId}/overview`
+            `/domains/${domainId}/subdomains/${subdomainId}/overview`
         )
 
         return result.data
     }
 
     const searchSubdomains = async (
+        domainId: string,
         search: SubdomainSearch
     ): Promise<Subdomain[]> => {
-        const result = await apiClient.get<Subdomain[]>('/subdomains', {
-            params: search,
-        })
+        const result = await apiClient.get<Subdomain[]>(
+            `/domains/${domainId}/subdomains`,
+            {
+                params: search,
+            }
+        )
 
         return result.data
     }
 
     const updateDescription = async (
+        domainId: string,
         subdomainId: string,
         description: string
     ): Promise<Subdomain> => {
         const result = await apiClient.put<Subdomain>(
-            `/subdomains/${subdomainId}/description`,
+            `/domains/${domainId}/subdomains/${subdomainId}/description`,
             {
                 description: description,
             }

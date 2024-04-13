@@ -13,48 +13,49 @@ model User {
   email             String             @unique
   firstName         String
   lastName          String
+  fullName          String
   iconUri           String?
-  domainUsers       DomainUser[]
-  subdomainUsers    SubdomainUser[]
+  people            Person[]
+  subdomainPeople   SubdomainPerson[]
   subdomainContacts SubdomainContact[]
-  teamUsers         TeamUser[]
-  projectsUsers     ProjectUser[]
-  domainUserRoles   DomainUserRole[]
+  teamPeople        TeamPerson[]
+  projectPeople     ProjectPerson[]
+  roles             Role[]
 }
 
 model Domain {
-  domainId        String           @id
-  name            String           @unique
-  domainUsers     DomainUser[]
+  domainId        String            @id
+  name            String            @unique
+  people          Person[]
   subdomains      Subdomain[]
-  subdomainUsers  SubdomainUser[]
+  subdomainPeople SubdomainPerson[]
   teams           Team[]
   projects        Project[]
-  domainUserRoles DomainUserRole[]
+  roles           Role[]
 }
 
-model DomainUser {
+model Person {
+  role Role @relation(fields: [userId, domainId], references: [userId, domainId])
+
   userId String
   user   User   @relation(fields: [userId], references: [userId])
 
   domainId String
   domain   Domain @relation(fields: [domainId], references: [domainId])
-
-  domainUserRole DomainUserRole?
 
   @@id([userId, domainId])
   @@index([userId])
   @@index([domainId])
 }
 
-model DomainUserRole {
+model Role {
   userId String
   user   User   @relation(fields: [userId], references: [userId])
 
   domainId String
   domain   Domain @relation(fields: [domainId], references: [domainId])
 
-  domainUser DomainUser @relation(fields: [userId, domainId], references: [userId, domainId], map: "domain_user_fk")
+  person Person?
 
   name String @default("Employee")
 
@@ -69,7 +70,7 @@ model Subdomain {
   domain                 Domain                  @relation(fields: [domainId], references: [domainId])
   name                   String                  @unique
   description            String                  @default("")
-  subdomainUsers         SubdomainUser[]
+  subdomainPeople        SubdomainPerson[]
   subdomainContacts      SubdomainContact[]
   subdomainResourceLinks SubdomainResourceLink[]
   teamSubdomains         TeamSubdomain[]
@@ -78,7 +79,7 @@ model Subdomain {
   @@index([domainId])
 }
 
-model SubdomainUser {
+model SubdomainPerson {
   userId String
   user   User   @relation(fields: [userId], references: [userId])
 
@@ -127,7 +128,7 @@ model Team {
 
   domainId          String
   domain            Domain             @relation(fields: [domainId], references: [domainId])
-  teamUsers         TeamUser[]
+  teamPeople        TeamPerson[]
   teamSubdomains    TeamSubdomain[]
   projectTeams      ProjectTeam[]
   projectSubdomains ProjectSubdomain[]
@@ -135,7 +136,7 @@ model Team {
   @@index([domainId])
 }
 
-model TeamUser {
+model TeamPerson {
   teamId String
   team   Team   @relation(fields: [teamId], references: [teamId])
 
@@ -166,15 +167,15 @@ model Project {
   name      String
   iconUri   String?
 
-  domainId     String
-  domain       Domain        @relation(fields: [domainId], references: [domainId])
-  projectUsers ProjectUser[]
-  projectTeams ProjectTeam[]
+  domainId      String
+  domain        Domain          @relation(fields: [domainId], references: [domainId])
+  projectPeople ProjectPerson[]
+  projectTeams  ProjectTeam[]
 
   @@index([domainId])
 }
 
-model ProjectUser {
+model ProjectPerson {
   projectId String
   project   Project @relation(fields: [projectId], references: [projectId])
 

@@ -1,4 +1,4 @@
-export class SubdomainContactDto {
+export class PersonDto {
   constructor(
     private userId: string,
     private firstName: string,

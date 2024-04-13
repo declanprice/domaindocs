@@ -6,6 +6,7 @@ import { DomainsModule } from './modules/domains/domains.module';
 import { SubdomainsModule } from './modules/subdomains/subdomains.module';
 import { TeamsModule } from './modules/teams/teams.module';
 import { ProjectsModule } from './modules/projects/projects.module';
+import { PeopleModule } from './modules/people/people.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ProjectsModule } from './modules/projects/projects.module';
     }),
     ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
+    PeopleModule,
     DomainsModule,
     SubdomainsModule,
     TeamsModule,

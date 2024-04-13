@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, CardBody, CardHeader, Flex } from '@chakra-ui/react'
+import { Card, CardBody, CardHeader } from '@chakra-ui/react'
 
 type ResourceLink = {
     linkId: string

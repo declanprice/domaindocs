@@ -16,7 +16,7 @@ import { TbUsersGroup } from 'react-icons/tb'
 import { useUiStore } from '@state/stores/ui.store.ts'
 import { useAuthStore } from '@state/stores/auth.store.ts'
 import { useQuery } from '@tanstack/react-query'
-import { Subdomain, subdomainApi } from '@state/api/subdomain-api.ts'
+import { Subdomain, subdomainsApi } from '@state/api/subdomains-api.ts'
 
 const NavListItem = (props: {
     icon: any
@@ -65,7 +65,7 @@ export const NavBar = () => {
     const { data: subdomains } = useQuery<Subdomain[]>({
         queryKey: ['domainSubdomains'],
         queryFn: () =>
-            subdomainApi.searchSubdomains({
+            subdomainsApi.searchSubdomains({
                 domainId: params.domainId as string,
             }),
     })

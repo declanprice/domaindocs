@@ -7,8 +7,8 @@ import { DefaultError, useMutation } from '@tanstack/react-query'
 import {
     CreateSubdomainData,
     Subdomain,
-    subdomainApi,
-} from '@state/api/subdomain-api.ts'
+    subdomainsApi,
+} from '@state/api/subdomains-api.ts'
 import { FormTextInput } from '@components/form/FormInput.tsx'
 import { queryClient } from '@state/query-client.ts'
 
@@ -27,7 +27,7 @@ export const SubdomainCreatePage = () => {
         CreateSubdomainData
     >({
         mutationKey: ['createSubdomain'],
-        mutationFn: (data) => subdomainApi.createSubdomain(data),
+        mutationFn: (data) => subdomainsApi.createSubdomain(data),
         onSuccess: async (data) => {
             await queryClient.invalidateQueries({
                 queryKey: ['domainSubdomains'],

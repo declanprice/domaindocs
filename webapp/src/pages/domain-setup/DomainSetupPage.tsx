@@ -5,7 +5,7 @@ import { valibotResolver } from '@hookform/resolvers/valibot'
 import { object, string } from 'valibot'
 import { FormTextInput } from '@components/form/FormInput.tsx'
 import { DefaultError, useMutation } from '@tanstack/react-query'
-import { SetupDomainDto, Domain, domainApi } from '@state/api/domain-api.ts'
+import { SetupDomainDto, Domain, domainsApi } from '@state/api/domains-api.ts'
 import { useAuthStore } from '@state/stores/auth.store.ts'
 
 export const DomainSetupPage = () => {
@@ -15,7 +15,7 @@ export const DomainSetupPage = () => {
 
     const { mutate } = useMutation<Domain, DefaultError, SetupDomainDto>({
         mutationKey: ['setupDomain'],
-        mutationFn: domainApi.setupDomain,
+        mutationFn: domainsApi.setupDomain,
         onSuccess: (data) => {
             setUserDomains(data)
             navigate(`/${data.domainId}/home`)

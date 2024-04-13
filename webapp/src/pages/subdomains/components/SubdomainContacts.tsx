@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useDisclosure } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
-import { userApi } from '@state/api/user-api.ts'
 import {
     Contact,
     ContactsCard,
 } from '@components/cards/contacts/ContactsCard.tsx'
-import { SelectUsersDialog } from '@components/dialogs/SelectUsersDialog.tsx'
+import { SelectPeopleDialog } from '@components/dialogs/SelectPeopleDialog.tsx'
 import { queryClient } from '@state/query-client.ts'
+import { peopleApi } from '@state/api/people-api.ts'
 
 type SubdomainContacts = {
     subdomainName: string
@@ -22,13 +22,13 @@ export const SubdomainContacts = (props: SubdomainContacts) => {
     const [searchName, setSearchName] = useState<string | null>(null)
 
     const {
-        data: searchUsersData,
-        isLoading: isSearchingUsers,
-        refetch: searchUsers,
+        data: searchPeopleResult,
+        isLoading: isSearchingPeople,
+        refetch: searchPeople,
     } = useQuery({
         enabled: false,
-        queryKey: ['usersSearch', { subdomainId }],
-        queryFn: () => userApi.searchUsers({ domainId, name: searchName! }),
+        queryKey: ['peopleSearch', { domainId, subdomainId }],
+        queryFn: () => peopleApi.searchPeople(domainId, { name: searchName! }),
     })
 
     const {
@@ -38,14 +38,16 @@ export const SubdomainContacts = (props: SubdomainContacts) => {
     } = useDisclosure({
         onClose() {
             queryClient
-                .resetQueries({ queryKey: ['usersSearch', { subdomainId }] })
+                .resetQueries({
+                    queryKey: ['peopleSearch', { domainId, subdomainId }],
+                })
                 .then()
         },
     })
 
     useEffect(() => {
         if (searchName === null) return
-        searchUsers().then()
+        searchPeople().then()
     }, [searchName])
 
     return (
@@ -55,17 +57,17 @@ export const SubdomainContacts = (props: SubdomainContacts) => {
                 onAdd={onAddContactOpen}
             />
 
-            <SelectUsersDialog
+            <SelectPeopleDialog
                 title={`Pin a new contact to ${subdomainName} subdomain.`}
                 isOpen={isAddContactOpen}
                 onClose={onAddContactClose}
-                users={searchUsersData}
+                people={searchPeopleResult}
                 onSearch={(name) => {
                     setSearchName(name)
                 }}
-                isSearching={isSearchingUsers}
-                onSelect={(contacts) => {
-                    console.log(contacts)
+                isSearching={isSearchingPeople}
+                onSelect={(people) => {
+                    console.log('selected people', people)
                 }}
             />
         </>

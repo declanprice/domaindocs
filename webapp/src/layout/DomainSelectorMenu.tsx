@@ -11,7 +11,7 @@ import {
 
 import { IoChevronDown } from 'react-icons/io5'
 
-import { Domain } from '@state/api/domain-api.ts'
+import { Domain } from '@state/api/domains-api.ts'
 
 type DomainSelectorMenuProps = {
     iconOnly: boolean

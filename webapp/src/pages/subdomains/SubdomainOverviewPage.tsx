@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { subdomainApi, SubdomainOverview } from '@state/api/subdomain-api.ts'
+import { subdomainsApi, SubdomainOverview } from '@state/api/subdomains-api.ts'
 import { LoadingContainer } from '@components/loading/LoadingContainer.tsx'
 import { Flex, Heading, Text, useToast } from '@chakra-ui/react'
 import { SummaryCard } from '@components/cards/summary/SummaryCard.tsx'
@@ -18,14 +18,15 @@ export const SubdomainOverviewPage = () => {
         refetch,
     } = useQuery<SubdomainOverview>({
         queryKey: ['subdomainOverview', { subdomainId }],
-        queryFn: () => subdomainApi.getOverviewById(subdomainId as string),
+        queryFn: () => subdomainsApi.getOverviewById(domainId, subdomainId),
     })
 
     const { mutate: updateDescription } = useMutation({
         mutationKey: ['updateDescription'],
         mutationFn: async (description: string) => {
-            await subdomainApi.updateDescription(
-                subdomainId as string,
+            await subdomainsApi.updateDescription(
+                domainId,
+                subdomainId,
                 description
             )
 

@@ -6,9 +6,10 @@ import {
     Flex,
     List,
     ListItem,
+    Avatar,
+    Box,
 } from '@chakra-ui/react'
 import { AddIconButton } from '@components/buttons/AddIconButton.tsx'
-import { UserListItem } from '@components/user/UserListItem.tsx'
 
 export type Contact = {
     userId: string
@@ -36,15 +37,25 @@ export const ContactsCard = (props: ContactsCardProps) => {
             </CardHeader>
             <CardBody>
                 <List>
-                    {contacts.map((c) => (
+                    {contacts.map((u) => (
                         <ListItem>
-                            <UserListItem
-                                firstName={c.firstName}
-                                lastName={c.lastName}
-                                roleName={c.roleName}
-                                iconUri={c.iconUri}
-                                key={c.userId}
-                            />
+                            <Flex alignItems="center" width={'100%'} mb={2}>
+                                <Avatar
+                                    size={'xs'}
+                                    src={u.iconUri}
+                                    name={`${u.firstName} ${u.lastName}`}
+                                />
+
+                                <Box ml="3">
+                                    <Text fontWeight="regular" fontSize={14}>
+                                        {u.firstName} {u.lastName}
+                                    </Text>
+
+                                    {u.roleName && (
+                                        <Text fontSize={12}>{u.roleName}</Text>
+                                    )}
+                                </Box>
+                            </Flex>
                         </ListItem>
                     ))}
                 </List>
