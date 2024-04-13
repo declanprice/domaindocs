@@ -1,3 +1,24 @@
+import { PageToolbar } from '@components/page/PageToolbar.tsx'
+import { Flex, Text } from '@chakra-ui/react'
+import { GoPeople } from 'react-icons/go'
+
 export const PeoplePageToolbar = () => {
-    return <>''</>
+    return (
+        <PageToolbar
+            title={
+                <Flex alignItems={'center'}>
+                    <GoPeople color={'gray.900'} size={14} />
+                    <Text ml={2} fontSize={12}>
+                        People
+                    </Text>
+                </Flex>
+            }
+            actions={[
+                {
+                    label: 'Invite',
+                    onClick: async () => {},
+                },
+            ]}
+        />
+    )
 }

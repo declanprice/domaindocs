@@ -25,6 +25,7 @@ import { DocumentationPageLayout } from './pages/documentation/DocumentationPage
 import { SomethingWentWrongErrorPage } from '@components/errors/SomethingWentWrongErrorPage.tsx'
 import { SubdomainGuard } from '@components/guards/SubdomainGuard.tsx'
 import { SubdomainCreatePage } from './pages/subdomains/SubdomainCreatePage.tsx'
+import { PeoplePage } from './pages/people/PeoplePage.tsx'
 
 export const routes = createBrowserRouter([
     {
@@ -102,6 +103,12 @@ export const routes = createBrowserRouter([
                                     {
                                         path: 'people',
                                         element: <PeoplePageLayout />,
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <PeoplePage />,
+                                            },
+                                        ],
                                     },
                                     {
                                         path: 'teams',

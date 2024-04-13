@@ -34,7 +34,7 @@ export const PageToolbar = (props: PageToolbarProps) => {
             {title && <> {title} </>}
 
             {tabs && (
-                <Flex ml={10} height={'100%'} alignItems={'flex-end'} flex={1}>
+                <Flex ml={10} height={'100%'} alignItems={'flex-end'}>
                     {tabs.map((tab) => (
                         <Button
                             key={tab.label}
@@ -56,7 +56,7 @@ export const PageToolbar = (props: PageToolbarProps) => {
             )}
 
             {actions && (
-                <Flex>
+                <Flex ml={'auto'}>
                     {actions.map((action) => (
                         <Button
                             key={action.label}

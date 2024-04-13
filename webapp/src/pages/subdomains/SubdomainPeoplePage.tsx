@@ -1,11 +1,11 @@
 import { Flex, Stack } from '@chakra-ui/react'
 import { TableToolbar } from '@components/table/TableToolbar.tsx'
-import { Table } from '@components/table/Table.tsx'
 import { useParams } from 'react-router-dom'
 import { SubdomainPageParams } from './types/SubdomainPageParams.ts'
 import { useQuery } from '@tanstack/react-query'
 import { peopleApi, Person } from '@state/api/people-api.ts'
 import { LoadingContainer } from '@components/loading/LoadingContainer.tsx'
+import { PeopleTable } from '@components/table/people/PeopleTable.tsx'
 
 export const SubdomainPeoplePage = () => {
     const { domainId, subdomainId } = useParams() as SubdomainPageParams
@@ -30,46 +30,7 @@ export const SubdomainPeoplePage = () => {
                     onFilterClick={() => {}}
                 />
 
-                <Table
-                    data={people}
-                    fields={[
-                        {
-                            label: 'Person',
-                            name: 'name',
-                            render: (data: Person) =>
-                                `${data.firstName} ${data.lastName}`,
-                            onClick: (row) => {
-                                console.log('clicked row', row)
-                            },
-                        },
-                        {
-                            label: 'Subdomains',
-                            name: 'subdomains',
-                            render: (data: Person) => `Supporting`,
-                            onClick: (row) => {
-                                console.log('clicked row', row)
-                            },
-                        },
-                        {
-                            label: 'Teams',
-                            name: 'teams',
-                            render: (data: Person) =>
-                                `Team Orion | Team Keplar`,
-                            onClick: (row) => {
-                                console.log('clicked row', row)
-                            },
-                        },
-                        {
-                            label: 'Skills',
-                            name: 'skills',
-                            render: (data: Person) =>
-                                `Javascript | Node.js | AWS`,
-                            onClick: (row) => {
-                                console.log('clicked row', row)
-                            },
-                        },
-                    ]}
-                />
+                <PeopleTable people={people} />
             </Stack>
         </Flex>
     )
