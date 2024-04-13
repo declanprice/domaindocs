@@ -49,7 +49,11 @@ export class PeopleService {
     const result = await this.prisma.person.findMany({
       where: {
         domainId,
-
+        subdomainPersons: {
+          some: {
+            subdomainId: dto.subdomainId,
+          },
+        },
         user: {
           fullName: {
             contains: dto.name,

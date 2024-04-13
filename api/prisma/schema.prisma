@@ -14,9 +14,8 @@ model User {
   firstName     String
   lastName      String
   fullName      String
-  iconUri       String?
+  iconUri       String?         @default("https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745")
   people        Person[]
-  teamPeople    TeamPerson[]
   projectPeople ProjectPerson[]
   roles         Role[]
 }
@@ -45,6 +44,7 @@ model Person {
 
   subdomainContacts SubdomainContact[]
   subdomainPersons  SubdomainPerson[]
+  teamPersons       TeamPerson[]
 
   @@index([userId])
   @@index([domainId])
@@ -122,7 +122,7 @@ model SubdomainResourceLink {
   title    String
   subTitle String  @default("Goto Resource")
   href     String
-  iconUri  String?
+  iconUri  String? @default("https://cdn1.vectorstock.com/i/1000x1000/25/25/resources-allocation-icon-on-white-vector-27442525.jpg")
 
   @@index([subdomainId])
 }
@@ -130,7 +130,7 @@ model SubdomainResourceLink {
 model Team {
   teamId  String  @id
   name    String
-  iconUri String?
+  iconUri String? @default("https://cdn-icons-png.flaticon.com/512/1369/1369288.png")
 
   domainId          String
   domain            Domain             @relation(fields: [domainId], references: [domainId])
@@ -146,14 +146,12 @@ model TeamPerson {
   teamId String
   team   Team   @relation(fields: [teamId], references: [teamId])
 
-  userId String
-  user   User   @relation(fields: [userId], references: [userId])
+  personId String
+  person   Person @relation(fields: [personId], references: [personId])
 
-  role String
-
-  @@id([teamId, userId])
+  @@id([teamId, personId])
   @@index([teamId])
-  @@index([userId])
+  @@index([personId])
 }
 
 model TeamSubdomain {
@@ -161,7 +159,7 @@ model TeamSubdomain {
   team   Team   @relation(fields: [teamId], references: [teamId])
 
   subdomainId String
-  subdomains  Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+  subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
 
   @@id([teamId, subdomainId])
   @@index([teamId])
@@ -171,7 +169,7 @@ model TeamSubdomain {
 model Project {
   projectId String  @id
   name      String
-  iconUri   String?
+  iconUri   String? @default("https://cdn-icons-png.freepik.com/256/12148/12148631.png")
 
   domainId      String
   domain        Domain          @relation(fields: [domainId], references: [domainId])
@@ -188,8 +186,6 @@ model ProjectPerson {
   userId String
   user   User   @relation(fields: [userId], references: [userId])
 
-  role String
-
   @@id([projectId, userId])
   @@index([projectId])
   @@index([userId])
@@ -201,8 +197,6 @@ model ProjectTeam {
 
   teamId String
   team   Team   @relation(fields: [teamId], references: [teamId])
-
-  role String
 
   @@id([projectId, teamId])
   @@index([projectId])
