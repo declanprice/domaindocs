@@ -4,9 +4,10 @@ import { Subdomain, subdomainsApi } from '@state/api/subdomains-api.ts'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { SubdomainSelectMenu } from './components/SubdomainSelectMenu.tsx'
+import { SubdomainPageParams } from './types/SubdomainPageParams.ts'
 
 export const SubdomainPageToolbar = () => {
-    const { domainId, subdomainId } = useParams()
+    const { domainId, subdomainId } = useParams() as SubdomainPageParams
 
     const navigate = useNavigate()
 
@@ -16,11 +17,8 @@ export const SubdomainPageToolbar = () => {
         refetch,
     } = useQuery<Subdomain[]>({
         enabled: false,
-        queryKey: ['domainSubdomains'],
-        queryFn: () =>
-            subdomainsApi.searchSubdomains({
-                domainId: domainId as string,
-            }),
+        queryKey: ['searchSubdomains', { domainId }],
+        queryFn: () => subdomainsApi.searchSubdomains(domainId),
     })
 
     const [activeSubdomain, setActiveSubdomain] = useState<Subdomain | null>()

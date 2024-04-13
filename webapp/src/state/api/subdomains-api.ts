@@ -79,15 +79,9 @@ export const subdomainsApi = (() => {
         return result.data
     }
 
-    const searchSubdomains = async (
-        domainId: string,
-        search: SubdomainSearch
-    ): Promise<Subdomain[]> => {
+    const searchSubdomains = async (domainId: string): Promise<Subdomain[]> => {
         const result = await apiClient.get<Subdomain[]>(
-            `/domains/${domainId}/subdomains`,
-            {
-                params: search,
-            }
+            `/domains/${domainId}/subdomains`
         )
 
         return result.data

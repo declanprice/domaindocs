@@ -17,7 +17,7 @@ export const SubdomainOverviewPage = () => {
         isLoading,
         refetch,
     } = useQuery<SubdomainOverview>({
-        queryKey: ['subdomainOverview', { subdomainId }],
+        queryKey: ['subdomainOverview', { domainId, subdomainId }],
         queryFn: () => subdomainsApi.getOverviewById(domainId, subdomainId),
     })
 
