@@ -9,18 +9,17 @@ generator client {
 }
 
 model User {
-  userId            String             @id
-  email             String             @unique
-  firstName         String
-  lastName          String
-  fullName          String
-  iconUri           String?
-  people            Person[]
-  subdomainPeople   SubdomainPerson[]
-  subdomainContacts SubdomainContact[]
-  teamPeople        TeamPerson[]
-  projectPeople     ProjectPerson[]
-  roles             Role[]
+  userId          String            @id
+  email           String            @unique
+  firstName       String
+  lastName        String
+  fullName        String
+  iconUri         String?
+  people          Person[]
+  subdomainPeople SubdomainPerson[]
+  teamPeople      TeamPerson[]
+  projectPeople   ProjectPerson[]
+  roles           Role[]
 }
 
 model Domain {
@@ -35,7 +34,7 @@ model Domain {
 }
 
 model Person {
-  role Role @relation(fields: [userId, domainId], references: [userId, domainId])
+  personId String @id
 
   userId String
   user   User   @relation(fields: [userId], references: [userId])
@@ -43,23 +42,28 @@ model Person {
   domainId String
   domain   Domain @relation(fields: [domainId], references: [domainId])
 
-  @@id([userId, domainId])
+  role Role?
+
+  subdomainContacts SubdomainContact[]
+
   @@index([userId])
   @@index([domainId])
 }
 
 model Role {
+  roleId String @id
+
   userId String
   user   User   @relation(fields: [userId], references: [userId])
 
   domainId String
   domain   Domain @relation(fields: [domainId], references: [domainId])
 
-  person Person?
+  personId String @unique()
+  person   Person @relation(fields: [personId], references: [personId])
 
   name String @default("Employee")
 
-  @@id([userId, domainId])
   @@index([userId])
   @@index([domainId])
 }
@@ -96,15 +100,16 @@ model SubdomainPerson {
 }
 
 model SubdomainContact {
+  contactId String @id
+
   subdomainId String
   subdomains  Subdomain @relation(fields: [subdomainId], references: [subdomainId])
 
-  userId String
-  user   User   @relation(fields: [userId], references: [userId])
+  personId String
+  person   Person @relation(fields: [personId], references: [personId])
 
-  @@id([subdomainId, userId])
+  @@index([personId])
   @@index([subdomainId])
-  @@index([userId])
 }
 
 model SubdomainResourceLink {

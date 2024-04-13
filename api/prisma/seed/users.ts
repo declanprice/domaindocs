@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 
-export const declan = (): User => {
+export const declanUser = (): User => {
   return {
     userId: '83a59c9c-c16d-45ed-9cc9-0a70d83f2928',
     firstName: 'Declan',
@@ -11,7 +11,7 @@ export const declan = (): User => {
   };
 };
 
-export const ben = (): User => {
+export const benUser = (): User => {
   return {
     userId: 'ben',
     firstName: 'Ben',
@@ -22,7 +22,7 @@ export const ben = (): User => {
   };
 };
 
-export const natasha = (): User => {
+export const natashaUser = (): User => {
   return {
     userId: 'natasha',
     firstName: 'Natasha',
