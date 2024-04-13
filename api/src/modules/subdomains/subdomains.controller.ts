@@ -14,6 +14,7 @@ import { AuthSession, UserSession } from '../../auth/auth-session';
 import { UpdateSubdomainDescriptionDto } from './dto/update-subdomain-description.dto';
 import { CreateSubdomainDto } from './dto/create-subdomain.dto';
 import { AddSubdomainContactsDto } from './dto/add-subdomain-contacts.dto';
+import { AddSubdomainResourceLinkDto } from './dto/add-subdomain-resource-link.dto';
 
 @Controller('domains/:domainId/subdomains')
 @UseGuards(AuthGuard)
@@ -81,6 +82,21 @@ export class SubdomainsController {
     @Body() dto: AddSubdomainContactsDto,
   ) {
     return this.subdomainsService.addContacts(
+      session,
+      domainId,
+      subdomainId,
+      dto,
+    );
+  }
+
+  @Put(':subdomainId/resource-link')
+  async addResourceLink(
+    @AuthSession() session: UserSession,
+    @Param('domainId') domainId: string,
+    @Param('subdomainId') subdomainId: string,
+    @Body() dto: AddSubdomainResourceLinkDto,
+  ) {
+    return this.subdomainsService.addResourceLink(
       session,
       domainId,
       subdomainId,

@@ -117,7 +117,7 @@ model SubdomainResourceLink {
   linkId String @id
 
   subdomainId String
-  subdomains  Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+  subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
 
   title    String
   subTitle String

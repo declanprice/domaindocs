@@ -12,6 +12,7 @@ import { CreateSubdomainDto } from './dto/create-subdomain.dto';
 import { SubdomainDto } from './dto/subdomain.dto';
 import { AddSubdomainContactsDto } from './dto/add-subdomain-contacts.dto';
 import { v4 } from 'uuid';
+import { AddSubdomainResourceLinkDto } from './dto/add-subdomain-resource-link.dto';
 
 @Injectable()
 export class SubdomainsService {
@@ -154,6 +155,24 @@ export class SubdomainsService {
         subdomainId,
         personId,
       })),
+    });
+  }
+
+  async addResourceLink(
+    session: UserSession,
+    domainId: string,
+    subdomainId: string,
+    dto: AddSubdomainResourceLinkDto,
+  ) {
+    await this.prisma.subdomainResourceLink.create({
+      data: {
+        linkId: v4(),
+        subdomainId,
+        title: dto.title,
+        subTitle: dto.subTitle,
+        href: dto.href,
+        iconUri: dto.iconUri,
+      },
     });
   }
 }

@@ -47,6 +47,13 @@ export type SubdomainSearch = {
     domainId: string
 }
 
+export type AddResourceLinkData = {
+    title: string
+    subTitle: string
+    href: string
+    iconUri?: string
+}
+
 export const subdomainsApi = (() => {
     const createSubdomain = async (
         domainId: string,
@@ -108,11 +115,24 @@ export const subdomainsApi = (() => {
         subdomainId: string,
         contacts: SubdomainContact[]
     ): Promise<Subdomain> => {
-        const result = await apiClient.put<Subdomain>(
+        const result = await apiClient.put(
             `/domains/${domainId}/subdomains/${subdomainId}/contacts`,
             {
                 personIds: contacts.map((p) => p.personId),
             }
+        )
+
+        return result.data
+    }
+
+    const addResourceLink = async (
+        domainId: string,
+        subdomainId: string,
+        data: AddResourceLinkData
+    ): Promise<AddResourceLinkData> => {
+        const result = await apiClient.put(
+            `/domains/${domainId}/subdomains/${subdomainId}/resource-link`,
+            data
         )
 
         return result.data
@@ -125,5 +145,6 @@ export const subdomainsApi = (() => {
         getOverviewById,
         updateDescription,
         addContacts,
+        addResourceLink,
     }
 })()

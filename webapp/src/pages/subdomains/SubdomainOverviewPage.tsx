@@ -6,6 +6,7 @@ import { Flex, Heading, Text, useToast } from '@chakra-ui/react'
 import { SummaryCard } from '@components/cards/summary/SummaryCard.tsx'
 import { SubdomainContacts } from './components/SubdomainContacts.tsx'
 import { SubdomainPageParams } from './types/SubdomainPageParams.ts'
+import { SubdomainResourceLinks } from './components/SubdomainResourceLinks.tsx'
 
 export const SubdomainOverviewPage = () => {
     const { domainId, subdomainId } = useParams() as SubdomainPageParams
@@ -70,6 +71,16 @@ export const SubdomainOverviewPage = () => {
                 subdomainId={subdomainId}
                 subdomainContacts={overview.contacts}
                 onAddContacts={async () => {
+                    await refetch()
+                }}
+            />
+
+            <SubdomainResourceLinks
+                domainId={domainId}
+                subdomainName={overview.name}
+                subdomainId={subdomainId}
+                links={overview.resourceLinks}
+                onAddLink={async () => {
                     await refetch()
                 }}
             />

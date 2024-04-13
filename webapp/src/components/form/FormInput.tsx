@@ -27,7 +27,11 @@ export const FormTextInput = (props: FormTextInputProps) => {
 
     return (
         <FormControl isInvalid={fieldState.invalid} {...props}>
-            {props.label && <FormLabel>{props.label}</FormLabel>}
+            {props.label && (
+                <FormLabel fontSize={12} mb={1}>
+                    {props.label}
+                </FormLabel>
+            )}
 
             <Input
                 autoComplete="off"
