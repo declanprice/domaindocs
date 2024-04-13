@@ -37,10 +37,10 @@ export const ContactsCard = (props: ContactsCardProps) => {
                 </Flex>
             </CardHeader>
             <CardBody>
-                <List>
+                <List spacing={4}>
                     {contacts.map((u) => (
                         <ListItem>
-                            <Flex alignItems="center" width={'100%'} mb={2}>
+                            <Flex alignItems="center" width={'100%'}>
                                 <Avatar
                                     size={'xs'}
                                     src={u.iconUri}

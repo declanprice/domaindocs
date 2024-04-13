@@ -7,8 +7,10 @@ import {
     Flex,
     List,
     ListItem,
+    SimpleGrid,
     Text,
 } from '@chakra-ui/react'
+
 import { AddIconButton } from '@components/buttons/AddIconButton.tsx'
 
 type ResourceLink = {
@@ -37,27 +39,35 @@ export const ResourceLinksCard = (props: ResourceLinksCardProps) => {
             </CardHeader>
             <CardBody>
                 <List>
-                    {links.map((link) => (
-                        <ListItem>
-                            <Flex alignItems="center" width={'100%'} mb={2}>
-                                {link.iconUri && (
-                                    <Avatar size={'xs'} src={link.iconUri} />
-                                )}
-
-                                <Box ml="3">
-                                    <Text fontWeight="regular" fontSize={14}>
-                                        {link.title}
-                                    </Text>
-
-                                    {link.subTitle && (
-                                        <Text fontSize={12}>
-                                            {link.subTitle}
-                                        </Text>
+                    <SimpleGrid columns={3} spacing={5}>
+                        {links.map((link) => (
+                            <ListItem>
+                                <Flex alignItems="center" width={'100%'}>
+                                    {link.iconUri && (
+                                        <Avatar
+                                            size={'xs'}
+                                            src={link.iconUri}
+                                        />
                                     )}
-                                </Box>
-                            </Flex>
-                        </ListItem>
-                    ))}
+
+                                    <Box ml="3">
+                                        <Text
+                                            fontWeight="regular"
+                                            fontSize={14}
+                                        >
+                                            {link.title}
+                                        </Text>
+
+                                        {link.subTitle && (
+                                            <Text fontSize={12}>
+                                                {link.subTitle}
+                                            </Text>
+                                        )}
+                                    </Box>
+                                </Flex>
+                            </ListItem>
+                        ))}
+                    </SimpleGrid>
                 </List>
             </CardBody>
         </Card>
