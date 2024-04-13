@@ -7,6 +7,7 @@ import {
     ContactsCard,
 } from '@components/cards/contacts/ContactsCard.tsx'
 import { SelectUsersDialog } from '@components/dialogs/SelectUsersDialog.tsx'
+import { queryClient } from '@state/query-client.ts'
 
 type SubdomainContacts = {
     subdomainName: string
@@ -21,12 +22,6 @@ export const SubdomainContacts = (props: SubdomainContacts) => {
     const [searchName, setSearchName] = useState<string | null>(null)
 
     const {
-        isOpen: isAddContactOpen,
-        onOpen: onAddContactOpen,
-        onClose: onAddContactClose,
-    } = useDisclosure()
-
-    const {
         data: searchUsersData,
         isLoading: isSearchingUsers,
         refetch: searchUsers,
@@ -36,8 +31,20 @@ export const SubdomainContacts = (props: SubdomainContacts) => {
         queryFn: () => userApi.searchUsers({ domainId, name: searchName! }),
     })
 
+    const {
+        isOpen: isAddContactOpen,
+        onOpen: onAddContactOpen,
+        onClose: onAddContactClose,
+    } = useDisclosure({
+        onClose() {
+            queryClient
+                .resetQueries({ queryKey: ['usersSearch', { subdomainId }] })
+                .then()
+        },
+    })
+
     useEffect(() => {
-        if (searchName == null) return
+        if (searchName === null) return
         searchUsers().then()
     }, [searchName])
 

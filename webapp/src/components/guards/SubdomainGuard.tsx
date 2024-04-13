@@ -31,5 +31,5 @@ export const SubdomainGuard = () => {
         )
     }
 
-    return <Outlet context={'subdomain-guard'} />
+    return <Outlet context={'subdomains-guard'} />
 }

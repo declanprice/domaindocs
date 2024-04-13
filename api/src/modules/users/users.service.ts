@@ -17,6 +17,11 @@ export class UsersService {
   async searchUsers(session: UserSession, dto: SearchUsersDto) {
     const result = await this.prisma.user.findMany({
       where: {
+        domainUsers: {
+          some: {
+            domainId: dto.domainId,
+          },
+        },
         fullName: {
           contains: dto.name,
         },

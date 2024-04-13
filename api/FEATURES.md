@@ -9,7 +9,7 @@ Interactive Domain Map Page
 
 Subdomains Page
 
-- an overview of the subdomain
+- an overview of the subdomains
 -- people
 -- teams
 -- projects

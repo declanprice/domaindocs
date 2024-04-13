@@ -42,6 +42,7 @@ export const SelectUsersDialog = (props: SelectUsersDialogProps) => {
         control: searchControl,
         handleSubmit: handleSearch,
         formState,
+        reset,
     } = useForm<SearchUserForm>({
         values: {
             name: '',
@@ -58,7 +59,7 @@ export const SelectUsersDialog = (props: SelectUsersDialogProps) => {
     const [searchNameDebounced] = useDebounce(searchName, 500)
 
     useEffect(() => {
-        if (!formState.isDirty) return
+        if (!formState.touchedFields.name) return
         onSearch(searchNameDebounced)
     }, [searchNameDebounced])
 
@@ -71,8 +72,13 @@ export const SelectUsersDialog = (props: SelectUsersDialogProps) => {
     //     }),
     // })
 
+    const closeAndReset = () => {
+        reset()
+        onClose()
+    }
+
     return (
-        <Modal isOpen={isOpen} onClose={onClose} isCentered size={'lg'}>
+        <Modal isOpen={isOpen} onClose={closeAndReset} isCentered size={'lg'}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>{title}</ModalHeader>
@@ -116,14 +122,14 @@ export const SelectUsersDialog = (props: SelectUsersDialogProps) => {
                 <ModalFooter>
                     <ButtonGroup>
                         <Button
-                            onClick={onClose}
-                            size={'sm'}
+                            onClick={closeAndReset}
+                            size={'xs'}
                             colorScheme={'red'}
                         >
                             Cancel
                         </Button>
                         <Button
-                            size={'sm'}
+                            size={'xs'}
                             colorScheme={'gray'}
                             variant={'solid'}
                         >

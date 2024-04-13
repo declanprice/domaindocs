@@ -4,7 +4,8 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 model User {
@@ -12,7 +13,6 @@ model User {
   email             String             @unique
   firstName         String
   lastName          String
-  fullName          String
   iconUri           String?
   domainUsers       DomainUser[]
   subdomainUsers    SubdomainUser[]
@@ -86,7 +86,7 @@ model SubdomainUser {
   domain   Domain @relation(fields: [domainId], references: [domainId])
 
   subdomainId String
-  subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+  subdomains  Subdomain @relation(fields: [subdomainId], references: [subdomainId])
 
   @@id([userId, subdomainId])
   @@index([userId])
@@ -96,7 +96,7 @@ model SubdomainUser {
 
 model SubdomainContact {
   subdomainId String
-  subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+  subdomains  Subdomain @relation(fields: [subdomainId], references: [subdomainId])
 
   userId String
   user   User   @relation(fields: [userId], references: [userId])
@@ -110,7 +110,7 @@ model SubdomainResourceLink {
   linkId String @id
 
   subdomainId String
-  subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+  subdomains  Subdomain @relation(fields: [subdomainId], references: [subdomainId])
 
   title    String
   subTitle String
@@ -154,7 +154,7 @@ model TeamSubdomain {
   team   Team   @relation(fields: [teamId], references: [teamId])
 
   subdomainId String
-  subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+  subdomains  Subdomain @relation(fields: [subdomainId], references: [subdomainId])
 
   @@id([teamId, subdomainId])
   @@index([teamId])
@@ -207,7 +207,7 @@ model ProjectSubdomain {
   team   Team   @relation(fields: [teamId], references: [teamId])
 
   subdomainId String
-  subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+  subdomains  Subdomain @relation(fields: [subdomainId], references: [subdomainId])
 
   @@id([teamId, subdomainId])
   @@index([teamId])
