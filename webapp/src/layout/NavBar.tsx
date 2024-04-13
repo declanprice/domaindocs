@@ -57,17 +57,14 @@ const NavListItem = (props: {
 }
 
 export const NavBar = () => {
-    const params = useParams()
+    const { domainId } = useParams() as { domainId: string }
     const { isFullNavBar, closeNavBar, openNavBar } = useUiStore()
     const domains = useAuthStore((state) => state.user?.domains)
     const { activeDomain, setActiveDomain } = useUiStore()
 
     const { data: subdomains } = useQuery<Subdomain[]>({
-        queryKey: ['domainSubdomains'],
-        queryFn: () =>
-            subdomainsApi.searchSubdomains({
-                domainId: params.domainId as string,
-            }),
+        queryKey: ['searchSubdomains', { domainId }],
+        queryFn: () => subdomainsApi.searchSubdomains(domainId),
     })
 
     if (!subdomains || !domains || !activeDomain)
