@@ -10,6 +10,9 @@ const client = new PrismaClient();
 client.$connect().then(async () => {
   console.log('SEED: clearing data');
 
+  await client.subdomainResourceLink.deleteMany();
+  await client.subdomainContact.deleteMany();
+  await client.subdomainPerson.deleteMany();
   await client.subdomain.deleteMany();
   await client.role.deleteMany();
   await client.person.deleteMany();

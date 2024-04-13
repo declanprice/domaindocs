@@ -40,4 +40,38 @@ export class PeopleService {
         ),
     );
   }
+
+  async searchPeopleBySubdomain(
+    session: UserSession,
+    domainId: string,
+    dto: SearchPeopleDto,
+  ) {
+    const result = await this.prisma.person.findMany({
+      where: {
+        domainId,
+
+        user: {
+          fullName: {
+            contains: dto.name,
+          },
+        },
+      },
+      include: {
+        user: true,
+        role: true,
+      },
+    });
+
+    return result.map(
+      (person) =>
+        new PersonDto(
+          person.personId,
+          person.userId,
+          person.user.firstName,
+          person.user.lastName,
+          person.user.iconUri,
+          person.role.name,
+        ),
+    );
+  }
 }

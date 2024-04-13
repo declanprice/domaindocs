@@ -26,6 +26,10 @@ export class PeopleController {
       throw new BadRequestException('missing params (domainId)');
     }
 
+    if (dto.subdomainId) {
+      return this.peopleService.searchPeopleBySubdomain(session, domainId, dto);
+    }
+
     return this.peopleService.searchPeople(session, domainId, dto);
   }
 }

@@ -11,7 +11,8 @@ export type Person = {
 }
 
 export type SearchPeopleParams = {
-    name: string
+    name?: string
+    subdomainId?: string
 }
 
 export const peopleApi = (() => {

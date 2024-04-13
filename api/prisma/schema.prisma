@@ -9,17 +9,16 @@ generator client {
 }
 
 model User {
-  userId          String            @id
-  email           String            @unique
-  firstName       String
-  lastName        String
-  fullName        String
-  iconUri         String?
-  people          Person[]
-  subdomainPeople SubdomainPerson[]
-  teamPeople      TeamPerson[]
-  projectPeople   ProjectPerson[]
-  roles           Role[]
+  userId        String          @id
+  email         String          @unique
+  firstName     String
+  lastName      String
+  fullName      String
+  iconUri       String?
+  people        Person[]
+  teamPeople    TeamPerson[]
+  projectPeople ProjectPerson[]
+  roles         Role[]
 }
 
 model Domain {
@@ -45,6 +44,7 @@ model Person {
   role Role?
 
   subdomainContacts SubdomainContact[]
+  subdomainPersons  SubdomainPerson[]
 
   @@index([userId])
   @@index([domainId])
@@ -84,8 +84,8 @@ model Subdomain {
 }
 
 model SubdomainPerson {
-  userId String
-  user   User   @relation(fields: [userId], references: [userId])
+  personId String
+  person   Person @relation(fields: [personId], references: [personId])
 
   domainId String
   domain   Domain @relation(fields: [domainId], references: [domainId])
@@ -93,8 +93,8 @@ model SubdomainPerson {
   subdomainId String
   subdomains  Subdomain @relation(fields: [subdomainId], references: [subdomainId])
 
-  @@id([userId, subdomainId])
-  @@index([userId])
+  @@id([personId, subdomainId])
+  @@index([personId])
   @@index([subdomainId])
   @@index([domainId])
 }

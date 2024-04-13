@@ -1,6 +1,11 @@
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class SearchPeopleDto {
   @IsString()
-  name: string;
+  @IsOptional()
+  name?: string;
+
+  @IsString()
+  @IsOptional()
+  subdomainId?: string;
 }
