@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { benUser, declanUser, natashaUser } from './users';
 import { ros } from './domain';
-import { supporting } from './subdomains';
+import { finance, supporting } from './subdomains';
 import { benRole, declanRole, natashaRole } from './roles';
 import { benPerson, declanPerson, natashaPerson } from './people';
 import { teamKeplar, teamOrion } from './teams';
@@ -17,12 +17,12 @@ const client = new PrismaClient();
 client.$connect().then(async () => {
   console.log('SEED: clearing data');
 
-  await client.projectSubdomain.deleteMany();
-  await client.projectTeam.deleteMany();
-  await client.projectPerson.deleteMany();
+  await client.subdomainProject.deleteMany();
+  await client.teamProject.deleteMany();
+  await client.personProject.deleteMany();
   await client.project.deleteMany();
 
-  await client.teamSubdomain.deleteMany();
+  await client.subdomainTeam.deleteMany();
   await client.teamPerson.deleteMany();
   await client.team.deleteMany();
 
@@ -54,12 +54,16 @@ client.$connect().then(async () => {
     data: [declanRole(), benRole(), natashaRole()],
   });
 
-  await client.subdomain.create({
-    data: supporting(),
+  await client.subdomain.createMany({
+    data: [supporting(), finance()],
   });
 
   await client.team.createMany({
     data: [teamOrion(), teamKeplar()],
+  });
+
+  await client.project.createMany({
+    data: [deedSearchApi(), deedSearchUi(), lrArchiveApi(), lrArchiveUi()],
   });
 
   await client.teamPerson.createMany({
@@ -67,36 +71,31 @@ client.$connect().then(async () => {
       {
         personId: declanPerson().personId,
         teamId: teamOrion().teamId,
-        role: 'Team Member',
       },
-
       {
         personId: benPerson().personId,
         teamId: teamOrion().teamId,
-        role: 'Team Member',
       },
-
       {
         personId: natashaPerson().personId,
         teamId: teamOrion().teamId,
       },
       {
         personId: declanPerson().personId,
-        teamId: teamOrion().teamId,
+        teamId: teamKeplar().teamId,
       },
-
       {
         personId: benPerson().personId,
-        teamId: teamOrion().teamId,
+        teamId: teamKeplar().teamId,
       },
       {
         personId: natashaPerson().personId,
-        teamId: teamOrion().teamId,
+        teamId: teamKeplar().teamId,
       },
     ],
   });
 
-  await client.projectTeam.createMany({
+  await client.teamProject.createMany({
     data: [
       {
         projectId: deedSearchUi().projectId,
@@ -112,6 +111,23 @@ client.$connect().then(async () => {
       },
       {
         projectId: lrArchiveApi().projectId,
+        teamId: teamKeplar().teamId,
+      },
+    ],
+  });
+
+  await client.subdomainTeam.createMany({
+    data: [
+      {
+        subdomainId: supporting().subdomainId,
+        teamId: teamOrion().teamId,
+      },
+      {
+        subdomainId: finance().subdomainId,
+        teamId: teamOrion().teamId,
+      },
+      {
+        subdomainId: supporting().subdomainId,
         teamId: teamKeplar().teamId,
       },
     ],

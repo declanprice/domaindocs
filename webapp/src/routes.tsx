@@ -6,7 +6,7 @@ import { VerifyMagicLinkPage } from './pages/auth/VerifyMagicLinkPage.tsx'
 import { MagicLinkSentPage } from './pages/auth/MagicLinkSentPage.tsx'
 import { AccountSetupPage } from './pages/user-setup/AccountSetupPage.tsx'
 import { RootLayout } from './layout/RootLayout.tsx'
-import { SubdomainRootPage } from './pages/subdomains/SubdomainRootPage.tsx'
+import { SubdomainLayoutPage } from './pages/subdomains/SubdomainLayoutPage.tsx'
 import { SubdomainOverviewPage } from './pages/subdomains/SubdomainOverviewPage.tsx'
 import { SubdomainPeoplePage } from './pages/subdomains/SubdomainPeoplePage.tsx'
 import { SubdomainTeamsPage } from './pages/subdomains/SubdomainTeamsPage.tsx'
@@ -26,6 +26,8 @@ import { SomethingWentWrongErrorPage } from '@components/errors/SomethingWentWro
 import { SubdomainGuard } from '@components/guards/SubdomainGuard.tsx'
 import { SubdomainCreatePage } from './pages/subdomains/SubdomainCreatePage.tsx'
 import { PeoplePage } from './pages/people/PeoplePage.tsx'
+import { TeamPageLayout } from './pages/teams/TeamPageLayout.tsx'
+import { TeamsPage } from './pages/teams/TeamsPage.tsx'
 
 export const routes = createBrowserRouter([
     {
@@ -62,7 +64,9 @@ export const routes = createBrowserRouter([
                                         children: [
                                             {
                                                 path: ':subdomainId',
-                                                element: <SubdomainRootPage />,
+                                                element: (
+                                                    <SubdomainLayoutPage />
+                                                ),
                                                 children: [
                                                     {
                                                         path: '',
@@ -112,7 +116,13 @@ export const routes = createBrowserRouter([
                                     },
                                     {
                                         path: 'teams',
-                                        element: <PeoplePageLayout />,
+                                        element: <TeamPageLayout />,
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <TeamsPage />,
+                                            },
+                                        ],
                                     },
                                     {
                                         path: 'projects',

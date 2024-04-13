@@ -61,8 +61,8 @@ export class SubdomainsService {
         _count: {
           select: {
             subdomainPeople: true,
-            teamSubdomains: true,
-            projectSubdomains: true,
+            subdomainTeams: true,
+            subdomainProjects: true,
           },
         },
       },
@@ -72,8 +72,8 @@ export class SubdomainsService {
       result.name,
       new SubdomainSummaryDto(
         result._count.subdomainPeople,
-        result._count.teamSubdomains,
-        result._count.projectSubdomains,
+        result._count.subdomainTeams,
+        result._count.subdomainProjects,
         result.description,
       ),
       result.subdomainResourceLinks.map(

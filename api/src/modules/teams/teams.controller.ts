@@ -13,6 +13,7 @@ import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import { QueryTeamDto } from './dto/query-team.dto';
 import { CreateTeamDto } from './dto/create-team.dto';
+import { TeamDto } from './dto/team.dto';
 
 @Controller('domains/:domainId/teams')
 @UseGuards(AuthGuard)
@@ -24,7 +25,7 @@ export class TeamsController {
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
     @Query() dto: QueryTeamDto,
-  ) {
+  ): Promise<TeamDto[]> {
     if (!domainId) {
       throw new BadRequestException('missing params (domainId)');
     }

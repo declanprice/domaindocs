@@ -10,3 +10,12 @@ export const supporting = (): Subdomain => {
     subdomainId: 'supporting',
   };
 };
+
+export const finance = (): Subdomain => {
+  return {
+    domainId: ros().domainId,
+    name: 'Finance',
+    description: 'Responsible for projects such as Payments & Accounting.',
+    subdomainId: 'finance',
+  };
+};

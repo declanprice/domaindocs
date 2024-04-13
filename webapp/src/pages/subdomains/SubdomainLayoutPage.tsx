@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom'
 import { SubdomainPageToolbar } from './SubdomainPageToolbar.tsx'
 import { Box, Flex } from '@chakra-ui/react'
 
-export const SubdomainRootPage = () => {
+export const SubdomainLayoutPage = () => {
     return (
         <Flex direction="column" width={'100%'}>
             <SubdomainPageToolbar />

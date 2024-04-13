@@ -14,11 +14,7 @@ type PeoplePageParams = {
 export const PeoplePage = () => {
     const { domainId } = useParams() as PeoplePageParams
 
-    const {
-        data: people,
-        isLoading,
-        refetch,
-    } = useQuery<Person[]>({
+    const { data: people, isLoading } = useQuery<Person[]>({
         queryKey: ['searchPeople', { domainId }],
         queryFn: () => peopleApi.searchPeople(domainId, {}),
     })
