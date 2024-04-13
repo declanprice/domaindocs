@@ -120,7 +120,7 @@ model SubdomainResourceLink {
   subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
 
   title    String
-  subTitle String
+  subTitle String  @default("Goto Resource")
   href     String
   iconUri  String?
 

@@ -5,6 +5,7 @@ import {
     CardBody,
     CardHeader,
     Flex,
+    Link,
     List,
     ListItem,
     SimpleGrid,
@@ -58,11 +59,13 @@ export const ResourceLinksCard = (props: ResourceLinksCardProps) => {
                                             {link.title}
                                         </Text>
 
-                                        {link.subTitle && (
-                                            <Text fontSize={12}>
-                                                {link.subTitle}
-                                            </Text>
-                                        )}
+                                        <Link
+                                            isExternal
+                                            href={link.href}
+                                            fontSize={12}
+                                        >
+                                            {link.subTitle}
+                                        </Link>
                                     </Box>
                                 </Flex>
                             </ListItem>
