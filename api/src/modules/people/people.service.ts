@@ -23,7 +23,7 @@ export class PeopleService {
         },
       },
       include: {
-        teams: {
+        teamMember: {
           include: {
             team: {
               include: {
@@ -44,12 +44,15 @@ export class PeopleService {
           person.user.firstName,
           person.user.lastName,
           person.user.iconUri,
-          person.teams[0]?.role,
+          person.teamMember?.role,
           [],
-          person.teams.map(
-            (t) =>
-              new PersonTeamDto(t.teamId, t.team.name, t.team.subdomain.name),
-          ),
+          person.teamMember
+            ? new PersonTeamDto(
+                person.teamMember.teamId,
+                person.teamMember.team.name,
+                person.teamMember.team.subdomain.name,
+              )
+            : null,
         ),
     );
   }
@@ -62,11 +65,9 @@ export class PeopleService {
     const result = await this.prisma.person.findMany({
       where: {
         domainId,
-        teams: {
-          some: {
-            team: {
-              subdomainId: dto.subdomainId,
-            },
+        teamMember: {
+          team: {
+            subdomainId: dto.subdomainId,
           },
         },
         user: {
@@ -76,7 +77,7 @@ export class PeopleService {
         },
       },
       include: {
-        teams: {
+        teamMember: {
           include: {
             team: {
               include: {
@@ -97,12 +98,15 @@ export class PeopleService {
           person.user.firstName,
           person.user.lastName,
           person.user.iconUri,
-          person.teams[0]?.role,
+          person.teamMember?.role,
           [],
-          person.teams.map(
-            (t) =>
-              new PersonTeamDto(t.teamId, t.team.name, t.team.subdomain.name),
-          ),
+          person.teamMember
+            ? new PersonTeamDto(
+                person.teamMember.teamId,
+                person.teamMember.team.name,
+                person.teamMember.team.subdomain.name,
+              )
+            : null,
         ),
     );
   }

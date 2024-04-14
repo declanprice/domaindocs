@@ -15,7 +15,7 @@ export type Person = {
     iconUri: string | undefined
     roleName: string | undefined
     skills: string[]
-    teams: PersonTeam[]
+    team: PersonTeam | null
 }
 
 export type SearchPeopleParams = {

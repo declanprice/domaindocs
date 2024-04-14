@@ -15,6 +15,6 @@ export class PersonDto {
     private iconUri: string | undefined,
     private roleName: string | undefined,
     private skills: string[],
-    private teams: PersonTeamDto[],
+    private team: PersonTeamDto | null,
   ) {}
 }

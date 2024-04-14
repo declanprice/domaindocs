@@ -23,11 +23,11 @@ export const PersonTable = (props: PeopleTableProps) => {
                     },
                 },
                 {
-                    label: 'Subdomains',
-                    name: 'subdomains',
+                    label: 'Subdomain',
+                    name: 'teams',
                     render: (data: Person) => {
-                        if (data.teams.length) {
-                            return `${data.teams.map((t) => t.subdomainName).join(' | ')}`
+                        if (data.team) {
+                            return `${data.team.subdomainName}`
                         } else {
                             return (
                                 <Badge size={'xs'} colorScheme={'yellow'}>
@@ -44,11 +44,11 @@ export const PersonTable = (props: PeopleTableProps) => {
                     label: 'Teams',
                     name: 'teams',
                     render: (data: Person) => {
-                        if (data.teams.length) {
-                            return `${data.teams.map((t) => t.teamName).join(' | ')}`
+                        if (data.team) {
+                            return `${data.team.teamName}`
                         } else {
                             return (
-                                <Badge size={'xs'} colorScheme={'blue'}>
+                                <Badge size={'xs'} colorScheme={'yellow'}>
                                     Not Set
                                 </Badge>
                             )

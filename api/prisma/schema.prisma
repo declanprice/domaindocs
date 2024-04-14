@@ -37,7 +37,8 @@ model Person {
   domain   Domain @relation(fields: [domainId], references: [domainId])
 
   subdomainContacts SubdomainContact[]
-  teams             TeamMember[]
+
+  teamMember TeamMember?
 
   @@index([userId])
   @@index([domainId])
@@ -105,14 +106,13 @@ model TeamMember {
   teamId String
   team   Team   @relation(fields: [teamId], references: [teamId])
 
-  personId String
+  personId String @unique
   person   Person @relation(fields: [personId], references: [personId])
 
   role String @default("Team Member")
 
   @@id([teamId, personId])
   @@index([teamId])
-  @@index([personId])
 }
 
 model Project {

@@ -14,15 +14,13 @@ export const TeamTable = (props: TeamTableProps) => {
             fields={[
                 {
                     label: 'Team',
-                    name: 'name',
                     render: (data: Team) => `${data.name}`,
                     onClick: (row) => {
                         console.log('clicked row', row)
                     },
                 },
                 {
-                    label: 'Subdomains',
-                    name: 'subdomains',
+                    label: 'Subdomain',
                     render: (data: Team) => `${data.subdomain.subdomainName}`,
                     onClick: (row) => {
                         console.log('clicked row', row)
@@ -30,7 +28,6 @@ export const TeamTable = (props: TeamTableProps) => {
                 },
                 {
                     label: 'Members',
-                    name: 'members',
                     render: (data: Team) => `${data.members.length} Members`,
                     onClick: (row) => {
                         console.log('clicked row', row)

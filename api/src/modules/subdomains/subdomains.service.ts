@@ -53,9 +53,7 @@ export class SubdomainsService {
             person: {
               include: {
                 user: true,
-                teams: {
-                  take: 1,
-                },
+                teamMember: true,
               },
             },
           },
@@ -66,11 +64,9 @@ export class SubdomainsService {
     const [peopleCount, teamCount, projectCount] = await Promise.all([
       this.prisma.person.count({
         where: {
-          teams: {
-            some: {
-              team: {
-                subdomainId,
-              },
+          teamMember: {
+            team: {
+              subdomainId,
             },
           },
         },
@@ -115,7 +111,7 @@ export class SubdomainsService {
             c.person.user.firstName,
             c.person.user.lastName,
             c.person.user.iconUri,
-            c.person.teams[0]?.role,
+            c.person.teamMember?.role,
           ),
       ),
     );

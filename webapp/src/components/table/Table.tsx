@@ -12,7 +12,6 @@ type TableProps<Data> = {
     data: Data[]
     fields: {
         label: string
-        name: string
         render: (data: Data) => any
         onClick: (data: Data) => void
     }[]
