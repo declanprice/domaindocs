@@ -53,27 +53,48 @@ export class SubdomainsService {
             person: {
               include: {
                 user: true,
-                role: true,
+                teams: {
+                  take: 1,
+                },
               },
             },
-          },
-        },
-        _count: {
-          select: {
-            people: true,
-            teams: true,
-            projects: true,
           },
         },
       },
     });
 
+    const [peopleCount, teamCount, projectCount] = await Promise.all([
+      this.prisma.person.count({
+        where: {
+          teams: {
+            some: {
+              team: {
+                subdomainId,
+              },
+            },
+          },
+        },
+      }),
+      this.prisma.team.count({
+        where: {
+          subdomainId,
+        },
+      }),
+      this.prisma.project.count({
+        where: {
+          team: {
+            subdomainId,
+          },
+        },
+      }),
+    ]);
+
     return new SubdomainOverviewDto(
       result.name,
       new SubdomainSummaryDto(
-        result._count.people,
-        result._count.teams,
-        result._count.projects,
+        peopleCount,
+        teamCount,
+        projectCount,
         result.description,
       ),
       result.resourceLinks.map(
@@ -94,7 +115,7 @@ export class SubdomainsService {
             c.person.user.firstName,
             c.person.user.lastName,
             c.person.user.iconUri,
-            c.person.role?.name,
+            c.person.teams[0]?.role,
           ),
       ),
     );

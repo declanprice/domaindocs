@@ -23,14 +23,6 @@ export class DomainsService {
             userId: session.userId,
           },
         },
-        roles: {
-          create: {
-            personId,
-            roleId,
-            name: 'Employee',
-            userId: session.userId,
-          },
-        },
       },
     });
   }

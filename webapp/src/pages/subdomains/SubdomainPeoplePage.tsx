@@ -5,7 +5,7 @@ import { SubdomainPageParams } from './types/SubdomainPageParams.ts'
 import { useQuery } from '@tanstack/react-query'
 import { peopleApi, Person } from '@state/api/people-api.ts'
 import { LoadingContainer } from '@components/loading/LoadingContainer.tsx'
-import { PeopleTable } from '@components/table/people/PeopleTable.tsx'
+import { PersonTable } from '@components/person/PersonTable.tsx'
 
 export const SubdomainPeoplePage = () => {
     const { domainId, subdomainId } = useParams() as SubdomainPageParams
@@ -30,7 +30,7 @@ export const SubdomainPeoplePage = () => {
                     onFilterClick={() => {}}
                 />
 
-                <PeopleTable people={people} />
+                <PersonTable people={people} />
             </Stack>
         </Flex>
     )

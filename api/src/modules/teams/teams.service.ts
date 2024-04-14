@@ -6,7 +6,7 @@ import { v4 } from 'uuid';
 import { CreateTeamDto } from './dto/create-team.dto';
 import {
   TeamDto,
-  TeamPersonDto,
+  TeamMemberDto,
   TeamProjectDto,
   TeamSubdomainDto,
 } from './dto/team.dto';
@@ -25,12 +25,8 @@ export class TeamsService {
         domainId,
       },
       include: {
-        subdomains: {
-          include: {
-            subdomain: true,
-          },
-        },
-        people: {
+        subdomain: true,
+        members: {
           include: {
             person: {
               include: {
@@ -39,11 +35,7 @@ export class TeamsService {
             },
           },
         },
-        projects: {
-          include: {
-            project: true,
-          },
-        },
+        projects: true,
       },
     });
 
@@ -52,21 +44,17 @@ export class TeamsService {
         new TeamDto(
           t.teamId,
           t.name,
-          t.subdomains.map(
-            (s) => new TeamSubdomainDto(s.subdomainId, s.subdomain.name),
-          ),
-          t.people.map(
+          new TeamSubdomainDto(t.subdomainId, t.subdomain.name),
+          t.members.map(
             (p) =>
-              new TeamPersonDto(
+              new TeamMemberDto(
                 p.personId,
                 p.person.user.firstName,
                 p.person.user.lastName,
                 p.person.user.iconUri,
               ),
           ),
-          t.projects.map(
-            (p) => new TeamProjectDto(p.projectId, p.project.name),
-          ),
+          t.projects.map((p) => new TeamProjectDto(p.projectId, p.name)),
         ),
     );
   }
@@ -75,6 +63,7 @@ export class TeamsService {
     await this.prisma.team.create({
       data: {
         teamId: v4(),
+        subdomainId: dto.subdomainId,
         domainId,
         name: dto.name,
       },

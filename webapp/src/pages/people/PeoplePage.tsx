@@ -1,11 +1,10 @@
 import { Flex, Stack } from '@chakra-ui/react'
 import { TableToolbar } from '@components/table/TableToolbar.tsx'
-import { Table } from '@components/table/Table.tsx'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { peopleApi, Person } from '@state/api/people-api.ts'
 import { LoadingContainer } from '@components/loading/LoadingContainer.tsx'
-import { PeopleTable } from '@components/table/people/PeopleTable.tsx'
+import { PersonTable } from '@components/person/PersonTable.tsx'
 
 type PeoplePageParams = {
     domainId: string
@@ -30,7 +29,7 @@ export const PeoplePage = () => {
                     onFilterClick={() => {}}
                 />
 
-                <PeopleTable people={people} />
+                <PersonTable people={people} />
             </Stack>
         </Flex>
     )

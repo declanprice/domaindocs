@@ -5,7 +5,7 @@ export type TeamSubdomain = {
     readonly subdomainName: string
 }
 
-export type TeamPerson = {
+export type TeamMember = {
     readonly personId: string
     readonly firstName: string
     readonly lastName: string
@@ -20,8 +20,8 @@ export type TeamProject = {
 export type Team = {
     readonly teamId: string
     name: string
-    subdomains: TeamSubdomain[]
-    people: TeamPerson[]
+    subdomain: TeamSubdomain
+    members: TeamMember[]
     projects: TeamProject[]
 }
 

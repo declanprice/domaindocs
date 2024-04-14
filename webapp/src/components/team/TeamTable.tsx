@@ -23,16 +23,15 @@ export const TeamTable = (props: TeamTableProps) => {
                 {
                     label: 'Subdomains',
                     name: 'subdomains',
-                    render: (data: Team) =>
-                        `${data.subdomains.map((s) => s.subdomainName).join(' | ')}`,
+                    render: (data: Team) => `${data.subdomain.subdomainName}`,
                     onClick: (row) => {
                         console.log('clicked row', row)
                     },
                 },
                 {
-                    label: 'People',
-                    name: 'people',
-                    render: (data: Team) => `${data.people.length} People`,
+                    label: 'Members',
+                    name: 'members',
+                    render: (data: Team) => `${data.members.length} Members`,
                     onClick: (row) => {
                         console.log('clicked row', row)
                     },

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { LoadingContainer } from '@components/loading/LoadingContainer.tsx'
 import { Team, teamsApi } from '@state/api/teams-api.ts'
-import { TeamTable } from '@components/table/team/TeamsTable.tsx'
+import { TeamTable } from '@components/team/TeamTable.tsx'
 
 type TeamPageParam = {
     domainId: string

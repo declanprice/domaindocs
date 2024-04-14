@@ -1,13 +1,9 @@
 import { apiClient } from '@state/api/api-client.ts'
 
-export type PersonSubdomain = {
-    subdomainId: string
-    subdomainName: string
-}
-
 export type PersonTeam = {
     teamId: string
     teamName: string
+    subdomainName: string
 }
 
 export type Person = {
@@ -19,7 +15,6 @@ export type Person = {
     iconUri: string | undefined
     roleName: string | undefined
     skills: string[]
-    subdomains: PersonSubdomain[]
     teams: PersonTeam[]
 }
 

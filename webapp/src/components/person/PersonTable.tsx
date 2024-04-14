@@ -6,7 +6,7 @@ type PeopleTableProps = {
     people: Person[]
 }
 
-export const PeopleTable = (props: PeopleTableProps) => {
+export const PersonTable = (props: PeopleTableProps) => {
     const { people } = props
 
     return (
@@ -26,8 +26,8 @@ export const PeopleTable = (props: PeopleTableProps) => {
                     label: 'Subdomains',
                     name: 'subdomains',
                     render: (data: Person) => {
-                        if (data.subdomains.length) {
-                            return `${data.subdomains.map((s) => s.subdomainName).join(' | ')}`
+                        if (data.teams.length) {
+                            return `${data.teams.map((t) => t.subdomainName).join(' | ')}`
                         } else {
                             return (
                                 <Badge size={'xs'} colorScheme={'yellow'}>

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
 import { SearchPeopleDto } from './dto/search-people.dto';
-import { PersonDto, PersonSubdomainDto, PersonTeamDto } from './dto/person.dto';
+import { PersonDto, PersonTeamDto } from './dto/person.dto';
 
 @Injectable()
 export class PeopleService {
@@ -23,18 +23,16 @@ export class PeopleService {
         },
       },
       include: {
-        subdomains: {
-          include: {
-            subdomain: true,
-          },
-        },
         teams: {
           include: {
-            team: true,
+            team: {
+              include: {
+                subdomain: true,
+              },
+            },
           },
         },
         user: true,
-        role: true,
       },
     });
 
@@ -46,12 +44,12 @@ export class PeopleService {
           person.user.firstName,
           person.user.lastName,
           person.user.iconUri,
-          person.role.name,
+          person.teams[0]?.role,
           [],
-          person.subdomains.map(
-            (s) => new PersonSubdomainDto(s.subdomainId, s.subdomain.name),
+          person.teams.map(
+            (t) =>
+              new PersonTeamDto(t.teamId, t.team.name, t.team.subdomain.name),
           ),
-          person.teams.map((t) => new PersonTeamDto(t.teamId, t.team.name)),
         ),
     );
   }
@@ -64,9 +62,11 @@ export class PeopleService {
     const result = await this.prisma.person.findMany({
       where: {
         domainId,
-        subdomains: {
+        teams: {
           some: {
-            subdomainId: dto.subdomainId,
+            team: {
+              subdomainId: dto.subdomainId,
+            },
           },
         },
         user: {
@@ -76,18 +76,16 @@ export class PeopleService {
         },
       },
       include: {
-        subdomains: {
-          include: {
-            subdomain: true,
-          },
-        },
         teams: {
           include: {
-            team: true,
+            team: {
+              include: {
+                subdomain: true,
+              },
+            },
           },
         },
         user: true,
-        role: true,
       },
     });
 
@@ -99,12 +97,12 @@ export class PeopleService {
           person.user.firstName,
           person.user.lastName,
           person.user.iconUri,
-          person.role.name,
+          person.teams[0]?.role,
           [],
-          person.subdomains.map(
-            (s) => new PersonSubdomainDto(s.subdomainId, s.subdomain.name),
+          person.teams.map(
+            (t) =>
+              new PersonTeamDto(t.teamId, t.team.name, t.team.subdomain.name),
           ),
-          person.teams.map((t) => new PersonTeamDto(t.teamId, t.team.name)),
         ),
     );
   }
