@@ -5,10 +5,10 @@ import { QueryTeamDto } from './dto/query-team.dto';
 import { v4 } from 'uuid';
 import { CreateTeamDto } from './dto/create-team.dto';
 import {
-  SubdomainTeamDto,
   TeamDto,
   TeamPersonDto,
   TeamProjectDto,
+  TeamSubdomainDto,
 } from './dto/team.dto';
 
 @Injectable()
@@ -25,12 +25,12 @@ export class TeamsService {
         domainId,
       },
       include: {
-        subdomainTeams: {
+        subdomains: {
           include: {
             subdomain: true,
           },
         },
-        teamPeople: {
+        people: {
           include: {
             person: {
               include: {
@@ -39,7 +39,7 @@ export class TeamsService {
             },
           },
         },
-        teamProjects: {
+        projects: {
           include: {
             project: true,
           },
@@ -52,10 +52,10 @@ export class TeamsService {
         new TeamDto(
           t.teamId,
           t.name,
-          t.subdomainTeams.map(
-            (s) => new SubdomainTeamDto(s.subdomainId, s.subdomain.name),
+          t.subdomains.map(
+            (s) => new TeamSubdomainDto(s.subdomainId, s.subdomain.name),
           ),
-          t.teamPeople.map(
+          t.people.map(
             (p) =>
               new TeamPersonDto(
                 p.personId,
@@ -64,7 +64,7 @@ export class TeamsService {
                 p.person.user.iconUri,
               ),
           ),
-          t.teamProjects.map(
+          t.projects.map(
             (p) => new TeamProjectDto(p.projectId, p.project.name),
           ),
         ),

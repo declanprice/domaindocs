@@ -47,8 +47,8 @@ export class SubdomainsService {
         subdomainId,
       },
       include: {
-        subdomainResourceLinks: true,
-        subdomainContacts: {
+        resourceLinks: true,
+        contacts: {
           include: {
             person: {
               include: {
@@ -60,9 +60,9 @@ export class SubdomainsService {
         },
         _count: {
           select: {
-            subdomainPeople: true,
-            subdomainTeams: true,
-            subdomainProjects: true,
+            people: true,
+            teams: true,
+            projects: true,
           },
         },
       },
@@ -71,12 +71,12 @@ export class SubdomainsService {
     return new SubdomainOverviewDto(
       result.name,
       new SubdomainSummaryDto(
-        result._count.subdomainPeople,
-        result._count.subdomainTeams,
-        result._count.subdomainProjects,
+        result._count.people,
+        result._count.teams,
+        result._count.projects,
         result.description,
       ),
-      result.subdomainResourceLinks.map(
+      result.resourceLinks.map(
         (r) =>
           new SubdomainResourceLinkDto(
             r.linkId,
@@ -86,7 +86,7 @@ export class SubdomainsService {
             r.iconUri,
           ),
       ),
-      result.subdomainContacts.map(
+      result.contacts.map(
         (c) =>
           new SubdomainContactDto(
             c.person.personId,

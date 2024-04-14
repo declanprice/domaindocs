@@ -41,9 +41,9 @@ model Person {
   role Role?
 
   subdomainContacts SubdomainContact[]
-  subdomainPeople   SubdomainPerson[]
-  teamPersons       TeamPerson[]
-  PersonProject     PersonProject[]
+  subdomains        SubdomainPerson[]
+  teams             TeamPerson[]
+  projects          ProjectPerson[]
 
   @@index([userId])
   @@index([domainId])
@@ -68,16 +68,16 @@ model Role {
 }
 
 model Subdomain {
-  subdomainId            String                  @id
-  domainId               String
-  domain                 Domain                  @relation(fields: [domainId], references: [domainId])
-  name                   String                  @unique
-  description            String                  @default("")
-  subdomainPeople        SubdomainPerson[]
-  subdomainContacts      SubdomainContact[]
-  subdomainResourceLinks SubdomainResourceLink[]
-  subdomainTeams         SubdomainTeam[]
-  subdomainProjects      SubdomainProject[]
+  subdomainId   String                  @id
+  domainId      String
+  domain        Domain                  @relation(fields: [domainId], references: [domainId])
+  name          String                  @unique
+  description   String                  @default("")
+  people        SubdomainPerson[]
+  contacts      SubdomainContact[]
+  resourceLinks SubdomainResourceLink[]
+  teams         TeamSubdomain[]
+  projects      ProjectSubdomain[]
 
   @@index([domainId])
 }
@@ -87,7 +87,7 @@ model SubdomainPerson {
   person   Person @relation(fields: [personId], references: [personId])
 
   subdomainId String
-  subdomains  Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+  subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
 
   @@id([personId, subdomainId])
   @@index([personId])
@@ -127,11 +127,11 @@ model Team {
   name    String
   iconUri String? @default("https://cdn-icons-png.flaticon.com/512/1369/1369288.png")
 
-  domainId       String
-  domain         Domain          @relation(fields: [domainId], references: [domainId])
-  teamPeople     TeamPerson[]
-  subdomainTeams SubdomainTeam[]
-  teamProjects   TeamProject[]
+  domainId   String
+  domain     Domain          @relation(fields: [domainId], references: [domainId])
+  people     TeamPerson[]
+  subdomains TeamSubdomain[]
+  projects   ProjectTeam[]
 
   @@index([domainId])
 }
@@ -148,7 +148,7 @@ model TeamPerson {
   @@index([personId])
 }
 
-model SubdomainTeam {
+model TeamSubdomain {
   teamId String
   team   Team   @relation(fields: [teamId], references: [teamId])
 
@@ -165,16 +165,16 @@ model Project {
   name      String
   iconUri   String? @default("https://cdn-icons-png.freepik.com/256/12148/12148631.png")
 
-  domainId          String
-  domain            Domain             @relation(fields: [domainId], references: [domainId])
-  peopleProjects    PersonProject[]
-  teamProjects      TeamProject[]
-  subdomainProjects SubdomainProject[]
+  domainId   String
+  domain     Domain             @relation(fields: [domainId], references: [domainId])
+  people     ProjectPerson[]
+  teams      ProjectTeam[]
+  subdomains ProjectSubdomain[]
 
   @@index([domainId])
 }
 
-model PersonProject {
+model ProjectPerson {
   projectId String
   project   Project @relation(fields: [projectId], references: [projectId])
 
@@ -186,7 +186,7 @@ model PersonProject {
   @@index([personId])
 }
 
-model TeamProject {
+model ProjectTeam {
   projectId String
   project   Project @relation(fields: [projectId], references: [projectId])
 
@@ -198,12 +198,12 @@ model TeamProject {
   @@index([teamId])
 }
 
-model SubdomainProject {
+model ProjectSubdomain {
   projectId String
   project   Project @relation(fields: [projectId], references: [projectId])
 
   subdomainId String
-  subdomains  Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+  subdomain   Subdomain @relation(fields: [subdomainId], references: [subdomainId])
 
   @@id([projectId, subdomainId])
   @@index([projectId])

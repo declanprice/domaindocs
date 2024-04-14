@@ -1,11 +1,11 @@
 import { apiClient } from '@state/api/api-client.ts'
 
-export type SubdomainTeam = {
+export type TeamSubdomain = {
     readonly subdomainId: string
     readonly subdomainName: string
 }
 
-export type TeamPersonDto = {
+export type TeamPerson = {
     readonly personId: string
     readonly firstName: string
     readonly lastName: string
@@ -20,8 +20,8 @@ export type TeamProject = {
 export type Team = {
     readonly teamId: string
     name: string
-    subdomains: SubdomainTeam[]
-    people: TeamPersonDto[]
+    subdomains: TeamSubdomain[]
+    people: TeamPerson[]
     projects: TeamProject[]
 }
 

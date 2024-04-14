@@ -1,4 +1,4 @@
-export class SubdomainTeamDto {
+export class TeamSubdomainDto {
   constructor(
     private readonly subdomainId: string,
     private readonly subdomainName: string,
@@ -25,7 +25,7 @@ export class TeamDto {
   constructor(
     private readonly teamId: string,
     private name: string,
-    private subdomains: SubdomainTeamDto[],
+    private subdomains: TeamSubdomainDto[],
     private people: TeamPersonDto[],
     private projects: TeamProjectDto[],
   ) {}

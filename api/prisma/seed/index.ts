@@ -17,12 +17,12 @@ const client = new PrismaClient();
 client.$connect().then(async () => {
   console.log('SEED: clearing data');
 
-  await client.subdomainProject.deleteMany();
-  await client.teamProject.deleteMany();
-  await client.personProject.deleteMany();
+  await client.projectSubdomain.deleteMany();
+  await client.projectTeam.deleteMany();
+  await client.projectPerson.deleteMany();
   await client.project.deleteMany();
 
-  await client.subdomainTeam.deleteMany();
+  await client.teamSubdomain.deleteMany();
   await client.teamPerson.deleteMany();
   await client.team.deleteMany();
 
@@ -95,7 +95,7 @@ client.$connect().then(async () => {
     ],
   });
 
-  await client.teamProject.createMany({
+  await client.projectTeam.createMany({
     data: [
       {
         projectId: deedSearchUi().projectId,
@@ -116,7 +116,7 @@ client.$connect().then(async () => {
     ],
   });
 
-  await client.subdomainTeam.createMany({
+  await client.teamSubdomain.createMany({
     data: [
       {
         subdomainId: supporting().subdomainId,

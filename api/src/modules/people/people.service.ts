@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
 import { SearchPeopleDto } from './dto/search-people.dto';
-import { PersonDto } from './dto/person.dto';
+import { PersonDto, PersonSubdomainDto, PersonTeamDto } from './dto/person.dto';
 
 @Injectable()
 export class PeopleService {
@@ -23,6 +23,16 @@ export class PeopleService {
         },
       },
       include: {
+        subdomains: {
+          include: {
+            subdomain: true,
+          },
+        },
+        teams: {
+          include: {
+            team: true,
+          },
+        },
         user: true,
         role: true,
       },
@@ -37,6 +47,11 @@ export class PeopleService {
           person.user.lastName,
           person.user.iconUri,
           person.role.name,
+          [],
+          person.subdomains.map(
+            (s) => new PersonSubdomainDto(s.subdomainId, s.subdomain.name),
+          ),
+          person.teams.map((t) => new PersonTeamDto(t.teamId, t.team.name)),
         ),
     );
   }
@@ -49,7 +64,7 @@ export class PeopleService {
     const result = await this.prisma.person.findMany({
       where: {
         domainId,
-        subdomainPeople: {
+        subdomains: {
           some: {
             subdomainId: dto.subdomainId,
           },
@@ -61,6 +76,16 @@ export class PeopleService {
         },
       },
       include: {
+        subdomains: {
+          include: {
+            subdomain: true,
+          },
+        },
+        teams: {
+          include: {
+            team: true,
+          },
+        },
         user: true,
         role: true,
       },
@@ -75,6 +100,11 @@ export class PeopleService {
           person.user.lastName,
           person.user.iconUri,
           person.role.name,
+          [],
+          person.subdomains.map(
+            (s) => new PersonSubdomainDto(s.subdomainId, s.subdomain.name),
+          ),
+          person.teams.map((t) => new PersonTeamDto(t.teamId, t.team.name)),
         ),
     );
   }

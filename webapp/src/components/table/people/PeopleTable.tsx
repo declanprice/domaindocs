@@ -1,5 +1,6 @@
 import { Person } from '@state/api/people-api.ts'
 import { Table } from '@components/table/Table.tsx'
+import { Badge } from '@chakra-ui/react'
 
 type PeopleTableProps = {
     people: Person[]
@@ -24,7 +25,17 @@ export const PeopleTable = (props: PeopleTableProps) => {
                 {
                     label: 'Subdomains',
                     name: 'subdomains',
-                    render: (data: Person) => `Supporting`,
+                    render: (data: Person) => {
+                        if (data.subdomains.length) {
+                            return `${data.subdomains.map((s) => s.subdomainName).join(' | ')}`
+                        } else {
+                            return (
+                                <Badge size={'xs'} colorScheme={'yellow'}>
+                                    Not Set
+                                </Badge>
+                            )
+                        }
+                    },
                     onClick: (row) => {
                         console.log('clicked row', row)
                     },
@@ -32,7 +43,17 @@ export const PeopleTable = (props: PeopleTableProps) => {
                 {
                     label: 'Teams',
                     name: 'teams',
-                    render: (data: Person) => `Team Orion | Team Keplar`,
+                    render: (data: Person) => {
+                        if (data.teams.length) {
+                            return `${data.teams.map((t) => t.teamName).join(' | ')}`
+                        } else {
+                            return (
+                                <Badge size={'xs'} colorScheme={'blue'}>
+                                    Not Set
+                                </Badge>
+                            )
+                        }
+                    },
                     onClick: (row) => {
                         console.log('clicked row', row)
                     },
@@ -40,7 +61,17 @@ export const PeopleTable = (props: PeopleTableProps) => {
                 {
                     label: 'Skills',
                     name: 'skills',
-                    render: (data: Person) => `Javascript | Node.js | AWS`,
+                    render: (data: Person) => {
+                        if (data.skills.length) {
+                            return `${data.skills.join(' | ')}`
+                        } else {
+                            return (
+                                <Badge size={'xs'} colorScheme={'gray'}>
+                                    Not Set
+                                </Badge>
+                            )
+                        }
+                    },
                     onClick: (row) => {
                         console.log('clicked row', row)
                     },
