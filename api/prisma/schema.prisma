@@ -25,6 +25,7 @@ model Domain {
   subdomains Subdomain[]
   teams      Team[]
   projects   Project[]
+  skills     Skill[]
 }
 
 model Person {
@@ -40,8 +41,20 @@ model Person {
 
   teamMember TeamMember?
 
+  skills PersonSkill[]
+
   @@index([userId])
   @@index([domainId])
+}
+
+model PersonSkill {
+  personId String
+  person   Person @relation(fields: [personId], references: [personId])
+
+  skillId String
+  skill   Skill  @relation(fields: [skillId], references: [skillId])
+
+  @@id([personId, skillId])
 }
 
 model Subdomain {
@@ -127,4 +140,16 @@ model Project {
   team   Team   @relation(fields: [teamId], references: [teamId])
 
   @@index([domainId])
+}
+
+model Skill {
+  skillId String @id
+
+  name        String
+  description String
+
+  domainId String
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+
+  people PersonSkill[]
 }

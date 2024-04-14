@@ -15,7 +15,6 @@ export const PersonTable = (props: PeopleTableProps) => {
             fields={[
                 {
                     label: 'Person',
-                    name: 'name',
                     render: (data: Person) =>
                         `${data.firstName} ${data.lastName}`,
                     onClick: (row) => {
@@ -24,7 +23,6 @@ export const PersonTable = (props: PeopleTableProps) => {
                 },
                 {
                     label: 'Subdomain',
-                    name: 'teams',
                     render: (data: Person) => {
                         if (data.team) {
                             return `${data.team.subdomainName}`
@@ -42,7 +40,6 @@ export const PersonTable = (props: PeopleTableProps) => {
                 },
                 {
                     label: 'Teams',
-                    name: 'teams',
                     render: (data: Person) => {
                         if (data.team) {
                             return `${data.team.teamName}`
@@ -60,10 +57,9 @@ export const PersonTable = (props: PeopleTableProps) => {
                 },
                 {
                     label: 'Skills',
-                    name: 'skills',
                     render: (data: Person) => {
                         if (data.skills.length) {
-                            return `${data.skills.join(' | ')}`
+                            return `${data.skills.map((s) => s.skillName).join(' | ')}`
                         } else {
                             return (
                                 <Badge size={'xs'} colorScheme={'gray'}>

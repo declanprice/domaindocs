@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
 import { SearchPeopleDto } from './dto/search-people.dto';
-import { PersonDto, PersonTeamDto } from './dto/person.dto';
+import { PersonDto, PersonSkillDto, PersonTeamDto } from './dto/person.dto';
 
 @Injectable()
 export class PeopleService {
@@ -23,6 +23,11 @@ export class PeopleService {
         },
       },
       include: {
+        skills: {
+          include: {
+            skill: true,
+          },
+        },
         teamMember: {
           include: {
             team: {
@@ -45,7 +50,10 @@ export class PeopleService {
           person.user.lastName,
           person.user.iconUri,
           person.teamMember?.role,
-          [],
+          person.skills.map(
+            (s) =>
+              new PersonSkillDto(s.skillId, s.skill.name, s.skill.description),
+          ),
           person.teamMember
             ? new PersonTeamDto(
                 person.teamMember.teamId,
@@ -77,6 +85,11 @@ export class PeopleService {
         },
       },
       include: {
+        skills: {
+          include: {
+            skill: true,
+          },
+        },
         teamMember: {
           include: {
             team: {
@@ -99,7 +112,10 @@ export class PeopleService {
           person.user.lastName,
           person.user.iconUri,
           person.teamMember?.role,
-          [],
+          person.skills.map(
+            (s) =>
+              new PersonSkillDto(s.skillId, s.skill.name, s.skill.description),
+          ),
           person.teamMember
             ? new PersonTeamDto(
                 person.teamMember.teamId,

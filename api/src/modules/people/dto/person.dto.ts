@@ -6,6 +6,14 @@ export class PersonTeamDto {
   ) {}
 }
 
+export class PersonSkillDto {
+  constructor(
+    private skillId: string,
+    private skillName: string,
+    private skillDescription: string,
+  ) {}
+}
+
 export class PersonDto {
   constructor(
     private personId: string,
@@ -14,7 +22,7 @@ export class PersonDto {
     private lastName: string,
     private iconUri: string | undefined,
     private roleName: string | undefined,
-    private skills: string[],
+    private skills: PersonSkillDto[],
     private team: PersonTeamDto | null,
   ) {}
 }

@@ -6,6 +6,12 @@ export type PersonTeam = {
     subdomainName: string
 }
 
+export type PersonSkill = {
+    skillId: string
+    skillName: string
+    skillDescription: string
+}
+
 export type Person = {
     personId: string
     userId: string
@@ -14,7 +20,7 @@ export type Person = {
     lastName: string
     iconUri: string | undefined
     roleName: string | undefined
-    skills: string[]
+    skills: PersonSkill[]
     team: PersonTeam | null
 }
 
