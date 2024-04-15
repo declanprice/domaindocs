@@ -9,8 +9,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { SearchPeopleDto } from './dto/search-people.dto';
-import { DetailedPersonDto } from './dto/person.dto';
+import { SearchPeopleDto, DetailedPersonDto } from 'lib';
 
 @Controller('domains/:domainId/people')
 @UseGuards(AuthGuard)

@@ -2,17 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { Subdomain } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
-import { UpdateSubdomainDescriptionDto } from './dto/update-subdomain-description.dto';
 import { createSlug } from '../../util/create-slug';
-import { SubdomainOverviewDto } from './dto/subdomain-overview.dto';
-import { SubdomainSummaryDto } from './dto/subdomain-summary.dto';
-import { SubdomainResourceLinkDto } from './dto/subdomain-resource-link.dto';
-import { SubdomainContactDto } from './dto/subdomain-contact.dto';
-import { CreateSubdomainDto } from './dto/create-subdomain.dto';
-import { SubdomainDto } from './dto/subdomain.dto';
-import { AddSubdomainContactsDto } from './dto/add-subdomain-contacts.dto';
 import { v4 } from 'uuid';
-import { AddSubdomainResourceLinkDto } from './dto/add-subdomain-resource-link.dto';
+import {
+  AddSubdomainContactsDto,
+  AddSubdomainResourceLinkDto,
+  CreateSubdomainDto,
+  SubdomainOverviewDto,
+  UpdateSubdomainDescriptionDto,
+  SubdomainSummaryDto,
+  SubdomainResourceLinkDto,
+  SubdomainContactDto,
+  SubdomainDto,
+} from 'lib';
 
 @Injectable()
 export class SubdomainsService {

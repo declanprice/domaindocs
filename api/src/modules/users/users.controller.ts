@@ -2,8 +2,7 @@ import { UsersService } from './users.service';
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { SetupUserDto } from './dto/setup-user.dto';
-import { UserDto } from './dto/user.dto';
+import { UserDto, SetupUserDto } from 'lib';
 
 @Controller('users')
 @UseGuards(AuthGuard)

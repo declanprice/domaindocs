@@ -11,10 +11,12 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { UpdateSubdomainDescriptionDto } from './dto/update-subdomain-description.dto';
-import { CreateSubdomainDto } from './dto/create-subdomain.dto';
-import { AddSubdomainContactsDto } from './dto/add-subdomain-contacts.dto';
-import { AddSubdomainResourceLinkDto } from './dto/add-subdomain-resource-link.dto';
+import {
+  AddSubdomainContactsDto,
+  AddSubdomainResourceLinkDto,
+  CreateSubdomainDto,
+  UpdateSubdomainDescriptionDto,
+} from 'lib';
 
 @Controller('domains/:domainId/subdomains')
 @UseGuards(AuthGuard)

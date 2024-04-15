@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
-import { QueryTeamDto } from './dto/query-team.dto';
 import { v4 } from 'uuid';
-import { CreateTeamDto } from './dto/create-team.dto';
 import {
   TeamDetailedDto,
+  CreateTeamDto,
+  QueryTeamDto,
   TeamDto,
+  TeamSubdomainDto,
   TeamMemberDto,
   TeamProjectDto,
-  TeamSubdomainDto,
-} from './dto/team.dto';
+} from 'lib';
 
 @Injectable()
 export class TeamsService {

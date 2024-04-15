@@ -4,13 +4,16 @@ import { ros } from './domain';
 import { finance, supporting } from './subdomains';
 import { benPerson, declanPerson, natashaPerson } from './people';
 import { teamKeplar, teamOrion } from './teams';
+
 import {
   deedSearchApi,
   deedSearchUi,
   lrArchiveApi,
   lrArchiveUi,
 } from './projects';
-import { awsSkill, devOpsSkill, nodeJsSkill } from './skills';
+
+import { uiDevSkill, devOpsSkill, apiDevSkill } from './skills';
+import { angularTech, nestJsTech, reactTech } from './technologies';
 
 const client = new PrismaClient();
 
@@ -18,6 +21,7 @@ client.$connect().then(async () => {
   console.log('SEED: clearing data');
 
   /* CLEAR DATABASE */
+  await client.projectTechnology.deleteMany();
   await client.project.deleteMany();
 
   await client.teamMember.deleteMany();
@@ -31,6 +35,7 @@ client.$connect().then(async () => {
   await client.person.deleteMany();
 
   await client.skill.deleteMany();
+  await client.technology.deleteMany();
 
   await client.domain.deleteMany();
 
@@ -46,7 +51,11 @@ client.$connect().then(async () => {
   });
 
   await client.skill.createMany({
-    data: [awsSkill(), nodeJsSkill(), devOpsSkill()],
+    data: [uiDevSkill(), apiDevSkill(), devOpsSkill()],
+  });
+
+  await client.technology.createMany({
+    data: [reactTech(), angularTech(), nestJsTech()],
   });
 
   await client.person.createMany({
@@ -57,11 +66,11 @@ client.$connect().then(async () => {
     data: [
       {
         personId: declanPerson().personId,
-        skillId: awsSkill().skillId,
+        skillId: uiDevSkill().skillId,
       },
       {
         personId: declanPerson().personId,
-        skillId: nodeJsSkill().skillId,
+        skillId: apiDevSkill().skillId,
       },
       {
         personId: benPerson().personId,
@@ -69,7 +78,7 @@ client.$connect().then(async () => {
       },
       {
         personId: natashaPerson().personId,
-        skillId: nodeJsSkill().skillId,
+        skillId: apiDevSkill().skillId,
       },
     ],
   });
@@ -104,6 +113,27 @@ client.$connect().then(async () => {
 
   await client.project.createMany({
     data: [deedSearchApi(), deedSearchUi(), lrArchiveApi(), lrArchiveUi()],
+  });
+
+  await client.projectTechnology.createMany({
+    data: [
+      {
+        projectId: deedSearchApi().projectId,
+        technologyId: nestJsTech().technologyId,
+      },
+      {
+        projectId: deedSearchUi().projectId,
+        technologyId: reactTech().technologyId,
+      },
+      {
+        projectId: lrArchiveApi().projectId,
+        technologyId: nestJsTech().technologyId,
+      },
+      {
+        projectId: lrArchiveUi().projectId,
+        technologyId: angularTech().technologyId,
+      },
+    ],
   });
 
   console.log('SEED: complete');

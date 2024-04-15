@@ -1,21 +1,21 @@
 import { Skill } from '@prisma/client';
 import { ros } from './domain';
 
-export const nodeJsSkill = (): Skill => {
+export const uiDevSkill = (): Skill => {
   return {
-    skillId: 'nodejs',
+    skillId: 'uidev',
     domainId: ros().domainId,
-    name: 'NodeJS',
-    description: 'Node JS',
+    name: 'UI Development',
+    description: 'Developing user interfaces for the browser.',
   };
 };
 
-export const awsSkill = (): Skill => {
+export const apiDevSkill = (): Skill => {
   return {
-    skillId: 'aws',
+    skillId: 'apidev',
     domainId: ros().domainId,
-    name: 'AWS',
-    description: 'Amazon Web Services',
+    name: 'API Development',
+    description: 'Developing backend api services.',
   };
 };
 
@@ -23,7 +23,7 @@ export const devOpsSkill = (): Skill => {
   return {
     skillId: 'devops',
     domainId: ros().domainId,
-    name: 'DevOps',
-    description: 'Dev ops',
+    name: 'Dev Ops',
+    description: 'Development operations.',
   };
 };

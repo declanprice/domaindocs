@@ -19,13 +19,14 @@ model User {
 }
 
 model Domain {
-  domainId   String      @id
-  name       String      @unique
-  people     Person[]
-  subdomains Subdomain[]
-  teams      Team[]
-  projects   Project[]
-  skills     Skill[]
+  domainId     String       @id
+  name         String       @unique
+  people       Person[]
+  subdomains   Subdomain[]
+  teams        Team[]
+  projects     Project[]
+  skills       Skill[]
+  technologies Technology[]
 }
 
 model Person {
@@ -143,7 +144,19 @@ model Project {
   teamId String
   team   Team   @relation(fields: [teamId], references: [teamId])
 
+  technologies ProjectTechnology[]
+
   @@index([domainId])
+}
+
+model ProjectTechnology {
+  projectId String
+  project   Project @relation(fields: [projectId], references: [projectId])
+
+  technologyId String
+  technology   Technology @relation(fields: [technologyId], references: [technologyId])
+
+  @@id([projectId, technologyId])
 }
 
 model Skill {
@@ -156,4 +169,19 @@ model Skill {
   domain   Domain @relation(fields: [domainId], references: [domainId])
 
   people PersonSkill[]
+
+  @@unique([domainId, name])
+}
+
+model Technology {
+  technologyId String @id
+
+  name String
+
+  domainId String
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+
+  projects ProjectTechnology[]
+
+  @@unique([domainId, name])
 }

@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
-import { SearchPeopleDto } from './dto/search-people.dto';
 import {
   DetailedPersonDto,
   PersonDto,
   PersonSkillDto,
   PersonTeamDto,
-} from './dto/person.dto';
+  SearchPeopleDto,
+} from 'lib';
 
 @Injectable()
 export class PeopleService {

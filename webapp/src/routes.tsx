@@ -6,7 +6,7 @@ import { VerifyMagicLinkPage } from './pages/auth/VerifyMagicLinkPage.tsx'
 import { MagicLinkSentPage } from './pages/auth/MagicLinkSentPage.tsx'
 import { AccountSetupPage } from './pages/user-setup/AccountSetupPage.tsx'
 import { RootLayout } from './layout/RootLayout.tsx'
-import { SubdomainLayoutPage } from './pages/subdomains/SubdomainLayoutPage.tsx'
+import { SubdomainPageLayout } from './pages/subdomains/SubdomainPageLayout.tsx'
 import { SubdomainOverviewPage } from './pages/subdomains/SubdomainOverviewPage.tsx'
 import { SubdomainPeoplePage } from './pages/subdomains/SubdomainPeoplePage.tsx'
 import { SubdomainTeamsPage } from './pages/subdomains/SubdomainTeamsPage.tsx'
@@ -28,6 +28,8 @@ import { SubdomainCreatePage } from './pages/subdomains/SubdomainCreatePage.tsx'
 import { PeoplePage } from './pages/people/PeoplePage.tsx'
 import { TeamPageLayout } from './pages/teams/TeamPageLayout.tsx'
 import { TeamsPage } from './pages/teams/TeamsPage.tsx'
+import { ProjectsPage } from './pages/projects/ProjectsPage.tsx'
+import { ProjectsPageLayout } from './pages/projects/ProjectsPageLayout.tsx'
 
 export const routes = createBrowserRouter([
     {
@@ -65,7 +67,7 @@ export const routes = createBrowserRouter([
                                             {
                                                 path: ':subdomainId',
                                                 element: (
-                                                    <SubdomainLayoutPage />
+                                                    <SubdomainPageLayout />
                                                 ),
                                                 children: [
                                                     {
@@ -126,7 +128,13 @@ export const routes = createBrowserRouter([
                                     },
                                     {
                                         path: 'projects',
-                                        element: <PeoplePageLayout />,
+                                        element: <ProjectsPageLayout />,
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <ProjectsPage />,
+                                            },
+                                        ],
                                     },
                                     {
                                         path: 'documentation',
