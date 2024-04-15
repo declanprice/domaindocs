@@ -1,12 +1,13 @@
 import { Table } from '@components/table/Table.tsx'
-import { Team } from '@state/api/teams-api.ts'
+import { DetailedTeam } from '@state/api/teams-api.ts'
 
 type TeamTableProps = {
-    teams: Team[]
+    teams: DetailedTeam[]
+    onTeamClick: (team: DetailedTeam) => void
 }
 
 export const TeamTable = (props: TeamTableProps) => {
-    const { teams } = props
+    const { teams, onTeamClick } = props
 
     return (
         <Table
@@ -14,21 +15,23 @@ export const TeamTable = (props: TeamTableProps) => {
             fields={[
                 {
                     label: 'Team',
-                    render: (data: Team) => `${data.name}`,
+                    render: (data: DetailedTeam) => `${data.team.name}`,
                     onClick: (row) => {
-                        console.log('clicked row', row)
+                        onTeamClick(row)
                     },
                 },
                 {
                     label: 'Subdomain',
-                    render: (data: Team) => `${data.subdomain.subdomainName}`,
+                    render: (data: DetailedTeam) =>
+                        `${data.subdomain.subdomainName}`,
                     onClick: (row) => {
                         console.log('clicked row', row)
                     },
                 },
                 {
                     label: 'Members',
-                    render: (data: Team) => `${data.members.length} Members`,
+                    render: (data: DetailedTeam) =>
+                        `${data.members.length} Members`,
                     onClick: (row) => {
                         console.log('clicked row', row)
                     },

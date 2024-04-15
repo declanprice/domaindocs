@@ -25,6 +25,13 @@ export class TeamDto {
   constructor(
     private readonly teamId: string,
     private name: string,
+    private iconUri?: string,
+  ) {}
+}
+
+export class TeamDetailedDto {
+  constructor(
+    private team: TeamDto,
     private subdomain: TeamSubdomainDto,
     private members: TeamMemberDto[],
     private projects: TeamProjectDto[],

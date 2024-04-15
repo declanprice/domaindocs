@@ -18,8 +18,13 @@ export type TeamProject = {
 }
 
 export type Team = {
-    readonly teamId: string
+    teamId: string
     name: string
+    iconUri?: string
+}
+
+export type DetailedTeam = {
+    team: Team
     subdomain: TeamSubdomain
     members: TeamMember[]
     projects: TeamProject[]
@@ -38,8 +43,8 @@ export const teamsApi = (() => {
     const searchTeams = async (
         domainId: string,
         query: SearchTeamsQuery = {}
-    ): Promise<Team[]> => {
-        const result = await apiClient.get<Team[]>(
+    ): Promise<DetailedTeam[]> => {
+        const result = await apiClient.get<DetailedTeam[]>(
             `/domains/${domainId}/teams`,
             {
                 params: query,

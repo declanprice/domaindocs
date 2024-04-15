@@ -5,6 +5,7 @@ import { QueryTeamDto } from './dto/query-team.dto';
 import { v4 } from 'uuid';
 import { CreateTeamDto } from './dto/create-team.dto';
 import {
+  TeamDetailedDto,
   TeamDto,
   TeamMemberDto,
   TeamProjectDto,
@@ -19,7 +20,7 @@ export class TeamsService {
     session: UserSession,
     domainId: string,
     dto: QueryTeamDto,
-  ): Promise<TeamDto[]> {
+  ): Promise<TeamDetailedDto[]> {
     const result = await this.prisma.team.findMany({
       where: {
         domainId,
@@ -41,9 +42,8 @@ export class TeamsService {
 
     return result.map(
       (t) =>
-        new TeamDto(
-          t.teamId,
-          t.name,
+        new TeamDetailedDto(
+          new TeamDto(t.teamId, t.name, t.iconUri),
           new TeamSubdomainDto(t.subdomainId, t.subdomain.name),
           t.members.map(
             (p) =>
