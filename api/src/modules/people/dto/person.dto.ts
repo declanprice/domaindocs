@@ -20,6 +20,12 @@ export class PersonDto {
     private userId: string,
     private firstName: string,
     private lastName: string,
+    private contact: {
+      personalContactMobile?: string;
+      personalContactEmail?: string;
+      contactEmail?: string;
+      contactMobile?: string;
+    },
     private iconUri: string | undefined,
     private roleName: string | undefined,
   ) {}

@@ -31,6 +31,12 @@ model Domain {
 model Person {
   personId String @id
 
+  personalContactMobile String?
+  personalContactEmail  String?
+
+  contactEmail  String?
+  contactMobile String?
+
   userId String
   user   User   @relation(fields: [userId], references: [userId])
 
@@ -38,10 +44,8 @@ model Person {
   domain   Domain @relation(fields: [domainId], references: [domainId])
 
   subdomainContacts SubdomainContact[]
-
-  teamMember TeamMember?
-
-  skills PersonSkill[]
+  teamMember        TeamMember?
+  skills            PersonSkill[]
 
   @@index([userId])
   @@index([domainId])

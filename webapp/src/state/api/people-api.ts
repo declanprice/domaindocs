@@ -18,6 +18,12 @@ export type Person = {
     email: string
     firstName: string
     lastName: string
+    contact: {
+        personalContactMobile?: string
+        personalContactEmail?: string
+        contactEmail?: string
+        contactMobile?: string
+    }
     iconUri: string | undefined
     roleName: string | undefined
 }
