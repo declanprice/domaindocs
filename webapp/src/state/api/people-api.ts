@@ -20,6 +20,10 @@ export type Person = {
     lastName: string
     iconUri: string | undefined
     roleName: string | undefined
+}
+
+export type DetailedPerson = {
+    person: Person
     skills: PersonSkill[]
     team: PersonTeam | null
 }
@@ -33,8 +37,8 @@ export const peopleApi = (() => {
     const searchPeople = async (
         domainId: string,
         data: SearchPeopleParams
-    ): Promise<Person[]> => {
-        const result = await apiClient.get<Person[]>(
+    ): Promise<DetailedPerson[]> => {
+        const result = await apiClient.get<DetailedPerson[]>(
             `/domains/${domainId}/people`,
             {
                 params: data,

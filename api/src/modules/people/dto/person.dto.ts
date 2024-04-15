@@ -22,6 +22,12 @@ export class PersonDto {
     private lastName: string,
     private iconUri: string | undefined,
     private roleName: string | undefined,
+  ) {}
+}
+
+export class DetailedPersonDto {
+  constructor(
+    private person: PersonDto,
     private skills: PersonSkillDto[],
     private team: PersonTeamDto | null,
   ) {}

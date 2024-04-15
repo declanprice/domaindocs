@@ -7,13 +7,10 @@ import { DetailedTeam, teamsApi } from '@state/api/teams-api.ts'
 import { TeamTable } from '@components/team/TeamTable.tsx'
 import { TeamSidebar } from '@components/team/TeamSidebar.tsx'
 import { useState } from 'react'
-
-type TeamPageParam = {
-    domainId: string
-}
+import { DomainPageParams } from '@types/DomainPageParams.tsx'
 
 export const TeamsPage = () => {
-    const { domainId } = useParams() as TeamPageParam
+    const { domainId } = useParams() as DomainPageParams
 
     const teamSideBar = useDisclosure()
 

@@ -10,6 +10,7 @@ import {
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import { SearchPeopleDto } from './dto/search-people.dto';
+import { DetailedPersonDto } from './dto/person.dto';
 
 @Controller('domains/:domainId/people')
 @UseGuards(AuthGuard)
@@ -21,7 +22,7 @@ export class PeopleController {
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
     @Query() dto: SearchPeopleDto,
-  ) {
+  ): Promise<DetailedPersonDto[]> {
     if (!domainId) {
       throw new BadRequestException('missing params (domainId)');
     }

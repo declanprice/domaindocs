@@ -75,7 +75,7 @@ export const SubdomainContacts = (props: SubdomainContacts) => {
                 title={`Pin a new contact to ${subdomainName} subdomain.`}
                 isOpen={isAddContactOpen}
                 onClose={onAddContactClose}
-                people={searchPeopleResult}
+                people={searchPeopleResult?.map((s) => s.person)}
                 onSearch={(name) => {
                     setSearchName(name)
                 }}

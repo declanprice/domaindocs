@@ -1,10 +1,13 @@
-import { Flex, Stack } from '@chakra-ui/react'
+import { Flex, Stack, useDisclosure } from '@chakra-ui/react'
 import { TableToolbar } from '@components/table/TableToolbar.tsx'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { peopleApi, Person } from '@state/api/people-api.ts'
+import { DetailedPerson, peopleApi, Person } from '@state/api/people-api.ts'
 import { LoadingContainer } from '@components/loading/LoadingContainer.tsx'
 import { PersonTable } from '@components/person/PersonTable.tsx'
+import { useState } from 'react'
+import { DetailedTeam } from '@state/api/teams-api.ts'
+import { PersonSideBar } from '@components/person/PersonSideBar.tsx'
 
 type PeoplePageParams = {
     domainId: string
@@ -13,7 +16,13 @@ type PeoplePageParams = {
 export const PeoplePage = () => {
     const { domainId } = useParams() as PeoplePageParams
 
-    const { data: people, isLoading } = useQuery<Person[]>({
+    const personSideBar = useDisclosure()
+
+    const [selectedPerson, setSelectedPerson] = useState<DetailedPerson | null>(
+        null
+    )
+
+    const { data: people, isLoading } = useQuery<DetailedPerson[]>({
         queryKey: ['searchPeople', { domainId }],
         queryFn: () => peopleApi.searchPeople(domainId, {}),
     })
@@ -29,7 +38,22 @@ export const PeoplePage = () => {
                     onFilterClick={() => {}}
                 />
 
-                <PersonTable people={people} />
+                <PersonTable
+                    people={people}
+                    onPersonClick={(person) => {
+                        setSelectedPerson(person)
+                        personSideBar.onOpen()
+                    }}
+                />
+
+                <PersonSideBar
+                    isOpen={personSideBar.isOpen}
+                    onClose={() => {
+                        setSelectedPerson(null)
+                        personSideBar.onClose()
+                    }}
+                    person={selectedPerson}
+                />
             </Stack>
         </Flex>
     )

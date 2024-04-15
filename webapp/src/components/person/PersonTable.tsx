@@ -1,13 +1,14 @@
-import { Person } from '@state/api/people-api.ts'
+import { DetailedPerson } from '@state/api/people-api.ts'
 import { Table } from '@components/table/Table.tsx'
 import { Badge } from '@chakra-ui/react'
 
 type PeopleTableProps = {
-    people: Person[]
+    people: DetailedPerson[]
+    onPersonClick: (person: DetailedPerson) => void
 }
 
 export const PersonTable = (props: PeopleTableProps) => {
-    const { people } = props
+    const { people, onPersonClick } = props
 
     return (
         <Table
@@ -15,15 +16,15 @@ export const PersonTable = (props: PeopleTableProps) => {
             fields={[
                 {
                     label: 'Person',
-                    render: (data: Person) =>
-                        `${data.firstName} ${data.lastName}`,
+                    render: (data: DetailedPerson) =>
+                        `${data.person.firstName} ${data.person.lastName}`,
                     onClick: (row) => {
-                        console.log('clicked row', row)
+                        onPersonClick(row)
                     },
                 },
                 {
                     label: 'Subdomain',
-                    render: (data: Person) => {
+                    render: (data: DetailedPerson) => {
                         if (data.team) {
                             return `${data.team.subdomainName}`
                         } else {
@@ -40,7 +41,7 @@ export const PersonTable = (props: PeopleTableProps) => {
                 },
                 {
                     label: 'Teams',
-                    render: (data: Person) => {
+                    render: (data: DetailedPerson) => {
                         if (data.team) {
                             return `${data.team.teamName}`
                         } else {
@@ -57,7 +58,7 @@ export const PersonTable = (props: PeopleTableProps) => {
                 },
                 {
                     label: 'Skills',
-                    render: (data: Person) => {
+                    render: (data: DetailedPerson) => {
                         if (data.skills.length) {
                             return `${data.skills.map((s) => s.skillName).join(' | ')}`
                         } else {

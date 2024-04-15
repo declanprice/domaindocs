@@ -2,7 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
 import { SearchPeopleDto } from './dto/search-people.dto';
-import { PersonDto, PersonSkillDto, PersonTeamDto } from './dto/person.dto';
+import {
+  DetailedPersonDto,
+  PersonDto,
+  PersonSkillDto,
+  PersonTeamDto,
+} from './dto/person.dto';
 
 @Injectable()
 export class PeopleService {
@@ -12,7 +17,7 @@ export class PeopleService {
     session: UserSession,
     domainId: string,
     dto: SearchPeopleDto,
-  ) {
+  ): Promise<DetailedPersonDto[]> {
     const result = await this.prisma.person.findMany({
       where: {
         domainId,
@@ -43,13 +48,15 @@ export class PeopleService {
 
     return result.map(
       (person) =>
-        new PersonDto(
-          person.personId,
-          person.userId,
-          person.user.firstName,
-          person.user.lastName,
-          person.user.iconUri,
-          person.teamMember?.role,
+        new DetailedPersonDto(
+          new PersonDto(
+            person.personId,
+            person.userId,
+            person.user.firstName,
+            person.user.lastName,
+            person.user.iconUri,
+            person.teamMember?.role,
+          ),
           person.skills.map(
             (s) =>
               new PersonSkillDto(s.skillId, s.skill.name, s.skill.description),
@@ -69,7 +76,7 @@ export class PeopleService {
     session: UserSession,
     domainId: string,
     dto: SearchPeopleDto,
-  ) {
+  ): Promise<DetailedPersonDto[]> {
     const result = await this.prisma.person.findMany({
       where: {
         domainId,
@@ -105,13 +112,15 @@ export class PeopleService {
 
     return result.map(
       (person) =>
-        new PersonDto(
-          person.personId,
-          person.userId,
-          person.user.firstName,
-          person.user.lastName,
-          person.user.iconUri,
-          person.teamMember?.role,
+        new DetailedPersonDto(
+          new PersonDto(
+            person.personId,
+            person.userId,
+            person.user.firstName,
+            person.user.lastName,
+            person.user.iconUri,
+            person.teamMember?.role,
+          ),
           person.skills.map(
             (s) =>
               new PersonSkillDto(s.skillId, s.skill.name, s.skill.description),
