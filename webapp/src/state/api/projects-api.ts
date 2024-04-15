@@ -1,20 +1,11 @@
 import { apiClient } from '@state/api/api-client.ts'
 
-import { DetailedProjectDto } from 'lib'
-
-export type SearchProjectsQuery = {
-    name?: string
-}
-
-export type CreateProjectData = {
-    name: string
-    teamId: string
-}
+import { CreateProjectDto, DetailedProjectDto, SearchProjectsDto } from 'lib'
 
 export const projectsApi = (() => {
     const searchProjects = async (
         domainId: string,
-        query: SearchProjectsQuery = {}
+        query: SearchProjectsDto = {}
     ): Promise<DetailedProjectDto[]> => {
         const result = await apiClient.get<DetailedProjectDto[]>(
             `/domains/${domainId}/projects`,
@@ -26,7 +17,7 @@ export const projectsApi = (() => {
         return result.data
     }
 
-    const createProject = async (domainId: string, data: CreateProjectData) => {
+    const createProject = async (domainId: string, data: CreateProjectDto) => {
         const result = await apiClient.post(
             `/domains/${domainId}/projects`,
             data

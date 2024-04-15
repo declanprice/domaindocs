@@ -4,13 +4,14 @@ import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { LoadingContainer } from '@components/loading/LoadingContainer.tsx'
 import { DomainPageParams } from '@types/DomainPageParams.tsx'
-import { DetailedProject, projectsApi } from '@state/api/projects-api.ts'
+import { projectsApi } from '@state/api/projects-api.ts'
 import { ProjectTable } from '@components/project/ProjectTable.tsx'
+import { DetailedProjectDto } from 'lib'
 
 export const ProjectsPage = () => {
     const { domainId } = useParams() as DomainPageParams
 
-    const { data: projects, isLoading } = useQuery<DetailedProject[]>({
+    const { data: projects, isLoading } = useQuery<DetailedProjectDto[]>({
         queryKey: ['searchProjects', { domainId }],
         queryFn: () => projectsApi.searchProjects(domainId, {}),
     })

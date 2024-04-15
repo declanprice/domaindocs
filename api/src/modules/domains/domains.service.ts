@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
-import { SetupDomainDto } from './dto/setup-domain.dto';
 import { createSlug } from '../../util/create-slug';
 import { v4 } from 'uuid';
+import { SetupDomainDto } from 'lib';
 
 @Injectable()
 export class DomainsService {

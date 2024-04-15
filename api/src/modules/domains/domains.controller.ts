@@ -1,8 +1,8 @@
 import { DomainsService } from './domains.service';
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
-import { SetupDomainDto } from './dto/setup-domain.dto';
 import { AuthSession, UserSession } from '../../auth/auth-session';
+import { SetupDomainDto } from 'lib';
 
 @Controller('domains')
 @UseGuards(AuthGuard)

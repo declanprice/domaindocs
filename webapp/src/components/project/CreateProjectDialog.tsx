@@ -12,33 +12,27 @@ import {
 
 import { FormTextInput } from '@components/form/FormInput.tsx'
 import { useForm } from 'react-hook-form'
-import { valibotResolver } from '@hookform/resolvers/valibot'
-import { minLength, object, string } from 'valibot'
 import { Team } from '@state/api/teams-api.ts'
 import { FormSelect } from '@components/form/FormSelect.tsx'
-import { CreateProjectData } from '@state/api/projects-api.ts'
+import { classValidatorResolver } from '@hookform/resolvers/class-validator'
+import { CreateProjectDto } from 'lib'
 
 export type CreateProjectDialogProps = {
     isOpen: boolean
     onClose: () => void
     teams: Team[]
-    onProjectCreate: (team: CreateProjectData) => Promise<void>
+    onProjectCreate: (team: CreateProjectDto) => Promise<void>
 }
 
 export const CreateProjectDialog = (props: CreateProjectDialogProps) => {
     const { isOpen, onClose, teams, onProjectCreate } = props
 
-    const form = useForm<CreateProjectData>({
+    const form = useForm<CreateProjectDto>({
         values: {
             name: '',
             teamId: '',
         },
-        resolver: valibotResolver(
-            object({
-                name: string(),
-                teamId: string([minLength(1, 'You must select a team.')]),
-            })
-        ),
+        // resolver: classValidatorResolver(CreateProjectDto),
     })
 
     const closeAndReset = () => {
@@ -46,9 +40,11 @@ export const CreateProjectDialog = (props: CreateProjectDialogProps) => {
         onClose()
     }
 
-    const submit = async (data: CreateProjectData) => {
-        await onProjectCreate(data)
-        closeAndReset()
+    const submit = async (data: CreateProjectDto) => {
+        // console.log(data)
+        // console.log(new CreateProjectDto())
+        // await onProjectCreate(data)
+        // closeAndReset()
     }
 
     return (

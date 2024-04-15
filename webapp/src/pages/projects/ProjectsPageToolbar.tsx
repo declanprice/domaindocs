@@ -7,7 +7,8 @@ import { DomainPageParams } from '@types/DomainPageParams.tsx'
 import { DetailedTeam, teamsApi } from '@state/api/teams-api.ts'
 import { queryClient } from '@state/query-client.ts'
 import { CreateProjectDialog } from '@components/project/CreateProjectDialog.tsx'
-import { CreateProjectData, projectsApi } from '@state/api/projects-api.ts'
+import { projectsApi } from '@state/api/projects-api.ts'
+import { CreateProjectDto } from 'lib'
 
 export const ProjectsPageToolbar = () => {
     const { domainId } = useParams() as DomainPageParams
@@ -21,7 +22,7 @@ export const ProjectsPageToolbar = () => {
 
     const { mutateAsync: createProject } = useMutation({
         mutationKey: ['createProject', { domainId }],
-        mutationFn: async (data: CreateProjectData) => {
+        mutationFn: async (data: CreateProjectDto) => {
             await projectsApi.createProject(domainId, data)
 
             await queryClient.invalidateQueries({
