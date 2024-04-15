@@ -2,11 +2,10 @@ import { Flex, Stack, useDisclosure } from '@chakra-ui/react'
 import { TableToolbar } from '@components/table/TableToolbar.tsx'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { DetailedPerson, peopleApi, Person } from '@state/api/people-api.ts'
+import { DetailedPerson, peopleApi } from '@state/api/people-api.ts'
 import { LoadingContainer } from '@components/loading/LoadingContainer.tsx'
 import { PersonTable } from '@components/person/PersonTable.tsx'
 import { useState } from 'react'
-import { DetailedTeam } from '@state/api/teams-api.ts'
 import { PersonSideBar } from '@components/person/PersonSideBar.tsx'
 
 type PeoplePageParams = {

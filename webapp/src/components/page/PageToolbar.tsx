@@ -1,4 +1,4 @@
-import { Button, Flex } from '@chakra-ui/react'
+import { Button, Flex, Tabs, TabList, Tab } from '@chakra-ui/react'
 
 type PageTabOption = {
     isActive: boolean
@@ -34,25 +34,20 @@ export const PageToolbar = (props: PageToolbarProps) => {
             {title && <> {title} </>}
 
             {tabs && (
-                <Flex ml={10} height={'100%'} alignItems={'flex-end'}>
-                    {tabs.map((tab) => (
-                        <Button
-                            key={tab.label}
-                            size={'sm'}
-                            fontSize={12}
-                            variant={'ghost'}
-                            borderBottom={
-                                tab.isActive ? '1px solid' : undefined
-                            }
-                            borderRadius={0}
-                            colorScheme="gray"
-                            fontWeight={'regular'}
-                            onClick={tab.onClick}
-                        >
-                            {tab.label}
-                        </Button>
-                    ))}
-                </Flex>
+                <Tabs
+                    index={tabs.findIndex((t) => t.isActive)}
+                    colorScheme={'gray'}
+                    size={'sm'}
+                    height={'100%'}
+                    display={'flex'}
+                    alignItems={'flex-end'}
+                >
+                    <TabList borderBottom={'0'}>
+                        {tabs.map((t) => (
+                            <Tab onClick={t.onClick}>{t.label}</Tab>
+                        ))}
+                    </TabList>
+                </Tabs>
             )}
 
             {actions && (
