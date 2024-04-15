@@ -25,8 +25,13 @@ export type Team = {
     projects: TeamProject[]
 }
 
-type SearchTeamsQuery = {
+export type SearchTeamsQuery = {
     name?: string
+}
+
+export type CreateTeamData = {
+    name: string
+    subdomainId: string
 }
 
 export const teamsApi = (() => {
@@ -44,7 +49,14 @@ export const teamsApi = (() => {
         return result.data
     }
 
+    const createTeam = async (domainId: string, data: CreateTeamData) => {
+        const result = await apiClient.post(`/domains/${domainId}/teams`, data)
+
+        return result.data
+    }
+
     return {
         searchTeams,
+        createTeam,
     }
 })()

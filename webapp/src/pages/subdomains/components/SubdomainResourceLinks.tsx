@@ -7,7 +7,7 @@ import {
     subdomainsApi,
 } from '@state/api/subdomains-api.ts'
 import { ResourceLinksCard } from '@components/cards/resource-links/ResourceLinksCard.tsx'
-import { AddResourceLinkDialog } from '@components/dialogs/AddResourceLinkDialog.tsx'
+import { AddResourceLinkDialog } from '@components/resource-link/AddResourceLinkDialog.tsx'
 
 type SubdomainResourceLinksProps = {
     subdomainName: string

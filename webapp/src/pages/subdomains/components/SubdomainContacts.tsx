@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDisclosure } from '@chakra-ui/react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { ContactsCard } from '@components/cards/contacts/ContactsCard.tsx'
-import { SelectPeopleDialog } from '@components/dialogs/SelectPeopleDialog.tsx'
+import { SelectPeopleDialog } from '@components/person/SelectPeopleDialog.tsx'
 import { queryClient } from '@state/query-client.ts'
 import { peopleApi } from '@state/api/people-api.ts'
 

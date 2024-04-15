@@ -31,6 +31,9 @@
       ],
       "@state/*": [
         "./src/state/*"
+      ],
+      "@types/*": [
+        "./src/types/*"
       ]
     }
   },
