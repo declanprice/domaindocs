@@ -7,7 +7,7 @@ import { DetailedTeam, teamsApi } from '@state/api/teams-api.ts'
 import { TeamTable } from '@components/team/TeamTable.tsx'
 import { TeamSidebar } from '@components/team/TeamSidebar.tsx'
 import { useState } from 'react'
-import { DomainPageParams } from '@types/DomainPageParams.tsx'
+import { DomainPageParams } from '@types/DomainPageParams.ts'
 
 export const TeamsPage = () => {
     const { domainId } = useParams() as DomainPageParams

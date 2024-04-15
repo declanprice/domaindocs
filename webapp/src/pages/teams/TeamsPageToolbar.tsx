@@ -5,9 +5,9 @@ import { CreateTeamDialog } from '@components/team/CreateTeamDialog.tsx'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { Subdomain, subdomainsApi } from '@state/api/subdomains-api.ts'
 import { useParams } from 'react-router-dom'
-import { DomainPageParams } from '@types/DomainPageParams.tsx'
 import { CreateTeamData, teamsApi } from '@state/api/teams-api.ts'
 import { queryClient } from '@state/query-client.ts'
+import { DomainPageParams } from '@types/DomainPageParams.ts'
 
 export const TeamsPageToolbar = () => {
     const { domainId } = useParams() as DomainPageParams

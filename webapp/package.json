@@ -34,6 +34,7 @@
     "supertokens-web-js": "^0.10.0",
     "use-debounce": "^10.0.0",
     "valibot": "^0.30.0",
+    "vite-plugin-commonjs": "^0.10.1",
     "vite-tsconfig-paths": "^4.3.2",
     "zustand": "^4.5.2"
   },

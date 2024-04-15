@@ -14,7 +14,7 @@ import { FormTextInput } from '@components/form/FormInput.tsx'
 import { useForm } from 'react-hook-form'
 import { Team } from '@state/api/teams-api.ts'
 import { FormSelect } from '@components/form/FormSelect.tsx'
-import { classValidatorResolver } from '@hookform/resolvers/class-validator'
+
 import { CreateProjectDto } from 'lib'
 
 export type CreateProjectDialogProps = {
@@ -41,7 +41,7 @@ export const CreateProjectDialog = (props: CreateProjectDialogProps) => {
     }
 
     const submit = async (data: CreateProjectDto) => {
-        // console.log(data)
+        console.log(data)
         // console.log(new CreateProjectDto())
         // await onProjectCreate(data)
         // closeAndReset()

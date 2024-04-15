@@ -3,18 +3,14 @@ import { TableToolbar } from '@components/table/TableToolbar.tsx'
 import { useParams } from 'react-router-dom'
 import { SubdomainPageParams } from './types/SubdomainPageParams.ts'
 import { useQuery } from '@tanstack/react-query'
-import { peopleApi, Person } from '@state/api/people-api.ts'
+import { DetailedPerson, peopleApi } from '@state/api/people-api.ts'
 import { LoadingContainer } from '@components/loading/LoadingContainer.tsx'
 import { PersonTable } from '@components/person/PersonTable.tsx'
 
 export const SubdomainPeoplePage = () => {
     const { domainId, subdomainId } = useParams() as SubdomainPageParams
 
-    const {
-        data: people,
-        isLoading,
-        refetch,
-    } = useQuery<Person[]>({
+    const { data: people, isLoading } = useQuery<DetailedPerson[]>({
         queryKey: ['subdomainPeople', { domainId, subdomainId }],
         queryFn: () => peopleApi.searchPeople(domainId, { subdomainId }),
     })
@@ -30,7 +26,7 @@ export const SubdomainPeoplePage = () => {
                     onFilterClick={() => {}}
                 />
 
-                <PersonTable people={people} />
+                <PersonTable people={people} onPersonClick={() => {}} />
             </Stack>
         </Flex>
     )
