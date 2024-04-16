@@ -1,21 +1,21 @@
-import { apiClient } from '@state/api/api-client.ts'
+import { apiClient } from './api-client';
 
 export type SetupDomainDto = {
-    domainName: string
-}
+  domainName: string;
+};
 
 export type Domain = {
-    domainId: string
-    name: string
-}
+  domainId: string;
+  name: string;
+};
 
 export const domainsApi = (() => {
-    const setupDomain = async (data: SetupDomainDto): Promise<Domain> => {
-        const result = await apiClient.post<Domain>('/domains', data)
-        return result.data
-    }
+  const setupDomain = async (data: SetupDomainDto): Promise<Domain> => {
+    const result = await apiClient.post<Domain>('/domains', data);
+    return result.data;
+  };
 
-    return {
-        setupDomain: setupDomain,
-    }
-})()
+  return {
+    setupDomain: setupDomain,
+  };
+})();

@@ -1,217 +1,203 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
-import { HomePage } from './pages/home/HomePage.tsx'
-import { SignInPage } from './pages/auth/sign-in/SignInPage.tsx'
-import { SignUpPage } from './pages/auth/sign-up/SignUpPage.tsx'
-import { VerifyMagicLinkPage } from './pages/auth/VerifyMagicLinkPage.tsx'
-import { MagicLinkSentPage } from './pages/auth/MagicLinkSentPage.tsx'
-import { AccountSetupPage } from './pages/user-setup/AccountSetupPage.tsx'
-import { RootLayout } from './layout/RootLayout.tsx'
-import { SubdomainPageLayout } from './pages/subdomains/SubdomainPageLayout.tsx'
-import { SubdomainOverviewPage } from './pages/subdomains/SubdomainOverviewPage.tsx'
-import { SubdomainPeoplePage } from './pages/subdomains/SubdomainPeoplePage.tsx'
-import { SubdomainTeamsPage } from './pages/subdomains/SubdomainTeamsPage.tsx'
-import { SubdomainProjectsPage } from './pages/subdomains/SubdomainProjectsPage.tsx'
-import { DomainSetupPage } from './pages/domain-setup/DomainSetupPage.tsx'
-import { AuthGuard } from '@components/guards/AuthGuard.tsx'
-import { NoAuthGuard } from '@components/guards/NoAuthGuard.tsx'
-import { DomainGuard } from '@components/guards/DomainGuard.tsx'
-import { UserSetupGuard } from '@components/guards/UserSetupGuard.tsx'
-import { PageNotFoundErrorPage } from '@components/errors/PageNotFoundErrorPage.tsx'
-import { PeoplePageLayout } from './pages/people/PeoplePageLayout.tsx'
-import { OnboardingPageLayout } from './pages/onboarding/OnboardingPageLayout.tsx'
-import { SecretsPageLayout } from './pages/secrets/SecretsPageLayout.tsx'
-import { FilesPageLayout } from './pages/files/FilesPageLayout.tsx'
-import { DocumentationPageLayout } from './pages/documentation/DocumentationPageLayout.tsx'
-import { SomethingWentWrongErrorPage } from '@components/errors/SomethingWentWrongErrorPage.tsx'
-import { SubdomainGuard } from '@components/guards/SubdomainGuard.tsx'
-import { SubdomainCreatePage } from './pages/subdomains/SubdomainCreatePage.tsx'
-import { PeoplePage } from './pages/people/PeoplePage.tsx'
-import { TeamPageLayout } from './pages/teams/TeamPageLayout.tsx'
-import { TeamsPage } from './pages/teams/TeamsPage.tsx'
-import { ProjectsPage } from './pages/projects/ProjectsPage.tsx'
-import { ProjectsPageLayout } from './pages/projects/ProjectsPageLayout.tsx'
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { HomePage } from './pages/home/HomePage';
+import { SignInPage } from './pages/auth/sign-in/SignInPage';
+import { SignUpPage } from './pages/auth/sign-up/SignUpPage';
+import { VerifyMagicLinkPage } from './pages/auth/VerifyMagicLinkPage';
+import { MagicLinkSentPage } from './pages/auth/MagicLinkSentPage';
+import { AccountSetupPage } from './pages/user-setup/AccountSetupPage';
+import { RootLayout } from './layout/RootLayout';
+import { SubdomainPageLayout } from './pages/subdomains/SubdomainPageLayout';
+import { SubdomainOverviewPage } from './pages/subdomains/SubdomainOverviewPage';
+import { SubdomainPeoplePage } from './pages/subdomains/SubdomainPeoplePage';
+import { SubdomainTeamsPage } from './pages/subdomains/SubdomainTeamsPage';
+import { SubdomainProjectsPage } from './pages/subdomains/SubdomainProjectsPage';
+import { DomainSetupPage } from './pages/domain-setup/DomainSetupPage';
+import { PeoplePageLayout } from './pages/people/PeoplePageLayout';
+import { OnboardingPageLayout } from './pages/onboarding/OnboardingPageLayout';
+import { SecretsPageLayout } from './pages/secrets/SecretsPageLayout';
+import { FilesPageLayout } from './pages/files/FilesPageLayout';
+import { DocumentationPageLayout } from './pages/documentation/DocumentationPageLayout';
+import { SubdomainCreatePage } from './pages/subdomains/SubdomainCreatePage';
+import { PeoplePage } from './pages/people/PeoplePage';
+import { TeamPageLayout } from './pages/teams/TeamPageLayout';
+import { TeamsPage } from './pages/teams/TeamsPage';
+import { ProjectsPage } from './pages/projects/ProjectsPage';
+import { ProjectsPageLayout } from './pages/projects/ProjectsPageLayout';
+import { AuthGuard } from './components/guards/AuthGuard';
+import { UserSetupGuard } from './components/guards/UserSetupGuard';
+import { DomainGuard } from './components/guards/DomainGuard';
+import { SubdomainGuard } from './components/guards/SubdomainGuard';
+import { NoAuthGuard } from './components/guards/NoAuthGuard';
+import { SomethingWentWrongErrorPage } from './components/errors/SomethingWentWrongErrorPage';
+import { PageNotFoundErrorPage } from './components/errors/PageNotFoundErrorPage';
 
 export const routes = createBrowserRouter([
-    {
+  {
+    path: '',
+    element: <AuthGuard />,
+    children: [
+      {
         path: '',
-        element: <AuthGuard />,
+        element: <UserSetupGuard />,
         children: [
-            {
-                path: '',
-                element: <UserSetupGuard />,
+          {
+            path: '',
+            element: <DomainGuard />,
+            children: [
+              {
+                path: ':domainId',
+                element: <RootLayout />,
                 children: [
-                    {
-                        path: '',
-                        element: <DomainGuard />,
+                  {
+                    path: '',
+                    element: <Navigate to={'home'} />,
+                  },
+                  {
+                    path: 'home',
+                    element: <HomePage />,
+                  },
+                  {
+                    path: 'sd-create',
+                    element: <SubdomainCreatePage />,
+                  },
+                  {
+                    path: 'sd',
+                    element: <SubdomainGuard />,
+                    children: [
+                      {
+                        path: ':subdomainId',
+                        element: <SubdomainPageLayout />,
                         children: [
-                            {
-                                path: ':domainId',
-                                element: <RootLayout />,
-                                children: [
-                                    {
-                                        path: '',
-                                        element: <Navigate to={'home'} />,
-                                    },
-                                    {
-                                        path: 'home',
-                                        element: <HomePage />,
-                                    },
-                                    {
-                                        path: 'sd-create',
-                                        element: <SubdomainCreatePage />,
-                                    },
-                                    {
-                                        path: 'sd',
-                                        element: <SubdomainGuard />,
-                                        children: [
-                                            {
-                                                path: ':subdomainId',
-                                                element: (
-                                                    <SubdomainPageLayout />
-                                                ),
-                                                children: [
-                                                    {
-                                                        path: '',
-                                                        element: (
-                                                            <Navigate
-                                                                to={'overview'}
-                                                            />
-                                                        ),
-                                                    },
-                                                    {
-                                                        path: 'overview',
-                                                        element: (
-                                                            <SubdomainOverviewPage />
-                                                        ),
-                                                    },
-                                                    {
-                                                        path: 'people',
-                                                        element: (
-                                                            <SubdomainPeoplePage />
-                                                        ),
-                                                    },
-                                                    {
-                                                        path: 'teams',
-                                                        element: (
-                                                            <SubdomainTeamsPage />
-                                                        ),
-                                                    },
-                                                    {
-                                                        path: 'projects',
-                                                        element: (
-                                                            <SubdomainProjectsPage />
-                                                        ),
-                                                    },
-                                                ],
-                                            },
-                                        ],
-                                    },
-                                    {
-                                        path: 'people',
-                                        element: <PeoplePageLayout />,
-                                        children: [
-                                            {
-                                                path: '',
-                                                element: <PeoplePage />,
-                                            },
-                                        ],
-                                    },
-                                    {
-                                        path: 'teams',
-                                        element: <TeamPageLayout />,
-                                        children: [
-                                            {
-                                                path: '',
-                                                element: <TeamsPage />,
-                                            },
-                                        ],
-                                    },
-                                    {
-                                        path: 'projects',
-                                        element: <ProjectsPageLayout />,
-                                        children: [
-                                            {
-                                                path: '',
-                                                element: <ProjectsPage />,
-                                            },
-                                        ],
-                                    },
-                                    {
-                                        path: 'documentation',
-                                        element: <DocumentationPageLayout />,
-                                    },
-                                    {
-                                        path: 'files',
-                                        element: <FilesPageLayout />,
-                                    },
-                                    {
-                                        path: 'secrets',
-                                        element: <SecretsPageLayout />,
-                                    },
-                                    {
-                                        path: 'onboarding',
-                                        element: <OnboardingPageLayout />,
-                                    },
-                                ],
-                            },
+                          {
+                            path: '',
+                            element: <Navigate to={'overview'} />,
+                          },
+                          {
+                            path: 'overview',
+                            element: <SubdomainOverviewPage />,
+                          },
+                          {
+                            path: 'people',
+                            element: <SubdomainPeoplePage />,
+                          },
+                          {
+                            path: 'teams',
+                            element: <SubdomainTeamsPage />,
+                          },
+                          {
+                            path: 'projects',
+                            element: <SubdomainProjectsPage />,
+                          },
                         ],
-                    },
+                      },
+                    ],
+                  },
+                  {
+                    path: 'people',
+                    element: <PeoplePageLayout />,
+                    children: [
+                      {
+                        path: '',
+                        element: <PeoplePage />,
+                      },
+                    ],
+                  },
+                  {
+                    path: 'teams',
+                    element: <TeamPageLayout />,
+                    children: [
+                      {
+                        path: '',
+                        element: <TeamsPage />,
+                      },
+                    ],
+                  },
+                  {
+                    path: 'projects',
+                    element: <ProjectsPageLayout />,
+                    children: [
+                      {
+                        path: '',
+                        element: <ProjectsPage />,
+                      },
+                    ],
+                  },
+                  {
+                    path: 'documentation',
+                    element: <DocumentationPageLayout />,
+                  },
+                  {
+                    path: 'files',
+                    element: <FilesPageLayout />,
+                  },
+                  {
+                    path: 'secrets',
+                    element: <SecretsPageLayout />,
+                  },
+                  {
+                    path: 'onboarding',
+                    element: <OnboardingPageLayout />,
+                  },
                 ],
-            },
+              },
+            ],
+          },
         ],
-    },
-    {
-        path: 'users-setup',
-        element: <AuthGuard />,
-        children: [
-            {
-                path: '',
-                element: <AccountSetupPage />,
-            },
-        ],
-    },
-    {
-        path: 'domains-setup',
-        element: <AuthGuard />,
-        children: [
-            {
-                path: '',
-                element: <DomainSetupPage />,
-            },
-        ],
-    },
-    {
-        path: 'auth',
-        element: <NoAuthGuard />,
-        children: [
-            {
-                path: 'sign-in',
-                element: <SignInPage />,
-            },
-            {
-                path: 'sign-up',
-                element: <SignUpPage />,
-            },
-            {
-                path: 'verify',
-                element: <VerifyMagicLinkPage />,
-            },
-            {
-                path: 'magic-link-sent',
-                element: <MagicLinkSentPage />,
-            },
-        ],
-    },
-    {
-        path: 'something-went-wrong',
-        element: <SomethingWentWrongErrorPage />,
-    },
-    {
-        path: 'page-not-found',
-        element: <PageNotFoundErrorPage />,
-    },
-    {
-        path: '*',
-        element: <Navigate to={''} />,
-    },
-])
+      },
+    ],
+  },
+  {
+    path: 'users-setup',
+    element: <AuthGuard />,
+    children: [
+      {
+        path: '',
+        element: <AccountSetupPage />,
+      },
+    ],
+  },
+  {
+    path: 'domains-setup',
+    element: <AuthGuard />,
+    children: [
+      {
+        path: '',
+        element: <DomainSetupPage />,
+      },
+    ],
+  },
+  {
+    path: 'auth',
+    element: <NoAuthGuard />,
+    children: [
+      {
+        path: 'sign-in',
+        element: <SignInPage />,
+      },
+      {
+        path: 'sign-up',
+        element: <SignUpPage />,
+      },
+      {
+        path: 'verify',
+        element: <VerifyMagicLinkPage />,
+      },
+      {
+        path: 'magic-link-sent',
+        element: <MagicLinkSentPage />,
+      },
+    ],
+  },
+  {
+    path: 'something-went-wrong',
+    element: <SomethingWentWrongErrorPage />,
+  },
+  {
+    path: 'page-not-found',
+    element: <PageNotFoundErrorPage />,
+  },
+  {
+    path: '*',
+    element: <Navigate to={''} />,
+  },
+]);

@@ -9,7 +9,7 @@ import {
   ProjectTeamDto,
   ProjectTechnologyDto,
   SearchProjectsDto,
-} from 'lib';
+} from '@domaindocs/lib';
 import { v4 } from 'uuid';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class ProjectsService {
   async searchProjects(
     session: UserSession,
     domainId: string,
-    dto: SearchProjectsDto,
+    dto: SearchProjectsDto
   ): Promise<DetailedProjectDto[]> {
     const result = await this.prisma.project.findMany({
       where: {
@@ -45,24 +45,24 @@ export class ProjectsService {
           new ProjectDto(p.projectId, p.name, p.teamId),
           new ProjectSubdomainDto(
             p.team.subdomain.subdomainId,
-            p.team.subdomain.name,
+            p.team.subdomain.name
           ),
           new ProjectTeamDto(p.team.teamId, p.team.name),
           p.technologies.map(
             (t) =>
               new ProjectTechnologyDto(
                 t.technology.technologyId,
-                t.technology.name,
-              ),
-          ),
-        ),
+                t.technology.name
+              )
+          )
+        )
     );
   }
 
   async createProject(
     session: UserSession,
     domainId: string,
-    dto: CreateProjectDto,
+    dto: CreateProjectDto
   ): Promise<void> {
     await this.prisma.project.create({
       data: {

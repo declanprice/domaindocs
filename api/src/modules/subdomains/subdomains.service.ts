@@ -14,7 +14,7 @@ import {
   SubdomainResourceLinkDto,
   SubdomainContactDto,
   SubdomainDto,
-} from 'lib';
+} from '@domaindocs/lib';
 
 @Injectable()
 export class SubdomainsService {
@@ -22,7 +22,7 @@ export class SubdomainsService {
 
   async getSubdomainsByDomainId(
     session: UserSession,
-    domainId: string,
+    domainId: string
   ): Promise<Subdomain[]> {
     return this.prisma.subdomain.findMany({
       where: {
@@ -42,7 +42,7 @@ export class SubdomainsService {
   async getOverviewById(
     session: UserSession,
     domainId: string,
-    subdomainId: string,
+    subdomainId: string
   ) {
     const result = await this.prisma.subdomain.findUniqueOrThrow({
       where: {
@@ -93,7 +93,7 @@ export class SubdomainsService {
         peopleCount,
         teamCount,
         projectCount,
-        result.description,
+        result.description
       ),
       result.resourceLinks.map(
         (r) =>
@@ -102,8 +102,8 @@ export class SubdomainsService {
             r.title,
             r.subTitle,
             r.href,
-            r.iconUri,
-          ),
+            r.iconUri
+          )
       ),
       result.contacts.map(
         (c) =>
@@ -113,16 +113,16 @@ export class SubdomainsService {
             c.person.user.firstName,
             c.person.user.lastName,
             c.person.user.iconUri,
-            c.person.teamMember?.role,
-          ),
-      ),
+            c.person.teamMember?.role
+          )
+      )
     );
   }
 
   async createSubdomain(
     session: UserSession,
     domainId: string,
-    dto: CreateSubdomainDto,
+    dto: CreateSubdomainDto
   ) {
     const result = await this.prisma.subdomain.create({
       data: {
@@ -136,14 +136,14 @@ export class SubdomainsService {
       result.subdomainId,
       result.domainId,
       result.name,
-      result.description,
+      result.description
     );
   }
 
   async updateDescription(
     session: UserSession,
     subdomainId: string,
-    dto: UpdateSubdomainDescriptionDto,
+    dto: UpdateSubdomainDescriptionDto
   ) {
     const result = await this.prisma.subdomain.update({
       where: {
@@ -158,7 +158,7 @@ export class SubdomainsService {
       result.subdomainId,
       result.domainId,
       result.name,
-      result.description,
+      result.description
     );
   }
 
@@ -166,7 +166,7 @@ export class SubdomainsService {
     session: UserSession,
     domainId: string,
     subdomainId: string,
-    dto: AddSubdomainContactsDto,
+    dto: AddSubdomainContactsDto
   ) {
     await this.prisma.subdomainContact.createMany({
       data: dto.personIds.map((personId) => ({
@@ -181,7 +181,7 @@ export class SubdomainsService {
     session: UserSession,
     domainId: string,
     subdomainId: string,
-    dto: AddSubdomainResourceLinkDto,
+    dto: AddSubdomainResourceLinkDto
   ) {
     await this.prisma.subdomainResourceLink.create({
       data: {

@@ -7,7 +7,7 @@ import {
   PersonSkillDto,
   PersonTeamDto,
   SearchPeopleDto,
-} from 'lib';
+} from '@domaindocs/lib';
 
 @Injectable()
 export class PeopleService {
@@ -16,7 +16,7 @@ export class PeopleService {
   async searchPeople(
     session: UserSession,
     domainId: string,
-    dto: SearchPeopleDto,
+    dto: SearchPeopleDto
   ): Promise<DetailedPersonDto[]> {
     const result = await this.prisma.person.findMany({
       where: {
@@ -61,27 +61,27 @@ export class PeopleService {
               contactEmail: person.contactEmail,
             },
             person.user.iconUri,
-            person.teamMember?.role,
+            person.teamMember?.role
           ),
           person.skills.map(
             (s) =>
-              new PersonSkillDto(s.skillId, s.skill.name, s.skill.description),
+              new PersonSkillDto(s.skillId, s.skill.name, s.skill.description)
           ),
           person.teamMember
             ? new PersonTeamDto(
                 person.teamMember.teamId,
                 person.teamMember.team.name,
-                person.teamMember.team.subdomain.name,
+                person.teamMember.team.subdomain.name
               )
-            : null,
-        ),
+            : null
+        )
     );
   }
 
   async searchPeopleBySubdomain(
     session: UserSession,
     domainId: string,
-    dto: SearchPeopleDto,
+    dto: SearchPeopleDto
   ): Promise<DetailedPersonDto[]> {
     const result = await this.prisma.person.findMany({
       where: {
@@ -131,20 +131,20 @@ export class PeopleService {
               contactEmail: person.contactEmail,
             },
             person.user.iconUri,
-            person.teamMember?.role,
+            person.teamMember?.role
           ),
           person.skills.map(
             (s) =>
-              new PersonSkillDto(s.skillId, s.skill.name, s.skill.description),
+              new PersonSkillDto(s.skillId, s.skill.name, s.skill.description)
           ),
           person.teamMember
             ? new PersonTeamDto(
                 person.teamMember.teamId,
                 person.teamMember.team.name,
-                person.teamMember.team.subdomain.name,
+                person.teamMember.team.subdomain.name
               )
-            : null,
-        ),
+            : null
+        )
     );
   }
 }

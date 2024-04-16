@@ -1,37 +1,37 @@
 export class ProjectTechnologyDto {
-    constructor(
-        private technologyId: string,
-        private name: string,
-    ) {}
+  constructor(
+    readonly technologyId: string,
+    readonly name: string,
+  ) {}
 }
 
 export class ProjectTeamDto {
-    constructor(
-        private teamId: string,
-        private name: string,
-    ) {}
+  constructor(
+    readonly teamId: string,
+    readonly name: string,
+  ) {}
 }
 
 export class ProjectSubdomainDto {
-    constructor(
-        private subdomainId: string,
-        private name: string,
-    ) {}
+  constructor(
+    readonly subdomainId: string,
+    readonly name: string,
+  ) {}
 }
 
 export class ProjectDto {
-    constructor(
-        private projectId: string,
-        private name: string,
-        private teamId: string,
-    ) {}
+  constructor(
+    readonly projectId: string,
+    readonly name: string,
+    readonly teamId: string,
+  ) {}
 }
 
 export class DetailedProjectDto {
-    constructor(
-        private project: ProjectDto,
-        private subdomain: ProjectSubdomainDto,
-        private team: ProjectTeamDto,
-        private technologies: ProjectTechnologyDto[],
-    ) {}
+  constructor(
+    readonly project: ProjectDto,
+    readonly subdomain: ProjectSubdomainDto,
+    readonly team: ProjectTeamDto,
+    readonly technologies: ProjectTechnologyDto[],
+  ) {}
 }

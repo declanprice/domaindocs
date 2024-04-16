@@ -16,7 +16,7 @@ import {
   AddSubdomainResourceLinkDto,
   CreateSubdomainDto,
   UpdateSubdomainDescriptionDto,
-} from 'lib';
+} from '@domaindocs/lib';
 
 @Controller('domains/:domainId/subdomains')
 @UseGuards(AuthGuard)
@@ -26,7 +26,7 @@ export class SubdomainsController {
   @Get('')
   async querySubdomains(
     @AuthSession() session: UserSession,
-    @Param('domainId') domainId: string,
+    @Param('domainId') domainId: string
   ) {
     if (!domainId) {
       throw new BadRequestException({
@@ -40,7 +40,7 @@ export class SubdomainsController {
   @Get(':subdomainId')
   async getSubdomain(
     @AuthSession() session: UserSession,
-    @Param('subdomainId') subdomainId: string,
+    @Param('subdomainId') subdomainId: string
   ) {
     return this.subdomainsService.getById(session, subdomainId);
   }
@@ -49,12 +49,12 @@ export class SubdomainsController {
   async getSubdomainOverview(
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
-    @Param('subdomainId') subdomainId: string,
+    @Param('subdomainId') subdomainId: string
   ) {
     return this.subdomainsService.getOverviewById(
       session,
       domainId,
-      subdomainId,
+      subdomainId
     );
   }
 
@@ -62,7 +62,7 @@ export class SubdomainsController {
   async createSubdomain(
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
-    @Body() dto: CreateSubdomainDto,
+    @Body() dto: CreateSubdomainDto
   ) {
     return this.subdomainsService.createSubdomain(session, domainId, dto);
   }
@@ -71,7 +71,7 @@ export class SubdomainsController {
   async updateDescription(
     @AuthSession() session: UserSession,
     @Param('subdomainId') subdomainId: string,
-    @Body() dto: UpdateSubdomainDescriptionDto,
+    @Body() dto: UpdateSubdomainDescriptionDto
   ) {
     return this.subdomainsService.updateDescription(session, subdomainId, dto);
   }
@@ -81,13 +81,13 @@ export class SubdomainsController {
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
     @Param('subdomainId') subdomainId: string,
-    @Body() dto: AddSubdomainContactsDto,
+    @Body() dto: AddSubdomainContactsDto
   ) {
     return this.subdomainsService.addContacts(
       session,
       domainId,
       subdomainId,
-      dto,
+      dto
     );
   }
 
@@ -96,13 +96,13 @@ export class SubdomainsController {
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
     @Param('subdomainId') subdomainId: string,
-    @Body() dto: AddSubdomainResourceLinkDto,
+    @Body() dto: AddSubdomainResourceLinkDto
   ) {
     return this.subdomainsService.addResourceLink(
       session,
       domainId,
       subdomainId,
-      dto,
+      dto
     );
   }
 }

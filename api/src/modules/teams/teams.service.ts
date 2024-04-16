@@ -10,7 +10,7 @@ import {
   TeamSubdomainDto,
   TeamMemberDto,
   TeamProjectDto,
-} from 'lib';
+} from '@domaindocs/lib';
 
 @Injectable()
 export class TeamsService {
@@ -19,7 +19,7 @@ export class TeamsService {
   async searchByDomain(
     session: UserSession,
     domainId: string,
-    dto: QueryTeamDto,
+    dto: QueryTeamDto
   ): Promise<TeamDetailedDto[]> {
     const result = await this.prisma.team.findMany({
       where: {
@@ -51,11 +51,11 @@ export class TeamsService {
                 p.personId,
                 p.person.user.firstName,
                 p.person.user.lastName,
-                p.person.user.iconUri,
-              ),
+                p.person.user.iconUri
+              )
           ),
-          t.projects.map((p) => new TeamProjectDto(p.projectId, p.name)),
-        ),
+          t.projects.map((p) => new TeamProjectDto(p.projectId, p.name))
+        )
     );
   }
 

@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { SearchPeopleDto, DetailedPersonDto } from 'lib';
+import { SearchPeopleDto, DetailedPersonDto } from '@domaindocs/lib';
 
 @Controller('domains/:domainId/people')
 @UseGuards(AuthGuard)
@@ -20,7 +20,7 @@ export class PeopleController {
   async searchUsers(
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
-    @Query() dto: SearchPeopleDto,
+    @Query() dto: SearchPeopleDto
   ): Promise<DetailedPersonDto[]> {
     if (!domainId) {
       throw new BadRequestException('missing params (domainId)');

@@ -1,14 +1,14 @@
-import { Navigate, Outlet } from 'react-router-dom'
-import { useAuthStore } from '@state/stores/auth.store.ts'
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuthStore } from '../../state/stores/auth.store';
 
 export const AuthGuard = () => {
-    console.debug('Running: AuthGuard')
+  console.debug('Running: AuthGuard');
 
-    const { userId } = useAuthStore()
+  const { userId } = useAuthStore();
 
-    if (!userId) {
-        return <Navigate to={'/auth/sign-in'} />
-    }
+  if (!userId) {
+    return <Navigate to={'/auth/sign-in'} />;
+  }
 
-    return <Outlet context={'auth'} />
-}
+  return <Outlet context={'auth'} />;
+};

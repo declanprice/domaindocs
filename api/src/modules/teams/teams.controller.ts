@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { TeamDetailedDto, CreateTeamDto, QueryTeamDto } from 'lib';
+import { TeamDetailedDto, CreateTeamDto, QueryTeamDto } from '@domaindocs/lib';
 
 @Controller('domains/:domainId/teams')
 @UseGuards(AuthGuard)
@@ -22,7 +22,7 @@ export class TeamsController {
   async searchTeams(
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
-    @Query() dto: QueryTeamDto,
+    @Query() dto: QueryTeamDto
   ): Promise<TeamDetailedDto[]> {
     if (!domainId) {
       throw new BadRequestException('missing params (domainId)');
@@ -35,7 +35,7 @@ export class TeamsController {
   async createTeam(
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
-    @Body() dto: CreateTeamDto,
+    @Body() dto: CreateTeamDto
   ) {
     return this.teamsService.createTeam(session, domainId, dto);
   }

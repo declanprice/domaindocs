@@ -10,7 +10,11 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { DetailedProjectDto, SearchProjectsDto, CreateProjectDto } from 'lib';
+import {
+  DetailedProjectDto,
+  SearchProjectsDto,
+  CreateProjectDto,
+} from '@domaindocs/lib';
 
 @Controller('domains/:domainId/projects')
 @UseGuards(AuthGuard)
@@ -21,7 +25,7 @@ export class ProjectsController {
   async searchProjects(
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
-    @Body() dto: SearchProjectsDto,
+    @Body() dto: SearchProjectsDto
   ): Promise<DetailedProjectDto[]> {
     if (!domainId) {
       throw new BadRequestException('missing params (domainId)');
@@ -34,7 +38,7 @@ export class ProjectsController {
   async createProject(
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
-    @Body() dto: CreateProjectDto,
+    @Body() dto: CreateProjectDto
   ) {
     return this.projectsService.createProject(session, domainId, dto);
   }

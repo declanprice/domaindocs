@@ -1,49 +1,44 @@
-import { apiClient } from '@state/api/api-client.ts'
+import { apiClient } from './api-client';
 
 type SetupUserData = {
-    firstName: string
-    lastName: string
-}
+  firstName: string;
+  lastName: string;
+};
 
 export type AuthUserDomain = {
-    domainId: string
-    name: string
-}
+  domainId: string;
+  name: string;
+};
 
 export type User = {
-    userId: string
-    email: string
-    firstName: string
-    lastName: string
-    iconUri?: string
-}
+  userId: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  iconUri?: string;
+};
 
 export type UserWithDomains = {
-    domains: AuthUserDomain[]
-} & User
+  domains: AuthUserDomain[];
+} & User;
 
 export const usersApi = (() => {
-    const setupUser = async (data: SetupUserData): Promise<UserWithDomains> => {
-        const result = await apiClient.post<UserWithDomains>(
-            '/users/setup',
-            data
-        )
+  const setupUser = async (data: SetupUserData): Promise<UserWithDomains> => {
+    const result = await apiClient.post<UserWithDomains>('/users/setup', data);
 
-        return result.data
-    }
+    return result.data;
+  };
 
-    const getAuthUser = async (): Promise<UserWithDomains | null> => {
-        const result = await apiClient.get<UserWithDomains | string>(
-            '/users/auth'
-        )
+  const getAuthUser = async (): Promise<UserWithDomains | null> => {
+    const result = await apiClient.get<UserWithDomains | string>('/users/auth');
 
-        if (typeof result.data === 'string') return null
+    if (typeof result.data === 'string') return null;
 
-        return result.data
-    }
+    return result.data;
+  };
 
-    return {
-        getAuthUser,
-        setupUser,
-    }
-})()
+  return {
+    getAuthUser,
+    setupUser,
+  };
+})();

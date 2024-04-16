@@ -3,7 +3,7 @@ import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
 import { createSlug } from '../../util/create-slug';
 import { v4 } from 'uuid';
-import { SetupDomainDto } from 'lib';
+import { SetupDomainDto } from '@domaindocs/lib';
 
 @Injectable()
 export class DomainsService {
