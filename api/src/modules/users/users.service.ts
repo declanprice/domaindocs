@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
 import { AuthService } from '../../auth/auth.service';
-import { UserDto, SetupUserDto } from '@domaindocs/lib';
+import { UserDto, SetupUserDto, UserDomainDto } from '@domaindocs/lib';
 
 @Injectable()
 export class UsersService {
   constructor(
     readonly authService: AuthService,
-    readonly prisma: PrismaService
+    readonly prisma: PrismaService,
   ) {}
 
   async getAuthUser(session: UserSession) {
@@ -32,7 +32,9 @@ export class UsersService {
       result.email,
       result.firstName,
       result.lastName,
-      result.people.map((u) => u.domain)
+      result.people.map(
+        (u) => new UserDomainDto(u.domain.domainId, u.domain.name),
+      ),
     );
   }
 
@@ -61,7 +63,9 @@ export class UsersService {
       result.email,
       result.firstName,
       result.lastName,
-      result.people.map((u) => u.domain)
+      result.people.map(
+        (u) => new UserDomainDto(u.domain.domainId, u.domain.name),
+      ),
     );
   }
 }

@@ -6,6 +6,8 @@ import {
 
 import { apiClient } from './api-client';
 
+import { plainToInstance } from 'class-transformer';
+
 export const projectsApi = (() => {
   const searchProjects = async (
     domainId: string,
@@ -18,13 +20,14 @@ export const projectsApi = (() => {
       },
     );
 
-    return result.data;
+    return result.data.map((p) => plainToInstance(DetailedProjectDto, p));
   };
 
-  const createProject = async (domainId: string, data: CreateProjectDto) => {
-    const result = await apiClient.post(`/domains/${domainId}/projects`, data);
-
-    return result.data;
+  const createProject = async (
+    domainId: string,
+    data: CreateProjectDto,
+  ): Promise<void> => {
+    await apiClient.post(`/domains/${domainId}/projects`, data);
   };
 
   return {

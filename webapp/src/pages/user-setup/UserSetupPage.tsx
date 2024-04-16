@@ -10,7 +10,7 @@ import { useAuthStore } from '../../state/stores/auth.store';
 import { usersApi } from '../../state/api/users-api';
 import { FormTextInput } from '../../components/form/FormInput';
 
-export const AccountSetupPage = () => {
+export const UserSetupPage = () => {
   const { setUser } = useAuthStore();
 
   const navigate = useNavigate();

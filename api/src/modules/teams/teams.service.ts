@@ -3,9 +3,9 @@ import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
 import { v4 } from 'uuid';
 import {
-  TeamDetailedDto,
+  DetailedTeamDto,
   CreateTeamDto,
-  QueryTeamDto,
+  SearchTeamDto,
   TeamDto,
   TeamSubdomainDto,
   TeamMemberDto,
@@ -19,8 +19,8 @@ export class TeamsService {
   async searchByDomain(
     session: UserSession,
     domainId: string,
-    dto: QueryTeamDto
-  ): Promise<TeamDetailedDto[]> {
+    dto: SearchTeamDto,
+  ): Promise<DetailedTeamDto[]> {
     const result = await this.prisma.team.findMany({
       where: {
         domainId,
@@ -42,7 +42,7 @@ export class TeamsService {
 
     return result.map(
       (t) =>
-        new TeamDetailedDto(
+        new DetailedTeamDto(
           new TeamDto(t.teamId, t.name, t.iconUri),
           new TeamSubdomainDto(t.subdomainId, t.subdomain.name),
           t.members.map(
@@ -51,11 +51,11 @@ export class TeamsService {
                 p.personId,
                 p.person.user.firstName,
                 p.person.user.lastName,
-                p.person.user.iconUri
-              )
+                p.person.user.iconUri,
+              ),
           ),
-          t.projects.map((p) => new TeamProjectDto(p.projectId, p.name))
-        )
+          t.projects.map((p) => new TeamProjectDto(p.projectId, p.name)),
+        ),
     );
   }
 

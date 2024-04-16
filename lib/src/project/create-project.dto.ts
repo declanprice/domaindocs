@@ -2,7 +2,7 @@ import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class CreateProjectDto {
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'You must select a team.' })
   teamId: string;
 
   @IsString()

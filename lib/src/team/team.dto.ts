@@ -29,7 +29,7 @@ export class TeamDto {
   ) {}
 }
 
-export class TeamDetailedDto {
+export class DetailedTeamDto {
   constructor(
     private team: TeamDto,
     private subdomain: TeamSubdomainDto,

@@ -1,141 +1,90 @@
 import { apiClient } from './api-client';
-
-export type CreateSubdomainData = {
-  domainId: string;
-  subdomainName: string;
-};
-
-export type Subdomain = {
-  domainId: string;
-  subdomainId: string;
-  name: string;
-  description: string;
-};
-
-export type SubdomainContact = {
-  personId: string;
-  userId: string;
-  firstName: string;
-  lastName: string;
-  roleName?: string;
-  iconUri?: string;
-};
-
-export type SubdomainResourceLink = {
-  linkId: string;
-  title: string;
-  subTitle: string;
-  href: string;
-  iconUri?: string;
-};
-
-export type SubdomainSummary = {
-  peopleCount: number;
-  teamCount: number;
-  projectCount: number;
-  description: string;
-};
-
-export type SubdomainOverview = {
-  name: string;
-  summary: SubdomainSummary;
-  resourceLinks: SubdomainResourceLink[];
-  contacts: SubdomainContact[];
-};
-
-export type SubdomainSearch = {
-  domainId: string;
-};
-
-export type AddResourceLinkData = {
-  title: string;
-  subTitle: string;
-  href: string;
-  iconUri?: string;
-};
+import {
+  AddSubdomainContactsDto,
+  AddSubdomainResourceLinkDto,
+  CreateSubdomainDto,
+  SubdomainDto,
+  SubdomainOverviewDto,
+  UpdateSubdomainDescriptionDto,
+} from '@domaindocs/lib';
+import { plainToInstance } from 'class-transformer';
 
 export const subdomainsApi = (() => {
   const createSubdomain = async (
     domainId: string,
-    data: CreateSubdomainData,
-  ): Promise<Subdomain> => {
-    const result = await apiClient.post<Subdomain>(
+    data: CreateSubdomainDto,
+  ): Promise<SubdomainDto> => {
+    const result = await apiClient.post<SubdomainDto>(
       `/domains/${domainId}/subdomains`,
       data,
     );
-    return result.data;
+
+    return plainToInstance(SubdomainDto, result.data);
   };
 
   const getById = async (
     domainId: string,
     subdomainId: string,
-  ): Promise<Subdomain> => {
-    const result = await apiClient.get<Subdomain>(
+  ): Promise<SubdomainDto> => {
+    const result = await apiClient.get<SubdomainDto>(
       `/domains/${domainId}/subdomains/${subdomainId}`,
     );
-    return result.data;
+
+    return plainToInstance(SubdomainDto, result.data);
   };
 
   const getOverviewById = async (
     domainId: string,
     subdomainId: string,
-  ): Promise<SubdomainOverview> => {
-    const result = await apiClient.get<SubdomainOverview>(
+  ): Promise<SubdomainOverviewDto> => {
+    const result = await apiClient.get<SubdomainOverviewDto>(
       `/domains/${domainId}/subdomains/${subdomainId}/overview`,
     );
 
-    return result.data;
+    return plainToInstance(SubdomainOverviewDto, result.data);
   };
 
-  const searchSubdomains = async (domainId: string): Promise<Subdomain[]> => {
-    const result = await apiClient.get<Subdomain[]>(
+  const searchSubdomains = async (
+    domainId: string,
+  ): Promise<SubdomainDto[]> => {
+    const result = await apiClient.get<SubdomainDto[]>(
       `/domains/${domainId}/subdomains`,
     );
 
-    return result.data;
+    return plainToInstance(SubdomainDto, result.data);
   };
 
   const updateDescription = async (
     domainId: string,
     subdomainId: string,
-    description: string,
-  ): Promise<Subdomain> => {
-    const result = await apiClient.put<Subdomain>(
+    dto: UpdateSubdomainDescriptionDto,
+  ): Promise<void> => {
+    await apiClient.put(
       `/domains/${domainId}/subdomains/${subdomainId}/description`,
-      {
-        description: description,
-      },
+      dto,
     );
-
-    return result.data;
   };
 
   const addContacts = async (
     domainId: string,
     subdomainId: string,
-    contacts: SubdomainContact[],
-  ): Promise<Subdomain> => {
-    const result = await apiClient.put(
+    dto: AddSubdomainContactsDto,
+  ): Promise<void> => {
+    await apiClient.put(
       `/domains/${domainId}/subdomains/${subdomainId}/contacts`,
-      {
-        personIds: contacts.map((p) => p.personId),
-      },
+      dto,
     );
-
-    return result.data;
   };
 
   const addResourceLink = async (
     domainId: string,
     subdomainId: string,
-    data: AddResourceLinkData,
-  ): Promise<AddResourceLinkData> => {
-    const result = await apiClient.put(
+    dto: AddSubdomainResourceLinkDto,
+  ): Promise<void> => {
+    await apiClient.put(
       `/domains/${domainId}/subdomains/${subdomainId}/resource-link`,
-      data,
+      dto,
     );
-
-    return result.data;
   };
 
   return {

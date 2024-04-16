@@ -1,14 +1,16 @@
-type UserDomain = {
-  domainId: string;
-  name: string;
-};
+export class UserDomainDto {
+  constructor(
+    readonly domainId: string,
+    readonly name: string,
+  ) {}
+}
 
 export class UserDto {
   constructor(
-    private userId: string,
-    private email: string,
-    private firstName: string,
-    private lastName: string,
-    private domains: UserDomain[],
+    readonly userId: string,
+    readonly email: string,
+    readonly firstName: string,
+    readonly lastName: string,
+    readonly domains: UserDomainDto[],
   ) {}
 }

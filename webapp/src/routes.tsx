@@ -4,7 +4,7 @@ import { SignInPage } from './pages/auth/sign-in/SignInPage';
 import { SignUpPage } from './pages/auth/sign-up/SignUpPage';
 import { VerifyMagicLinkPage } from './pages/auth/VerifyMagicLinkPage';
 import { MagicLinkSentPage } from './pages/auth/MagicLinkSentPage';
-import { AccountSetupPage } from './pages/user-setup/AccountSetupPage';
+import { UserSetupPage } from './pages/user-setup/UserSetupPage';
 import { RootLayout } from './layout/RootLayout';
 import { SubdomainPageLayout } from './pages/subdomains/SubdomainPageLayout';
 import { SubdomainOverviewPage } from './pages/subdomains/SubdomainOverviewPage';
@@ -152,7 +152,7 @@ export const routes = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <AccountSetupPage />,
+        element: <UserSetupPage />,
       },
     ],
   },

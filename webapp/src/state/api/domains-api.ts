@@ -1,18 +1,13 @@
 import { apiClient } from './api-client';
 
-export type SetupDomainDto = {
-  domainName: string;
-};
+import { DomainDto, SetupDomainDto } from '@domaindocs/lib';
 
-export type Domain = {
-  domainId: string;
-  name: string;
-};
+import { plainToInstance } from 'class-transformer';
 
 export const domainsApi = (() => {
-  const setupDomain = async (data: SetupDomainDto): Promise<Domain> => {
-    const result = await apiClient.post<Domain>('/domains', data);
-    return result.data;
+  const setupDomain = async (data: SetupDomainDto): Promise<DomainDto> => {
+    const result = await apiClient.post<DomainDto>('/domains', data);
+    return plainToInstance(DomainDto, result.data);
   };
 
   return {

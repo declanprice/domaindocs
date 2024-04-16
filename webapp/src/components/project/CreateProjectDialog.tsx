@@ -12,8 +12,7 @@ import {
 
 import { useForm } from 'react-hook-form';
 
-import { CreateProjectDto } from '@domaindocs/lib';
-import { Team } from '../../state/api/teams-api';
+import { CreateProjectDto, TeamDto } from '@domaindocs/lib';
 import { FormTextInput } from '../form/FormInput';
 import { FormSelect } from '../form/FormSelect';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
@@ -21,7 +20,7 @@ import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 export type CreateProjectDialogProps = {
   isOpen: boolean;
   onClose: () => void;
-  teams: Team[];
+  teams: TeamDto[];
   onProjectCreate: (team: CreateProjectDto) => Promise<void>;
 };
 
@@ -42,10 +41,8 @@ export const CreateProjectDialog = (props: CreateProjectDialogProps) => {
   };
 
   const submit = async (data: CreateProjectDto) => {
-    console.log(data);
-    console.log(new CreateProjectDto());
-    // await onProjectCreate(data)
-    // closeAndReset()
+    await onProjectCreate(data);
+    closeAndReset();
   };
 
   return (
