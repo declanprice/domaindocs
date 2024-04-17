@@ -16,7 +16,9 @@ import {
   SearchProjects,
   CreateProject,
   UpdateProjectDescription,
+  AddProjectContacts,
 } from '@domaindocs/lib';
+import { AddProjectResourceLink } from '../../../../lib/src/project/add-project-resource-link';
 
 @Controller('domains/:domainId/projects')
 @UseGuards(AuthGuard)
@@ -65,7 +67,32 @@ export class ProjectsController {
     @Param('projectId') projectId: string,
     @Body() dto: UpdateProjectDescription,
   ) {
-    return this.projectsService.updateProjectDescription(
+    return this.projectsService.updateDescription(
+      session,
+      domainId,
+      projectId,
+      dto,
+    );
+  }
+
+  @Put(':projectId/contacts')
+  async addContact(
+    @AuthSession() session: UserSession,
+    @Param('domainId') domainId: string,
+    @Param('projectId') projectId: string,
+    @Body() dto: AddProjectContacts,
+  ) {
+    return this.projectsService.addContacts(session, domainId, projectId, dto);
+  }
+
+  @Put(':projectId/resource-link')
+  async addResourceLink(
+    @AuthSession() session: UserSession,
+    @Param('domainId') domainId: string,
+    @Param('projectId') projectId: string,
+    @Body() dto: AddProjectResourceLink,
+  ) {
+    return this.projectsService.addResourceLink(
       session,
       domainId,
       projectId,

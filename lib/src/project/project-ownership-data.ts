@@ -1,4 +1,4 @@
-export class ProjectOwnership {
+export class ProjectOwnershipData {
   constructor(
     readonly teamId: string,
     readonly teamName: string,

@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { ProjectOverview } from '@domaindocs/lib';
@@ -8,6 +8,9 @@ import { projectsApi } from '../../state/api/projects-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { ProjectPageToolbar } from './ProjectPageToolbar';
 import { ProjectSummary } from './components/ProjectSummary';
+import { ProjectContacts } from './components/ProjectContacts';
+import { ProjectResourceLinks } from './components/ProjectResourceLinks';
+import { ProjectOwnership } from './components/ProjectOwnership';
 
 export const ProjectOverviewPage = () => {
   const { domainId, projectId } = useParams() as ProjectPageParams;
@@ -43,6 +46,33 @@ export const ProjectOverviewPage = () => {
             technologies={project.summary.technologies}
             description={project.summary.description}
             onDescriptionChange={async () => {
+              await refetch();
+            }}
+          />
+
+          <ProjectOwnership
+            domainId={domainId}
+            projectName={project.summary.name}
+            projectId={projectId}
+            ownership={project.ownership}
+          />
+
+          <ProjectContacts
+            domainId={domainId}
+            projectName={project.summary.name}
+            projectId={projectId}
+            contacts={project.contacts}
+            onAddContacts={async () => {
+              await refetch();
+            }}
+          />
+
+          <ProjectResourceLinks
+            domainId={domainId}
+            projectName={project.summary.name}
+            projectId={projectId}
+            links={project.resourceLinks}
+            onAddLink={async () => {
               await refetch();
             }}
           />

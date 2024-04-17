@@ -5,5 +5,6 @@ export class ProjectContact {
     public firstName: string,
     public lastName: string,
     public iconUri?: string,
+    public roleName?: string,
   ) {}
 }

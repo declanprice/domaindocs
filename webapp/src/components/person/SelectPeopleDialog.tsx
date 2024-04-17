@@ -46,7 +46,6 @@ export const SelectPeopleDialog = (props: SelectPeopleDialogProps) => {
   const { isOpen, onClose, title, onSearch, isSearching, people, onSelect } =
     props;
 
-  const [isAdding, setIsAdding] = useState(false);
   const [searchName, setSearchName] = useState<string>('');
   const [searchNameDebounced] = useDebounce(searchName, 500);
 
@@ -189,24 +188,23 @@ export const SelectPeopleDialog = (props: SelectPeopleDialogProps) => {
         </ModalBody>
         <ModalFooter>
           <ButtonGroup>
-            <Button onClick={closeAndReset} size={'xs'} colorScheme={'red'}>
+            <Button
+              onClick={closeAndReset}
+              size={'xs'}
+              colorScheme={'red'}
+              isDisabled={selectedPeopleForm.isSubmitting}
+            >
               Cancel
             </Button>
             <Button
               size={'xs'}
               colorScheme={'gray'}
               variant={'solid'}
-              isDisabled={!selectedPeopleForm.isValid || isAdding}
-              isLoading={isAdding}
+              isLoading={selectedPeopleForm.isSubmitting}
               onClick={() => {
                 submitSelectedPeople(async (form: SelectedPeopleForm) => {
-                  try {
-                    setIsAdding(true);
-                    await onSelect(form.people);
-                    closeAndReset();
-                  } finally {
-                    setIsAdding(false);
-                  }
+                  await onSelect(form.people);
+                  closeAndReset();
                 })();
               }}
             >

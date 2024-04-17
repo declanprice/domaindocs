@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
 import {
+  AddProjectContacts,
   CreateProject,
   DetailedProject,
   Project,
   ProjectContact,
   ProjectOverview,
-  ProjectOwnership,
+  ProjectOwnershipData,
   ProjectResourceLink,
   ProjectSubdomain,
   ProjectSummary,
@@ -18,6 +19,7 @@ import {
 } from '@domaindocs/lib';
 import { v4 } from 'uuid';
 import { createSlug } from '../../util/create-slug';
+import { AddProjectResourceLink } from '../../../../lib/src/project/add-project-resource-link';
 
 @Injectable()
 export class ProjectsService {
@@ -87,6 +89,7 @@ export class ProjectsService {
           include: {
             person: {
               include: {
+                teamMember: true,
                 user: true,
               },
             },
@@ -104,7 +107,7 @@ export class ProjectsService {
           (t) => new ProjectTechnology(t.technologyId, t.technology.name),
         ),
       ),
-      new ProjectOwnership(
+      new ProjectOwnershipData(
         result.team.teamId,
         result.team.name,
         result.team.iconUri,
@@ -117,6 +120,7 @@ export class ProjectsService {
             c.person.user.firstName,
             c.person.user.lastName,
             c.person.user.iconUri,
+            c.person.teamMember.role,
           ),
       ),
       result.resourceLinks.map(
@@ -147,7 +151,7 @@ export class ProjectsService {
     });
   }
 
-  async updateProjectDescription(
+  async updateDescription(
     session: UserSession,
     domainId: string,
     projectId: string,
@@ -159,6 +163,39 @@ export class ProjectsService {
       },
       data: {
         description: dto.description,
+      },
+    });
+  }
+
+  async addContacts(
+    session: UserSession,
+    domainId: string,
+    projectId: string,
+    dto: AddProjectContacts,
+  ) {
+    await this.prisma.projectContact.createMany({
+      data: dto.personIds.map((personId) => ({
+        contactId: v4(),
+        projectId,
+        personId,
+      })),
+    });
+  }
+
+  async addResourceLink(
+    session: UserSession,
+    domainId: string,
+    projectId: string,
+    dto: AddProjectResourceLink,
+  ) {
+    await this.prisma.projectResourceLink.create({
+      data: {
+        linkId: v4(),
+        projectId,
+        title: dto.title,
+        subTitle: dto.subTitle,
+        href: dto.href,
+        iconUri: dto.iconUri,
       },
     });
   }
