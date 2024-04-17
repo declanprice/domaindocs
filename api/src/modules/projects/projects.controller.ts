@@ -11,9 +11,9 @@ import {
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import {
-  DetailedProjectDto,
-  SearchProjectsDto,
-  CreateProjectDto,
+  DetailedProject,
+  SearchProjects,
+  CreateProject,
 } from '@domaindocs/lib';
 
 @Controller('domains/:domainId/projects')
@@ -25,8 +25,8 @@ export class ProjectsController {
   async searchProjects(
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
-    @Body() dto: SearchProjectsDto
-  ): Promise<DetailedProjectDto[]> {
+    @Body() dto: SearchProjects,
+  ): Promise<DetailedProject[]> {
     if (!domainId) {
       throw new BadRequestException('missing params (domainId)');
     }
@@ -34,11 +34,24 @@ export class ProjectsController {
     return this.projectsService.searchProjects(session, domainId, dto);
   }
 
+  @Get(':projectId/overview')
+  async getProjectOverview(
+    @AuthSession() session: UserSession,
+    @Param('domainId') domainId: string,
+    @Param('projectId') projectId: string,
+  ) {
+    return this.projectsService.getProjectOverview(
+      session,
+      domainId,
+      projectId,
+    );
+  }
+
   @Post('')
   async createProject(
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
-    @Body() dto: CreateProjectDto
+    @Body() dto: CreateProject,
   ) {
     return this.projectsService.createProject(session, domainId, dto);
   }

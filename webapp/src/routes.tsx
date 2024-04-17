@@ -30,6 +30,7 @@ import { SubdomainGuard } from './components/guards/SubdomainGuard';
 import { NoAuthGuard } from './components/guards/NoAuthGuard';
 import { SomethingWentWrongErrorPage } from './components/errors/SomethingWentWrongErrorPage';
 import { PageNotFoundErrorPage } from './components/errors/PageNotFoundErrorPage';
+import { ProjectOverviewPage } from './pages/projects/project/ProjectOverviewPage';
 
 export const routes = createBrowserRouter([
   {
@@ -119,6 +120,19 @@ export const routes = createBrowserRouter([
                       {
                         path: '',
                         element: <ProjectsPage />,
+                      },
+                    ],
+                  },
+                  {
+                    path: 'projects/:projectId',
+                    children: [
+                      {
+                        path: '',
+                        element: <Navigate to={'overview'} />,
+                      },
+                      {
+                        path: 'overview',
+                        element: <ProjectOverviewPage />,
                       },
                     ],
                   },

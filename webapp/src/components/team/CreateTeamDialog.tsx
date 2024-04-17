@@ -11,11 +11,10 @@ import {
 } from '@chakra-ui/react';
 
 import { useForm } from 'react-hook-form';
-import { valibotResolver } from '@hookform/resolvers/valibot';
-import { minLength, object, string } from 'valibot';
 import { FormTextInput } from '../form/FormInput';
 import { FormSelect } from '../form/FormSelect';
 import { CreateTeamDto, SubdomainDto } from '@domaindocs/lib';
+import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 export type CreateTeamDialogProps = {
   isOpen: boolean;
@@ -32,12 +31,7 @@ export const CreateTeamDialog = (props: CreateTeamDialogProps) => {
       name: '',
       subdomainId: '',
     },
-    resolver: valibotResolver(
-      object({
-        name: string(),
-        subdomainId: string([minLength(1, 'You must select a subdomain.')]),
-      }),
-    ),
+    resolver: classValidatorResolver(CreateTeamDto),
   });
 
   const closeAndReset = () => {
@@ -79,7 +73,12 @@ export const CreateTeamDialog = (props: CreateTeamDialogProps) => {
           </ModalBody>
           <ModalFooter>
             <ButtonGroup>
-              <Button onClick={closeAndReset} size={'xs'} colorScheme={'red'}>
+              <Button
+                onClick={closeAndReset}
+                size={'xs'}
+                colorScheme={'red'}
+                isDisabled={form.formState.isSubmitting}
+              >
                 Cancel
               </Button>
               <Button
@@ -87,9 +86,6 @@ export const CreateTeamDialog = (props: CreateTeamDialogProps) => {
                 colorScheme={'gray'}
                 variant={'solid'}
                 type={'submit'}
-                isDisabled={
-                  !form.formState.isValid || form.formState.isSubmitting
-                }
                 isLoading={form.formState.isSubmitting}
               >
                 Create Team

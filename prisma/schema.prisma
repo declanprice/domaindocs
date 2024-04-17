@@ -45,6 +45,7 @@ model Person {
   domain   Domain @relation(fields: [domainId], references: [domainId])
 
   subdomainContacts SubdomainContact[]
+  projectContacts   ProjectContact[]
   teamMember        TeamMember?
   skills            PersonSkill[]
 
@@ -137,6 +138,7 @@ model Project {
   projectId String  @id
   name      String
   iconUri   String? @default("https://cdn-icons-png.freepik.com/256/12148/12148631.png")
+  description   String                  @default("")
 
   domainId String
   domain   Domain @relation(fields: [domainId], references: [domainId])
@@ -144,9 +146,39 @@ model Project {
   teamId String
   team   Team   @relation(fields: [teamId], references: [teamId])
 
+  contacts ProjectContact[]
+  resourceLinks ProjectResourceLink[]
   technologies ProjectTechnology[]
 
   @@index([domainId])
+}
+
+model ProjectContact {
+  contactId String @id
+
+  projectId String
+  project   Project @relation(fields: [projectId], references: [projectId])
+
+  personId String
+  person   Person @relation(fields: [personId], references: [personId])
+
+  @@unique([personId, projectId])
+  @@index([personId])
+  @@index([projectId])
+}
+
+model ProjectResourceLink {
+  linkId String @id
+
+  projectId String
+  project   Project @relation(fields: [projectId], references: [projectId])
+
+  title    String
+  subTitle String  @default("Goto Resource")
+  href     String
+  iconUri  String? @default("https://cdn1.vectorstock.com/i/1000x1000/25/25/resources-allocation-icon-on-white-vector-27442525.jpg")
+
+  @@index([projectId])
 }
 
 model ProjectTechnology {

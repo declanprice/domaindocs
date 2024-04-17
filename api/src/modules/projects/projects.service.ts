@@ -2,15 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
 import {
-  CreateProjectDto,
-  DetailedProjectDto,
-  ProjectDto,
-  ProjectSubdomainDto,
-  ProjectTeamDto,
-  ProjectTechnologyDto,
-  SearchProjectsDto,
+  CreateProject,
+  DetailedProject,
+  Project,
+  ProjectContact,
+  ProjectOverview,
+  ProjectOwnership,
+  ProjectResourceLink,
+  ProjectSubdomain,
+  ProjectSummary,
+  ProjectTeam,
+  ProjectTechnology,
+  SearchProjects,
 } from '@domaindocs/lib';
 import { v4 } from 'uuid';
+import { createSlug } from '../../util/create-slug';
 
 @Injectable()
 export class ProjectsService {
@@ -19,8 +25,8 @@ export class ProjectsService {
   async searchProjects(
     session: UserSession,
     domainId: string,
-    dto: SearchProjectsDto
-  ): Promise<DetailedProjectDto[]> {
+    dto: SearchProjects,
+  ): Promise<DetailedProject[]> {
     const result = await this.prisma.project.findMany({
       where: {
         domainId,
@@ -41,32 +47,98 @@ export class ProjectsService {
 
     return result.map(
       (p) =>
-        new DetailedProjectDto(
-          new ProjectDto(p.projectId, p.name, p.teamId),
-          new ProjectSubdomainDto(
+        new DetailedProject(
+          new Project(p.projectId, p.name, p.teamId),
+          new ProjectSubdomain(
             p.team.subdomain.subdomainId,
-            p.team.subdomain.name
+            p.team.subdomain.name,
           ),
-          new ProjectTeamDto(p.team.teamId, p.team.name),
+          new ProjectTeam(p.team.teamId, p.team.name),
           p.technologies.map(
             (t) =>
-              new ProjectTechnologyDto(
+              new ProjectTechnology(
                 t.technology.technologyId,
-                t.technology.name
-              )
-          )
-        )
+                t.technology.name,
+              ),
+          ),
+        ),
+    );
+  }
+
+  async getProjectOverview(
+    session: UserSession,
+    domainId: string,
+    projectId: string,
+  ): Promise<ProjectOverview> {
+    const result = await this.prisma.project.findUniqueOrThrow({
+      where: {
+        projectId,
+      },
+      include: {
+        team: true,
+        resourceLinks: true,
+        technologies: {
+          include: {
+            technology: true,
+          },
+        },
+        contacts: {
+          include: {
+            person: {
+              include: {
+                user: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return new ProjectOverview(
+      new ProjectSummary(
+        result.projectId,
+        result.name,
+        result.description,
+        result.technologies.map(
+          (t) => new ProjectTechnology(t.technologyId, t.technology.name),
+        ),
+      ),
+      new ProjectOwnership(
+        result.team.teamId,
+        result.team.name,
+        result.team.iconUri,
+      ),
+      result.contacts.map(
+        (c) =>
+          new ProjectContact(
+            c.personId,
+            c.person.userId,
+            c.person.user.firstName,
+            c.person.user.lastName,
+            c.person.user.iconUri,
+          ),
+      ),
+      result.resourceLinks.map(
+        (r) =>
+          new ProjectResourceLink(
+            r.linkId,
+            r.title,
+            r.subTitle,
+            r.href,
+            r.iconUri,
+          ),
+      ),
     );
   }
 
   async createProject(
     session: UserSession,
     domainId: string,
-    dto: CreateProjectDto
+    dto: CreateProject,
   ): Promise<void> {
     await this.prisma.project.create({
       data: {
-        projectId: v4(),
+        projectId: createSlug(dto.name),
         domainId,
         teamId: dto.teamId,
         name: dto.name,

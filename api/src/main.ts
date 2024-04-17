@@ -4,6 +4,7 @@ import supertokens from 'supertokens-node';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './shared/filters/http-exception.filter';
 import { AuthExceptionFilter } from './auth/auth-exception.filter';
+import { ValibotPipe } from './shared/pipes/valibot.pipe';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +18,8 @@ async function bootstrap() {
   });
 
   app.useGlobalFilters(new HttpExceptionFilter(), new AuthExceptionFilter());
+
+  app.useGlobalPipes(new ValibotPipe());
 
   app.useGlobalPipes(
     new ValidationPipe({

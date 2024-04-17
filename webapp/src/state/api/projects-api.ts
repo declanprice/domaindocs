@@ -1,7 +1,8 @@
 import {
-  CreateProjectDto,
-  DetailedProjectDto,
-  SearchProjectsDto,
+  CreateProject,
+  DetailedProject,
+  ProjectOverview,
+  SearchProjects,
 } from '@domaindocs/lib';
 
 import { apiClient } from './api-client';
@@ -11,21 +12,32 @@ import { plainToInstance } from 'class-transformer';
 export const projectsApi = (() => {
   const searchProjects = async (
     domainId: string,
-    query: SearchProjectsDto = {},
-  ): Promise<DetailedProjectDto[]> => {
-    const result = await apiClient.get<DetailedProjectDto[]>(
+    query: SearchProjects = {},
+  ): Promise<DetailedProject[]> => {
+    const result = await apiClient.get<DetailedProject[]>(
       `/domains/${domainId}/projects`,
       {
         params: query,
       },
     );
 
-    return result.data.map((p) => plainToInstance(DetailedProjectDto, p));
+    return result.data.map((p) => plainToInstance(DetailedProject, p));
+  };
+
+  const getProjectOverview = async (
+    domainId: string,
+    projectId: string,
+  ): Promise<ProjectOverview> => {
+    const result = await apiClient.get<ProjectOverview>(
+      `/domains/${domainId}/projects/${projectId}/overview`,
+    );
+
+    return plainToInstance(ProjectOverview, result.data);
   };
 
   const createProject = async (
     domainId: string,
-    data: CreateProjectDto,
+    data: CreateProject,
   ): Promise<void> => {
     await apiClient.post(`/domains/${domainId}/projects`, data);
   };
@@ -33,5 +45,6 @@ export const projectsApi = (() => {
   return {
     searchProjects,
     createProject,
+    getProjectOverview,
   };
 })();

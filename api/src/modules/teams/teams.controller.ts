@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { DetailedTeamDto, CreateTeamDto, SearchTeamDto } from '@domaindocs/lib';
+import { DetailedTeamDto, SearchTeamDto, CreateTeamDto } from '@domaindocs/lib';
 
 @Controller('domains/:domainId/teams')
 @UseGuards(AuthGuard)

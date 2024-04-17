@@ -11,7 +11,6 @@ export class DomainsService {
 
   async setupDomain(session: UserSession, dto: SetupDomainDto) {
     const personId = v4();
-    const roleId = v4();
 
     return this.prisma.domain.create({
       data: {

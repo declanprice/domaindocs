@@ -1,7 +1,7 @@
 import { Flex, Stack } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { DetailedProjectDto } from '@domaindocs/lib';
+import { DetailedProject } from '@domaindocs/lib';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { projectsApi } from '../../state/api/projects-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
@@ -11,7 +11,9 @@ import { ProjectTable } from '../../components/project/ProjectTable';
 export const ProjectsPage = () => {
   const { domainId } = useParams() as DomainPageParams;
 
-  const { data: projects, isLoading } = useQuery<DetailedProjectDto[]>({
+  const navigate = useNavigate();
+
+  const { data: projects, isLoading } = useQuery<DetailedProject[]>({
     queryKey: ['searchProjects', { domainId }],
     queryFn: () => projectsApi.searchProjects(domainId, {}),
   });
@@ -29,8 +31,8 @@ export const ProjectsPage = () => {
 
         <ProjectTable
           projects={projects}
-          onProjectClick={() => {
-            // navigate
+          onProjectClick={(project: DetailedProject) => {
+            navigate(`/${domainId}/projects/${project.project.projectId}`);
           }}
         />
       </Stack>

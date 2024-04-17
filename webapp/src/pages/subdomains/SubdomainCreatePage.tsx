@@ -1,8 +1,6 @@
 import { Button, Flex, Heading } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { valibotResolver } from '@hookform/resolvers/valibot';
-import { object, string } from 'valibot';
 import { DefaultError, useMutation } from '@tanstack/react-query';
 import { FormTextInput } from '../../components/form/FormInput';
 import { subdomainsApi } from '../../state/api/subdomains-api';
