@@ -4,3 +4,4 @@ export * from './domain';
 export * from './subdomain';
 export * from './team';
 export * from './user';
+export * from './documentation';

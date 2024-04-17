@@ -14,7 +14,6 @@ import { DomainSetupPage } from './pages/domain-setup/DomainSetupPage';
 import { OnboardingPageLayout } from './pages/onboarding/OnboardingPageLayout';
 import { SecretsPageLayout } from './pages/secrets/SecretsPageLayout';
 import { FilesPageLayout } from './pages/files/FilesPageLayout';
-import { DocumentationPageLayout } from './pages/documentation/DocumentationPageLayout';
 import { SubdomainCreatePage } from './pages/subdomain/SubdomainCreatePage';
 import { PeoplePage } from './pages/people/PeoplePage';
 import { TeamsPage } from './pages/teams/TeamsPage';
@@ -30,6 +29,7 @@ import { ProjectOverviewPage } from './pages/project/ProjectOverviewPage';
 import { ProjectDocumentationPage } from './pages/project/ProjectDocumentationPage';
 import { ProjectSecretsPage } from './pages/project/ProjectSecretsPage';
 import { ProjectFilesPage } from './pages/project/ProjectFilesPage';
+import { DocumentationPage } from './pages/documentation/DocumentationPage';
 
 export const routes = createBrowserRouter([
   {
@@ -130,7 +130,20 @@ export const routes = createBrowserRouter([
                   },
                   {
                     path: 'documentation',
-                    element: <DocumentationPageLayout />,
+                    children: [
+                      {
+                        path: '',
+                        element: <Navigate to={'relevant'} />,
+                      },
+                      {
+                        path: 'relevant',
+                        element: <DocumentationPage />,
+                      },
+                      {
+                        path: 'all',
+                        element: <DocumentationPage />,
+                      },
+                    ],
                   },
                   {
                     path: 'files',
