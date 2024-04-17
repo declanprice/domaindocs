@@ -9,6 +9,7 @@ export const deedSearchUi = (): Project => {
     domainId: ros().domainId,
     name: 'Deed Search UI',
     iconUri: null,
+    description: '',
   };
 };
 
@@ -19,6 +20,7 @@ export const deedSearchApi = () => {
     domainId: ros().domainId,
     name: 'Deed Search API',
     iconUri: null,
+    description: '',
   };
 };
 
@@ -29,6 +31,7 @@ export const lrArchiveUi = () => {
     domainId: ros().domainId,
     name: 'LR Archive UI',
     iconUri: null,
+    description: '',
   };
 };
 
@@ -39,5 +42,6 @@ export const lrArchiveApi = () => {
     domainId: ros().domainId,
     name: 'LR Archive API',
     iconUri: null,
+    description: '',
   };
 };

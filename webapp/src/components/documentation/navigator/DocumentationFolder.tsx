@@ -1,8 +1,6 @@
 import { Documentation } from '@domaindocs/lib';
 import {
-  Avatar,
   Box,
-  Divider,
   Flex,
   IconButton,
   List,
@@ -16,6 +14,7 @@ import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { DocumentationFolderItem } from './DocumentationFolderItem';
 import { useHover } from '@uidotdev/usehooks';
 import { useRef, useState } from 'react';
+
 export type DocumentationFolderProps = {
   documentation: Documentation;
   parentFolderRef?: any;

@@ -149,6 +149,7 @@ model Project {
   contacts      ProjectContact[]
   resourceLinks ProjectResourceLink[]
   technologies  ProjectTechnology[]
+  documentation ProjectDocumentation?
 
   @@index([domainId])
 }
@@ -219,13 +220,27 @@ model Technology {
 }
 
 model Documentation {
-  documentationId String          @id
-  isRoot          Boolean
-  name            String
-  folderPosition  Int
-  folderId        String?
-  folder          Documentation?  @relation(name: "folder-pages", fields: [folderId], references: [documentationId])
-  folderPages     Documentation[] @relation("folder-pages")
+  documentationId                     String               @id
+  name                                String
+  isFolder                            Boolean
+  position                            Int
+  folderId                            String?
+  folder                              Documentation?       @relation(name: "folder-pages", fields: [folderId], references: [documentationId])
+  folderPages                         Documentation[]      @relation("folder-pages")
+  project                             ProjectDocumentation @relation(fields: [projectDocumentationProjectId, projectDocumentationDocumentationId], references: [projectId, documentationId])
+  projectDocumentationProjectId       String
+  projectDocumentationDocumentationId String
 
   @@unique([folderId, name])
+  @@unique([documentationId, position])
+}
+
+model ProjectDocumentation {
+  projectId String  @unique
+  project   Project @relation(fields: [projectId], references: [projectId])
+
+  documentationId String        @unique
+  documentation   Documentation @relation(fields: [documentationId], references: [documentationId])
+
+  @@id([projectId, documentationId])
 }

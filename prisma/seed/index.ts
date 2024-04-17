@@ -14,6 +14,13 @@ import {
 
 import { uiDevSkill, devOpsSkill, apiDevSkill } from './skills';
 import { angularTech, nestJsTech, reactTech } from './technologies';
+import {
+  logoItem,
+  projectPlan,
+  projectPlanItem,
+  siteMapItem,
+  siteMapsFolder,
+} from './documentation';
 
 const client = new PrismaClient();
 
@@ -21,6 +28,9 @@ client.$connect().then(async () => {
   console.log('SEED: clearing data');
 
   /* CLEAR DATABASE */
+  await client.projectDocumentation.deleteMany();
+  await client.projectResourceLink.deleteMany();
+  await client.projectContact.deleteMany();
   await client.projectTechnology.deleteMany();
   await client.project.deleteMany();
 
@@ -134,6 +144,14 @@ client.$connect().then(async () => {
         technologyId: angularTech().technologyId,
       },
     ],
+  });
+
+  await client.documentation.createMany({
+    data: [logoItem(), projectPlanItem(), siteMapsFolder(), siteMapItem()],
+  });
+
+  await client.projectDocumentation.createMany({
+    data: [{}],
   });
 
   console.log('SEED: complete');
