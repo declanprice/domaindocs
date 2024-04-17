@@ -2,7 +2,7 @@ import { User } from '@prisma/client';
 
 export const declanUser = (): User => {
   return {
-    userId: '83a59c9c-c16d-45ed-9cc9-0a70d83f2928',
+    userId: '42467cee-fa18-4ad6-bd35-9ef399e80794',
     firstName: 'Declan',
     lastName: 'Price',
     fullName: 'Declan Price',
