@@ -27,7 +27,6 @@ import { NoAuthGuard } from './components/guards/NoAuthGuard';
 import { SomethingWentWrongErrorPage } from './components/errors/SomethingWentWrongErrorPage';
 import { PageNotFoundErrorPage } from './components/errors/PageNotFoundErrorPage';
 import { ProjectOverviewPage } from './pages/project/ProjectOverviewPage';
-import { ProjectTeamPage } from './pages/project/ProjectTeamPage';
 import { ProjectDocumentationPage } from './pages/project/ProjectDocumentationPage';
 import { ProjectSecretsPage } from './pages/project/ProjectSecretsPage';
 import { ProjectFilesPage } from './pages/project/ProjectFilesPage';
@@ -114,10 +113,6 @@ export const routes = createBrowserRouter([
                       {
                         path: 'overview',
                         element: <ProjectOverviewPage />,
-                      },
-                      {
-                        path: 'team',
-                        element: <ProjectTeamPage />,
                       },
                       {
                         path: 'documentation',

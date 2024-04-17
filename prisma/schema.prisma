@@ -135,10 +135,10 @@ model TeamMember {
 }
 
 model Project {
-  projectId String  @id
-  name      String
-  iconUri   String? @default("https://cdn-icons-png.freepik.com/256/12148/12148631.png")
-  description   String                  @default("")
+  projectId   String  @id
+  name        String
+  iconUri     String? @default("https://cdn-icons-png.freepik.com/256/12148/12148631.png")
+  description String  @default("")
 
   domainId String
   domain   Domain @relation(fields: [domainId], references: [domainId])
@@ -146,9 +146,9 @@ model Project {
   teamId String
   team   Team   @relation(fields: [teamId], references: [teamId])
 
-  contacts ProjectContact[]
+  contacts      ProjectContact[]
   resourceLinks ProjectResourceLink[]
-  technologies ProjectTechnology[]
+  technologies  ProjectTechnology[]
 
   @@index([domainId])
 }
@@ -216,4 +216,16 @@ model Technology {
   projects ProjectTechnology[]
 
   @@unique([domainId, name])
+}
+
+model Documentation {
+  documentationId String          @id
+  isRoot          Boolean
+  name            String
+  folderPosition  Int
+  folderId        String?
+  folder          Documentation?  @relation(name: "folder-pages", fields: [folderId], references: [documentationId])
+  folderPages     Documentation[] @relation("folder-pages")
+
+  @@unique([folderId, name])
 }
