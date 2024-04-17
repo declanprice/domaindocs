@@ -61,7 +61,7 @@ export const SubdomainCreatePage = () => {
           <FormTextInput
             name={'subdomainName'}
             control={control}
-            placeholder={'subdomains name'}
+            placeholder={'subdomain name'}
           />
 
           <Button

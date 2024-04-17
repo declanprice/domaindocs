@@ -14,6 +14,7 @@ import {
   ProjectTeam,
   ProjectTechnology,
   SearchProjects,
+  UpdateProjectDescription,
 } from '@domaindocs/lib';
 import { v4 } from 'uuid';
 import { createSlug } from '../../util/create-slug';
@@ -142,6 +143,22 @@ export class ProjectsService {
         domainId,
         teamId: dto.teamId,
         name: dto.name,
+      },
+    });
+  }
+
+  async updateProjectDescription(
+    session: UserSession,
+    domainId: string,
+    projectId: string,
+    dto: UpdateProjectDescription,
+  ) {
+    await this.prisma.project.update({
+      where: {
+        projectId,
+      },
+      data: {
+        description: dto.description,
       },
     });
   }

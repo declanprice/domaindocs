@@ -4,11 +4,11 @@ import { useQuery } from '@tanstack/react-query';
 import { ProjectOverview } from '@domaindocs/lib';
 
 import { ProjectPageParams } from './ProjectPageParams';
-import { projectsApi } from '../../../state/api/projects-api';
-import { LoadingContainer } from '../../../components/loading/LoadingContainer';
+import { projectsApi } from '../../state/api/projects-api';
+import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { ProjectPageToolbar } from './ProjectPageToolbar';
 
-export const ProjectOverviewPage = () => {
+export const ProjectDocumentationPage = () => {
   const { domainId, projectId } = useParams() as ProjectPageParams;
 
   const { data: project, isLoading } = useQuery<ProjectOverview>({
@@ -27,7 +27,7 @@ export const ProjectOverviewPage = () => {
       />
 
       <Box height={'100%'} width={'100%'} overflowY={'auto'}>
-        content
+        docs
       </Box>
     </Flex>
   );

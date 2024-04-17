@@ -6,6 +6,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
@@ -14,6 +15,7 @@ import {
   DetailedProject,
   SearchProjects,
   CreateProject,
+  UpdateProjectDescription,
 } from '@domaindocs/lib';
 
 @Controller('domains/:domainId/projects')
@@ -54,5 +56,20 @@ export class ProjectsController {
     @Body() dto: CreateProject,
   ) {
     return this.projectsService.createProject(session, domainId, dto);
+  }
+
+  @Put(':projectId/description')
+  async updateProjectDescription(
+    @AuthSession() session: UserSession,
+    @Param('domainId') domainId: string,
+    @Param('projectId') projectId: string,
+    @Body() dto: UpdateProjectDescription,
+  ) {
+    return this.projectsService.updateProjectDescription(
+      session,
+      domainId,
+      projectId,
+      dto,
+    );
   }
 }

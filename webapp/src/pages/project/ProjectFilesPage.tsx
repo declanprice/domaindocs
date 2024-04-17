@@ -4,8 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { ProjectOverview } from '@domaindocs/lib';
 
 import { ProjectPageParams } from './ProjectPageParams';
-import { projectsApi } from '../../../state/api/projects-api';
-import { LoadingContainer } from '../../../components/loading/LoadingContainer';
+import { projectsApi } from '../../state/api/projects-api';
+import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { ProjectPageToolbar } from './ProjectPageToolbar';
 
 export const ProjectFilesPage = () => {

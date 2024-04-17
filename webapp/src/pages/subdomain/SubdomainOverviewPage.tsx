@@ -1,19 +1,17 @@
-import { Outlet, useParams } from 'react-router-dom';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { Box, Flex, Heading, Text, useToast } from '@chakra-ui/react';
-import { SubdomainPageParams } from './types/SubdomainPageParams';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { SubdomainPageParams } from './SubdomainPageParams';
 import { subdomainsApi } from '../../state/api/subdomains-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
-import { SummaryCard } from '../../components/cards/summary/SummaryCard';
 import { SubdomainContacts } from './components/SubdomainContacts';
 import { SubdomainResourceLinks } from './components/SubdomainResourceLinks';
 import { SubdomainOverviewDto } from '@domaindocs/lib';
 import { SubdomainPageToolbar } from './SubdomainPageToolbar';
+import { SubdomainSummary } from './components/SubdomainSummary';
 
 export const SubdomainOverviewPage = () => {
   const { domainId, subdomainId } = useParams() as SubdomainPageParams;
-
-  const toast = useToast();
 
   const {
     data: overview,
@@ -22,27 +20,6 @@ export const SubdomainOverviewPage = () => {
   } = useQuery<SubdomainOverviewDto>({
     queryKey: ['subdomainOverview', { domainId, subdomainId }],
     queryFn: () => subdomainsApi.getOverviewById(domainId, subdomainId),
-  });
-
-  const { mutate: updateDescription } = useMutation({
-    mutationKey: ['updateDescription'],
-    mutationFn: async (description: string) => {
-      await subdomainsApi.updateDescription(domainId, subdomainId, {
-        description,
-      });
-
-      await refetch();
-
-      toast({
-        position: 'top',
-        status: 'success',
-        size: 'xs',
-        colorScheme: 'gray',
-        isClosable: true,
-        duration: 3000,
-        title: 'Description updated.',
-      });
-    },
   });
 
   if (!overview || isLoading) return <LoadingContainer />;
@@ -61,12 +38,16 @@ export const SubdomainOverviewPage = () => {
             Subdomain
           </Heading>
 
-          <SummaryCard
+          <SubdomainSummary
+            domainId={domainId}
+            subdomainId={subdomainId}
             peopleCount={overview.summary.peopleCount}
             teamCount={overview.summary.teamCount}
             projectCount={overview.summary.projectCount}
             description={overview.summary.description}
-            onDescriptionChange={updateDescription}
+            onDescriptionChange={async () => {
+              await refetch();
+            }}
           />
 
           <SubdomainContacts

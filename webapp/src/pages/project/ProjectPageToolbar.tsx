@@ -1,6 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { LiaProjectDiagramSolid } from 'react-icons/lia';
-import { PageToolbar } from '../../../components/page/PageToolbar';
+import { PageToolbar } from '../../components/page/PageToolbar';
 import { useNavigate } from 'react-router-dom';
 
 type ProjectPageToolbarProps = {

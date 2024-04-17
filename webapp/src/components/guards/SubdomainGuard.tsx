@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { SubdomainPageParams } from '../../pages/subdomains/types/SubdomainPageParams';
+import { SubdomainPageParams } from '../../pages/subdomain/SubdomainPageParams';
 import { subdomainsApi } from '../../state/api/subdomains-api';
 import { SubdomainDto } from '@domaindocs/lib';
 
@@ -30,5 +30,5 @@ export const SubdomainGuard = () => {
     );
   }
 
-  return <Outlet context={'subdomains-guard'} />;
+  return <Outlet context={'subdomain-guard'} />;
 };

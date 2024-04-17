@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { SubdomainPageParams } from './types/SubdomainPageParams';
+import { SubdomainPageParams } from './SubdomainPageParams';
 import { subdomainsApi } from '../../state/api/subdomains-api';
 import { PageToolbar } from '../../components/page/PageToolbar';
 import { SubdomainSelectMenu } from './components/SubdomainSelectMenu';

@@ -1,7 +1,7 @@
 import { Box, Flex, Stack } from '@chakra-ui/react';
 import { Outlet, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { SubdomainPageParams } from './types/SubdomainPageParams';
+import { SubdomainPageParams } from './SubdomainPageParams';
 import { peopleApi } from '../../state/api/people-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { TableToolbar } from '../../components/table/TableToolbar';

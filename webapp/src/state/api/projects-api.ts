@@ -3,6 +3,7 @@ import {
   DetailedProject,
   ProjectOverview,
   SearchProjects,
+  UpdateProjectDescription,
 } from '@domaindocs/lib';
 
 import { apiClient } from './api-client';
@@ -42,9 +43,21 @@ export const projectsApi = (() => {
     await apiClient.post(`/domains/${domainId}/projects`, data);
   };
 
+  const updateProjectDescription = async (
+    domainId: string,
+    projectId: string,
+    data: UpdateProjectDescription,
+  ): Promise<void> => {
+    await apiClient.put(
+      `/domains/${domainId}/projects/${projectId}/description`,
+      data,
+    );
+  };
+
   return {
     searchProjects,
     createProject,
     getProjectOverview,
+    updateProjectDescription,
   };
 })();

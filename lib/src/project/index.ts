@@ -10,3 +10,4 @@ export * from './project-summary';
 export * from './project-team';
 export * from './project-technology';
 export * from './search.projects';
+export * from './update-project-description';
