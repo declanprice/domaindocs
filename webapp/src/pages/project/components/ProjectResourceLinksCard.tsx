@@ -19,7 +19,7 @@ type ProjectResourceLinksProps = {
   onAddLink: (link: AddProjectResourceLink) => Promise<void>;
 };
 
-export const ProjectResourceLinks = (props: ProjectResourceLinksProps) => {
+export const ProjectResourceLinksCard = (props: ProjectResourceLinksProps) => {
   const { domainId, projectId, projectName, links, onAddLink } = props;
 
   const {

@@ -8,7 +8,7 @@ import { ContactsCard } from '../../../components/cards/contacts/ContactsCard';
 import { ProjectContact, SubdomainContactDto } from '@domaindocs/lib';
 import { projectsApi } from '../../../state/api/projects-api';
 
-type ProjectContacts = {
+type ProjectContactsCard = {
   projectId: string;
   projectName: string;
   domainId: string;
@@ -16,7 +16,7 @@ type ProjectContacts = {
   onAddContacts: (contacts: ProjectContact[]) => Promise<void>;
 };
 
-export const ProjectContacts = (props: ProjectContacts) => {
+export const ProjectContactsCard = (props: ProjectContactsCard) => {
   const { domainId, projectId, projectName, contacts, onAddContacts } = props;
 
   const [searchName, setSearchName] = useState<string | null>(null);

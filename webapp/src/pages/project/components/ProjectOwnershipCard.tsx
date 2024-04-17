@@ -1,15 +1,15 @@
 import { OwnershipCard } from '../../../components/cards/ownership/OwnershipCard';
 
-import { ProjectOwnershipData } from '@domaindocs/lib';
+import { ProjectOwnership } from '@domaindocs/lib';
 
 type ProjectOwnershipProps = {
   domainId: string;
   projectId: string;
   projectName: string;
-  ownership: ProjectOwnershipData;
+  ownership: ProjectOwnership;
 };
 
-export const ProjectOwnership = (props: ProjectOwnershipProps) => {
+export const ProjectOwnershipCard = (props: ProjectOwnershipProps) => {
   const { domainId, projectId, projectName, ownership } = props;
 
   return <OwnershipCard ownership={ownership} />;

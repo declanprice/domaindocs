@@ -8,7 +8,7 @@ import {
   Project,
   ProjectContact,
   ProjectOverview,
-  ProjectOwnershipData,
+  ProjectOwnership,
   ProjectResourceLink,
   ProjectSubdomain,
   ProjectSummary,
@@ -107,7 +107,7 @@ export class ProjectsService {
           (t) => new ProjectTechnology(t.technologyId, t.technology.name),
         ),
       ),
-      new ProjectOwnershipData(
+      new ProjectOwnership(
         result.team.teamId,
         result.team.name,
         result.team.iconUri,

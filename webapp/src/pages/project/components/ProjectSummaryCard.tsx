@@ -15,7 +15,7 @@ type ProjectSummaryProps = {
   onDescriptionChange: (description: string) => any;
 };
 
-export const ProjectSummary = (props: ProjectSummaryProps) => {
+export const ProjectSummaryCard = (props: ProjectSummaryProps) => {
   const {
     domainId,
     projectId,
@@ -29,7 +29,7 @@ export const ProjectSummary = (props: ProjectSummaryProps) => {
   const { mutateAsync: updateDescription } = useMutation({
     mutationKey: ['updateProjectDescription', { domainId, projectId }],
     mutationFn: async (data: UpdateProjectDescription) => {
-      await projectsApi.updateProjectDescription(domainId, projectId, data);
+      await projectsApi.updateDescription(domainId, projectId, data);
 
       toast({
         position: 'top',

@@ -7,10 +7,10 @@ import { ProjectPageParams } from './ProjectPageParams';
 import { projectsApi } from '../../state/api/projects-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { ProjectPageToolbar } from './ProjectPageToolbar';
-import { ProjectSummary } from './components/ProjectSummary';
-import { ProjectContacts } from './components/ProjectContacts';
-import { ProjectResourceLinks } from './components/ProjectResourceLinks';
-import { ProjectOwnership } from './components/ProjectOwnership';
+import { ProjectSummaryCard } from './components/ProjectSummaryCard';
+import { ProjectContactsCard } from './components/ProjectContactsCard';
+import { ProjectResourceLinksCard } from './components/ProjectResourceLinksCard';
+import { ProjectOwnershipCard } from './components/ProjectOwnershipCard';
 
 export const ProjectOverviewPage = () => {
   const { domainId, projectId } = useParams() as ProjectPageParams;
@@ -40,7 +40,7 @@ export const ProjectOverviewPage = () => {
             {project.summary.name}
           </Heading>
 
-          <ProjectSummary
+          <ProjectSummaryCard
             domainId={domainId}
             projectId={projectId}
             technologies={project.summary.technologies}
@@ -50,14 +50,14 @@ export const ProjectOverviewPage = () => {
             }}
           />
 
-          <ProjectOwnership
+          <ProjectOwnershipCard
             domainId={domainId}
             projectName={project.summary.name}
             projectId={projectId}
             ownership={project.ownership}
           />
 
-          <ProjectContacts
+          <ProjectContactsCard
             domainId={domainId}
             projectName={project.summary.name}
             projectId={projectId}
@@ -67,7 +67,7 @@ export const ProjectOverviewPage = () => {
             }}
           />
 
-          <ProjectResourceLinks
+          <ProjectResourceLinksCard
             domainId={domainId}
             projectName={project.summary.name}
             projectId={projectId}
