@@ -1,6 +1,6 @@
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Flex, Heading, Text, useToast } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, useToast } from '@chakra-ui/react';
 import { SubdomainPageParams } from './types/SubdomainPageParams';
 import { subdomainsApi } from '../../state/api/subdomains-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
@@ -8,6 +8,7 @@ import { SummaryCard } from '../../components/cards/summary/SummaryCard';
 import { SubdomainContacts } from './components/SubdomainContacts';
 import { SubdomainResourceLinks } from './components/SubdomainResourceLinks';
 import { SubdomainOverviewDto } from '@domaindocs/lib';
+import { SubdomainPageToolbar } from './SubdomainPageToolbar';
 
 export const SubdomainOverviewPage = () => {
   const { domainId, subdomainId } = useParams() as SubdomainPageParams;
@@ -47,42 +48,48 @@ export const SubdomainOverviewPage = () => {
   if (!overview || isLoading) return <LoadingContainer />;
 
   return (
-    <Flex p={4} gap={4} width={'100%'} direction={'column'}>
-      <Heading width={'100%'} size={'md'} fontWeight={'regular'}>
-        Welcome to the{' '}
-        <Text display={'inline'} fontWeight={'bold'}>
-          {overview.name}
-        </Text>{' '}
-        Subdomain
-      </Heading>
+    <Flex direction="column" width={'100%'}>
+      <SubdomainPageToolbar />
 
-      <SummaryCard
-        peopleCount={overview.summary.peopleCount}
-        teamCount={overview.summary.teamCount}
-        projectCount={overview.summary.projectCount}
-        description={overview.summary.description}
-        onDescriptionChange={updateDescription}
-      />
+      <Box height={'100%'} width={'100%'} overflowY={'auto'}>
+        <Flex p={4} gap={4} width={'100%'} direction={'column'}>
+          <Heading width={'100%'} size={'md'} fontWeight={'regular'}>
+            Welcome to the{' '}
+            <Text display={'inline'} fontWeight={'bold'}>
+              {overview.name}
+            </Text>{' '}
+            Subdomain
+          </Heading>
 
-      <SubdomainContacts
-        domainId={domainId}
-        subdomainName={overview.name}
-        subdomainId={subdomainId}
-        subdomainContacts={overview.contacts}
-        onAddContacts={async () => {
-          await refetch();
-        }}
-      />
+          <SummaryCard
+            peopleCount={overview.summary.peopleCount}
+            teamCount={overview.summary.teamCount}
+            projectCount={overview.summary.projectCount}
+            description={overview.summary.description}
+            onDescriptionChange={updateDescription}
+          />
 
-      <SubdomainResourceLinks
-        domainId={domainId}
-        subdomainName={overview.name}
-        subdomainId={subdomainId}
-        links={overview.resourceLinks}
-        onAddLink={async () => {
-          await refetch();
-        }}
-      />
+          <SubdomainContacts
+            domainId={domainId}
+            subdomainName={overview.name}
+            subdomainId={subdomainId}
+            subdomainContacts={overview.contacts}
+            onAddContacts={async () => {
+              await refetch();
+            }}
+          />
+
+          <SubdomainResourceLinks
+            domainId={domainId}
+            subdomainName={overview.name}
+            subdomainId={subdomainId}
+            links={overview.resourceLinks}
+            onAddLink={async () => {
+              await refetch();
+            }}
+          />
+        </Flex>
+      </Box>
     </Flex>
   );
 };

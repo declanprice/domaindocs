@@ -22,7 +22,6 @@ import { PeoplePage } from './pages/people/PeoplePage';
 import { TeamPageLayout } from './pages/teams/TeamPageLayout';
 import { TeamsPage } from './pages/teams/TeamsPage';
 import { ProjectsPage } from './pages/projects/ProjectsPage';
-import { ProjectsPageLayout } from './pages/projects/ProjectsPageLayout';
 import { AuthGuard } from './components/guards/AuthGuard';
 import { UserSetupGuard } from './components/guards/UserSetupGuard';
 import { DomainGuard } from './components/guards/DomainGuard';
@@ -31,6 +30,10 @@ import { NoAuthGuard } from './components/guards/NoAuthGuard';
 import { SomethingWentWrongErrorPage } from './components/errors/SomethingWentWrongErrorPage';
 import { PageNotFoundErrorPage } from './components/errors/PageNotFoundErrorPage';
 import { ProjectOverviewPage } from './pages/projects/project/ProjectOverviewPage';
+import { ProjectTeamPage } from './pages/projects/project/ProjectTeamPage';
+import { ProjectDocumentationPage } from './pages/projects/project/ProjectDocumentationPage';
+import { ProjectSecretsPage } from './pages/projects/project/ProjectSecretsPage';
+import { ProjectFilesPage } from './pages/projects/project/ProjectFilesPage';
 
 export const routes = createBrowserRouter([
   {
@@ -67,7 +70,6 @@ export const routes = createBrowserRouter([
                     children: [
                       {
                         path: ':subdomainId',
-                        element: <SubdomainPageLayout />,
                         children: [
                           {
                             path: '',
@@ -95,33 +97,15 @@ export const routes = createBrowserRouter([
                   },
                   {
                     path: 'people',
-                    element: <PeoplePageLayout />,
-                    children: [
-                      {
-                        path: '',
-                        element: <PeoplePage />,
-                      },
-                    ],
+                    element: <PeoplePage />,
                   },
                   {
                     path: 'teams',
-                    element: <TeamPageLayout />,
-                    children: [
-                      {
-                        path: '',
-                        element: <TeamsPage />,
-                      },
-                    ],
+                    element: <TeamsPage />,
                   },
                   {
                     path: 'projects',
-                    element: <ProjectsPageLayout />,
-                    children: [
-                      {
-                        path: '',
-                        element: <ProjectsPage />,
-                      },
-                    ],
+                    element: <ProjectsPage />,
                   },
                   {
                     path: 'projects/:projectId',
@@ -133,6 +117,22 @@ export const routes = createBrowserRouter([
                       {
                         path: 'overview',
                         element: <ProjectOverviewPage />,
+                      },
+                      {
+                        path: 'team',
+                        element: <ProjectTeamPage />,
+                      },
+                      {
+                        path: 'documentation',
+                        element: <ProjectDocumentationPage />,
+                      },
+                      {
+                        path: 'files',
+                        element: <ProjectFilesPage />,
+                      },
+                      {
+                        path: 'secrets',
+                        element: <ProjectSecretsPage />,
                       },
                     ],
                   },

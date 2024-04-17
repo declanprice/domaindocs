@@ -35,6 +35,42 @@ export const ProjectPageToolbar = (props: ProjectPageToolbarProps) => {
               navigate(`/${domainId}/projects/${projectId}/overview`);
             },
           },
+          {
+            label: 'Team',
+            isActive: location.pathname.includes(
+              `/${domainId}/projects/${projectId}/team`,
+            ),
+            onClick: () => {
+              navigate(`/${domainId}/projects/${projectId}/team`);
+            },
+          },
+          {
+            label: 'Documentation',
+            isActive: location.pathname.includes(
+              `/${domainId}/projects/${projectId}/documentation`,
+            ),
+            onClick: () => {
+              navigate(`/${domainId}/projects/${projectId}/documentation`);
+            },
+          },
+          {
+            label: 'Files',
+            isActive: location.pathname.includes(
+              `/${domainId}/projects/${projectId}/files`,
+            ),
+            onClick: () => {
+              navigate(`/${domainId}/projects/${projectId}/files`);
+            },
+          },
+          {
+            label: 'Secrets',
+            isActive: location.pathname.includes(
+              `/${domainId}/projects/${projectId}/secrets`,
+            ),
+            onClick: () => {
+              navigate(`/${domainId}/projects/${projectId}/secrets`);
+            },
+          },
         ]}
       />
     </>
