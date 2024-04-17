@@ -15,13 +15,16 @@ import { IoMdAdd } from 'react-icons/io';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { DocumentationFolderItem } from './DocumentationFolderItem';
 import { useHover } from '@uidotdev/usehooks';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 export type DocumentationFolderProps = {
   documentation: Documentation;
+  parentFolderRef?: any;
 } & StyleProps;
 
 export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
-  const [isFolderOpen, setFolderOpen] = useState<boolean>(false);
+  const [isFolderOpen, setIsFolderOpen] = useState<boolean>(false);
+
+  const folderRef = useRef(null);
 
   const [ref, hovering] = useHover();
 
@@ -36,8 +39,18 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
         p={2}
         _hover={{ backgroundColor: 'lightgray', cursor: 'pointer' }}
         position={'relative'}
+        onClick={() => {
+          setIsFolderOpen(!isFolderOpen);
+        }}
       >
-        <Box ml={2}>
+        <Box
+          ref={folderRef}
+          ml={
+            props?.parentFolderRef
+              ? `${props.parentFolderRef.current.offsetLeft + 4}px`
+              : undefined
+          }
+        >
           <IoFolderOutline fontSize={14} />
         </Box>
 
@@ -66,15 +79,27 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
         </Flex>
       </Flex>
 
-      <List width={'100%'} height={'100%'}>
-        {documentation.documentation.map((doc) => {
-          if (doc.isFolder) {
-            return <DocumentationFolder documentation={doc} />;
-          }
+      {isFolderOpen && (
+        <List width={'100%'} height={'100%'}>
+          {documentation.documentation.map((doc) => {
+            if (doc.isFolder) {
+              return (
+                <DocumentationFolder
+                  parentFolderRef={folderRef}
+                  documentation={doc}
+                />
+              );
+            }
 
-          return <DocumentationFolderItem documentation={doc} />;
-        })}
-      </List>
+            return (
+              <DocumentationFolderItem
+                parentFolderRef={folderRef}
+                documentation={doc}
+              />
+            );
+          })}
+        </List>
+      )}
     </Flex>
   );
 });

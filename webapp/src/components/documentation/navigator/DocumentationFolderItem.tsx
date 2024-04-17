@@ -7,13 +7,13 @@ import {
   StyleProps,
   Text,
 } from '@chakra-ui/react';
-import { IoFolderOutline } from 'react-icons/io5';
-import { IoMdAdd } from 'react-icons/io';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { useHover } from '@uidotdev/usehooks';
+import { Ref } from 'react';
 
 export type DocumentationFolderItemProps = {
   documentation: Documentation;
+  parentFolderRef?: any;
 } & StyleProps;
 
 export const DocumentationFolderItem = (
@@ -33,7 +33,7 @@ export const DocumentationFolderItem = (
       _hover={{ backgroundColor: 'lightgray', cursor: 'pointer' }}
       position={'relative'}
     >
-      <Box ml={2}>
+      <Box ml={`${props.parentFolderRef.current.offsetLeft + 4}px`}>
         <Badge fontSize={8} colorScheme={'blue'}>
           File
         </Badge>
