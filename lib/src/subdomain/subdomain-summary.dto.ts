@@ -1,8 +1,8 @@
 export class SubdomainSummaryDto {
   constructor(
-    private peopleCount: number,
-    private teamCount: number,
-    private projectCount: number,
-    private description: string,
+    public peopleCount: number,
+    public teamCount: number,
+    public projectCount: number,
+    public description: string,
   ) {}
 }

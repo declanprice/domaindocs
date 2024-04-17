@@ -1,19 +1,19 @@
 import { useDisclosure } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import {
-  AddResourceLinkData,
-  SubdomainResourceLink,
-  subdomainsApi,
-} from '../../../state/api/subdomains-api';
+import { subdomainsApi } from '../../../state/api/subdomains-api';
 import { ResourceLinksCard } from '../../../components/cards/resource-links/ResourceLinksCard';
 import { AddResourceLinkDialog } from '../../../components/resource-link/AddResourceLinkDialog';
+import {
+  AddSubdomainResourceLinkDto,
+  SubdomainResourceLinkDto,
+} from '@domaindocs/lib';
 
 type SubdomainResourceLinksProps = {
   subdomainName: string;
   subdomainId: string;
   domainId: string;
-  links: SubdomainResourceLink[];
-  onAddLink: (link: AddResourceLinkData) => Promise<void>;
+  links: SubdomainResourceLinkDto[];
+  onAddLink: (link: AddSubdomainResourceLinkDto) => Promise<void>;
 };
 
 export const SubdomainResourceLinks = (props: SubdomainResourceLinksProps) => {
@@ -27,7 +27,7 @@ export const SubdomainResourceLinks = (props: SubdomainResourceLinksProps) => {
 
   const { mutateAsync: addResourceLink } = useMutation({
     mutationKey: ['addResourceLink', { domainId, subdomainId }],
-    mutationFn: async (link: AddResourceLinkData) => {
+    mutationFn: async (link: AddSubdomainResourceLinkDto) => {
       await subdomainsApi.addResourceLink(domainId, subdomainId, link);
       await onAddLink(link);
     },

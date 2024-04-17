@@ -1,10 +1,10 @@
 import { Badge } from '@chakra-ui/react';
-import { DetailedPerson } from '../../state/api/people-api';
 import { Table } from '../table/Table';
+import { DetailedPersonDto } from '@domaindocs/lib';
 
 type PeopleTableProps = {
-  people: DetailedPerson[];
-  onPersonClick: (person: DetailedPerson) => void;
+  people: DetailedPersonDto[];
+  onPersonClick: (person: DetailedPersonDto) => void;
 };
 
 export const PersonTable = (props: PeopleTableProps) => {
@@ -16,7 +16,7 @@ export const PersonTable = (props: PeopleTableProps) => {
       fields={[
         {
           label: 'Person',
-          render: (data: DetailedPerson) =>
+          render: (data: DetailedPersonDto) =>
             `${data.person.firstName} ${data.person.lastName}`,
           onClick: (row) => {
             onPersonClick(row);
@@ -24,7 +24,7 @@ export const PersonTable = (props: PeopleTableProps) => {
         },
         {
           label: 'Subdomain',
-          render: (data: DetailedPerson) => {
+          render: (data: DetailedPersonDto) => {
             if (data.team) {
               return `${data.team.subdomainName}`;
             } else {
@@ -41,7 +41,7 @@ export const PersonTable = (props: PeopleTableProps) => {
         },
         {
           label: 'Teams',
-          render: (data: DetailedPerson) => {
+          render: (data: DetailedPersonDto) => {
             if (data.team) {
               return `${data.team.teamName}`;
             } else {
@@ -58,7 +58,7 @@ export const PersonTable = (props: PeopleTableProps) => {
         },
         {
           label: 'Skills',
-          render: (data: DetailedPerson) => {
+          render: (data: DetailedPersonDto) => {
             if (data.skills.length) {
               return `${data.skills.map((s) => s.skillName).join(' | ')}`;
             } else {

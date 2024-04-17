@@ -5,24 +5,22 @@ import { valibotResolver } from '@hookform/resolvers/valibot';
 import { object, string } from 'valibot';
 import { DefaultError, useMutation } from '@tanstack/react-query';
 import { FormTextInput } from '../../components/form/FormInput';
-import {
-  CreateSubdomainData,
-  Subdomain,
-  subdomainsApi,
-} from '../../state/api/subdomains-api';
+import { subdomainsApi } from '../../state/api/subdomains-api';
 import { queryClient } from '../../state/query-client';
 import { DomainPageParams } from '../../types/DomainPageParams';
-
-type CreateSubdomainForm = {
-  subdomainName: string;
-};
+import { CreateSubdomainDto, SubdomainDto } from '@domaindocs/lib';
+import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 export const SubdomainCreatePage = () => {
   const { domainId } = useParams() as DomainPageParams;
 
   const navigate = useNavigate();
 
-  const { mutate } = useMutation<Subdomain, DefaultError, CreateSubdomainData>({
+  const { mutate } = useMutation<
+    SubdomainDto,
+    DefaultError,
+    CreateSubdomainDto
+  >({
     mutationKey: ['createSubdomain'],
     mutationFn: (data) => subdomainsApi.createSubdomain(domainId, data),
     onSuccess: async (data) => {
@@ -34,20 +32,15 @@ export const SubdomainCreatePage = () => {
     },
   });
 
-  const { handleSubmit, control } = useForm<CreateSubdomainForm>({
+  const { handleSubmit, control } = useForm<CreateSubdomainDto>({
     values: {
       subdomainName: '',
     },
-    resolver: valibotResolver(
-      object({
-        subdomainName: string([]),
-      }),
-    ),
+    resolver: classValidatorResolver(CreateSubdomainDto),
   });
 
-  const onSubmit = (data: CreateSubdomainForm) => {
+  const onSubmit = (data: CreateSubdomainDto) => {
     return mutate({
-      domainId: domainId as string,
       subdomainName: data.subdomainName,
     });
   };

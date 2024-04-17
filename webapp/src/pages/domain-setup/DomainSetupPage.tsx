@@ -1,23 +1,19 @@
 import { Button, Flex, Heading, Link } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { valibotResolver } from '@hookform/resolvers/valibot';
-import { object, string } from 'valibot';
 import { DefaultError, useMutation } from '@tanstack/react-query';
 import { useAuthStore } from '../../state/stores/auth.store';
-import {
-  Domain,
-  domainsApi,
-  SetupDomainDto,
-} from '../../state/api/domains-api';
+import { domainsApi } from '../../state/api/domains-api';
 import { FormTextInput } from '../../components/form/FormInput';
+import { DomainDto, SetupDomainDto } from '@domaindocs/lib';
+import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 export const DomainSetupPage = () => {
   const navigate = useNavigate();
 
   const setUserDomains = useAuthStore((state) => state.setUserDomains);
 
-  const { mutate } = useMutation<Domain, DefaultError, SetupDomainDto>({
+  const { mutate } = useMutation<DomainDto, DefaultError, SetupDomainDto>({
     mutationKey: ['setupDomain'],
     mutationFn: domainsApi.setupDomain,
     onSuccess: (data) => {
@@ -30,11 +26,7 @@ export const DomainSetupPage = () => {
     values: {
       domainName: '',
     },
-    resolver: valibotResolver(
-      object({
-        domainName: string(),
-      }),
-    ),
+    resolver: classValidatorResolver(SetupDomainDto),
   });
 
   const submit = (data: SetupDomainDto) => {

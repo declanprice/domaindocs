@@ -19,12 +19,13 @@ import {
   SimpleGrid,
   GridItem,
 } from '@chakra-ui/react';
-import { DetailedPerson } from '../../state/api/people-api';
+
+import { DetailedPersonDto } from '@domaindocs/lib';
 
 type PersonSideBarProps = {
   isOpen: boolean;
   onClose: () => void;
-  person: DetailedPerson | null;
+  person: DetailedPersonDto | null;
 };
 
 export const PersonSideBar = (props: PersonSideBarProps) => {
@@ -89,7 +90,7 @@ export const PersonSideBar = (props: PersonSideBarProps) => {
   );
 };
 
-const OverviewTab = (props: { person: DetailedPerson }) => {
+const OverviewTab = (props: { person: DetailedPersonDto }) => {
   const { person } = props;
 
   const contact = person.person.contact;
@@ -183,7 +184,7 @@ const OverviewTab = (props: { person: DetailedPerson }) => {
   );
 };
 
-const ProjectTab = (props: { person: DetailedPerson }) => {
+const ProjectTab = (props: { person: DetailedPersonDto }) => {
   const {} = props;
 
   return <>overview</>;

@@ -2,9 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SubdomainPageParams } from './types/SubdomainPageParams';
-import { Subdomain, subdomainsApi } from '../../state/api/subdomains-api';
+import { subdomainsApi } from '../../state/api/subdomains-api';
 import { PageToolbar } from '../../components/page/PageToolbar';
 import { SubdomainSelectMenu } from './components/SubdomainSelectMenu';
+import { SubdomainDto } from '@domaindocs/lib';
 
 export const SubdomainPageToolbar = () => {
   const { domainId, subdomainId } = useParams() as SubdomainPageParams;
@@ -15,13 +16,13 @@ export const SubdomainPageToolbar = () => {
     data: subdomains,
     isLoading,
     refetch,
-  } = useQuery<Subdomain[]>({
+  } = useQuery<SubdomainDto[]>({
     enabled: false,
     queryKey: ['searchSubdomains', { domainId }],
     queryFn: () => subdomainsApi.searchSubdomains(domainId),
   });
 
-  const [activeSubdomain, setActiveSubdomain] = useState<Subdomain | null>();
+  const [activeSubdomain, setActiveSubdomain] = useState<SubdomainDto | null>();
 
   useEffect(() => {
     refetch();

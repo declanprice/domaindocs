@@ -3,25 +3,26 @@ import { TbUsersGroup } from 'react-icons/tb';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
-import { Subdomain, subdomainsApi } from '../../state/api/subdomains-api';
-import { CreateTeamData, teamsApi } from '../../state/api/teams-api';
+import { subdomainsApi } from '../../state/api/subdomains-api';
+import { teamsApi } from '../../state/api/teams-api';
 import { queryClient } from '../../state/query-client';
 import { CreateTeamDialog } from '../../components/team/CreateTeamDialog';
 import { PageToolbar } from '../../components/page/PageToolbar';
+import { CreateTeamDto, SubdomainDto } from '@domaindocs/lib';
 
 export const TeamsPageToolbar = () => {
   const { domainId } = useParams() as DomainPageParams;
 
   const createTeamDialog = useDisclosure();
 
-  const { data: subdomains } = useQuery<Subdomain[]>({
+  const { data: subdomains } = useQuery<SubdomainDto[]>({
     queryKey: ['searchSubdomains', { domainId }],
     queryFn: () => subdomainsApi.searchSubdomains(domainId),
   });
 
   const { mutateAsync: createTeam } = useMutation({
     mutationKey: ['createTeam', { domainId }],
-    mutationFn: async (data: CreateTeamData) => {
+    mutationFn: async (data: CreateTeamDto) => {
       await teamsApi.createTeam(domainId, data);
 
       await queryClient.invalidateQueries({

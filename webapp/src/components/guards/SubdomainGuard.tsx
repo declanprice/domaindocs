@@ -1,14 +1,15 @@
 import { Navigate, Outlet, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { SubdomainPageParams } from '../../pages/subdomains/types/SubdomainPageParams';
-import { Subdomain, subdomainsApi } from '../../state/api/subdomains-api';
+import { subdomainsApi } from '../../state/api/subdomains-api';
+import { SubdomainDto } from '@domaindocs/lib';
 
 export const SubdomainGuard = () => {
   console.log('Running SubdomainGuard');
 
   const { domainId, subdomainId } = useParams() as SubdomainPageParams;
 
-  const { data: subdomains, isLoading } = useQuery<Subdomain[]>({
+  const { data: subdomains, isLoading } = useQuery<SubdomainDto[]>({
     queryKey: ['searchSubdomains', { domainId }],
     queryFn: () => subdomainsApi.searchSubdomains(domainId),
   });

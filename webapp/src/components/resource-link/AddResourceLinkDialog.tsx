@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { object, optional, string } from 'valibot';
+
 import {
   Button,
   ButtonGroup,
@@ -11,16 +11,16 @@ import {
   ModalOverlay,
   Stack,
 } from '@chakra-ui/react';
-import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useState } from 'react';
-import { AddResourceLinkData } from '../../state/api/subdomains-api';
 import { FormTextInput } from '../form/FormInput';
+import { AddSubdomainResourceLinkDto } from '@domaindocs/lib';
+import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 export type AddResourceLinkDialogProps = {
   isOpen: boolean;
   title: string;
   onClose: () => void;
-  onAddLink: (link: AddResourceLinkData) => Promise<void>;
+  onAddLink: (link: AddSubdomainResourceLinkDto) => Promise<void>;
 };
 
 export const AddResourceLinkDialog = (props: AddResourceLinkDialogProps) => {
@@ -33,21 +33,14 @@ export const AddResourceLinkDialog = (props: AddResourceLinkDialogProps) => {
     handleSubmit: submitResourceLink,
     formState: resourceLinkForm,
     reset: resetForm,
-  } = useForm<AddResourceLinkData>({
+  } = useForm<AddSubdomainResourceLinkDto>({
     values: {
       title: '',
       subTitle: '',
       href: '',
       iconUri: '',
     },
-    resolver: valibotResolver(
-      object({
-        title: string(),
-        subTitle: string(),
-        href: string(),
-        iconUri: optional(string()),
-      }),
-    ),
+    resolver: classValidatorResolver(AddSubdomainResourceLinkDto),
   });
 
   const closeAndReset = () => {
@@ -55,7 +48,7 @@ export const AddResourceLinkDialog = (props: AddResourceLinkDialogProps) => {
     onClose();
   };
 
-  const handleSubmit = async (link: AddResourceLinkData) => {
+  const handleSubmit = async (link: AddSubdomainResourceLinkDto) => {
     try {
       setIsAdding(true);
       await onAddLink(link);

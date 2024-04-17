@@ -1,9 +1,9 @@
-import { DetailedTeam } from '../../state/api/teams-api';
 import { Table } from '../table/Table';
+import { DetailedTeamDto } from '@domaindocs/lib';
 
 type TeamTableProps = {
-  teams: DetailedTeam[];
-  onTeamClick: (team: DetailedTeam) => void;
+  teams: DetailedTeamDto[];
+  onTeamClick: (team: DetailedTeamDto) => void;
 };
 
 export const TeamTable = (props: TeamTableProps) => {
@@ -15,21 +15,21 @@ export const TeamTable = (props: TeamTableProps) => {
       fields={[
         {
           label: 'Team',
-          render: (data: DetailedTeam) => `${data.team.name}`,
+          render: (data: DetailedTeamDto) => `${data.team.name}`,
           onClick: (row) => {
             onTeamClick(row);
           },
         },
         {
           label: 'Subdomain',
-          render: (data: DetailedTeam) => `${data.subdomain.subdomainName}`,
+          render: (data: DetailedTeamDto) => `${data.subdomain.subdomainName}`,
           onClick: (row) => {
             console.log('clicked row', row);
           },
         },
         {
           label: 'Members',
-          render: (data: DetailedTeam) => `${data.members.length} Members`,
+          render: (data: DetailedTeamDto) => `${data.members.length} Members`,
           onClick: (row) => {
             console.log('clicked row', row);
           },

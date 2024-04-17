@@ -2,11 +2,12 @@ import { Flex, Stack, useDisclosure } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { DetailedPerson, peopleApi } from '../../state/api/people-api';
+import { peopleApi } from '../../state/api/people-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { TableToolbar } from '../../components/table/TableToolbar';
 import { PersonTable } from '../../components/person/PersonTable';
 import { PersonSideBar } from '../../components/person/PersonSideBar';
+import { DetailedPersonDto } from '@domaindocs/lib';
 
 type PeoplePageParams = {
   domainId: string;
@@ -17,11 +18,10 @@ export const PeoplePage = () => {
 
   const personSideBar = useDisclosure();
 
-  const [selectedPerson, setSelectedPerson] = useState<DetailedPerson | null>(
-    null,
-  );
+  const [selectedPerson, setSelectedPerson] =
+    useState<DetailedPersonDto | null>(null);
 
-  const { data: people, isLoading } = useQuery<DetailedPerson[]>({
+  const { data: people, isLoading } = useQuery<DetailedPersonDto[]>({
     queryKey: ['searchPeople', { domainId }],
     queryFn: () => peopleApi.searchPeople(domainId, {}),
   });

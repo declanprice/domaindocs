@@ -3,8 +3,8 @@ import { TbUsersGroup } from 'react-icons/tb';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
-import { CreateProjectDto } from '@domaindocs/lib';
-import { DetailedTeam, teamsApi } from '../../state/api/teams-api';
+import { CreateProjectDto, DetailedTeamDto } from '@domaindocs/lib';
+import { teamsApi } from '../../state/api/teams-api';
 import { queryClient } from '../../state/query-client';
 import { projectsApi } from '../../state/api/projects-api';
 import { CreateProjectDialog } from '../../components/project/CreateProjectDialog';
@@ -16,7 +16,7 @@ export const ProjectsPageToolbar = () => {
 
   const createProjectDialog = useDisclosure();
 
-  const { data: teams } = useQuery<DetailedTeam[]>({
+  const { data: teams } = useQuery<DetailedTeamDto[]>({
     queryKey: ['searchTeams', { domainId }],
     queryFn: () => teamsApi.searchTeams(domainId),
   });

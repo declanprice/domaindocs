@@ -1,5 +1,6 @@
 import { apiClient } from './api-client';
 import { CreateTeamDto, DetailedTeamDto, SearchTeamDto } from '@domaindocs/lib';
+import { plainToInstance } from 'class-transformer';
 
 export const teamsApi = (() => {
   const searchTeams = async (
@@ -13,7 +14,7 @@ export const teamsApi = (() => {
       },
     );
 
-    return result.data;
+    return result.data.map((t) => plainToInstance(DetailedTeamDto, t));
   };
 
   const createTeam = async (

@@ -1,21 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useDisclosure } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import {
-  SubdomainContact,
-  subdomainsApi,
-} from '../../../state/api/subdomains-api';
+import { subdomainsApi } from '../../../state/api/subdomains-api';
 import { peopleApi } from '../../../state/api/people-api';
 import { queryClient } from '../../../state/query-client';
 import { SelectPeopleDialog } from '../../../components/person/SelectPeopleDialog';
 import { ContactsCard } from '../../../components/cards/contacts/ContactsCard';
+import { SubdomainContactDto } from '@domaindocs/lib';
 
 type SubdomainContacts = {
   subdomainName: string;
   subdomainId: string;
   domainId: string;
-  subdomainContacts: SubdomainContact[];
-  onAddContacts: (contacts: SubdomainContact[]) => Promise<void>;
+  subdomainContacts: SubdomainContactDto[];
+  onAddContacts: (contacts: SubdomainContactDto[]) => Promise<void>;
 };
 
 export const SubdomainContacts = (props: SubdomainContacts) => {
@@ -55,8 +53,10 @@ export const SubdomainContacts = (props: SubdomainContacts) => {
 
   const { mutateAsync: addContacts } = useMutation({
     mutationKey: ['addContacts', { domainId, subdomainId }],
-    mutationFn: async (contacts: SubdomainContact[]) => {
-      await subdomainsApi.addContacts(domainId, subdomainId, contacts);
+    mutationFn: async (contacts: SubdomainContactDto[]) => {
+      await subdomainsApi.addContacts(domainId, subdomainId, {
+        personIds: contacts.map((c) => c.personId),
+      });
       await onAddContacts(contacts);
     },
   });

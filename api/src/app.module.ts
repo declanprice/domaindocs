@@ -15,7 +15,7 @@ import { PeopleModule } from './modules/people/people.module';
       appInfo: {
         appName: 'Domaindocs',
         apiDomain: 'http://localhost:3000',
-        websiteDomain: 'http://localhost:5173',
+        websiteDomain: 'http://localhost:4200',
         apiBasePath: '/api/auth',
         websiteBasePath: '/auth',
       },

@@ -1,16 +1,16 @@
 export class UserDomainDto {
   constructor(
-    readonly domainId: string,
-    readonly name: string,
+    public domainId: string,
+    public name: string,
   ) {}
 }
 
 export class UserDto {
   constructor(
-    readonly userId: string,
-    readonly email: string,
-    readonly firstName: string,
-    readonly lastName: string,
-    readonly domains: UserDomainDto[],
+    public userId: string,
+    public email: string,
+    public firstName: string,
+    public lastName: string,
+    public domains: UserDomainDto[],
   ) {}
 }

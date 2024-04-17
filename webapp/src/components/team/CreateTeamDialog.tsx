@@ -13,22 +13,21 @@ import {
 import { useForm } from 'react-hook-form';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { minLength, object, string } from 'valibot';
-import { Subdomain } from '../../state/api/subdomains-api';
-import { CreateTeamData } from '../../state/api/teams-api';
 import { FormTextInput } from '../form/FormInput';
 import { FormSelect } from '../form/FormSelect';
+import { CreateTeamDto, SubdomainDto } from '@domaindocs/lib';
 
 export type CreateTeamDialogProps = {
   isOpen: boolean;
   onClose: () => void;
-  subdomains: Subdomain[];
-  onCreateTeam: (team: CreateTeamData) => Promise<void>;
+  subdomains: SubdomainDto[];
+  onCreateTeam: (team: CreateTeamDto) => Promise<void>;
 };
 
 export const CreateTeamDialog = (props: CreateTeamDialogProps) => {
   const { isOpen, onClose, subdomains, onCreateTeam } = props;
 
-  const form = useForm<CreateTeamData>({
+  const form = useForm<CreateTeamDto>({
     values: {
       name: '',
       subdomainId: '',
@@ -46,7 +45,7 @@ export const CreateTeamDialog = (props: CreateTeamDialogProps) => {
     onClose();
   };
 
-  const submit = async (data: CreateTeamData) => {
+  const submit = async (data: CreateTeamDto) => {
     await onCreateTeam(data);
     closeAndReset();
   };

@@ -2,14 +2,12 @@ import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Flex, Heading, Text, useToast } from '@chakra-ui/react';
 import { SubdomainPageParams } from './types/SubdomainPageParams';
-import {
-  SubdomainOverview,
-  subdomainsApi,
-} from '../../state/api/subdomains-api';
+import { subdomainsApi } from '../../state/api/subdomains-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { SummaryCard } from '../../components/cards/summary/SummaryCard';
 import { SubdomainContacts } from './components/SubdomainContacts';
 import { SubdomainResourceLinks } from './components/SubdomainResourceLinks';
+import { SubdomainOverviewDto } from '@domaindocs/lib';
 
 export const SubdomainOverviewPage = () => {
   const { domainId, subdomainId } = useParams() as SubdomainPageParams;
@@ -20,7 +18,7 @@ export const SubdomainOverviewPage = () => {
     data: overview,
     isLoading,
     refetch,
-  } = useQuery<SubdomainOverview>({
+  } = useQuery<SubdomainOverviewDto>({
     queryKey: ['subdomainOverview', { domainId, subdomainId }],
     queryFn: () => subdomainsApi.getOverviewById(domainId, subdomainId),
   });
@@ -28,7 +26,9 @@ export const SubdomainOverviewPage = () => {
   const { mutate: updateDescription } = useMutation({
     mutationKey: ['updateDescription'],
     mutationFn: async (description: string) => {
-      await subdomainsApi.updateDescription(domainId, subdomainId, description);
+      await subdomainsApi.updateDescription(domainId, subdomainId, {
+        description,
+      });
 
       await refetch();
 

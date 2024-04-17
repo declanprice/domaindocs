@@ -1,10 +1,10 @@
 export class SubdomainContactDto {
   constructor(
-    private personId: string,
-    private userId: string,
-    private firstName: string,
-    private lastName: string,
-    private iconUri?: string,
-    private roleName?: string,
+    public personId: string,
+    public userId: string,
+    public firstName: string,
+    public lastName: string,
+    public iconUri?: string,
+    public roleName?: string,
   ) {}
 }

@@ -2,15 +2,16 @@ import { Flex, Stack } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { SubdomainPageParams } from './types/SubdomainPageParams';
-import { DetailedPerson, peopleApi } from '../../state/api/people-api';
+import { peopleApi } from '../../state/api/people-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { TableToolbar } from '../../components/table/TableToolbar';
 import { PersonTable } from '../../components/person/PersonTable';
+import { DetailedPersonDto } from '@domaindocs/lib';
 
 export const SubdomainPeoplePage = () => {
   const { domainId, subdomainId } = useParams() as SubdomainPageParams;
 
-  const { data: people, isLoading } = useQuery<DetailedPerson[]>({
+  const { data: people, isLoading } = useQuery<DetailedPersonDto[]>({
     queryKey: ['subdomainPeople', { domainId, subdomainId }],
     queryFn: () => peopleApi.searchPeople(domainId, { subdomainId }),
   });

@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { Domain } from '../api/domains-api';
+import { DomainDto } from '@domaindocs/lib';
 
 type UIStoreState = {
   isFullNavBar: boolean;
-  activeDomain: Domain | null;
-  setActiveDomain: (domain: Domain) => void;
+  activeDomain: DomainDto | null;
+  setActiveDomain: (domain: DomainDto) => void;
   closeNavBar: () => void;
   openNavBar: () => void;
 };
@@ -16,7 +16,7 @@ export const useUiStore = create<UIStoreState>()(
     immer((set) => ({
       isFullNavBar: true,
       activeDomain: null,
-      setActiveDomain: (domain: Domain) => {
+      setActiveDomain: (domain: DomainDto) => {
         set((state) => {
           state.activeDomain = domain;
         });

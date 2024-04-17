@@ -8,13 +8,12 @@ import {
   Flex,
   Text,
 } from '@chakra-ui/react';
-
-import { DetailedTeam } from '../../state/api/teams-api';
+import { DetailedTeamDto } from '@domaindocs/lib';
 
 type TeamSidebar = {
   isOpen: boolean;
   onClose: () => void;
-  team: DetailedTeam | null;
+  team: DetailedTeamDto | null;
 };
 
 export const TeamSidebar = (props: TeamSidebar) => {

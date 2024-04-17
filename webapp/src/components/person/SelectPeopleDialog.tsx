@@ -20,9 +20,9 @@ import {
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
-import { Person } from '../../state/api/people-api';
 import { LoadingContainer } from '../loading/LoadingContainer';
 import { FormTextInput } from '../form/FormInput';
+import { PersonDto } from '@domaindocs/lib';
 
 export type SelectPeopleDialogProps = {
   isOpen: boolean;
@@ -30,8 +30,8 @@ export type SelectPeopleDialogProps = {
   onClose: () => void;
   onSearch: (name: string) => void;
   isSearching: boolean;
-  onSelect: (people: Person[]) => Promise<void>;
-  people?: Person[];
+  onSelect: (people: PersonDto[]) => Promise<void>;
+  people?: PersonDto[];
 };
 
 type SearchPersonForm = {
@@ -39,7 +39,7 @@ type SearchPersonForm = {
 };
 
 type SelectedPeopleForm = {
-  people: Person[];
+  people: PersonDto[];
 };
 
 export const SelectPeopleDialog = (props: SelectPeopleDialogProps) => {
@@ -107,7 +107,7 @@ export const SelectPeopleDialog = (props: SelectPeopleDialogProps) => {
     onClose();
   };
 
-  const handleClick = (person: Person) => {
+  const handleClick = (person: PersonDto) => {
     const indexOf = selectedPeople.findIndex((p) => p.userId === person.userId);
 
     if (indexOf !== -1) {

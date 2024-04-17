@@ -1,39 +1,39 @@
 export class TeamSubdomainDto {
   constructor(
-    private readonly subdomainId: string,
-    private readonly subdomainName: string,
+    public subdomainId: string,
+    public subdomainName: string,
   ) {}
 }
 
 export class TeamMemberDto {
   constructor(
-    private readonly personId: string,
-    private readonly firstName: string,
-    private readonly lastName: string,
-    private readonly iconUri?: string,
+    public personId: string,
+    public firstName: string,
+    public lastName: string,
+    public iconUri?: string,
   ) {}
 }
 
 export class TeamProjectDto {
   constructor(
-    private projectId: string,
-    private projectName: string,
+    public projectId: string,
+    public projectName: string,
   ) {}
 }
 
 export class TeamDto {
   constructor(
-    private readonly teamId: string,
-    private name: string,
-    private iconUri?: string,
+    public teamId: string,
+    public name: string,
+    public iconUri?: string,
   ) {}
 }
 
 export class DetailedTeamDto {
   constructor(
-    private team: TeamDto,
-    private subdomain: TeamSubdomainDto,
-    private members: TeamMemberDto[],
-    private projects: TeamProjectDto[],
+    public team: TeamDto,
+    public subdomain: TeamSubdomainDto,
+    public members: TeamMemberDto[],
+    public projects: TeamProjectDto[],
   ) {}
 }

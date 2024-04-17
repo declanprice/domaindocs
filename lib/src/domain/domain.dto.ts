@@ -1,4 +1,6 @@
 export class DomainDto {
-  domainId: string;
-  name: string;
+  constructor(
+    public domainId: string,
+    public name: string,
+  ) {}
 }

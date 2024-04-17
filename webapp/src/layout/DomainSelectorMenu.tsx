@@ -11,13 +11,13 @@ import {
 
 import { IoChevronDown } from 'react-icons/io5';
 
-import { Domain } from '../state/api/domains-api';
+import { DomainDto } from '@domaindocs/lib';
 
 type DomainSelectorMenuProps = {
   iconOnly: boolean;
-  value: Domain;
-  options: Domain[];
-  onSelect: (domain: Domain) => void;
+  value: DomainDto;
+  options: DomainDto[];
+  onSelect: (domain: DomainDto) => void;
 };
 
 export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {

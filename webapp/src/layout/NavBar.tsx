@@ -15,8 +15,9 @@ import { TbUsersGroup } from 'react-icons/tb';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '../state/stores/auth.store';
 import { useUiStore } from '../state/stores/ui.store';
-import { Subdomain, subdomainsApi } from '../state/api/subdomains-api';
+import { subdomainsApi } from '../state/api/subdomains-api';
 import { DomainSelectorMenu } from './DomainSelectorMenu';
+import { SubdomainDto } from '@domaindocs/lib';
 
 const NavListItem = (props: {
   icon: any;
@@ -62,7 +63,7 @@ export const NavBar = () => {
   const domains = useAuthStore((state) => state.user?.domains);
   const { activeDomain, setActiveDomain } = useUiStore();
 
-  const { data: subdomains } = useQuery<Subdomain[]>({
+  const { data: subdomains } = useQuery<SubdomainDto[]>({
     queryKey: ['searchSubdomains', { domainId }],
     queryFn: () => subdomainsApi.searchSubdomains(domainId),
   });
