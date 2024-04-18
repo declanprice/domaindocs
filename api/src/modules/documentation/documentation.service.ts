@@ -1,11 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { UserSession } from '../../auth/auth-session';
-import {
-  Documentation,
-  DocumentationType,
-  ProjectDocumentation,
-} from '@domaindocs/lib';
+import { ProjectDocumentation } from '@domaindocs/lib';
 
 @Injectable()
 export class DocumentationService {
@@ -35,7 +31,7 @@ export class DocumentationService {
     );
   }
 
-  async getRelevantToMe(session: UserSession) {
+  async getRelevantToMe(session: UserSession, domainId: string) {
     const result = await this.prisma.projectDocumentation.findMany({
       where: {
         project: {
@@ -63,5 +59,28 @@ export class DocumentationService {
           JSON.parse(documentation.documentation as any),
         ),
     );
+  }
+
+  async getProjectDocumentation(
+    session: UserSession,
+    domainId: string,
+    projectId: string,
+  ) {
+    const result = await this.prisma.projectDocumentation.findUniqueOrThrow({
+      where: {
+        projectId,
+      },
+      include: {
+        project: true,
+      },
+    });
+
+    return [
+      new ProjectDocumentation(
+        result.projectId,
+        result.project.name,
+        JSON.parse(result.documentation as any),
+      ),
+    ];
   }
 }
