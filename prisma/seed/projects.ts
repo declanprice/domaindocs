@@ -13,7 +13,7 @@ export const deedSearchUi = (): Project => {
   };
 };
 
-export const deedSearchApi = () => {
+export const deedSearchApi = (): Project => {
   return {
     projectId: 'deedsearchapi',
     teamId: teamOrion().teamId,
@@ -24,7 +24,7 @@ export const deedSearchApi = () => {
   };
 };
 
-export const lrArchiveUi = () => {
+export const lrArchiveUi = (): Project => {
   return {
     projectId: 'lrarchiveui',
     teamId: teamKeplar().teamId,
@@ -35,7 +35,7 @@ export const lrArchiveUi = () => {
   };
 };
 
-export const lrArchiveApi = () => {
+export const lrArchiveApi = (): Project => {
   return {
     projectId: 'lrarchiveapi',
     teamId: teamKeplar().teamId,

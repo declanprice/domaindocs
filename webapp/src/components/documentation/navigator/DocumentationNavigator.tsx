@@ -1,9 +1,9 @@
-import { Documentation } from '@domaindocs/lib';
-import { Divider, Flex, List } from '@chakra-ui/react';
+import { Documentation, ProjectDocumentation } from '@domaindocs/lib';
+import { Flex, List } from '@chakra-ui/react';
 import { DocumentationFolder } from './DocumentationFolder';
 
 type DocumentationNavigatorProps = {
-  documentation: Documentation[];
+  documentation: ProjectDocumentation[];
   onDocumentClick: (documentation: Documentation) => any;
 };
 
@@ -21,7 +21,11 @@ export const DocumentationNavigator = (props: DocumentationNavigatorProps) => {
     >
       <List width={'100%'} height={'100%'}>
         {documentation.map((doc) => (
-          <DocumentationFolder documentation={doc} />
+          <DocumentationFolder
+            folderName={doc.projectName}
+            folderSubtitle={'Project'}
+            folderItems={doc.documentation}
+          />
         ))}
       </List>
     </Flex>

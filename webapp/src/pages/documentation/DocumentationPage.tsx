@@ -3,10 +3,20 @@ import { DocumentationToolbar } from './DocumentationPageToolbar';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { DocumentationNavigator } from '../../components/documentation/navigator/DocumentationNavigator';
-import { DocumentationCategory, DocumentationType } from '@domaindocs/lib';
+import { Documentation, ProjectDocumentation } from '@domaindocs/lib';
+import { useQuery } from '@tanstack/react-query';
+import { documentationApi } from '../../state/api/documentation-api';
+import { LoadingContainer } from '../../components/loading/LoadingContainer';
 
 export const DocumentationPage = () => {
   const { domainId } = useParams() as DomainPageParams;
+
+  const { data, isLoading } = useQuery<ProjectDocumentation[]>({
+    queryKey: ['searchDocumentation', { domainId }],
+    queryFn: () => documentationApi.search(domainId, {}),
+  });
+
+  if (!data || isLoading) return <LoadingContainer />;
 
   return (
     <Flex direction="column" width={'100%'}>
@@ -14,67 +24,7 @@ export const DocumentationPage = () => {
 
       <Flex height={'100%'} width={'100%'} direction={'column'}>
         <DocumentationNavigator
-          documentation={[
-            {
-              documentationId: '1',
-              name: 'Deed Search UI',
-              type: DocumentationType.FILE,
-              category: DocumentationCategory.PROJECT,
-              isFolder: true,
-              documentation: [
-                {
-                  documentationId: '2',
-                  name: 'Project Plan',
-                  type: DocumentationType.FILE,
-                  category: null,
-                  isFolder: false,
-                  documentation: [],
-                },
-                {
-                  documentationId: '3',
-                  name: 'Logo',
-                  type: DocumentationType.FILE,
-                  category: null,
-                  isFolder: true,
-                  documentation: [
-                    {
-                      documentationId: '4',
-                      name: 'Nested Logo',
-                      type: DocumentationType.FILE,
-                      category: null,
-                      isFolder: false,
-                      documentation: [],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              documentationId: '2',
-              name: 'Deed Search API',
-              type: DocumentationType.FILE,
-              isFolder: true,
-              category: DocumentationCategory.PROJECT,
-              documentation: [
-                {
-                  documentationId: '5',
-                  name: 'Project Plan',
-                  type: DocumentationType.FILE,
-                  category: null,
-                  isFolder: false,
-                  documentation: [],
-                },
-                {
-                  documentationId: '6',
-                  name: 'Logo',
-                  type: DocumentationType.FILE,
-                  category: null,
-                  isFolder: false,
-                  documentation: [],
-                },
-              ],
-            },
-          ]}
+          documentation={data}
           onDocumentClick={() => {}}
         />
 

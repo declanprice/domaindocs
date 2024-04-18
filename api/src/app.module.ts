@@ -7,6 +7,7 @@ import { SubdomainsModule } from './modules/subdomains/subdomains.module';
 import { TeamsModule } from './modules/teams/teams.module';
 import { ProjectsModule } from './modules/projects/projects.module';
 import { PeopleModule } from './modules/people/people.module';
+import { DocumentationModule } from './modules/documentation/documentation.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { PeopleModule } from './modules/people/people.module';
     SubdomainsModule,
     TeamsModule,
     ProjectsModule,
+    DocumentationModule,
   ],
   controllers: [],
   providers: [],

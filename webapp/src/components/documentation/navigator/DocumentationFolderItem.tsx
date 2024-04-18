@@ -1,4 +1,3 @@
-import { Documentation } from '@domaindocs/lib';
 import {
   Badge,
   Box,
@@ -9,17 +8,17 @@ import {
 } from '@chakra-ui/react';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { useHover } from '@uidotdev/usehooks';
-import { Ref } from 'react';
 
 export type DocumentationFolderItemProps = {
-  documentation: Documentation;
+  itemName: string;
+
   parentFolderRef?: any;
 } & StyleProps;
 
 export const DocumentationFolderItem = (
   props: DocumentationFolderItemProps,
 ) => {
-  const { documentation } = props;
+  const { itemName } = props;
 
   const [ref, hovering] = useHover();
 
@@ -40,7 +39,7 @@ export const DocumentationFolderItem = (
       </Box>
 
       <Flex width="100%" alignItems="center">
-        <Text fontSize={12}>{documentation.name}</Text>
+        <Text fontSize={12}>{itemName}</Text>
 
         <Flex position={'absolute'} right={0} mr={2} gap={1} hidden={!hovering}>
           <IconButton

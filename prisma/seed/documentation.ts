@@ -1,38 +1,31 @@
-import { Documentation } from '@prisma/client';
+import { Documentation, DocumentationType } from '../../lib/src';
 
-export const logoItem = (): Documentation => {
-  return {
-    documentationId: '1',
-    name: 'Logo',
-    isFolder: false,
-    folderPosition: 1,
-  };
-};
-
-export const projectPlanItem = (): Documentation => {
-  return {
-    documentationId: '2',
-    name: 'Project Plan',
-    isFolder: false,
-    folderPosition: 2,
-  };
-};
-
-export const siteMapsFolder = (): Documentation => {
-  return {
-    documentationId: '3',
-    name: 'Site Maps',
-    isFolder: true,
-    position: 3,
-  };
-};
-
-export const siteMapItem = (): Documentation => {
-  return {
-    documentationId: '3',
-    name: 'Item 1',
-    isFolder: true,
-    folderId: '3',
-    position: 1,
-  };
+export const documentation = (): Documentation[] => {
+  return [
+    {
+      documentationId: '1',
+      name: 'Logo',
+      type: DocumentationType.FILE,
+      documentation: null,
+    },
+    {
+      documentationId: '2',
+      name: 'Project Plan',
+      type: DocumentationType.FILE,
+      documentation: null,
+    },
+    {
+      documentationId: '3',
+      name: 'Site Maps',
+      type: DocumentationType.FOLDER,
+      documentation: [
+        {
+          documentationId: '4',
+          name: 'Site Map Item',
+          type: DocumentationType.FILE,
+          documentation: null,
+        },
+      ],
+    },
+  ];
 };

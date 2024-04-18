@@ -1,4 +1,4 @@
-import { Documentation } from '@domaindocs/lib';
+import { Documentation, DocumentationType } from '@domaindocs/lib';
 import {
   Box,
   Flex,
@@ -11,12 +11,14 @@ import {
 import { IoFolderOutline } from 'react-icons/io5';
 import { IoMdAdd } from 'react-icons/io';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
-import { DocumentationFolderItem } from './DocumentationFolderItem';
 import { useHover } from '@uidotdev/usehooks';
 import { useRef, useState } from 'react';
+import { DocumentationFolderItem } from './DocumentationFolderItem';
 
 export type DocumentationFolderProps = {
-  documentation: Documentation;
+  folderName: string;
+  folderSubtitle?: string;
+  folderItems: Documentation[] | null;
   parentFolderRef?: any;
 } & StyleProps;
 
@@ -27,7 +29,7 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
 
   const [ref, hovering] = useHover();
 
-  const { documentation } = props;
+  const { folderName, folderSubtitle, folderItems } = props;
 
   return (
     <Flex direction="column" {...props}>
@@ -54,11 +56,9 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
         </Box>
 
         <Flex width="100%" direction={'column'}>
-          <Text fontSize={12}>{documentation.name}</Text>
+          <Text fontSize={12}>{folderName}</Text>
 
-          {documentation.category && (
-            <Text fontSize={10}>{documentation.category}</Text>
-          )}
+          {folderSubtitle && <Text fontSize={10}>{folderSubtitle}</Text>}
         </Flex>
 
         <Flex position={'absolute'} right={0} mr={2} gap={1} hidden={!hovering}>
@@ -80,22 +80,23 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
 
       {isFolderOpen && (
         <List width={'100%'} height={'100%'}>
-          {documentation.documentation.map((doc) => {
-            if (doc.isFolder) {
+          {folderItems?.map((item) => {
+            if (item.type === DocumentationType.FOLDER) {
               return (
                 <DocumentationFolder
+                  folderName={item.name}
                   parentFolderRef={folderRef}
-                  documentation={doc}
+                  folderItems={item.documentation}
+                />
+              );
+            } else {
+              return (
+                <DocumentationFolderItem
+                  itemName={item.name}
+                  parentFolderRef={folderRef}
                 />
               );
             }
-
-            return (
-              <DocumentationFolderItem
-                parentFolderRef={folderRef}
-                documentation={doc}
-              />
-            );
           })}
         </List>
       )}
