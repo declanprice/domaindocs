@@ -8,7 +8,7 @@ export const documentationApi = (() => {
     params: SearchDocumentation,
   ): Promise<ProjectDocumentation[]> => {
     const result = await apiClient.get<ProjectDocumentation[]>(
-      '/documentation',
+      `/domains/${domainId}/documentation`,
       {
         params,
       },
