@@ -50,53 +50,53 @@ export class PeopleService {
       .leftJoin(subdomain, eq(subdomain.subdomainId, team.subdomainId))
       .where(and(...whereClauses));
 
-    const dtoMap = new Map<string, DetailedPersonDto>();
+    const dtos = result.reduce<Map<string, DetailedPersonDto>>((acc, row) => {
+      let dto: DetailedPersonDto = acc.get(row.person.personId);
 
-    for (const person of result) {
-      const personId = person.person.personId;
-
-      let dto =
-        dtoMap.get(personId) ||
-        new DetailedPersonDto(
+      if (!dto) {
+        dto = new DetailedPersonDto(
           new PersonDto(
-            person.person.personId,
-            person.user.userId,
-            person.user.firstName,
-            person.user.lastName,
+            row.person.personId,
+            row.user.userId,
+            row.user.firstName,
+            row.user.lastName,
             {
-              contactEmail: person.person.contactEmail,
-              contactMobile: person.person.contactMobile,
-              personalContactMobile: person.person.personalContactMobile,
-              personalContactEmail: person.person.personalContactEmail,
+              contactEmail: row.person.contactEmail,
+              contactMobile: row.person.contactMobile,
+              personalContactMobile: row.person.personalContactMobile,
+              personalContactEmail: row.person.personalContactEmail,
             },
-            person.user.iconUri,
-            person.team_member.role,
+            row.user.iconUri,
+            row.team_member.role,
           ),
           [],
           undefined,
         );
 
-      if (person.team) {
+        acc.set(row.person.personId, dto);
+      }
+
+      if (row.team) {
         dto.team = new PersonTeamDto(
-          person.team.teamId,
-          person.team.name,
-          person.subdomain.name,
+          row.team.teamId,
+          row.team.name,
+          row.subdomain.name,
         );
       }
 
-      if (person.skill) {
+      if (row.skill) {
         dto.skills.push(
           new PersonSkillDto(
-            person.skill.skillId,
-            person.skill.name,
-            person.skill.description,
+            row.skill.skillId,
+            row.skill.name,
+            row.skill.description,
           ),
         );
       }
 
-      dtoMap.set(personId, dto);
-    }
+      return acc;
+    }, new Map<string, DetailedPersonDto>());
 
-    return Array.from(dtoMap.values());
+    return Array.from(dtos.values());
   }
 }
