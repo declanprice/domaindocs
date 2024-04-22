@@ -1,6 +1,4 @@
-import { Domain } from '@prisma/client';
-
-export const ros = (): Domain => {
+export const ros = () => {
   return {
     domainId: 'registersofscotland',
     name: 'Registers Of Scotland',

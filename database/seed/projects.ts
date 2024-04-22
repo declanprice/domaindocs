@@ -1,8 +1,7 @@
-import { Project } from '@prisma/client';
 import { ros } from './domain';
 import { teamKeplar, teamOrion } from './teams';
 
-export const deedSearchUi = (): Project => {
+export const deedSearchUi = () => {
   return {
     projectId: 'deedsearchui',
     teamId: teamOrion().teamId,
@@ -10,10 +9,11 @@ export const deedSearchUi = (): Project => {
     name: 'Deed Search UI',
     iconUri: null,
     description: '',
+    documentationId: 'deedsearchui',
   };
 };
 
-export const deedSearchApi = (): Project => {
+export const deedSearchApi = () => {
   return {
     projectId: 'deedsearchapi',
     teamId: teamOrion().teamId,
@@ -24,7 +24,7 @@ export const deedSearchApi = (): Project => {
   };
 };
 
-export const lrArchiveUi = (): Project => {
+export const lrArchiveUi = () => {
   return {
     projectId: 'lrarchiveui',
     teamId: teamKeplar().teamId,
@@ -35,7 +35,7 @@ export const lrArchiveUi = (): Project => {
   };
 };
 
-export const lrArchiveApi = (): Project => {
+export const lrArchiveApi = () => {
   return {
     projectId: 'lrarchiveapi',
     teamId: teamKeplar().teamId,

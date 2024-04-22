@@ -1,7 +1,6 @@
-import { Technology } from '@prisma/client';
 import { ros } from './domain';
 
-export const reactTech = (): Technology => {
+export const reactTech = () => {
   return {
     technologyId: 'react',
     name: 'React',
@@ -9,7 +8,7 @@ export const reactTech = (): Technology => {
   };
 };
 
-export const angularTech = (): Technology => {
+export const angularTech = () => {
   return {
     technologyId: 'angular',
     name: 'Angular',
@@ -17,7 +16,7 @@ export const angularTech = (): Technology => {
   };
 };
 
-export const nestJsTech = (): Technology => {
+export const nestJsTech = () => {
   return {
     technologyId: 'nestjs',
     name: 'Nest JS',

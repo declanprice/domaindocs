@@ -1,7 +1,6 @@
-import { Subdomain } from '@prisma/client';
 import { ros } from './domain';
 
-export const supporting = (): Subdomain => {
+export const supporting = () => {
   return {
     domainId: ros().domainId,
     name: 'Supporting',
@@ -11,7 +10,7 @@ export const supporting = (): Subdomain => {
   };
 };
 
-export const finance = (): Subdomain => {
+export const finance = () => {
   return {
     domainId: ros().domainId,
     name: 'Finance',

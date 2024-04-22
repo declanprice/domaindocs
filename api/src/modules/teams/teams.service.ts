@@ -1,5 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../shared/services/prisma.service';
+import { Inject, Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import { v4 } from 'uuid';
 import {
@@ -11,26 +10,28 @@ import {
   TeamMemberDto,
   TeamProjectDto,
 } from '@domaindocs/lib';
+import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import * as schema from '@domaindocs/database';
+import { team } from '@domaindocs/database';
+import { eq } from 'drizzle-orm';
 
 @Injectable()
 export class TeamsService {
-  constructor(readonly prisma: PrismaService) {}
+  constructor(@Inject('DB') private db: PostgresJsDatabase<typeof schema>) {}
 
   async searchByDomain(
     session: UserSession,
     domainId: string,
     dto: SearchTeamDto,
   ): Promise<DetailedTeamDto[]> {
-    const result = await this.prisma.team.findMany({
-      where: {
-        domainId,
-      },
-      include: {
+    const result = await this.db.query.team.findMany({
+      where: eq(team.domainId, domainId),
+      with: {
         subdomain: true,
         members: {
-          include: {
+          with: {
             person: {
-              include: {
+              with: {
                 user: true,
               },
             },
@@ -60,13 +61,11 @@ export class TeamsService {
   }
 
   async createTeam(session: UserSession, domainId: string, dto: CreateTeamDto) {
-    await this.prisma.team.create({
-      data: {
-        teamId: v4(),
-        subdomainId: dto.subdomainId,
-        domainId,
-        name: dto.name,
-      },
+    await this.db.insert(team).values({
+      teamId: v4(),
+      subdomainId: dto.subdomainId,
+      domainId,
+      name: dto.name,
     });
   }
 }

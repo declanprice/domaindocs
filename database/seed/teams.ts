@@ -1,8 +1,7 @@
-import { Team } from '@prisma/client';
 import { ros } from './domain';
 import { finance, supporting } from './subdomains';
 
-export const teamOrion = (): Team => {
+export const teamOrion = () => {
   return {
     teamId: 'orion',
     subdomainId: supporting().subdomainId,
@@ -12,7 +11,7 @@ export const teamOrion = (): Team => {
   };
 };
 
-export const teamKeplar = (): Team => {
+export const teamKeplar = () => {
   return {
     teamId: 'keplar',
     subdomainId: finance().subdomainId,

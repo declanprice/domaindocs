@@ -17,17 +17,13 @@ export class PeopleController {
   constructor(readonly peopleService: PeopleService) {}
 
   @Get('')
-  async searchUsers(
+  async searchPeople(
     @AuthSession() session: UserSession,
     @Param('domainId') domainId: string,
-    @Query() dto: SearchPeopleDto
+    @Query() dto: SearchPeopleDto,
   ): Promise<DetailedPersonDto[]> {
     if (!domainId) {
       throw new BadRequestException('missing params (domainId)');
-    }
-
-    if (dto.subdomainId) {
-      return this.peopleService.searchPeopleBySubdomain(session, domainId, dto);
     }
 
     return this.peopleService.searchPeople(session, domainId, dto);

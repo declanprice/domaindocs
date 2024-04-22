@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../shared/services/prisma.service';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import {
   AddProjectContacts,
   CreateProject,
   DetailedProject,
+  DocumentationType,
   Project,
   ProjectContact,
   ProjectOverview,
@@ -20,28 +20,35 @@ import {
 import { v4 } from 'uuid';
 import { createSlug } from '../../util/create-slug';
 import { AddProjectResourceLink } from '../../../../lib/src/project/add-project-resource-link';
+import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import * as schema from '@domaindocs/database';
+import { eq } from 'drizzle-orm';
+import {
+  documentation,
+  project,
+  projectContact,
+  projectResourceLink,
+} from '@domaindocs/database';
 
 @Injectable()
 export class ProjectsService {
-  constructor(readonly prisma: PrismaService) {}
+  constructor(@Inject('DB') private db: PostgresJsDatabase<typeof schema>) {}
 
   async searchProjects(
     session: UserSession,
     domainId: string,
     dto: SearchProjects,
   ): Promise<DetailedProject[]> {
-    const result = await this.prisma.project.findMany({
-      where: {
-        domainId,
-      },
-      include: {
+    const result = await this.db.query.project.findMany({
+      where: eq(project.domainId, domainId),
+      with: {
         team: {
-          include: {
+          with: {
             subdomain: true,
           },
         },
         technologies: {
-          include: {
+          with: {
             technology: true,
           },
         },
@@ -73,22 +80,20 @@ export class ProjectsService {
     domainId: string,
     projectId: string,
   ): Promise<ProjectOverview> {
-    const result = await this.prisma.project.findUniqueOrThrow({
-      where: {
-        projectId,
-      },
-      include: {
+    const result = await this.db.query.project.findFirst({
+      where: eq(project.projectId, projectId),
+      with: {
         team: true,
         resourceLinks: true,
         technologies: {
-          include: {
+          with: {
             technology: true,
           },
         },
         contacts: {
-          include: {
+          with: {
             person: {
-              include: {
+              with: {
                 teamMember: true,
                 user: true,
               },
@@ -97,6 +102,8 @@ export class ProjectsService {
         },
       },
     });
+
+    if (!result) throw new NotFoundException();
 
     return new ProjectOverview(
       new ProjectSummary(
@@ -141,13 +148,24 @@ export class ProjectsService {
     domainId: string,
     dto: CreateProject,
   ): Promise<void> {
-    await this.prisma.project.create({
-      data: {
-        projectId: createSlug(dto.name),
+    await this.db.transaction(async (tx) => {
+      const documentationId = v4();
+      const projectId = createSlug(dto.name);
+
+      await tx.insert(documentation).values({
+        documentationId,
+        name: dto.name,
+        domainId,
+        type: DocumentationType.FOLDER,
+        projectId,
+      });
+
+      await tx.insert(project).values({
+        projectId,
         domainId,
         teamId: dto.teamId,
         name: dto.name,
-      },
+      });
     });
   }
 
@@ -157,14 +175,12 @@ export class ProjectsService {
     projectId: string,
     dto: UpdateProjectDescription,
   ) {
-    await this.prisma.project.update({
-      where: {
-        projectId,
-      },
-      data: {
+    await this.db
+      .update(project)
+      .set({
         description: dto.description,
-      },
-    });
+      })
+      .where(eq(project.projectId, projectId));
   }
 
   async addContacts(
@@ -173,13 +189,13 @@ export class ProjectsService {
     projectId: string,
     dto: AddProjectContacts,
   ) {
-    await this.prisma.projectContact.createMany({
-      data: dto.personIds.map((personId) => ({
+    await this.db.insert(projectContact).values(
+      dto.personIds.map((personId) => ({
         contactId: v4(),
         projectId,
         personId,
       })),
-    });
+    );
   }
 
   async addResourceLink(
@@ -188,15 +204,13 @@ export class ProjectsService {
     projectId: string,
     dto: AddProjectResourceLink,
   ) {
-    await this.prisma.projectResourceLink.create({
-      data: {
-        linkId: v4(),
-        projectId,
-        title: dto.title,
-        subTitle: dto.subTitle,
-        href: dto.href,
-        iconUri: dto.iconUri,
-      },
+    await this.db.insert(projectResourceLink).values({
+      linkId: v4(),
+      projectId,
+      title: dto.title,
+      subTitle: dto.subTitle,
+      href: dto.href,
+      iconUri: dto.iconUri,
     });
   }
 }

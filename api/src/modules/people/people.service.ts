@@ -1,5 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../shared/services/prisma.service';
+import { Inject, Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import {
   DetailedPersonDto,
@@ -8,143 +7,96 @@ import {
   PersonTeamDto,
   SearchPeopleDto,
 } from '@domaindocs/lib';
+import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import * as schema from '@domaindocs/database';
+import { and, eq, ilike } from 'drizzle-orm';
+import {
+  person,
+  personSkill,
+  skill,
+  subdomain,
+  team,
+  teamMember,
+  user,
+} from '@domaindocs/database';
 
 @Injectable()
 export class PeopleService {
-  constructor(readonly prisma: PrismaService) {}
+  constructor(@Inject('DB') private db: PostgresJsDatabase<typeof schema>) {}
 
   async searchPeople(
     session: UserSession,
     domainId: string,
-    dto: SearchPeopleDto
+    dto: SearchPeopleDto,
   ): Promise<DetailedPersonDto[]> {
-    const result = await this.prisma.person.findMany({
-      where: {
-        domainId,
-        user: {
-          fullName: {
-            contains: dto.name,
-          },
-        },
-      },
-      include: {
-        skills: {
-          include: {
-            skill: true,
-          },
-        },
-        teamMember: {
-          include: {
-            team: {
-              include: {
-                subdomain: true,
-              },
-            },
-          },
-        },
-        user: true,
-      },
-    });
+    const whereClauses = [eq(person.domainId, domainId)];
 
-    return result.map(
-      (person) =>
+    if (dto.name) {
+      whereClauses.push(ilike(user.fullName, `%${dto.name}%`));
+    }
+
+    if (dto.subdomainId) {
+      whereClauses.push(eq(team.subdomainId, dto.subdomainId));
+    }
+
+    const result = await this.db
+      .select()
+      .from(person)
+      .leftJoin(user, eq(user.userId, person.userId))
+      .leftJoin(personSkill, eq(personSkill.personId, person.personId))
+      .leftJoin(skill, eq(skill.skillId, personSkill.skillId))
+      .leftJoin(teamMember, eq(teamMember.personId, person.personId))
+      .leftJoin(team, eq(team.teamId, teamMember.teamId))
+      .leftJoin(subdomain, eq(subdomain.subdomainId, team.subdomainId))
+      .where(and(...whereClauses));
+
+    const dtoMap = new Map<string, DetailedPersonDto>();
+
+    for (const person of result) {
+      const personId = person.person.personId;
+
+      let dto =
+        dtoMap.get(personId) ||
         new DetailedPersonDto(
           new PersonDto(
-            person.personId,
-            person.userId,
+            person.person.personId,
+            person.user.userId,
             person.user.firstName,
             person.user.lastName,
             {
-              personalContactEmail: person.personalContactEmail,
-              personalContactMobile: person.personalContactEmail,
-              contactMobile: person.contactMobile,
-              contactEmail: person.contactEmail,
+              contactEmail: person.person.contactEmail,
+              contactMobile: person.person.contactMobile,
+              personalContactMobile: person.person.personalContactMobile,
+              personalContactEmail: person.person.personalContactEmail,
             },
             person.user.iconUri,
-            person.teamMember?.role
+            person.team_member.role,
           ),
-          person.skills.map(
-            (s) =>
-              new PersonSkillDto(s.skillId, s.skill.name, s.skill.description)
-          ),
-          person.teamMember
-            ? new PersonTeamDto(
-                person.teamMember.teamId,
-                person.teamMember.team.name,
-                person.teamMember.team.subdomain.name
-              )
-            : null
-        )
-    );
-  }
+          [],
+          undefined,
+        );
 
-  async searchPeopleBySubdomain(
-    session: UserSession,
-    domainId: string,
-    dto: SearchPeopleDto
-  ): Promise<DetailedPersonDto[]> {
-    const result = await this.prisma.person.findMany({
-      where: {
-        domainId,
-        teamMember: {
-          team: {
-            subdomainId: dto.subdomainId,
-          },
-        },
-        user: {
-          fullName: {
-            contains: dto.name,
-          },
-        },
-      },
-      include: {
-        skills: {
-          include: {
-            skill: true,
-          },
-        },
-        teamMember: {
-          include: {
-            team: {
-              include: {
-                subdomain: true,
-              },
-            },
-          },
-        },
-        user: true,
-      },
-    });
+      if (person.team) {
+        dto.team = new PersonTeamDto(
+          person.team.teamId,
+          person.team.name,
+          person.subdomain.name,
+        );
+      }
 
-    return result.map(
-      (person) =>
-        new DetailedPersonDto(
-          new PersonDto(
-            person.personId,
-            person.userId,
-            person.user.firstName,
-            person.user.lastName,
-            {
-              personalContactEmail: person.personalContactEmail,
-              personalContactMobile: person.personalContactEmail,
-              contactMobile: person.contactMobile,
-              contactEmail: person.contactEmail,
-            },
-            person.user.iconUri,
-            person.teamMember?.role
+      if (person.skill) {
+        dto.skills.push(
+          new PersonSkillDto(
+            person.skill.skillId,
+            person.skill.name,
+            person.skill.description,
           ),
-          person.skills.map(
-            (s) =>
-              new PersonSkillDto(s.skillId, s.skill.name, s.skill.description)
-          ),
-          person.teamMember
-            ? new PersonTeamDto(
-                person.teamMember.teamId,
-                person.teamMember.team.name,
-                person.teamMember.team.subdomain.name
-              )
-            : null
-        )
-    );
+        );
+      }
+
+      dtoMap.set(personId, dto);
+    }
+
+    return Array.from(dtoMap.values());
   }
 }

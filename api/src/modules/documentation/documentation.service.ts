@@ -1,86 +1,79 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../shared/services/prisma.service';
+import { Inject, Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
-import { ProjectDocumentation } from '@domaindocs/lib';
+import { Documentation, DocumentationType } from '@domaindocs/lib';
+import { AddDocumentation } from '../../../../lib/src/documentation/add-documentation';
+import { v4 } from 'uuid';
+import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import * as schema from '@domaindocs/database';
+import { documentation } from '@domaindocs/database';
+import { eq, isNotNull } from 'drizzle-orm';
 
 @Injectable()
 export class DocumentationService {
-  constructor(readonly prisma: PrismaService) {}
+  constructor(@Inject('DB') private db: PostgresJsDatabase<typeof schema>) {}
 
   async search(session: UserSession, domainId: string) {
-    const result = await this.prisma.projectDocumentation.findMany({
-      where: {
-        project: {
-          domain: {
-            domainId,
+    const result = await this.db.query.documentation.findMany({
+      where: isNotNull(documentation.projectId),
+      with: {
+        project: true,
+        children: {
+          with: {
+            children: true,
           },
         },
-      },
-      include: {
-        project: true,
       },
     });
 
     return result.map(
-      (documentation) =>
-        new ProjectDocumentation(
-          documentation.projectId,
-          documentation.project.name,
-          JSON.parse(documentation.documentation as any),
+      (d) =>
+        new Documentation(
+          d.documentationId,
+          d.project.name,
+          d.type as DocumentationType,
+          d.children.map(
+            (d1) =>
+              new Documentation(
+                d1.documentationId,
+                d1.name,
+                d1.type as DocumentationType,
+                d1.children.map(
+                  (d2) =>
+                    new Documentation(
+                      d2.documentationId,
+                      d2.name,
+                      d2.type as DocumentationType,
+                      null,
+                    ),
+                ),
+              ),
+          ),
         ),
     );
   }
 
-  async getRelevantToMe(session: UserSession, domainId: string) {
-    const result = await this.prisma.projectDocumentation.findMany({
-      where: {
-        project: {
-          team: {
-            members: {
-              some: {
-                person: {
-                  userId: session.userId,
-                },
-              },
-            },
-          },
-        },
-      },
-      include: {
-        project: true,
-      },
-    });
-
-    return result.map(
-      (documentation) =>
-        new ProjectDocumentation(
-          documentation.projectId,
-          documentation.project.name,
-          JSON.parse(documentation.documentation as any),
-        ),
-    );
-  }
-
-  async getProjectDocumentation(
+  async add(
     session: UserSession,
     domainId: string,
-    projectId: string,
+    documentationId: string,
+    dto: AddDocumentation,
   ) {
-    const result = await this.prisma.projectDocumentation.findUniqueOrThrow({
-      where: {
-        projectId,
-      },
-      include: {
-        project: true,
-      },
+    await this.db.insert(documentation).values({
+      documentationId: v4(),
+      domainId,
+      name: `New ${dto.type}`,
+      parentId: documentationId,
+      type: dto.type,
     });
+  }
 
-    return [
-      new ProjectDocumentation(
-        result.projectId,
-        result.project.name,
-        JSON.parse(result.documentation as any),
-      ),
-    ];
+  async remove(
+    session: UserSession,
+    domainId: string,
+    documentationId: string,
+  ) {
+    await this.db
+      .delete(documentation)
+      .where(eq(documentation.documentationId, documentationId));
   }
 }

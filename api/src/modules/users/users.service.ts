@@ -1,24 +1,24 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../shared/services/prisma.service';
+import { Inject, Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import { AuthService } from '../../auth/auth.service';
 import { UserDto, SetupUserDto, UserDomainDto } from '@domaindocs/lib';
+import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import * as schema from '@domaindocs/database';
+import { eq } from 'drizzle-orm';
 
 @Injectable()
 export class UsersService {
   constructor(
     readonly authService: AuthService,
-    readonly prisma: PrismaService,
+    @Inject('DB') private db: PostgresJsDatabase<typeof schema>,
   ) {}
 
   async getAuthUser(session: UserSession) {
-    const result = await this.prisma.user.findUnique({
-      where: {
-        userId: session.userId,
-      },
-      include: {
+    const result = await this.db.query.user.findFirst({
+      where: eq(schema.user.userId, session.userId),
+      with: {
         people: {
-          include: {
+          with: {
             domain: true,
           },
         },
@@ -41,31 +41,25 @@ export class UsersService {
   async setupUser(session: UserSession, dto: SetupUserDto) {
     const authUser = await this.authService.getUser(session.userId);
 
-    const result = await this.prisma.user.create({
-      data: {
+    const result = await this.db
+      .insert(schema.user)
+      .values({
         userId: session.userId,
         email: authUser.emails[0],
         firstName: dto.firstName,
         lastName: dto.lastName,
         fullName: `${dto.firstName} ${dto.lastName}`,
-      },
-      include: {
-        people: {
-          include: {
-            domain: true,
-          },
-        },
-      },
-    });
+      })
+      .returning();
+
+    const user = result[0];
 
     return new UserDto(
-      result.userId,
-      result.email,
-      result.firstName,
-      result.lastName,
-      result.people.map(
-        (u) => new UserDomainDto(u.domain.domainId, u.domain.name),
-      ),
+      user.userId,
+      user.email,
+      user.firstName,
+      user.lastName,
+      [],
     );
   }
 }

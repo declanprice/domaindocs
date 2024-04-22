@@ -1,6 +1,7 @@
 export enum DocumentationType {
   FILE = 'File',
   FOLDER = 'Folder',
+  PROJECT = 'Project',
 }
 
 export class Documentation {
@@ -9,13 +10,5 @@ export class Documentation {
     public name: string,
     public type: DocumentationType,
     public documentation: Documentation[] | null,
-  ) {}
-}
-
-export class ProjectDocumentation {
-  constructor(
-    public projectId: string,
-    public projectName: string,
-    public documentation: Documentation[],
   ) {}
 }

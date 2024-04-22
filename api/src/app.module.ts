@@ -8,6 +8,8 @@ import { TeamsModule } from './modules/teams/teams.module';
 import { ProjectsModule } from './modules/projects/projects.module';
 import { PeopleModule } from './modules/people/people.module';
 import { DocumentationModule } from './modules/documentation/documentation.module';
+import { DrizzlePostgresModule } from '@knaadh/nestjs-drizzle-postgres';
+import * as schema from '@domaindocs/database';
 
 @Module({
   imports: [
@@ -20,6 +22,13 @@ import { DocumentationModule } from './modules/documentation/documentation.modul
         apiBasePath: '/api/auth',
         websiteBasePath: '/auth',
       },
+    }),
+    DrizzlePostgresModule.register({
+      tag: 'DB',
+      postgres: {
+        url: process.env.DATABASE_URL,
+      },
+      config: { schema, logger: true },
     }),
     ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,

@@ -1,7 +1,6 @@
-import { Skill } from '@prisma/client';
 import { ros } from './domain';
 
-export const uiDevSkill = (): Skill => {
+export const uiDevSkill = () => {
   return {
     skillId: 'uidev',
     domainId: ros().domainId,
@@ -10,7 +9,7 @@ export const uiDevSkill = (): Skill => {
   };
 };
 
-export const apiDevSkill = (): Skill => {
+export const apiDevSkill = () => {
   return {
     skillId: 'apidev',
     domainId: ros().domainId,
@@ -19,7 +18,7 @@ export const apiDevSkill = (): Skill => {
   };
 };
 
-export const devOpsSkill = (): Skill => {
+export const devOpsSkill = () => {
   return {
     skillId: 'devops',
     domainId: ros().domainId,

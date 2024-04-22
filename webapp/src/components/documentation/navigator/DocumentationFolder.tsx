@@ -16,10 +16,12 @@ import { useRef, useState } from 'react';
 import { DocumentationFolderItem } from './DocumentationFolderItem';
 
 export type DocumentationFolderProps = {
+  documentationId: string;
   folderName: string;
   folderSubtitle?: string;
   folderItems: Documentation[] | null;
   parentFolderRef?: any;
+  onAddFile: (documentationId: string) => any;
 } & StyleProps;
 
 export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
@@ -29,7 +31,13 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
 
   const [ref, hovering] = useHover();
 
-  const { folderName, folderSubtitle, folderItems } = props;
+  const {
+    folderName,
+    folderSubtitle,
+    folderItems,
+    onAddFile,
+    documentationId,
+  } = props;
 
   return (
     <Flex direction="column" {...props}>
@@ -40,9 +48,6 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
         p={2}
         _hover={{ backgroundColor: 'lightgray', cursor: 'pointer' }}
         position={'relative'}
-        onClick={() => {
-          setIsFolderOpen(!isFolderOpen);
-        }}
       >
         <Box
           ref={folderRef}
@@ -51,11 +56,20 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
               ? `${props.parentFolderRef.current.offsetLeft + 4}px`
               : undefined
           }
+          onClick={() => {
+            setIsFolderOpen(!isFolderOpen);
+          }}
         >
           <IoFolderOutline fontSize={14} />
         </Box>
 
-        <Flex width="100%" direction={'column'}>
+        <Flex
+          width="100%"
+          direction={'column'}
+          onClick={() => {
+            setIsFolderOpen(!isFolderOpen);
+          }}
+        >
           <Text fontSize={12}>{folderName}</Text>
 
           {folderSubtitle && <Text fontSize={10}>{folderSubtitle}</Text>}
@@ -74,6 +88,9 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
             size={'xs'}
             aria-label={'folder-menu'}
             icon={<IoMdAdd />}
+            onClick={() => {
+              onAddFile(documentationId);
+            }}
           ></IconButton>
         </Flex>
       </Flex>
@@ -87,6 +104,8 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                   folderName={item.name}
                   parentFolderRef={folderRef}
                   folderItems={item.documentation}
+                  documentationId={item.documentationId}
+                  onAddFile={onAddFile}
                 />
               );
             } else {

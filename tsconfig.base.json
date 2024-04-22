@@ -16,8 +16,8 @@
     "strictPropertyInitialization": false,
     "baseUrl": ".",
     "paths": {
-      "@domaindocs/lib": ["lib/src/index.ts"],
-      "@domaindocs/prisma": ["prisma/src/index.ts"]
+      "@domaindocs/database": ["database/src/index.ts"],
+      "@domaindocs/lib": ["lib/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

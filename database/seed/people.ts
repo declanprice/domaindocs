@@ -1,8 +1,7 @@
-import { Person } from '@prisma/client';
 import { benUser, declanUser, natashaUser } from './users';
 import { ros } from './domain';
 
-export const declanPerson = (): Person => {
+export const declanPerson = () => {
   return {
     personId: 'declan',
     userId: declanUser().userId,
@@ -14,7 +13,7 @@ export const declanPerson = (): Person => {
   };
 };
 
-export const benPerson = (): Person => {
+export const benPerson = () => {
   return {
     personId: 'ben',
     userId: benUser().userId,
@@ -26,7 +25,7 @@ export const benPerson = (): Person => {
   };
 };
 
-export const natashaPerson = (): Person => {
+export const natashaPerson = () => {
   return {
     personId: 'natasha',
     userId: natashaUser().userId,
