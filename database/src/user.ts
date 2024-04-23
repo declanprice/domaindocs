@@ -2,11 +2,9 @@ import {
   pgTable,
   uniqueIndex,
   text,
-  index,
-  foreignKey,
-  primaryKey,
+
 } from 'drizzle-orm/pg-core';
-import { documentation, domain, person } from './index';
+import { person } from './index';
 import { relations } from 'drizzle-orm/relations';
 
 export const user = pgTable(

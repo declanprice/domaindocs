@@ -24,11 +24,10 @@ import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import * as schema from '@domaindocs/database';
 import { eq } from 'drizzle-orm';
 import {
+  contact,
   documentation,
-  project,
-  projectContact,
-  projectResourceLink,
-} from '@domaindocs/database';
+  project, resourceLink
+} from '@domaindocs/database'
 
 @Injectable()
 export class ProjectsService {
@@ -189,7 +188,7 @@ export class ProjectsService {
     projectId: string,
     dto: AddProjectContacts,
   ) {
-    await this.db.insert(projectContact).values(
+    await this.db.insert(contact).values(
       dto.personIds.map((personId) => ({
         contactId: v4(),
         projectId,
@@ -204,7 +203,7 @@ export class ProjectsService {
     projectId: string,
     dto: AddProjectResourceLink,
   ) {
-    await this.db.insert(projectResourceLink).values({
+    await this.db.insert(resourceLink).values({
       linkId: v4(),
       projectId,
       title: dto.title,

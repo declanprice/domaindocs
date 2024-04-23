@@ -1,20 +1,16 @@
 import {
   pgTable,
-  uniqueIndex,
   text,
   index,
-  foreignKey,
   primaryKey,
 } from 'drizzle-orm/pg-core';
 import {
-  documentation,
+  contact,
   domain,
-  projectContact,
   skill,
-  subdomainContact,
   teamMember,
-  user,
-} from './index';
+  user
+} from './index'
 import { relations } from 'drizzle-orm/relations';
 
 export const person = pgTable(
@@ -86,8 +82,12 @@ export const personRelations = relations(person, ({ one, many }) => ({
     fields: [person.personId],
     references: [teamMember.personId],
   }),
-  subdomainContacts: many(subdomainContact),
-  projectContacts: many(projectContact),
+  subdomainContacts: many(contact, {
+    relationName: 'subdomain_contacts'
+  }),
+  projectContacts: many(contact, {
+    relationName: 'project_contacts'
+  }),
 }));
 
 export const personSkillRelations = relations(personSkill, ({ one }) => ({

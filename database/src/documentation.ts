@@ -1,19 +1,13 @@
 import {
   pgTable,
-  uniqueIndex,
   text,
   index,
   foreignKey,
-  primaryKey,
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm/relations';
 import { domain } from './domain';
-import { team } from './team';
 import {
   project,
-  projectContact,
-  projectResourceLink,
-  projectTechnology,
 } from './project';
 
 export const documentation = pgTable(

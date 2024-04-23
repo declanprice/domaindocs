@@ -3,7 +3,6 @@ import {
   uniqueIndex,
   text,
   index,
-  foreignKey,
   primaryKey,
 } from 'drizzle-orm/pg-core';
 import {
@@ -11,8 +10,6 @@ import {
   person,
   project,
   subdomain,
-  subdomainContact,
-  subdomainResourceLink,
 } from './index';
 import { relations } from 'drizzle-orm/relations';
 

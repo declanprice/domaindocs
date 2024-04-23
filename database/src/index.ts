@@ -7,3 +7,7 @@ export * from './subdomain';
 export * from './team';
 export * from './technology';
 export * from './user';
+export * from './file';
+export * from './secret';
+export * from './contact';
+export * from './resource-link';

@@ -1,5 +1,4 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Subdomain } from '@prisma/client';
 import { UserSession } from '../../auth/auth-session';
 import { createSlug } from '../../util/create-slug';
 import { v4 } from 'uuid';
@@ -18,13 +17,12 @@ import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import * as schema from '@domaindocs/database';
 import { count, eq } from 'drizzle-orm';
 import {
-  project,
+  contact,
+  project, resourceLink,
   subdomain,
-  subdomainContact,
-  subdomainResourceLink,
   team,
-  teamMember,
-} from '@domaindocs/database';
+  teamMember
+} from '@domaindocs/database'
 
 @Injectable()
 export class SubdomainsService {
@@ -33,13 +31,13 @@ export class SubdomainsService {
   async getSubdomainsByDomainId(
     session: UserSession,
     domainId: string,
-  ): Promise<Subdomain[]> {
+  ): Promise<SubdomainDto[]> {
     return this.db.query.subdomain.findMany({
       where: eq(subdomain.domainId, domainId),
     });
   }
 
-  async getById(session: UserSession, subdomainId: string): Promise<Subdomain> {
+  async getById(session: UserSession, subdomainId: string): Promise<SubdomainDto> {
     const result = await this.db.query.subdomain.findFirst({
       where: eq(subdomain.subdomainId, subdomainId),
     });
@@ -171,7 +169,7 @@ export class SubdomainsService {
     subdomainId: string,
     dto: AddSubdomainContactsDto,
   ) {
-    await this.db.insert(subdomainContact).values(
+    await this.db.insert(contact).values(
       dto.personIds.map((personId) => ({
         contactId: v4(),
         subdomainId,
@@ -186,7 +184,7 @@ export class SubdomainsService {
     subdomainId: string,
     dto: AddSubdomainResourceLinkDto,
   ) {
-    await this.db.insert(subdomainResourceLink).values({
+    await this.db.insert(resourceLink).values({
       linkId: v4(),
       subdomainId,
       title: dto.title,

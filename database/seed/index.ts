@@ -15,6 +15,8 @@ import {
   lrArchiveUi,
 } from './projects';
 import { apiDevSkill, devOpsSkill, uiDevSkill } from './skills';
+import { resourceLink } from '../src'
+import { contact } from '../src'
 
 const sql = postgres(process.env['DATABASE_URL'] as string, { max: 1 });
 
@@ -23,10 +25,14 @@ const db = drizzle(sql, { schema });
 (async () => {
   /** CLEAR **/
 
+  await db.delete(schema.secret);
+  await db.delete(schema.file);
+
+  await db.delete(resourceLink);
+  await db.delete(contact);
+
   await db.delete(schema.documentation);
 
-  await db.delete(schema.projectResourceLink);
-  await db.delete(schema.projectContact);
   await db.delete(schema.projectTechnology);
   await db.delete(schema.project);
 
@@ -34,8 +40,6 @@ const db = drizzle(sql, { schema });
   await db.delete(schema.team);
 
   await db.delete(schema.subdomain);
-  await db.delete(schema.subdomainContact);
-  await db.delete(schema.subdomainContact);
 
   await db.delete(schema.personSkill);
   await db.delete(schema.person);

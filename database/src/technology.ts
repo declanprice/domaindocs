@@ -2,11 +2,9 @@ import {
   pgTable,
   uniqueIndex,
   text,
-  index,
-  foreignKey,
-  primaryKey,
+
 } from 'drizzle-orm/pg-core';
-import { documentation, domain, project, projectTechnology } from './index';
+import { domain, project } from './index';
 import { relations } from 'drizzle-orm/relations';
 
 export const technology = pgTable(
