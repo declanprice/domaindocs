@@ -1,7 +1,11 @@
 import { IsOptional, IsString } from 'class-validator';
 
 export class SearchTeamDto {
-  @IsString()
-  @IsOptional()
-  name?: string;
+    @IsString()
+    @IsOptional()
+    subdomainId?: string;
+
+    @IsString()
+    @IsOptional()
+    name?: string;
 }

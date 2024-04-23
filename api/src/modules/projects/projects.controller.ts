@@ -1,5 +1,5 @@
 import { ProjectsService } from './projects.service';
-import { BadRequestException, Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import {
@@ -20,7 +20,7 @@ export class ProjectsController {
     async searchProjects(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
-        @Body() dto: SearchProjects,
+        @Query() dto: SearchProjects,
     ): Promise<DetailedProject[]> {
         if (!domainId) {
             throw new BadRequestException('missing params (domainId)');
