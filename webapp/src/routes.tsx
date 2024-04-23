@@ -11,9 +11,6 @@ import { SubdomainPeoplePage } from './pages/subdomain/SubdomainPeoplePage';
 import { SubdomainTeamsPage } from './pages/subdomain/SubdomainTeamsPage';
 import { SubdomainProjectsPage } from './pages/subdomain/SubdomainProjectsPage';
 import { DomainSetupPage } from './pages/domain-setup/DomainSetupPage';
-import { OnboardingPageLayout } from './pages/onboarding/OnboardingPageLayout';
-import { SecretsPageLayout } from './pages/secrets/SecretsPageLayout';
-import { FilesPageLayout } from './pages/files/FilesPageLayout';
 import { SubdomainCreatePage } from './pages/subdomain/SubdomainCreatePage';
 import { PeoplePage } from './pages/people/PeoplePage';
 import { TeamsPage } from './pages/teams/TeamsPage';
@@ -30,193 +27,222 @@ import { ProjectDocumentationPage } from './pages/project/ProjectDocumentationPa
 import { ProjectSecretsPage } from './pages/project/ProjectSecretsPage';
 import { ProjectFilesPage } from './pages/project/ProjectFilesPage';
 import { DocumentationPage } from './pages/documentation/DocumentationPage';
+import { FilesPage } from './pages/files/FilesPage';
+import { SecretsPage } from './pages/secrets/SecretsPage';
+import { OnboardingPage } from './pages/onboarding/OnboardingPage';
 
 export const routes = createBrowserRouter([
-  {
-    path: '',
-    element: <AuthGuard />,
-    children: [
-      {
+    {
         path: '',
-        element: <UserSetupGuard />,
+        element: <AuthGuard />,
         children: [
-          {
-            path: '',
-            element: <DomainGuard />,
-            children: [
-              {
-                path: ':domainId',
-                element: <RootLayout />,
+            {
+                path: '',
+                element: <UserSetupGuard />,
                 children: [
-                  {
-                    path: '',
-                    element: <Navigate to={'home'} />,
-                  },
-                  {
-                    path: 'home',
-                    element: <HomePage />,
-                  },
-                  {
-                    path: 'sd-create',
-                    element: <SubdomainCreatePage />,
-                  },
-                  {
-                    path: 'sd',
-                    element: <SubdomainGuard />,
-                    children: [
-                      {
-                        path: ':subdomainId',
+                    {
+                        path: '',
+                        element: <DomainGuard />,
                         children: [
-                          {
-                            path: '',
-                            element: <Navigate to={'overview'} />,
-                          },
-                          {
-                            path: 'overview',
-                            element: <SubdomainOverviewPage />,
-                          },
-                          {
-                            path: 'people',
-                            element: <SubdomainPeoplePage />,
-                          },
-                          {
-                            path: 'teams',
-                            element: <SubdomainTeamsPage />,
-                          },
-                          {
-                            path: 'projects',
-                            element: <SubdomainProjectsPage />,
-                          },
+                            {
+                                path: ':domainId',
+                                element: <RootLayout />,
+                                children: [
+                                    {
+                                        path: '',
+                                        element: <Navigate to={'home'} />,
+                                    },
+                                    {
+                                        path: 'home',
+                                        element: <HomePage />,
+                                    },
+                                    {
+                                        path: 'sd-create',
+                                        element: <SubdomainCreatePage />,
+                                    },
+                                    {
+                                        path: 'sd',
+                                        element: <SubdomainGuard />,
+                                        children: [
+                                            {
+                                                path: ':subdomainId',
+                                                children: [
+                                                    {
+                                                        path: '',
+                                                        element: <Navigate to={'overview'} />,
+                                                    },
+                                                    {
+                                                        path: 'overview',
+                                                        element: <SubdomainOverviewPage />,
+                                                    },
+                                                    {
+                                                        path: 'people',
+                                                        element: <SubdomainPeoplePage />,
+                                                    },
+                                                    {
+                                                        path: 'teams',
+                                                        element: <SubdomainTeamsPage />,
+                                                    },
+                                                    {
+                                                        path: 'projects',
+                                                        element: <SubdomainProjectsPage />,
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        path: 'people',
+                                        element: <PeoplePage />,
+                                    },
+                                    {
+                                        path: 'teams',
+                                        element: <TeamsPage />,
+                                    },
+                                    {
+                                        path: 'projects',
+                                        element: <ProjectsPage />,
+                                    },
+                                    {
+                                        path: 'projects/:projectId',
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <Navigate to={'overview'} />,
+                                            },
+                                            {
+                                                path: 'overview',
+                                                element: <ProjectOverviewPage />,
+                                            },
+                                            {
+                                                path: 'documentation',
+                                                element: <ProjectDocumentationPage />,
+                                            },
+                                            {
+                                                path: 'files',
+                                                element: <ProjectFilesPage />,
+                                            },
+                                            {
+                                                path: 'secrets',
+                                                element: <ProjectSecretsPage />,
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        path: 'documentation',
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <Navigate to={'relevant'} />,
+                                            },
+                                            {
+                                                path: 'relevant',
+                                                element: <DocumentationPage />,
+                                            },
+                                            {
+                                                path: 'all',
+                                                element: <DocumentationPage />,
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        path: 'files',
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <Navigate to={'relevant'} />,
+                                            },
+                                            {
+                                                path: 'relevant',
+                                                element: <FilesPage />,
+                                            },
+                                            {
+                                                path: 'all',
+                                                element: <FilesPage />,
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        path: 'secrets',
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <Navigate to={'relevant'} />,
+                                            },
+                                            {
+                                                path: 'relevant',
+                                                element: <SecretsPage />,
+                                            },
+                                            {
+                                                path: 'all',
+                                                element: <SecretsPage />,
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        path: 'onboarding',
+                                        element: <OnboardingPage />,
+                                    },
+                                ],
+                            },
                         ],
-                      },
-                    ],
-                  },
-                  {
-                    path: 'people',
-                    element: <PeoplePage />,
-                  },
-                  {
-                    path: 'teams',
-                    element: <TeamsPage />,
-                  },
-                  {
-                    path: 'projects',
-                    element: <ProjectsPage />,
-                  },
-                  {
-                    path: 'projects/:projectId',
-                    children: [
-                      {
-                        path: '',
-                        element: <Navigate to={'overview'} />,
-                      },
-                      {
-                        path: 'overview',
-                        element: <ProjectOverviewPage />,
-                      },
-                      {
-                        path: 'documentation',
-                        element: <ProjectDocumentationPage />,
-                      },
-                      {
-                        path: 'files',
-                        element: <ProjectFilesPage />,
-                      },
-                      {
-                        path: 'secrets',
-                        element: <ProjectSecretsPage />,
-                      },
-                    ],
-                  },
-                  {
-                    path: 'documentation',
-                    children: [
-                      {
-                        path: '',
-                        element: <Navigate to={'relevant'} />,
-                      },
-                      {
-                        path: 'relevant',
-                        element: <DocumentationPage />,
-                      },
-                      {
-                        path: 'all',
-                        element: <DocumentationPage />,
-                      },
-                    ],
-                  },
-                  {
-                    path: 'files',
-                    element: <FilesPageLayout />,
-                  },
-                  {
-                    path: 'secrets',
-                    element: <SecretsPageLayout />,
-                  },
-                  {
-                    path: 'onboarding',
-                    element: <OnboardingPageLayout />,
-                  },
+                    },
                 ],
-              },
-            ],
-          },
+            },
         ],
-      },
-    ],
-  },
-  {
-    path: 'users-setup',
-    element: <AuthGuard />,
-    children: [
-      {
-        path: '',
-        element: <UserSetupPage />,
-      },
-    ],
-  },
-  {
-    path: 'domains-setup',
-    element: <AuthGuard />,
-    children: [
-      {
-        path: '',
-        element: <DomainSetupPage />,
-      },
-    ],
-  },
-  {
-    path: 'auth',
-    element: <NoAuthGuard />,
-    children: [
-      {
-        path: 'sign-in',
-        element: <SignInPage />,
-      },
-      {
-        path: 'sign-up',
-        element: <SignUpPage />,
-      },
-      {
-        path: 'verify',
-        element: <VerifyMagicLinkPage />,
-      },
-      {
-        path: 'magic-link-sent',
-        element: <MagicLinkSentPage />,
-      },
-    ],
-  },
-  {
-    path: 'something-went-wrong',
-    element: <SomethingWentWrongErrorPage />,
-  },
-  {
-    path: 'page-not-found',
-    element: <PageNotFoundErrorPage />,
-  },
-  {
-    path: '*',
-    element: <Navigate to={''} />,
-  },
+    },
+    {
+        path: 'users-setup',
+        element: <AuthGuard />,
+        children: [
+            {
+                path: '',
+                element: <UserSetupPage />,
+            },
+        ],
+    },
+    {
+        path: 'domains-setup',
+        element: <AuthGuard />,
+        children: [
+            {
+                path: '',
+                element: <DomainSetupPage />,
+            },
+        ],
+    },
+    {
+        path: 'auth',
+        element: <NoAuthGuard />,
+        children: [
+            {
+                path: 'sign-in',
+                element: <SignInPage />,
+            },
+            {
+                path: 'sign-up',
+                element: <SignUpPage />,
+            },
+            {
+                path: 'verify',
+                element: <VerifyMagicLinkPage />,
+            },
+            {
+                path: 'magic-link-sent',
+                element: <MagicLinkSentPage />,
+            },
+        ],
+    },
+    {
+        path: 'something-went-wrong',
+        element: <SomethingWentWrongErrorPage />,
+    },
+    {
+        path: 'page-not-found',
+        element: <PageNotFoundErrorPage />,
+    },
+    {
+        path: '*',
+        element: <Navigate to={''} />,
+    },
 ]);

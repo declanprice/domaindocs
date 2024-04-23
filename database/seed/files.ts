@@ -1,47 +1,53 @@
-import { file } from '../src/file';
+import { file } from '../src';
 
-export const files = (domainId: string): typeof file.$inferInsert[] => [
+export const files = (domainId: string, projectId: string): typeof file.$inferInsert[] => [
   {
-    fileId: '1',
+    fileId: `${projectId}-1`,
     type: 'jpeg',
     name: 'File 1',
     domainId,
-    uri: 's3://example.com/File 1.jpeg'
+    projectId,
+    uri: 's3://example.com/Secret 1.jpeg'
   },
   {
-    fileId: '1',
+    fileId: `${projectId}-2`,
     type: 'jpeg',
     name: 'File 2',
     domainId,
-    uri: 's3://example.com/File 2.jpeg'
+    projectId,
+    uri: 's3://example.com/Secret 2.jpeg'
   },
   {
-    fileId: '1',
+    fileId: `${projectId}-3`,
     type: 'jpeg',
     name: 'File 3',
     domainId,
-    uri: 's3://example.com/File 3.jpeg'
+    projectId,
+    uri: 's3://example.com/Secret 3.jpeg'
   },
   {
-    fileId: '1',
+    fileId: `${projectId}-4`,
     type: 'jpeg',
     name: 'File 4',
     domainId,
-    uri: 's3://example.com/File 4.jpeg'
+    projectId,
+    uri: 's3://example.com/Secret 4.jpeg'
   },
   {
-    fileId: '1',
+    fileId: `${projectId}-5`,
     type: 'jpeg',
     name: 'File 5',
     domainId,
-    uri: 's3://example.com/File 5.jpeg'
+    projectId,
+    uri: 's3://example.com/Secret 5.jpeg'
   },
   {
-    fileId: '6',
+    fileId: `${projectId}-6`,
     type: 'jpeg',
     name: 'File 6',
     domainId,
-    uri: 's3://example.com/File 6.jpeg'
+    projectId,
+    uri: 's3://example.com/Secret 6.jpeg'
   }
 ]
 

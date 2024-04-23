@@ -10,36 +10,40 @@ import { PeopleModule } from './modules/people/people.module';
 import { DocumentationModule } from './modules/documentation/documentation.module';
 import { DrizzlePostgresModule } from '@knaadh/nestjs-drizzle-postgres';
 import * as schema from '@domaindocs/database';
+import { FilesModule } from './modules/files/files.module';
+import { SecretsModule } from './modules/secrets/secrets.module';
 
 @Module({
-  imports: [
-    AuthModule.forRoot({
-      connectionURI: 'http://localhost:3567',
-      appInfo: {
-        appName: 'Domaindocs',
-        apiDomain: 'http://localhost:3000',
-        websiteDomain: 'http://localhost:4200',
-        apiBasePath: '/api/auth',
-        websiteBasePath: '/auth',
-      },
-    }),
-    DrizzlePostgresModule.register({
-      tag: 'DB',
-      postgres: {
-        url: process.env.DATABASE_URL,
-      },
-      config: { schema, logger: true },
-    }),
-    ConfigModule.forRoot({ isGlobal: true }),
-    UsersModule,
-    PeopleModule,
-    DomainsModule,
-    SubdomainsModule,
-    TeamsModule,
-    ProjectsModule,
-    DocumentationModule,
-  ],
-  controllers: [],
-  providers: [],
+    imports: [
+        AuthModule.forRoot({
+            connectionURI: 'http://localhost:3567',
+            appInfo: {
+                appName: 'Domaindocs',
+                apiDomain: 'http://localhost:3000',
+                websiteDomain: 'http://localhost:4200',
+                apiBasePath: '/api/auth',
+                websiteBasePath: '/auth',
+            },
+        }),
+        DrizzlePostgresModule.register({
+            tag: 'DB',
+            postgres: {
+                url: process.env.DATABASE_URL,
+            },
+            config: { schema, logger: true },
+        }),
+        ConfigModule.forRoot({ isGlobal: true }),
+        UsersModule,
+        PeopleModule,
+        DomainsModule,
+        SubdomainsModule,
+        TeamsModule,
+        ProjectsModule,
+        DocumentationModule,
+        FilesModule,
+        SecretsModule,
+    ],
+    controllers: [],
+    providers: [],
 })
 export class AppModule {}

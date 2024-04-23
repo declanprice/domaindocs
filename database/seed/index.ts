@@ -15,8 +15,10 @@ import {
   lrArchiveUi,
 } from './projects';
 import { apiDevSkill, devOpsSkill, uiDevSkill } from './skills';
-import { resourceLink } from '../src'
+import { file, resourceLink, secret } from '../src'
 import { contact } from '../src'
+import { files } from './files'
+import { secrets } from './secrets'
 
 const sql = postgres(process.env['DATABASE_URL'] as string, { max: 1 });
 
@@ -140,6 +142,20 @@ const db = drizzle(sql, { schema });
       projectId: lrArchiveUi().projectId,
       technologyId: angularTech().technologyId,
     },
+  ]);
+
+  await db.insert(file).values([
+    ...files(ros().domainId, deedSearchUi().projectId),
+    ...files(ros().domainId, deedSearchApi().projectId),
+    ...files(ros().domainId, lrArchiveApi().projectId),
+    ...files(ros().domainId, lrArchiveUi().projectId),
+  ]);
+
+  await db.insert(secret).values([
+    ...secrets(ros().domainId, deedSearchUi().projectId),
+    ...secrets(ros().domainId, deedSearchApi().projectId),
+    ...secrets(ros().domainId, lrArchiveApi().projectId),
+    ...secrets(ros().domainId, lrArchiveUi().projectId),
   ]);
 
   process.exit(0);

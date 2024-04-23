@@ -1,22 +1,23 @@
 import { secret } from '../src'
 
-export const secrets = (domainId: string): typeof secret.$inferInsert[] => [
+export const secrets = (domainId: string, projectId: string): typeof secret.$inferInsert[] => [
   {
-    secretId: '1',
+    secretId: `${projectId}-1`,
     name: 'Secret 1',
     domainId,
+    projectId,
     uri: 'https://google.com'
   },
   {
-    secretId: '2',
+    secretId: `${projectId}-2`,
     name: 'Secret 2',
-    domainId,
+    domainId,projectId,
     uri: 'https://google.com'
   },
   {
-    secretId: '3',
+    secretId: `${projectId}-3`,
     name: 'Secret 3',
-    domainId,
+    domainId,projectId,
     uri: 'https://google.com'
   },
 ]

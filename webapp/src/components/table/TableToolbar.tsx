@@ -1,15 +1,15 @@
-import { Button, ButtonGroup, Flex, Text } from '@chakra-ui/react'
-import { IoSearchOutline } from 'react-icons/io5'
-import { CiFilter } from 'react-icons/ci'
+import { Button, ButtonGroup, Flex, Text } from '@chakra-ui/react';
+import { IoSearchOutline } from 'react-icons/io5';
+import { CiFilter } from 'react-icons/ci';
 type TableToolbarProps = {
-    title?: string
-    filterTabs?: { label: string; value: string }[]
-    onSearch: (value: string) => void
-    onFilterClick: () => void
-}
+    title?: string;
+    filterTabs?: { label: string; value: string }[];
+    onSearch: (value: string) => void;
+    onFilterClick: () => void;
+};
 
 export const TableToolbar = (props: TableToolbarProps) => {
-    const { title } = props
+    const { title } = props;
 
     return (
         <Flex width={'100%'} px={2} alignItems="center">
@@ -25,10 +25,10 @@ export const TableToolbar = (props: TableToolbarProps) => {
                 <Button size={'sm'} variant={'ghost'} colorScheme={'gray'}>
                     <CiFilter fontSize={18} color={'gray.900'} />
                     <Text ml={1} fontWeight={'normal'} fontSize={12}>
-                        Search
+                        Filter
                     </Text>
                 </Button>
             </ButtonGroup>
         </Flex>
-    )
-}
+    );
+};

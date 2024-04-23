@@ -1,6 +1,6 @@
 export const ros = () => {
-  return {
-    domainId: 'registersofscotland',
-    name: 'Registers Of Scotland',
-  };
+    return {
+        domainId: 'registersofscotland',
+        name: 'Registers Of Scotland',
+    };
 };

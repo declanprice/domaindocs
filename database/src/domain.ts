@@ -4,19 +4,19 @@ import { person } from './person';
 import { subdomain } from './subdomain';
 
 export const domain = pgTable(
-  'domain',
-  {
-    domainId: text('domain_id').primaryKey().notNull(),
-    name: text('name').notNull(),
-  },
-  (table) => {
-    return {
-      nameKey: uniqueIndex('domain_name_key').on(table.name),
-    };
-  },
+    'domain',
+    {
+        domainId: text('domain_id').primaryKey().notNull(),
+        name: text('name').notNull(),
+    },
+    (table) => {
+        return {
+            nameKey: uniqueIndex('domain_name_key').on(table.name),
+        };
+    },
 );
 
 export const domainRelations = relations(domain, ({ many }) => ({
-  people: many(person),
-  subdomains: many(subdomain),
+    people: many(person),
+    subdomains: many(subdomain),
 }));
