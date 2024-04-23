@@ -6,6 +6,8 @@ import { DomainPageParams } from '../../types/DomainPageParams';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { SecretsPageToolbar } from './SecretsPageToolbar';
 import { secretsApi } from '../../state/api/secrets-api';
+import { TableToolbar } from '../../components/table/TableToolbar';
+import { SecretTable } from '../../components/secret/SecretTable';
 
 export const SecretsPage = () => {
     const { domainId } = useParams() as DomainPageParams;
@@ -26,18 +28,18 @@ export const SecretsPage = () => {
             <Box height={'100%'} width={'100%'} overflowY={'auto'}>
                 <Flex p={4} gap={4} width={'100%'} direction={'column'}>
                     <Stack>
-                        {/*<TableToolbar*/}
-                        {/*  title={`Projects (${projects.length})`}*/}
-                        {/*  onSearch={() => {}}*/}
-                        {/*  onFilterClick={() => {}}*/}
-                        {/*/>*/}
+                        <TableToolbar
+                            title={`Secrets (${secrets.length})`}
+                            onSearch={() => {}}
+                            onFilterClick={() => {}}
+                        />
 
-                        {/*<ProjectTable*/}
-                        {/*  projects={projects}*/}
-                        {/*  onProjectClick={(project: DetailedProject) => {*/}
-                        {/*    navigate(`/${domainId}/projects/${project.project.projectId}`);*/}
-                        {/*  }}*/}
-                        {/*/>*/}
+                        <SecretTable
+                            secrets={secrets}
+                            onSecretClick={(secret: Secret) => {
+                                console.log('clicked secret', secret);
+                            }}
+                        />
                     </Stack>
                 </Flex>
             </Box>
