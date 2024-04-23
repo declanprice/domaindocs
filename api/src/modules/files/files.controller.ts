@@ -17,4 +17,13 @@ export class FilesController {
     ) {
         return this.filesService.searchFiles(session, domainId, dto);
     }
+
+    @Get(':fileId/signed-url')
+    async getSignedUrl(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('fileId') fileId: string,
+    ) {
+        return this.filesService.getSignedUrl(session, domainId, fileId);
+    }
 }

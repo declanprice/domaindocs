@@ -10,6 +10,7 @@ import { ProjectPageToolbar } from './ProjectPageToolbar';
 import { TableToolbar } from '../../components/table/TableToolbar';
 import { FileCard } from '../../components/file/FileCard';
 import { filesApi } from '../../state/api/files-api';
+import { FileTable } from '../../components/file/FileTable';
 
 export const ProjectFilesPage = () => {
     const { domainId, projectId } = useParams() as ProjectPageParams;
@@ -34,15 +35,7 @@ export const ProjectFilesPage = () => {
                 <Flex p={4} gap={4} width={'100%'} direction={'column'}>
                     <TableToolbar title={`Files (${files.length})`} onSearch={() => {}} onFilterClick={() => {}} />
 
-                    <Wrap spacing={4}>
-                        {files.map((file: File) => (
-                            <>
-                                <WrapItem>
-                                    <FileCard file={file} />
-                                </WrapItem>
-                            </>
-                        ))}
-                    </Wrap>
+                    <FileTable files={files} onFileClick={(file: File) => {}} />
                 </Flex>
             </Box>
         </Flex>

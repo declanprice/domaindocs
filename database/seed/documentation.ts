@@ -1,40 +1,43 @@
 import { DocumentationType } from '../../lib/src';
 
-export const documentation = (domainId: string, rootId: string) => {
+export const documentation = (domainId: string, projectId: string) => {
     return [
         {
             domainId,
-            projectId: rootId,
-            documentationId: rootId,
+            projectId: projectId,
+            documentationId: projectId,
             name: 'Project Root',
             type: DocumentationType.PROJECT,
             parentId: null,
         },
         {
             domainId,
-            documentationId: `${rootId}-1`,
+            documentationId: `${projectId}-1`,
+            fileId: `${domainId}-${projectId}-file1`,
             name: 'Logo',
-            parentId: rootId,
+            parentId: projectId,
             type: DocumentationType.FILE,
         },
         {
             domainId,
-            documentationId: `${rootId}-2`,
+            documentationId: `${projectId}-2`,
+            fileId: `${domainId}-${projectId}-file2`,
             name: 'Project Plan',
-            parentId: rootId,
+            parentId: projectId,
             type: DocumentationType.FILE,
         },
         {
             domainId,
-            documentationId: `${rootId}-4`,
+            documentationId: `${projectId}-4`,
             name: 'Site Maps',
-            parentId: rootId,
+            parentId: projectId,
             type: DocumentationType.FOLDER,
         },
         {
             domainId,
-            documentationId: `${rootId}-5`,
-            parentId: `${rootId}-4`,
+            documentationId: `${projectId}-5`,
+            fileId: `${domainId}-${projectId}-file3`,
+            parentId: `${projectId}-4`,
             name: 'Site Map Item',
             type: DocumentationType.FILE,
         },

@@ -19,6 +19,15 @@ export class DocumentationController {
         return this.documentationService.search(session, domainId, dto);
     }
 
+    @Get(':documentationId')
+    async get(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('documentationId') documentationId: string,
+    ) {
+        return this.documentationService.get(session, domainId, documentationId);
+    }
+
     @Post('/:documentationId/add')
     async addItem(
         @AuthSession() session: UserSession,

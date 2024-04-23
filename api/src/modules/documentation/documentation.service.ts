@@ -1,6 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
-import { Documentation, DocumentationType, SearchDocumentation } from '@domaindocs/lib';
+import {
+    Documentation,
+    DocumentationType,
+    DocumentDocumentation,
+    FileDocumentation,
+    SearchDocumentation,
+    ViewDocumentation,
+} from '@domaindocs/lib';
 import { AddDocumentation } from '../../../../lib/src/documentation/add-documentation';
 import { v4 } from 'uuid';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
@@ -56,6 +63,32 @@ export class DocumentationService {
                     ),
                 ),
         );
+    }
+
+    async get(session: UserSession, domainId: string, documentationId: string): Promise<ViewDocumentation> {
+        const result = await this.db.query.documentation.findFirst({
+            where: eq(documentation.documentationId, documentationId),
+            with: {
+                file: true,
+                document: true,
+            },
+        });
+
+        if (result.file) {
+            return new FileDocumentation(result.documentationId, result.name, DocumentationType.FILE, {
+                fileId: result.file.fileId,
+                fileName: result.file.name,
+            });
+        }
+
+        if (result.document) {
+            return new DocumentDocumentation(result.documentationId, result.name, DocumentationType.DOCUMENT, {
+                documentId: result.document.documentId,
+                documentName: result.document.name,
+            });
+        }
+
+        throw new Error(`unsupported documentation type of ${result.type}`);
     }
 
     async add(session: UserSession, domainId: string, documentationId: string, dto: AddDocumentation) {

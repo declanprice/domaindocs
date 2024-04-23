@@ -20,20 +20,6 @@ export const SecretTable = (props: SecretTableProps) => {
                         onSecretClick(secret);
                     },
                 },
-                {
-                    label: 'Subdomain',
-                    render: (data: Secret) => `${data.project.subdomainName}`,
-                    onClick: (secret) => {
-                        onSecretClick(secret);
-                    },
-                },
-                {
-                    label: 'Project',
-                    render: (data: Secret) => `${data.project.projectName}`,
-                    onClick: (secret) => {
-                        onSecretClick(secret);
-                    },
-                },
             ]}
         />
     );

@@ -2,12 +2,13 @@ import { boolean, index, pgTable, text } from 'drizzle-orm/pg-core';
 import { domain } from './domain';
 import { project } from './project';
 import { relations } from 'drizzle-orm/relations';
+import { documentation } from './documentation';
 
 export const file = pgTable(
     'file',
     {
         fileId: text('file_id').primaryKey(),
-        uri: text('uri').notNull(),
+        key: text('key').notNull(),
         name: text('name').notNull(),
         type: text('type').notNull(),
         isUploaded: boolean('is_uploaded').notNull().default(false),
@@ -28,5 +29,9 @@ export const fileRelations = relations(file, ({ one }) => ({
     project: one(project, {
         fields: [file.projectId],
         references: [project.projectId],
+    }),
+    documentation: one(documentation, {
+        fields: [file.fileId],
+        references: [documentation.fileId],
     }),
 }));

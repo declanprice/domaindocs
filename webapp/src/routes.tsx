@@ -27,8 +27,6 @@ import { ProjectDocumentationPage } from './pages/project/ProjectDocumentationPa
 import { ProjectSecretsPage } from './pages/project/ProjectSecretsPage';
 import { ProjectFilesPage } from './pages/project/ProjectFilesPage';
 import { DocumentationPage } from './pages/documentation/DocumentationPage';
-import { FilesPage } from './pages/files/FilesPage';
-import { SecretsPage } from './pages/secrets/SecretsPage';
 import { OnboardingPage } from './pages/onboarding/OnboardingPage';
 
 export const routes = createBrowserRouter([
@@ -142,40 +140,6 @@ export const routes = createBrowserRouter([
                                             {
                                                 path: 'all',
                                                 element: <DocumentationPage />,
-                                            },
-                                        ],
-                                    },
-                                    {
-                                        path: 'files',
-                                        children: [
-                                            {
-                                                path: '',
-                                                element: <Navigate to={'relevant'} />,
-                                            },
-                                            {
-                                                path: 'relevant',
-                                                element: <FilesPage />,
-                                            },
-                                            {
-                                                path: 'all',
-                                                element: <FilesPage />,
-                                            },
-                                        ],
-                                    },
-                                    {
-                                        path: 'secrets',
-                                        children: [
-                                            {
-                                                path: '',
-                                                element: <Navigate to={'relevant'} />,
-                                            },
-                                            {
-                                                path: 'relevant',
-                                                element: <SecretsPage />,
-                                            },
-                                            {
-                                                path: 'all',
-                                                element: <SecretsPage />,
                                             },
                                         ],
                                     },

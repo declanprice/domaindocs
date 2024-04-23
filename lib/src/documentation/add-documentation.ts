@@ -1,7 +1,8 @@
 import { IsEnum } from 'class-validator';
-import { DocumentationType } from '@domaindocs/lib';
+
+import { DocumentationType } from './documentation';
 
 export class AddDocumentation {
-  @IsEnum(DocumentationType)
-  type: DocumentationType;
+    @IsEnum(['FILE', 'FOLDER', 'DOCUMENT'])
+    type: DocumentationType;
 }
