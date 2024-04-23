@@ -16,7 +16,7 @@ export const SecretsPage = () => {
 
     const { data: secrets, isLoading } = useQuery<Secret[]>({
         queryKey: ['searchSecrets', { domainId }],
-        queryFn: () => secretsApi.searchSecrets(domainId),
+        queryFn: () => secretsApi.searchSecrets(domainId, {}),
     });
 
     if (!secrets || isLoading) return <LoadingContainer />;

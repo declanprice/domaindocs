@@ -16,7 +16,7 @@ export const FilesPage = () => {
 
     const { data: files, isLoading } = useQuery<File[]>({
         queryKey: ['searchFiles', { domainId }],
-        queryFn: () => filesApi.searchFiles(domainId),
+        queryFn: () => filesApi.searchFiles(domainId, {}),
     });
 
     if (!files || isLoading) return <LoadingContainer />;
