@@ -16,6 +16,8 @@ import { useUiStore } from '../state/stores/ui.store';
 import { subdomainsApi } from '../state/api/subdomains-api';
 import { DomainSelectorMenu } from './DomainSelectorMenu';
 import { SubdomainDto } from '@domaindocs/lib';
+import { GoTasklist } from 'react-icons/go';
+import { FaWpforms } from 'react-icons/fa6';
 
 const NavListItem = (props: { icon: any; label: string; to: string; iconOnly: boolean }) => {
     const navigate = useNavigate();
@@ -121,20 +123,9 @@ export const NavBar = () => {
             >
                 <List width={'100%'} gap={2} p={3} display={'flex'} flexDir={'column'}>
                     <NavListItem
-                        icon={<FiHome color={'gray.900'} size={14} />}
                         label={'Home'}
+                        icon={<FiHome color={'gray.900'} size={14} />}
                         to={`/${activeDomain.domainId}/home`}
-                        iconOnly={!isFullNavBar}
-                    />
-
-                    <NavListItem
-                        icon={<TbCategory2 color={'gray.900'} size={14} />}
-                        label={'Subdomains'}
-                        to={
-                            subdomains.length
-                                ? `/${activeDomain.domainId}/sd/${subdomains[0].subdomainId}`
-                                : `/${activeDomain.domainId}/sd-create`
-                        }
                         iconOnly={!isFullNavBar}
                     />
 
@@ -154,15 +145,29 @@ export const NavBar = () => {
 
                     <NavListItem
                         icon={<LiaProjectDiagramSolid color={'gray.900'} size={14} />}
-                        label={'Projects'}
+                        label={'Products'}
                         to={`/${activeDomain.domainId}/projects`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<IoDocumentTextOutline color={'gray.900'} size={14} />}
-                        label={'Documentation'}
+                        label={'Product Documentation'}
                         to={`/${activeDomain.domainId}/documentation/relevant`}
+                        iconOnly={!isFullNavBar}
+                    />
+
+                    <NavListItem
+                        icon={<GoTasklist color={'gray.900'} size={14} />}
+                        label={'Product Management'}
+                        to={`${activeDomain.domainId}/work`}
+                        iconOnly={!isFullNavBar}
+                    />
+
+                    <NavListItem
+                        icon={<FaWpforms color={'gray.900'} size={14} />}
+                        label={'Request Forms'}
+                        to={`${activeDomain.domainId}/forms`}
                         iconOnly={!isFullNavBar}
                     />
 
