@@ -44,20 +44,21 @@ export const DocumentationViewer = (props: DocumentationViewerProps) => {
     }, [activeDocumentationId]);
 
     const renderPanel = () => {
-        if (!viewerDocumentation) return null;
-
-        if (isDocumentationLoading) return <LoadingContainer />;
-
-        if (viewerDocumentation.type === DocumentationType.FILE) {
-            console.log(viewerDocumentation, isDocumentationLoading);
-            return <FilePanel domainId={domainId} file={viewerDocumentation} />;
-        }
-
-        if (viewerDocumentation.type === DocumentationType.DOCUMENT) {
-            return <DocumentPanel />;
-        }
-
-        return <>Unsupported documentation type</>;
+        return <DocumentPanel />;
+        // if (!viewerDocumentation) return null;
+        //
+        // if (isDocumentationLoading) return <LoadingContainer />;
+        //
+        // if (viewerDocumentation.type === DocumentationType.FILE) {
+        //     console.log(viewerDocumentation, isDocumentationLoading);
+        //     return <FilePanel domainId={domainId} file={viewerDocumentation} />;
+        // }
+        //
+        // if (viewerDocumentation.type === DocumentationType.DOCUMENT) {
+        //     return <DocumentPanel />;
+        // }
+        //
+        // return <>Unsupported documentation type</>;
     };
 
     return (
