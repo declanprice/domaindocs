@@ -1,22 +1,21 @@
-import { Text, useToast, Wrap, WrapItem } from '@chakra-ui/react';
+import { Text, useToast } from '@chakra-ui/react';
 
 import { EditableCard } from '../../../components/editable-card/EditableCard';
 import { useMutation } from '@tanstack/react-query';
 import { FormTextArea } from '../../../components/form/FormTextArea';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { ProjectTechnology, UpdateProjectDescription } from '@domaindocs/lib';
+import { UpdateProjectDescription } from '@domaindocs/lib';
 import { projectsApi } from '../../../state/api/projects-api';
 
 type ProjectSummaryProps = {
     domainId: string;
     projectId: string;
-    technologies: ProjectTechnology[];
     description: string;
     onDescriptionChange: (description: string) => any;
 };
 
-export const ProjectSummaryCard = (props: ProjectSummaryProps) => {
-    const { domainId, projectId, technologies, description, onDescriptionChange } = props;
+export const ProjectSummary = (props: ProjectSummaryProps) => {
+    const { domainId, projectId, description, onDescriptionChange } = props;
 
     const toast = useToast();
 
@@ -54,16 +53,6 @@ export const ProjectSummaryCard = (props: ProjectSummaryProps) => {
             onClose={() => {}}
             render={
                 <>
-                    {technologies.length && (
-                        <Wrap mb={2}>
-                            {technologies.map((technology) => (
-                                <WrapItem>
-                                    <Text fontSize={14}> {technology.name}</Text>
-                                </WrapItem>
-                            ))}
-                        </Wrap>
-                    )}
-
                     <Text fontSize={14}>{description}</Text>
                 </>
             }

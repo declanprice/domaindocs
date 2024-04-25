@@ -8,3 +8,4 @@ export * from './project-team';
 export * from './search.projects';
 export * from './update-project-description';
 export * from './add-project-ownership';
+export * from './add-project-link';

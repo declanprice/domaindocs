@@ -24,7 +24,11 @@ export class TeamsService {
                         },
                     },
                 },
-                projects: true,
+                ownership: {
+                    with: {
+                        project: true,
+                    },
+                },
             },
         });
 
@@ -41,7 +45,7 @@ export class TeamsService {
                                 p.person.user.iconUri,
                             ),
                     ),
-                    t.projects.map((p) => new TeamProjectDto(p.projectId, p.name)),
+                    t.ownership.map((p) => new TeamProjectDto(p.projectId, p.project.name)),
                 ),
         );
     }

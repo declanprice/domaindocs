@@ -6,7 +6,7 @@ export class ProjectOverview {
         public projectId: string,
         public name: string,
         public description: string,
-        public ownership: ProjectOwnership,
+        public ownership: ProjectOwnership[],
         public links: ProjectLink[],
     ) {}
 }

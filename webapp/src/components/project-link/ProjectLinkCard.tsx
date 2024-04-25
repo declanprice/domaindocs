@@ -26,7 +26,7 @@ type ResourceLinksCardProps = {
     onAddLink: () => void;
 };
 
-export const ResourceLinksCard = (props: ResourceLinksCardProps) => {
+export const ProjectLinkCard = (props: ResourceLinksCardProps) => {
     const { links, onAddLink } = props;
 
     return (

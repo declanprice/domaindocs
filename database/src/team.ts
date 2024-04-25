@@ -1,5 +1,5 @@
 import { pgTable, uniqueIndex, text, index, primaryKey } from 'drizzle-orm/pg-core';
-import { domain, person, project } from './index';
+import { domain, person, project, projectOwnership } from './index';
 import { relations } from 'drizzle-orm/relations';
 
 export const team = pgTable(
@@ -52,7 +52,7 @@ export const teamMember = pgTable(
 
 export const teamRelations = relations(team, ({ one, many }) => ({
     members: many(teamMember),
-    projects: many(project),
+    ownership: many(projectOwnership),
 }));
 
 export const teamMemberRelations = relations(teamMember, ({ one, many }) => ({

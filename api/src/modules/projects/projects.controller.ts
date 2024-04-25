@@ -57,7 +57,7 @@ export class ProjectsController {
         return this.projectsService.updateDescription(session, domainId, projectId, dto);
     }
 
-    @Put(':projectId/ownership')
+    @Put(':projectId/project-ownership')
     async addContact(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,

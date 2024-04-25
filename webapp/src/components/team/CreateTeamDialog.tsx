@@ -1,99 +1,84 @@
 import {
-  Button,
-  ButtonGroup,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Stack,
+    Button,
+    ButtonGroup,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Stack,
 } from '@chakra-ui/react';
-
 import { useForm } from 'react-hook-form';
 import { FormTextInput } from '../form/FormInput';
-import { FormSelect } from '../form/FormSelect';
-import { CreateTeamDto, SubdomainDto } from '@domaindocs/lib';
+import { CreateTeamDto } from '@domaindocs/lib';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 export type CreateTeamDialogProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  subdomains: SubdomainDto[];
-  onCreateTeam: (team: CreateTeamDto) => Promise<void>;
+    isOpen: boolean;
+    onClose: () => void;
+    onCreateTeam: (team: CreateTeamDto) => Promise<void>;
 };
 
 export const CreateTeamDialog = (props: CreateTeamDialogProps) => {
-  const { isOpen, onClose, subdomains, onCreateTeam } = props;
+    const { isOpen, onClose, onCreateTeam } = props;
 
-  const form = useForm<CreateTeamDto>({
-    values: {
-      name: '',
-      subdomainId: '',
-    },
-    resolver: classValidatorResolver(CreateTeamDto),
-  });
+    const form = useForm<CreateTeamDto>({
+        values: {
+            name: '',
+        },
+        resolver: classValidatorResolver(CreateTeamDto),
+    });
 
-  const closeAndReset = () => {
-    form.reset();
-    onClose();
-  };
+    const closeAndReset = () => {
+        form.reset();
+        onClose();
+    };
 
-  const submit = async (data: CreateTeamDto) => {
-    await onCreateTeam(data);
-    closeAndReset();
-  };
+    const submit = async (data: CreateTeamDto) => {
+        await onCreateTeam(data);
+        closeAndReset();
+    };
 
-  return (
-    <Modal isOpen={isOpen} onClose={closeAndReset} isCentered size={'lg'}>
-      <ModalOverlay />
-      <ModalContent>
-        <form onSubmit={form.handleSubmit(submit)}>
-          <ModalHeader>Create a new team.</ModalHeader>
-          <ModalBody>
-            <Stack gap={4}>
-              <FormTextInput
-                label={'Team Name'}
-                name={'name'}
-                control={form.control}
-                placeholder={'Name of team'}
-              />
-
-              <FormSelect
-                label={'Subdomain'}
-                name={'subdomainId'}
-                control={form.control}
-                options={subdomains?.map((s) => ({
-                  label: s.name,
-                  value: s.subdomainId,
-                }))}
-                placeholder={'Select a subdomain.'}
-              />
-            </Stack>
-          </ModalBody>
-          <ModalFooter>
-            <ButtonGroup>
-              <Button
-                onClick={closeAndReset}
-                size={'xs'}
-                colorScheme={'red'}
-                isDisabled={form.formState.isSubmitting}
-              >
-                Cancel
-              </Button>
-              <Button
-                size={'xs'}
-                colorScheme={'gray'}
-                variant={'solid'}
-                type={'submit'}
-                isLoading={form.formState.isSubmitting}
-              >
-                Create Team
-              </Button>
-            </ButtonGroup>
-          </ModalFooter>
-        </form>
-      </ModalContent>
-    </Modal>
-  );
+    return (
+        <Modal isOpen={isOpen} onClose={closeAndReset} isCentered size={'lg'}>
+            <ModalOverlay />
+            <ModalContent>
+                <form onSubmit={form.handleSubmit(submit)}>
+                    <ModalHeader>Create a new team.</ModalHeader>
+                    <ModalBody>
+                        <Stack gap={4}>
+                            <FormTextInput
+                                label={'Team Name'}
+                                name={'name'}
+                                control={form.control}
+                                placeholder={'Name of team'}
+                            />
+                        </Stack>
+                    </ModalBody>
+                    <ModalFooter>
+                        <ButtonGroup>
+                            <Button
+                                onClick={closeAndReset}
+                                size={'xs'}
+                                colorScheme={'red'}
+                                isDisabled={form.formState.isSubmitting}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                size={'xs'}
+                                colorScheme={'gray'}
+                                variant={'solid'}
+                                type={'submit'}
+                                isLoading={form.formState.isSubmitting}
+                            >
+                                Create Team
+                            </Button>
+                        </ButtonGroup>
+                    </ModalFooter>
+                </form>
+            </ModalContent>
+        </Modal>
+    );
 };

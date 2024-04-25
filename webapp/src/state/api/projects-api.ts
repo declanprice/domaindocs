@@ -5,11 +5,10 @@ import {
     ProjectOverview,
     SearchProjects,
     UpdateProjectDescription,
+    AddProjectLink,
 } from '@domaindocs/lib';
 
 import { apiClient } from './api-client';
-
-import { AddProjectLink } from '../../../../lib/src/project/add-project-link';
 
 export const projectsApi = (() => {
     const searchProjects = async (domainId: string, params: SearchProjects = {}): Promise<DetailedProject[]> => {
@@ -38,11 +37,11 @@ export const projectsApi = (() => {
         await apiClient.put(`/domains/${domainId}/projects/${projectId}/description`, data);
     };
 
-    const addContacts = async (domainId: string, projectId: string, dto: AddProjectOwnership): Promise<void> => {
-        await apiClient.put(`/domains/${domainId}/projects/${projectId}/contacts`, dto);
+    const addOwnership = async (domainId: string, projectId: string, dto: AddProjectOwnership): Promise<void> => {
+        await apiClient.put(`/domains/${domainId}/projects/${projectId}/ownership`, dto);
     };
 
-    const addResourceLink = async (domainId: string, projectId: string, dto: AddProjectLink): Promise<void> => {
+    const addLink = async (domainId: string, projectId: string, dto: AddProjectLink): Promise<void> => {
         await apiClient.put(`/domains/${domainId}/projects/${projectId}/resource-link`, dto);
     };
 
@@ -51,7 +50,7 @@ export const projectsApi = (() => {
         createProject,
         getProjectOverview,
         updateDescription,
-        addContacts,
-        addResourceLink,
+        addOwnership,
+        addLink,
     };
 })();

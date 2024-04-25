@@ -17,4 +17,12 @@ export class ProjectTeamOwnership {
     ) {}
 }
 
-export type ProjectOwnership = (ProjectPersonOwnership | ProjectTeamOwnership)[];
+export const isPersonOwnership = (ownership: any): ownership is ProjectPersonOwnership => {
+    return !!ownership.personId;
+};
+
+export const isTeamOwnership = (ownership: any): ownership is ProjectTeamOwnership => {
+    return !!ownership.teamId;
+};
+
+export type ProjectOwnership = ProjectPersonOwnership | ProjectTeamOwnership;

@@ -1,7 +1,7 @@
 import { Button, Flex, List, ListItem, Text } from '@chakra-ui/react';
 import { FiHome } from 'react-icons/fi';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TbCategory2, TbLayoutSidebarRightCollapse } from 'react-icons/tb';
+import { TbLayoutSidebarRightCollapse } from 'react-icons/tb';
 import { LiaProjectDiagramSolid } from 'react-icons/lia';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { MdOutlineManageHistory } from 'react-icons/md';
@@ -10,12 +10,9 @@ import { IoPersonAddOutline } from 'react-icons/io5';
 import { LuBadgeHelp } from 'react-icons/lu';
 import { GoPeople } from 'react-icons/go';
 import { TbUsersGroup } from 'react-icons/tb';
-import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '../state/stores/auth.store';
 import { useUiStore } from '../state/stores/ui.store';
-import { subdomainsApi } from '../state/api/subdomains-api';
 import { DomainSelectorMenu } from './DomainSelectorMenu';
-import { SubdomainDto } from '@domaindocs/lib';
 import { GoTasklist } from 'react-icons/go';
 import { FaWpforms } from 'react-icons/fa6';
 import { ImProfile } from 'react-icons/im';
@@ -59,12 +56,7 @@ export const NavBar = () => {
     const domains = useAuthStore((state) => state.user?.domains);
     const { activeDomain, setActiveDomain } = useUiStore();
 
-    const { data: subdomains } = useQuery<SubdomainDto[]>({
-        queryKey: ['searchSubdomains', { domainId }],
-        queryFn: () => subdomainsApi.searchSubdomains(domainId),
-    });
-
-    if (!subdomains || !domains || !activeDomain) return 'active domains not set.';
+    if (!domains || !activeDomain) return 'active domains not set.';
 
     return (
         <Flex
