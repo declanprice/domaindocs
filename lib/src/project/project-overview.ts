@@ -1,13 +1,12 @@
-import { ProjectSummary } from './project-summary';
+import { ProjectLink } from './project-link';
 import { ProjectOwnership } from './project-ownership';
-import { ProjectContact } from './project-contact';
-import { ProjectResourceLink } from './project-resource-link';
 
 export class ProjectOverview {
-  constructor(
-    public summary: ProjectSummary,
-    public ownership: ProjectOwnership,
-    public contacts: ProjectContact[],
-    public resourceLinks: ProjectResourceLink[],
-  ) {}
+    constructor(
+        public projectId: string,
+        public name: string,
+        public description: string,
+        public ownership: ProjectOwnership,
+        public links: ProjectLink[],
+    ) {}
 }

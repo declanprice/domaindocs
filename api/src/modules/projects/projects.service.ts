@@ -1,130 +1,111 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import {
-    AddProjectContacts,
+    AddProjectOwnership,
     CreateProject,
-    DetailedPersonDto,
     DetailedProject,
     DocumentationType,
     Project,
-    ProjectContact,
     ProjectOverview,
-    ProjectOwnership,
-    ProjectResourceLink,
-    ProjectSubdomain,
-    ProjectSummary,
-    ProjectTeam,
-    ProjectTechnology,
+    ProjectLink,
     SearchProjects,
     UpdateProjectDescription,
+    ProjectPersonOwnership,
+    ProjectTeamOwnership,
 } from '@domaindocs/lib';
 import { v4 } from 'uuid';
 import { createSlug } from '../../util/create-slug';
-import { AddProjectResourceLink } from '../../../../lib/src/project/add-project-resource-link';
+import { AddProjectLink } from '../../../../lib/src/project/add-project-link';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import * as schema from '@domaindocs/database';
 import { eq } from 'drizzle-orm';
-import {
-    contact,
-    documentation,
-    project,
-    projectTechnology,
-    resourceLink,
-    subdomain,
-    team,
-    technology,
-} from '@domaindocs/database';
+import { documentation, project, projectLink, projectOwnership } from '@domaindocs/database';
 
 @Injectable()
 export class ProjectsService {
     constructor(@Inject('DB') private db: PostgresJsDatabase<typeof schema>) {}
 
     async searchProjects(session: UserSession, domainId: string, dto: SearchProjects): Promise<DetailedProject[]> {
-        let where = eq(subdomain.domainId, domainId);
+        const results = await this.db.query.project.findMany({
+            where: eq(project.domainId, domainId),
+            with: {
+                ownership: {
+                    with: {
+                        person: {
+                            with: {
+                                user: true,
+                            },
+                        },
+                        team: true,
+                    },
+                },
+                links: true,
+            },
+        });
 
-        if (dto.subdomainId) {
-            where = eq(subdomain.subdomainId, dto.subdomainId);
-        }
+        return results.map(
+            (result) =>
+                new DetailedProject(
+                    new Project(result.projectId, result.name),
+                    result.ownership?.map((o) => {
+                        if (o.person) {
+                            return new ProjectPersonOwnership(
+                                o.person.personId,
+                                o.person.user.firstName,
+                                o.person.user.lastName,
+                                o.description,
+                                o.person.user.iconUri,
+                            );
+                        }
 
-        const result = await this.db
-            .select()
-            .from(project)
-            .leftJoin(team, eq(team.teamId, project.teamId))
-            .leftJoin(subdomain, eq(subdomain.subdomainId, team.subdomainId))
-            .leftJoin(projectTechnology, eq(projectTechnology.projectId, project.projectId))
-            .leftJoin(technology, eq(technology.technologyId, projectTechnology.technologyId))
-            .where(where);
-
-        const dtos = result.reduce<Map<string, DetailedProject>>((acc, val) => {
-            let dto = acc.get(val.project.projectId);
-
-            if (!dto) {
-                dto = new DetailedProject(
-                    new Project(val.project.projectId, val.project.name, val.team.teamId),
-                    new ProjectSubdomain(val.subdomain.subdomainId, val.subdomain.name),
-                    new ProjectTeam(val.team.teamId, val.team.name),
-                    [],
-                );
-
-                acc.set(val.project.projectId, dto);
-            }
-
-            if (val.technology) {
-                dto.technologies.push(new ProjectTechnology(val.technology.technologyId, val.technology.name));
-            }
-
-            return acc;
-        }, new Map());
-
-        return Array.from(dtos.values());
+                        if (o.team) {
+                            return new ProjectTeamOwnership(o.team.teamId, o.team.name, o.team.iconUri);
+                        }
+                    }),
+                ),
+        );
     }
 
     async getProjectOverview(session: UserSession, domainId: string, projectId: string): Promise<ProjectOverview> {
         const result = await this.db.query.project.findFirst({
             where: eq(project.projectId, projectId),
             with: {
-                team: true,
-                resourceLinks: true,
-                technologies: {
-                    with: {
-                        technology: true,
-                    },
-                },
-                contacts: {
+                ownership: {
                     with: {
                         person: {
                             with: {
-                                teamMember: true,
                                 user: true,
                             },
                         },
+                        team: true,
                     },
                 },
+                links: true,
             },
         });
 
         if (!result) throw new NotFoundException();
 
         return new ProjectOverview(
-            new ProjectSummary(
-                result.projectId,
-                result.name,
-                result.description,
-                result.technologies.map((t) => new ProjectTechnology(t.technologyId, t.technology.name)),
-            ),
-            new ProjectOwnership(result.team.teamId, result.team.name, result.team.iconUri),
-            result.contacts.map(
-                (c) =>
-                    new ProjectContact(
-                        c.personId,
-                        c.person.userId,
-                        c.person.user.firstName,
-                        c.person.user.lastName,
-                        c.person.user.iconUri,
-                        c.person.teamMember.role,
-                    ),
-            ),
-            result.resourceLinks.map((r) => new ProjectResourceLink(r.linkId, r.title, r.subTitle, r.href, r.iconUri)),
+            result.projectId,
+            result.name,
+            result.description,
+            result.ownership?.map((o) => {
+                if (o.person) {
+                    return new ProjectPersonOwnership(
+                        o.person.personId,
+                        o.person.user.firstName,
+                        o.person.user.lastName,
+                        o.description,
+                        o.person.user.iconUri,
+                    );
+                }
+
+                if (o.team) {
+                    return new ProjectTeamOwnership(o.team.teamId, o.team.name, o.team.iconUri);
+                }
+            }),
+            result.links.map((r) => new ProjectLink(r.linkId, r.title, r.subTitle, r.href, r.iconUri)),
         );
     }
 
@@ -144,7 +125,6 @@ export class ProjectsService {
             await tx.insert(project).values({
                 projectId,
                 domainId,
-                teamId: dto.teamId,
                 name: dto.name,
             });
         });
@@ -159,18 +139,17 @@ export class ProjectsService {
             .where(eq(project.projectId, projectId));
     }
 
-    async addContacts(session: UserSession, domainId: string, projectId: string, dto: AddProjectContacts) {
-        await this.db.insert(contact).values(
-            dto.personIds.map((personId) => ({
-                contactId: v4(),
-                projectId,
-                personId,
-            })),
-        );
+    async addOwnership(session: UserSession, domainId: string, projectId: string, dto: AddProjectOwnership) {
+        await this.db.insert(projectOwnership).values({
+            ownershipId: v4(),
+            projectId,
+            personId: dto.personId,
+            teamId: dto.teamId,
+        });
     }
 
-    async addResourceLink(session: UserSession, domainId: string, projectId: string, dto: AddProjectResourceLink) {
-        await this.db.insert(resourceLink).values({
+    async addLink(session: UserSession, domainId: string, projectId: string, dto: AddProjectLink) {
+        await this.db.insert(projectLink).values({
             linkId: v4(),
             projectId,
             title: dto.title,

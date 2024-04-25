@@ -3,7 +3,6 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
 import { DomainsModule } from './modules/domains/domains.module';
-import { SubdomainsModule } from './modules/subdomains/subdomains.module';
 import { TeamsModule } from './modules/teams/teams.module';
 import { ProjectsModule } from './modules/projects/projects.module';
 import { PeopleModule } from './modules/people/people.module';
@@ -11,7 +10,6 @@ import { DocumentationModule } from './modules/documentation/documentation.modul
 import { DrizzlePostgresModule } from '@knaadh/nestjs-drizzle-postgres';
 import * as schema from '@domaindocs/database';
 import { FilesModule } from './modules/files/files.module';
-import { SecretsModule } from './modules/secrets/secrets.module';
 
 @Module({
     imports: [
@@ -36,12 +34,10 @@ import { SecretsModule } from './modules/secrets/secrets.module';
         UsersModule,
         PeopleModule,
         DomainsModule,
-        SubdomainsModule,
         TeamsModule,
         ProjectsModule,
         DocumentationModule,
         FilesModule,
-        SecretsModule,
     ],
     controllers: [],
     providers: [],

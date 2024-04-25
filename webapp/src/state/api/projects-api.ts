@@ -1,5 +1,5 @@
 import {
-    AddProjectContacts,
+    AddProjectOwnership,
     CreateProject,
     DetailedProject,
     ProjectOverview,
@@ -9,7 +9,7 @@ import {
 
 import { apiClient } from './api-client';
 
-import { AddProjectResourceLink } from '../../../../lib/src/project/add-project-resource-link';
+import { AddProjectLink } from '../../../../lib/src/project/add-project-link';
 
 export const projectsApi = (() => {
     const searchProjects = async (domainId: string, params: SearchProjects = {}): Promise<DetailedProject[]> => {
@@ -38,11 +38,11 @@ export const projectsApi = (() => {
         await apiClient.put(`/domains/${domainId}/projects/${projectId}/description`, data);
     };
 
-    const addContacts = async (domainId: string, projectId: string, dto: AddProjectContacts): Promise<void> => {
+    const addContacts = async (domainId: string, projectId: string, dto: AddProjectOwnership): Promise<void> => {
         await apiClient.put(`/domains/${domainId}/projects/${projectId}/contacts`, dto);
     };
 
-    const addResourceLink = async (domainId: string, projectId: string, dto: AddProjectResourceLink): Promise<void> => {
+    const addResourceLink = async (domainId: string, projectId: string, dto: AddProjectLink): Promise<void> => {
         await apiClient.put(`/domains/${domainId}/projects/${projectId}/resource-link`, dto);
     };
 

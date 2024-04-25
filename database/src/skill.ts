@@ -1,19 +1,16 @@
-import { pgTable, uniqueIndex, text, index, foreignKey, primaryKey } from 'drizzle-orm/pg-core';
-import { documentation, domain, person, personSkill } from './index';
+import { pgTable, uniqueIndex, text } from 'drizzle-orm/pg-core';
+import { domain, personSkill } from './index';
 import { relations } from 'drizzle-orm/relations';
 
 export const skill = pgTable(
     'skill',
     {
         skillId: text('skill_id').primaryKey().notNull(),
-        name: text('name').notNull(),
-        description: text('description').notNull(),
         domainId: text('domain_id')
             .notNull()
-            .references(() => domain.domainId, {
-                onDelete: 'restrict',
-                onUpdate: 'cascade',
-            }),
+            .references(() => domain.domainId),
+        name: text('name').notNull(),
+        description: text('description').notNull(),
     },
     (table) => {
         return {

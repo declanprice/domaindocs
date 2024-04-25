@@ -1,28 +1,17 @@
-import { pgTable, uniqueIndex, text, index, foreignKey, primaryKey } from 'drizzle-orm/pg-core';
-import { documentation, domain, file, person, secret, subdomain, team, teamMember, technology } from './index'
+import { pgTable, text, index } from 'drizzle-orm/pg-core';
+import { documentation, domain, file, person, team } from './index';
 import { relations } from 'drizzle-orm/relations';
-import { contact } from './contact';
-import { resourceLink } from './resource-link';
 
 export const project = pgTable(
     'project',
     {
         projectId: text('project_id').primaryKey().notNull(),
+        domainId: text('domain_id')
+            .notNull()
+            .references(() => domain.domainId),
         name: text('name').notNull(),
         iconUri: text('icon_uri').default('https://cdn-icons-png.freepik.com/256/12148/12148631.png'),
         description: text('description').default('').notNull(),
-        domainId: text('domain_id')
-            .notNull()
-            .references(() => domain.domainId, {
-                onDelete: 'restrict',
-                onUpdate: 'cascade',
-            }),
-        teamId: text('team_id')
-            .notNull()
-            .references(() => team.teamId, {
-                onDelete: 'restrict',
-                onUpdate: 'cascade',
-            }),
     },
     (table) => {
         return {
@@ -31,28 +20,34 @@ export const project = pgTable(
     },
 );
 
-export const projectTechnology = pgTable(
-    'project_technology',
+export const projectOwnership = pgTable('project_ownership', {
+    ownershipId: text('ownership_id').primaryKey().notNull(),
+    projectId: text('project_id')
+        .notNull()
+        .references(() => project.projectId),
+    teamId: text('team_id').references(() => team.teamId),
+    personId: text('person_id').references(() => person.personId),
+    description: text('description').default('Full Project').notNull(),
+});
+
+export const projectLink = pgTable(
+    'project_link',
     {
-        projectId: text('project_id')
-            .notNull()
-            .references(() => project.projectId, {
-                onDelete: 'restrict',
-                onUpdate: 'cascade',
-            }),
-        technologyId: text('technology_id')
-            .notNull()
-            .references(() => technology.technologyId, {
-                onDelete: 'restrict',
-                onUpdate: 'cascade',
-            }),
+        linkId: text('link_id').primaryKey().notNull(),
+        projectId: text('project_id').references(() => project.projectId, {
+            onDelete: 'restrict',
+            onUpdate: 'cascade',
+        }),
+        title: text('title').notNull(),
+        subTitle: text('sub_title').default('Go').notNull(),
+        href: text('href').notNull(),
+        iconUri: text('icon_uri').default(
+            'https://cdn1.vectorstock.com/i/1000x1000/25/25/resources-allocation-icon-on-white-vector-27442525.jpg',
+        ),
     },
     (table) => {
         return {
-            projectTechnologyPkey: primaryKey({
-                columns: [table.projectId, table.technologyId],
-                name: 'project_technology_pkey',
-            }),
+            projectIndex: index('project_link_project_index').on(table.projectId),
         };
     },
 );
@@ -62,22 +57,33 @@ export const projectRelations = relations(project, ({ one, many }) => ({
         fields: [project.domainId],
         references: [domain.domainId],
     }),
-    team: one(team, {
-        fields: [project.teamId],
-        references: [team.teamId],
-    }),
     documentation: one(documentation, {
         fields: [project.projectId],
-        references: [documentation.projectId],
+        references: [documentation.documentationId],
     }),
-    contacts: many(contact),
-    resourceLinks: many(resourceLink),
-    technologies: many(projectTechnology),
+    ownership: many(projectOwnership),
+    links: many(projectLink),
     files: many(file),
-    secrets: many(secret)
 }));
 
-export const projectTechnologyRelations = relations(projectTechnology, ({ one }) => ({
-    project: one(project, { fields: [projectTechnology.projectId], references: [project.projectId] }),
-    technology: one(technology, { fields: [projectTechnology.technologyId], references: [technology.technologyId] }),
+export const projectOwnershipRelations = relations(projectOwnership, ({ one }) => ({
+    project: one(project, {
+        fields: [projectOwnership.projectId],
+        references: [project.projectId],
+    }),
+    person: one(person, {
+        fields: [projectOwnership.personId],
+        references: [person.personId],
+    }),
+    team: one(team, {
+        fields: [projectOwnership.teamId],
+        references: [team.teamId],
+    }),
+}));
+
+export const projectLinkRelations = relations(projectLink, ({ one }) => ({
+    project: one(project, {
+        fields: [projectLink.projectId],
+        references: [project.projectId],
+    }),
 }));

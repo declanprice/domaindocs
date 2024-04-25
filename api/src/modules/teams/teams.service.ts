@@ -1,15 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import { v4 } from 'uuid';
-import {
-    DetailedTeamDto,
-    CreateTeamDto,
-    SearchTeamDto,
-    TeamDto,
-    TeamSubdomainDto,
-    TeamMemberDto,
-    TeamProjectDto,
-} from '@domaindocs/lib';
+import { DetailedTeamDto, CreateTeamDto, SearchTeamDto, TeamDto, TeamMemberDto, TeamProjectDto } from '@domaindocs/lib';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import * as schema from '@domaindocs/database';
 import { team } from '@domaindocs/database';
@@ -20,16 +12,9 @@ export class TeamsService {
     constructor(@Inject('DB') private db: PostgresJsDatabase<typeof schema>) {}
 
     async searchByDomain(session: UserSession, domainId: string, dto: SearchTeamDto): Promise<DetailedTeamDto[]> {
-        let where = eq(team.domainId, domainId);
-
-        if (dto.subdomainId) {
-            where = eq(team.subdomainId, dto.subdomainId);
-        }
-
         const result = await this.db.query.team.findMany({
-            where: where,
+            where: eq(team.domainId, domainId),
             with: {
-                subdomain: true,
                 members: {
                     with: {
                         person: {
@@ -47,7 +32,6 @@ export class TeamsService {
             (t) =>
                 new DetailedTeamDto(
                     new TeamDto(t.teamId, t.name, t.iconUri),
-                    new TeamSubdomainDto(t.subdomainId, t.subdomain.name),
                     t.members.map(
                         (p) =>
                             new TeamMemberDto(
@@ -65,7 +49,6 @@ export class TeamsService {
     async createTeam(session: UserSession, domainId: string, dto: CreateTeamDto) {
         await this.db.insert(team).values({
             teamId: v4(),
-            subdomainId: dto.subdomainId,
             domainId,
             name: dto.name,
         });

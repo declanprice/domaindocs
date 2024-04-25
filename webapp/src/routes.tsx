@@ -6,25 +6,18 @@ import { VerifyMagicLinkPage } from './pages/auth/VerifyMagicLinkPage';
 import { MagicLinkSentPage } from './pages/auth/MagicLinkSentPage';
 import { UserSetupPage } from './pages/user-setup/UserSetupPage';
 import { RootLayout } from './layout/RootLayout';
-import { SubdomainOverviewPage } from './pages/subdomain/SubdomainOverviewPage';
-import { SubdomainPeoplePage } from './pages/subdomain/SubdomainPeoplePage';
-import { SubdomainTeamsPage } from './pages/subdomain/SubdomainTeamsPage';
-import { SubdomainProjectsPage } from './pages/subdomain/SubdomainProjectsPage';
 import { DomainSetupPage } from './pages/domain-setup/DomainSetupPage';
-import { SubdomainCreatePage } from './pages/subdomain/SubdomainCreatePage';
 import { PeoplePage } from './pages/people/PeoplePage';
 import { TeamsPage } from './pages/teams/TeamsPage';
 import { ProjectsPage } from './pages/projects/ProjectsPage';
 import { AuthGuard } from './components/guards/AuthGuard';
 import { UserSetupGuard } from './components/guards/UserSetupGuard';
 import { DomainGuard } from './components/guards/DomainGuard';
-import { SubdomainGuard } from './components/guards/SubdomainGuard';
 import { NoAuthGuard } from './components/guards/NoAuthGuard';
 import { SomethingWentWrongErrorPage } from './components/errors/SomethingWentWrongErrorPage';
 import { PageNotFoundErrorPage } from './components/errors/PageNotFoundErrorPage';
 import { ProjectOverviewPage } from './pages/project/ProjectOverviewPage';
 import { ProjectDocumentationPage } from './pages/project/ProjectDocumentationPage';
-import { ProjectSecretsPage } from './pages/project/ProjectSecretsPage';
 import { ProjectFilesPage } from './pages/project/ProjectFilesPage';
 import { DocumentationPage } from './pages/documentation/DocumentationPage';
 import { OnboardingPage } from './pages/onboarding/OnboardingPage';
@@ -53,41 +46,6 @@ export const routes = createBrowserRouter([
                                     {
                                         path: 'home',
                                         element: <HomePage />,
-                                    },
-                                    {
-                                        path: 'sd-create',
-                                        element: <SubdomainCreatePage />,
-                                    },
-                                    {
-                                        path: 'sd',
-                                        element: <SubdomainGuard />,
-                                        children: [
-                                            {
-                                                path: ':subdomainId',
-                                                children: [
-                                                    {
-                                                        path: '',
-                                                        element: <Navigate to={'overview'} />,
-                                                    },
-                                                    {
-                                                        path: 'overview',
-                                                        element: <SubdomainOverviewPage />,
-                                                    },
-                                                    {
-                                                        path: 'people',
-                                                        element: <SubdomainPeoplePage />,
-                                                    },
-                                                    {
-                                                        path: 'teams',
-                                                        element: <SubdomainTeamsPage />,
-                                                    },
-                                                    {
-                                                        path: 'projects',
-                                                        element: <SubdomainProjectsPage />,
-                                                    },
-                                                ],
-                                            },
-                                        ],
                                     },
                                     {
                                         path: 'people',
@@ -119,10 +77,6 @@ export const routes = createBrowserRouter([
                                             {
                                                 path: 'files',
                                                 element: <ProjectFilesPage />,
-                                            },
-                                            {
-                                                path: 'secrets',
-                                                element: <ProjectSecretsPage />,
                                             },
                                         ],
                                     },

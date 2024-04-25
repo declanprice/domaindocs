@@ -1,8 +1,10 @@
 export enum DocumentationType {
+    DOMAIN_ROOT_FOLDER = 'Domain',
+    PROJECT_ROOT_FOLDER = 'Project',
+    TEAM_ROOT_FOLDER = 'Team',
     FILE = 'File',
     DOCUMENT = 'Document',
     FOLDER = 'Folder',
-    PROJECT = 'Project',
 }
 
 export class Documentation {

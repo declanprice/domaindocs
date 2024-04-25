@@ -1,22 +1,20 @@
 import { ros } from './domain';
-import { finance, supporting } from './subdomains';
+import { team } from '../src';
 
-export const teamOrion = () => {
-  return {
-    teamId: 'orion',
-    subdomainId: supporting().subdomainId,
-    domainId: ros().domainId,
-    iconUri: null,
-    name: 'Team Orion',
-  };
+export const teamOrion = (): typeof team.$inferInsert => {
+    return {
+        teamId: 'orion',
+        domainId: ros().domainId,
+        iconUri: null,
+        name: 'Team Orion',
+    };
 };
 
-export const teamKeplar = () => {
-  return {
-    teamId: 'keplar',
-    subdomainId: finance().subdomainId,
-    domainId: ros().domainId,
-    iconUri: null,
-    name: 'Team Keplar',
-  };
+export const teamKeplar = (): typeof team.$inferInsert => {
+    return {
+        teamId: 'keplar',
+        domainId: ros().domainId,
+        iconUri: null,
+        name: 'Team Keplar',
+    };
 };

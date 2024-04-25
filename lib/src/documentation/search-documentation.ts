@@ -1,11 +1,15 @@
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class SearchDocumentation {
-  @IsString()
-  @IsOptional()
-  projectId?: string;
+    @IsString()
+    @IsOptional()
+    projectId?: string;
 
-  @IsBoolean()
-  @IsOptional()
-  relevant?: boolean;
+    @IsBoolean()
+    @IsOptional()
+    relevant?: boolean;
+
+    @IsBoolean()
+    @IsOptional()
+    domainWiki?: boolean;
 }

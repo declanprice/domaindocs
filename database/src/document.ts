@@ -4,7 +4,9 @@ import { documentation } from './documentation';
 
 export const document = pgTable('document', {
     documentId: text('document_id').primaryKey(),
-    name: text('name').notNull().default('New Document'),
+    title: text('title').notNull().default('New Document'),
+    subTitle: text('sub_title'),
+    content: text('content'),
 });
 
 export const documentRelations = relations(document, ({ one }) => ({

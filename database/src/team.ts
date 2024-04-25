@@ -1,25 +1,19 @@
 import { pgTable, uniqueIndex, text, index, primaryKey } from 'drizzle-orm/pg-core';
-import { domain, person, project, subdomain } from './index';
+import { domain, person, project } from './index';
 import { relations } from 'drizzle-orm/relations';
 
 export const team = pgTable(
     'team',
     {
         teamId: text('team_id').primaryKey().notNull(),
-        name: text('name').notNull(),
-        iconUri: text('icon_uri').default('https://cdn-icons-png.flaticon.com/512/1369/1369288.png'),
         domainId: text('domain_id')
             .notNull()
             .references(() => domain.domainId, {
                 onDelete: 'restrict',
                 onUpdate: 'cascade',
             }),
-        subdomainId: text('subdomain_id')
-            .notNull()
-            .references(() => subdomain.subdomainId, {
-                onDelete: 'restrict',
-                onUpdate: 'cascade',
-            }),
+        name: text('name').notNull(),
+        iconUri: text('icon_uri').default('https://cdn-icons-png.flaticon.com/512/1369/1369288.png'),
     },
     (table) => {
         return {
@@ -43,7 +37,6 @@ export const teamMember = pgTable(
                 onDelete: 'restrict',
                 onUpdate: 'cascade',
             }),
-        role: text('role').default('Team Member').notNull(),
     },
     (table) => {
         return {
@@ -58,10 +51,6 @@ export const teamMember = pgTable(
 );
 
 export const teamRelations = relations(team, ({ one, many }) => ({
-    subdomain: one(subdomain, {
-        fields: [team.subdomainId],
-        references: [subdomain.subdomainId],
-    }),
     members: many(teamMember),
     projects: many(project),
 }));

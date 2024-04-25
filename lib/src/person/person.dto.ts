@@ -1,40 +1,39 @@
 export class PersonTeamDto {
-  constructor(
-    public teamId: string,
-    public teamName: string,
-    public subdomainName: string,
-  ) {}
+    constructor(
+        public teamId: string,
+        public teamName: string,
+    ) {}
 }
 
 export class PersonSkillDto {
-  constructor(
-    public skillId: string,
-    public skillName: string,
-    public skillDescription: string,
-  ) {}
+    constructor(
+        public skillId: string,
+        public skillName: string,
+        public skillDescription: string,
+    ) {}
 }
 
 export class PersonDto {
-  constructor(
-    public personId: string,
-    public userId: string,
-    public firstName: string,
-    public lastName: string,
-    public contact: {
-      personalContactMobile?: string;
-      personalContactEmail?: string;
-      contactEmail?: string;
-      contactMobile?: string;
-    },
-    public iconUri: string | undefined,
-    public roleName: string | undefined,
-  ) {}
+    constructor(
+        public personId: string,
+        public userId: string,
+        public firstName: string,
+        public lastName: string,
+        public contact: {
+            personalContactMobile?: string;
+            personalContactEmail?: string;
+            contactEmail?: string;
+            contactMobile?: string;
+        },
+        public iconUri: string | undefined,
+        public roleName: string | undefined,
+    ) {}
 }
 
 export class DetailedPersonDto {
-  constructor(
-    public person: PersonDto,
-    public skills: PersonSkillDto[],
-    public team: PersonTeamDto | null,
-  ) {}
+    constructor(
+        public person: PersonDto,
+        public skills: PersonSkillDto[],
+        public teams: PersonTeamDto[],
+    ) {}
 }

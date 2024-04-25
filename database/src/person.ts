@@ -1,27 +1,22 @@
 import { pgTable, text, index, primaryKey } from 'drizzle-orm/pg-core';
-import { contact, domain, skill, teamMember, user } from './index';
+import { domain, skill, teamMember, user } from './index';
 import { relations } from 'drizzle-orm/relations';
 
 export const person = pgTable(
     'person',
     {
         personId: text('person_id').primaryKey().notNull(),
+        userId: text('user_id')
+            .notNull()
+            .references(() => user.userId),
+        domainId: text('domain_id')
+            .notNull()
+            .references(() => domain.domainId),
         personalContactMobile: text('personal_contact_mobile'),
         personalContactEmail: text('personal_contact_email'),
         contactEmail: text('contact_email'),
         contactMobile: text('contact_mobile'),
-        userId: text('user_id')
-            .notNull()
-            .references(() => user.userId, {
-                onDelete: 'restrict',
-                onUpdate: 'cascade',
-            }),
-        domainId: text('domain_id')
-            .notNull()
-            .references(() => domain.domainId, {
-                onDelete: 'restrict',
-                onUpdate: 'cascade',
-            }),
+        role: text('role').notNull().default('Employee'),
     },
     (table) => {
         return {
@@ -70,12 +65,6 @@ export const personRelations = relations(person, ({ one, many }) => ({
     teamMember: one(teamMember, {
         fields: [person.personId],
         references: [teamMember.personId],
-    }),
-    subdomainContacts: many(contact, {
-        relationName: 'subdomain_contacts',
-    }),
-    projectContacts: many(contact, {
-        relationName: 'project_contacts',
     }),
 }));
 

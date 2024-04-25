@@ -8,12 +8,12 @@ import {
     SearchDocumentation,
     ViewDocumentation,
 } from '@domaindocs/lib';
-import { AddDocumentation } from '../../../../lib/src/documentation/add-documentation';
+import { AddDocumentation } from '@domaindocs/lib';
 import { v4 } from 'uuid';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import * as schema from '@domaindocs/database';
 import { documentation } from '@domaindocs/database';
-import { eq, isNotNull } from 'drizzle-orm';
+import { and, eq, isNotNull } from 'drizzle-orm';
 
 @Injectable()
 export class DocumentationService {
@@ -24,6 +24,13 @@ export class DocumentationService {
 
         if (dto.projectId) {
             where = eq(documentation.documentationId, dto.projectId);
+        }
+
+        if (dto.domainWiki) {
+            where = and(
+                eq(documentation.domainId, domainId),
+                eq(documentation.type, DocumentationType.DOMAIN_ROOT_FOLDER),
+            );
         }
 
         const result = await this.db.query.documentation.findMany({

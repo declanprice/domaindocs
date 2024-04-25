@@ -1,47 +1,22 @@
 import { ros } from './domain';
-import { teamKeplar, teamOrion } from './teams';
+import { project } from '../src';
 
-export const deedSearchUi = () => {
-  return {
-    projectId: 'deedsearchui',
-    teamId: teamOrion().teamId,
-    domainId: ros().domainId,
-    name: 'Deed Search UI',
-    iconUri: null,
-    description: '',
-    documentationId: 'deedsearchui',
-  };
+export const deedSearch = (): typeof project.$inferInsert => {
+    return {
+        projectId: 'deedsearch',
+        domainId: ros().domainId,
+        name: 'Deed Search',
+        iconUri: null,
+        description: '',
+    };
 };
 
-export const deedSearchApi = () => {
-  return {
-    projectId: 'deedsearchapi',
-    teamId: teamOrion().teamId,
-    domainId: ros().domainId,
-    name: 'Deed Search API',
-    iconUri: null,
-    description: '',
-  };
-};
-
-export const lrArchiveUi = () => {
-  return {
-    projectId: 'lrarchiveui',
-    teamId: teamKeplar().teamId,
-    domainId: ros().domainId,
-    name: 'LR Archive UI',
-    iconUri: null,
-    description: '',
-  };
-};
-
-export const lrArchiveApi = () => {
-  return {
-    projectId: 'lrarchiveapi',
-    teamId: teamKeplar().teamId,
-    domainId: ros().domainId,
-    name: 'LR Archive API',
-    iconUri: null,
-    description: '',
-  };
+export const lrArchive = () => {
+    return {
+        projectId: 'lrarchive',
+        domainId: ros().domainId,
+        name: 'LR Archive',
+        iconUri: null,
+        description: '',
+    };
 };

@@ -3,16 +3,16 @@ import { useMutation } from '@tanstack/react-query';
 import { subdomainsApi } from '../../../state/api/subdomains-api';
 import { ResourceLinksCard } from '../../../components/resource-link/ResourceLinksCard';
 import { AddResourceLinkDialog } from '../../../components/resource-link/AddResourceLinkDialog';
-import { AddSubdomainResourceLinkDto, ProjectResourceLink, SubdomainResourceLinkDto } from '@domaindocs/lib';
+import { AddSubdomainResourceLinkDto, ProjectLink, SubdomainResourceLinkDto } from '@domaindocs/lib';
 import { projectsApi } from '../../../state/api/projects-api';
-import { AddProjectResourceLink } from '../../../../../lib/src/project/add-project-resource-link';
+import { AddProjectLink } from '../../../../../lib/src/project/add-project-link';
 
 type ProjectResourceLinksProps = {
     projectName: string;
     projectId: string;
     domainId: string;
-    links: ProjectResourceLink[];
-    onAddLink: (link: AddProjectResourceLink) => Promise<void>;
+    links: ProjectLink[];
+    onAddLink: (link: AddProjectLink) => Promise<void>;
 };
 
 export const ProjectResourceLinksCard = (props: ProjectResourceLinksProps) => {
@@ -22,7 +22,7 @@ export const ProjectResourceLinksCard = (props: ProjectResourceLinksProps) => {
 
     const { mutateAsync: addResourceLink } = useMutation({
         mutationKey: ['addProjectResourceLink', { domainId, projectId }],
-        mutationFn: async (link: AddProjectResourceLink) => {
+        mutationFn: async (link: AddProjectLink) => {
             await projectsApi.addResourceLink(domainId, projectId, link);
             await onAddLink(link);
         },

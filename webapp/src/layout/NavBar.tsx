@@ -18,7 +18,8 @@ import { DomainSelectorMenu } from './DomainSelectorMenu';
 import { SubdomainDto } from '@domaindocs/lib';
 import { GoTasklist } from 'react-icons/go';
 import { FaWpforms } from 'react-icons/fa6';
-
+import { ImProfile } from 'react-icons/im';
+import { BsInbox } from 'react-icons/bs';
 const NavListItem = (props: { icon: any; label: string; to: string; iconOnly: boolean }) => {
     const navigate = useNavigate();
 
@@ -112,6 +113,30 @@ export const NavBar = () => {
                     </Button>
                 </Flex>
             )}
+
+            <Flex
+                direction={'column'}
+                borderBottom={'1px solid'}
+                borderColor={'border'}
+                overflowY={'auto'}
+                justifyContent={'flex-end'}
+            >
+                <List width={'100%'} gap={2} p={3} display={'flex'} flexDir={'column'}>
+                    <NavListItem
+                        icon={<ImProfile color={'gray.900'} size={14} />}
+                        label={'My Profile'}
+                        to={'/profile'}
+                        iconOnly={!isFullNavBar}
+                    />
+
+                    <NavListItem
+                        icon={<BsInbox color={'gray.900'} size={14} />}
+                        label={'Inbox'}
+                        to={'/inbox'}
+                        iconOnly={!isFullNavBar}
+                    />
+                </List>
+            </Flex>
 
             <Flex
                 width={'100%'}

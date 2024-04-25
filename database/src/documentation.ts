@@ -4,7 +4,6 @@ import { domain } from './domain';
 import { project } from './project';
 import { file } from './file';
 import { document } from './document';
-import { embeddedResource } from './embed-resource';
 
 export const documentation = pgTable(
     'documentation',
@@ -13,18 +12,16 @@ export const documentation = pgTable(
         domainId: text('domain_id')
             .notNull()
             .references(() => domain.domainId),
+        projectId: text('project_id').references(() => project.projectId),
         name: text('name').notNull(),
         type: text('type').notNull(),
         parentId: text('parent_id'),
-        projectId: text('project_id').references(() => project.projectId),
         fileId: text('file_id').references(() => file.fileId),
         documentId: text('document_id').references(() => document.documentId),
-        embeddedResourceId: text('embedded_resource_id').references(() => embeddedResource.embeddedResourceId),
     },
     (table) => {
         return {
             domainIdIdx: index('documentation_domainId_idx').on(table.domainId),
-            projectIdIdx: index('project_project_id_idx').on(table.projectId),
             documentationParentIdFkey: foreignKey({
                 columns: [table.parentId],
                 foreignColumns: [table.documentationId],
@@ -37,6 +34,10 @@ export const documentation = pgTable(
 );
 
 export const documentationRelations = relations(documentation, ({ one, many }) => ({
+    domain: one(domain, {
+        fields: [documentation.domainId],
+        references: [domain.domainId],
+    }),
     project: one(project, {
         fields: [documentation.projectId],
         references: [project.projectId],
@@ -48,10 +49,6 @@ export const documentationRelations = relations(documentation, ({ one, many }) =
     document: one(document, {
         fields: [documentation.documentId],
         references: [document.documentId],
-    }),
-    embeddedResource: one(embeddedResource, {
-        fields: [documentation.embeddedResourceId],
-        references: [embeddedResource.embeddedResourceId],
     }),
     parent: one(documentation, {
         fields: [documentation.parentId],

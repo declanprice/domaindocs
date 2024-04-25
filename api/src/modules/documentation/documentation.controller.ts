@@ -1,9 +1,8 @@
 import { DocumentationService } from './documentation.service';
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { SearchDocumentation } from '@domaindocs/lib';
-import { AddDocumentation } from '../../../../lib/src/documentation/add-documentation';
+import { SearchDocumentation, AddDocumentation } from '@domaindocs/lib';
 
 @Controller('domains/:domainId/documentation')
 @UseGuards(AuthGuard)
