@@ -15,9 +15,7 @@ export const file = pgTable(
         domainId: text('domain_id')
             .notNull()
             .references(() => domain.domainId),
-        projectId: text('project_id')
-            .notNull()
-            .references(() => project.projectId),
+        projectId: text('project_id').references(() => project.projectId),
     },
     (table) => ({
         domainIndex: index('file_domain_index').on(table.domainId),
@@ -26,6 +24,10 @@ export const file = pgTable(
 );
 
 export const fileRelations = relations(file, ({ one }) => ({
+    domain: one(domain, {
+        fields: [file.domainId],
+        references: [domain.domainId],
+    }),
     project: one(project, {
         fields: [file.projectId],
         references: [project.projectId],

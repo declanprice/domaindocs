@@ -57,23 +57,23 @@ export class ProjectsController {
         return this.projectsService.updateDescription(session, domainId, projectId, dto);
     }
 
-    @Put(':projectId/contact')
+    @Put(':projectId/ownership')
     async addContact(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('projectId') projectId: string,
         @Body() dto: AddProjectOwnership,
     ) {
-        return this.projectsService.addContacts(session, domainId, projectId, dto);
+        return this.projectsService.addOwnership(session, domainId, projectId, dto);
     }
 
-    @Put(':projectId/resource-link')
+    @Put(':projectId/link')
     async addResourceLink(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('projectId') projectId: string,
         @Body() dto: AddProjectLink,
     ) {
-        return this.projectsService.addResourceLink(session, domainId, projectId, dto);
+        return this.projectsService.addLink(session, domainId, projectId, dto);
     }
 }

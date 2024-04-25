@@ -2,7 +2,6 @@ export class FileProject {
     constructor(
         public projectId: string,
         public projectName: string,
-        public subdomainName: string,
     ) {}
 }
 
@@ -11,6 +10,6 @@ export class File {
         public fileId: string,
         public name: string,
         public type: string,
-        public project: FileProject,
+        public project?: FileProject,
     ) {}
 }

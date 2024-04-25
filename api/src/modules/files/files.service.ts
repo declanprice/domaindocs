@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
-import { eq } from 'drizzle-orm';
+import { and, eq, isNull } from 'drizzle-orm';
 import { file } from '@domaindocs/database';
 import { File, FileProject, SearchFiles } from '@domaindocs/lib';
 import { DATABASE, DatabaseSchema } from '../../tokens/database.token';
@@ -22,7 +22,7 @@ export class FilesService {
     }
 
     async searchFiles(session: UserSession, domainId: string, dto: SearchFiles): Promise<File[]> {
-        let where = eq(file.domainId, domainId);
+        let where = and(eq(file.domainId, domainId), isNull(file.projectId));
 
         if (dto.projectId) {
             where = eq(file.projectId, dto.projectId);
@@ -31,15 +31,7 @@ export class FilesService {
         const result = await this.db.query.file.findMany({
             where,
             with: {
-                project: {
-                    with: {
-                        team: {
-                            with: {
-                                subdomain: true,
-                            },
-                        },
-                    },
-                },
+                project: true,
             },
         });
 
@@ -49,7 +41,7 @@ export class FilesService {
                     file.fileId,
                     file.name,
                     file.type,
-                    new FileProject(file.projectId, file.project.name, file.project.team.subdomain.name),
+                    file.project ? new FileProject(file.projectId, file.project.name) : undefined,
                 ),
         );
     }
