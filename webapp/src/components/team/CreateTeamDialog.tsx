@@ -11,23 +11,23 @@ import {
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { FormTextInput } from '../form/FormInput';
-import { CreateTeamDto } from '@domaindocs/lib';
+import { CreateTeamData } from '@domaindocs/lib';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 export type CreateTeamDialogProps = {
     isOpen: boolean;
     onClose: () => void;
-    onCreateTeam: (team: CreateTeamDto) => Promise<void>;
+    onCreateTeam: (team: CreateTeamData) => Promise<void>;
 };
 
 export const CreateTeamDialog = (props: CreateTeamDialogProps) => {
     const { isOpen, onClose, onCreateTeam } = props;
 
-    const form = useForm<CreateTeamDto>({
+    const form = useForm<CreateTeamData>({
         values: {
             name: '',
         },
-        resolver: classValidatorResolver(CreateTeamDto),
+        resolver: classValidatorResolver(CreateTeamData),
     });
 
     const closeAndReset = () => {
@@ -35,7 +35,7 @@ export const CreateTeamDialog = (props: CreateTeamDialogProps) => {
         onClose();
     };
 
-    const submit = async (data: CreateTeamDto) => {
+    const submit = async (data: CreateTeamData) => {
         await onCreateTeam(data);
         closeAndReset();
     };

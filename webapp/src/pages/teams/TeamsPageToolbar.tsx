@@ -7,7 +7,7 @@ import { teamsApi } from '../../state/api/teams-api';
 import { queryClient } from '../../state/query-client';
 import { CreateTeamDialog } from '../../components/team/CreateTeamDialog';
 import { PageToolbar } from '../../components/page/PageToolbar';
-import { CreateTeamDto } from '@domaindocs/lib';
+import { CreateTeamData } from '@domaindocs/lib';
 
 export const TeamsPageToolbar = () => {
     const { domainId } = useParams() as DomainPageParams;
@@ -16,7 +16,7 @@ export const TeamsPageToolbar = () => {
 
     const { mutateAsync: createTeam } = useMutation({
         mutationKey: ['createTeam', { domainId }],
-        mutationFn: async (data: CreateTeamDto) => {
+        mutationFn: async (data: CreateTeamData) => {
             await teamsApi.createTeam(domainId, data);
 
             await queryClient.invalidateQueries({

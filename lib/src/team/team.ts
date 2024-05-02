@@ -1,4 +1,4 @@
-export class TeamMemberDto {
+export class TeamMember {
     constructor(
         public personId: string,
         public firstName: string,
@@ -7,14 +7,14 @@ export class TeamMemberDto {
     ) {}
 }
 
-export class TeamProjectDto {
+export class TeamProject {
     constructor(
         public projectId: string,
         public projectName: string,
     ) {}
 }
 
-export class TeamDto {
+export class Team {
     constructor(
         public teamId: string,
         public name: string,
@@ -22,10 +22,10 @@ export class TeamDto {
     ) {}
 }
 
-export class DetailedTeamDto {
+export class DetailedTeam {
     constructor(
-        public team: TeamDto,
-        public members: TeamMemberDto[],
-        public projects: TeamProjectDto[],
+        public team: Team,
+        public members: TeamMember[],
+        public projects: TeamProject[],
     ) {}
 }

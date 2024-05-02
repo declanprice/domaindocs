@@ -44,7 +44,8 @@ export const DocumentationViewer = (props: DocumentationViewerProps) => {
     }, [activeDocumentationId]);
 
     const renderPanel = () => {
-        return <DocumentPanel />;
+        return <DocumentPanel document={{} as any} />;
+
         // if (!viewerDocumentation) return null;
         //
         // if (isDocumentationLoading) return <LoadingContainer />;

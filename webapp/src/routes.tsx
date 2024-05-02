@@ -21,6 +21,7 @@ import { ProjectDocumentationPage } from './pages/project/ProjectDocumentationPa
 import { ProjectFilesPage } from './pages/project/ProjectFilesPage';
 import { DocumentationPage } from './pages/documentation/DocumentationPage';
 import { OnboardingPage } from './pages/onboarding/OnboardingPage';
+import { TeamPage } from './pages/team/TeamPage';
 
 export const routes = createBrowserRouter([
     {
@@ -54,6 +55,19 @@ export const routes = createBrowserRouter([
                                     {
                                         path: 'teams',
                                         element: <TeamsPage />,
+                                    },
+                                    {
+                                        path: 'teams/:teamId',
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <Navigate to={'overview'} />,
+                                            },
+                                            {
+                                                path: 'overview',
+                                                element: <TeamPage />,
+                                            },
+                                        ],
                                     },
                                     {
                                         path: 'projects',

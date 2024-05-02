@@ -15,7 +15,7 @@ import { DocumentTitle } from './DocumentTitle';
 import { DocumentSubtitle } from './DocumentSubtitle';
 import { DocumentActions } from './DocumentActions';
 import { DocumentContributors } from './DocumentContributors';
-import { ViewDocumentation } from '@domaindocs/lib';
+import { DocumentDocumentation, ViewDocumentation } from '@domaindocs/lib';
 
 const extensions = [
     StarterKit,
@@ -30,7 +30,7 @@ const extensions = [
 const content = '<p>Hello World!</p>';
 
 type DocumentPanelProps = {
-    document: ViewDocumentation;
+    document: DocumentDocumentation;
 };
 
 export const DocumentPanel = (props: DocumentPanelProps) => {

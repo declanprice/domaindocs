@@ -3,7 +3,7 @@ const macUser = 'e6ba44aa-bfa7-45c9-963e-ed867e422f9b';
 
 export const declanUser = () => {
     return {
-        userId: macUser,
+        userId: linuxUser,
         firstName: 'Declan',
         lastName: 'Price',
         fullName: 'Declan Price',

@@ -8,7 +8,6 @@ import { projectsApi } from '../../state/api/projects-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { ProjectPageToolbar } from './ProjectPageToolbar';
 import { TableToolbar } from '../../components/table/TableToolbar';
-import { FileCard } from '../../components/file/FileCard';
 import { filesApi } from '../../state/api/files-api';
 import { FileTable } from '../../components/file/FileTable';
 
@@ -29,7 +28,7 @@ export const ProjectFilesPage = () => {
 
     return (
         <Flex direction="column" width={'100%'}>
-            <ProjectPageToolbar projectName={project.summary.name} domainId={domainId} projectId={projectId} />
+            <ProjectPageToolbar projectName={project.description} domainId={domainId} projectId={projectId} />
 
             <Box height={'100%'} width={'100%'} overflowY={'auto'}>
                 <Flex p={4} gap={4} width={'100%'} direction={'column'}>

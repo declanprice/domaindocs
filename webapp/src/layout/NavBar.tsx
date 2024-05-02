@@ -51,7 +51,6 @@ const NavListItem = (props: { icon: any; label: string; to: string; iconOnly: bo
 };
 
 export const NavBar = () => {
-    const { domainId } = useParams() as { domainId: string };
     const { isFullNavBar, closeNavBar, openNavBar } = useUiStore();
     const domains = useAuthStore((state) => state.user?.domains);
     const { activeDomain, setActiveDomain } = useUiStore();
@@ -65,7 +64,7 @@ export const NavBar = () => {
             minWidth={isFullNavBar ? '280px' : '55px'}
             background={'lightgray'}
             direction={'column'}
-            borderRight={'1px solid'}
+            borderRight={'0.5px solid'}
             borderColor={'border'}
         >
             <Flex
@@ -74,7 +73,7 @@ export const NavBar = () => {
                 height={'45px'}
                 minHeight={'45px'}
                 maxHeight={'45px'}
-                borderBottom={'1px solid'}
+                borderBottom={'0.5px solid'}
                 borderColor={'border'}
                 alignItems={'center'}
             >
@@ -94,7 +93,7 @@ export const NavBar = () => {
 
             {!isFullNavBar && (
                 <Flex
-                    borderBottom={'1px solid'}
+                    borderBottom={'0.5px solid'}
                     borderColor={'border'}
                     justifyContent={'center'}
                     alignItems={'center'}
@@ -108,7 +107,7 @@ export const NavBar = () => {
 
             <Flex
                 direction={'column'}
-                borderBottom={'1px solid'}
+                borderBottom={'0.5px solid'}
                 borderColor={'border'}
                 overflowY={'auto'}
                 justifyContent={'flex-end'}
@@ -133,7 +132,7 @@ export const NavBar = () => {
             <Flex
                 width={'100%'}
                 direction={'column'}
-                borderBottom={'1px solid'}
+                borderBottom={'0.5px solid'}
                 borderColor={'border'}
                 overflowY={'auto'}
                 flex={1}
@@ -162,28 +161,28 @@ export const NavBar = () => {
 
                     <NavListItem
                         icon={<LiaProjectDiagramSolid color={'gray.900'} size={14} />}
-                        label={'Products'}
+                        label={'Projects'}
                         to={`/${activeDomain.domainId}/projects`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<IoDocumentTextOutline color={'gray.900'} size={14} />}
-                        label={'Product Documentation'}
+                        label={'Documentation'}
                         to={`/${activeDomain.domainId}/documentation/relevant`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<GoTasklist color={'gray.900'} size={14} />}
-                        label={'Product Management'}
+                        label={'Work Boards'}
                         to={`${activeDomain.domainId}/work`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<FaWpforms color={'gray.900'} size={14} />}
-                        label={'Request Forms'}
+                        label={'Forms'}
                         to={`${activeDomain.domainId}/forms`}
                         iconOnly={!isFullNavBar}
                     />
@@ -197,13 +196,7 @@ export const NavBar = () => {
                 </List>
             </Flex>
 
-            <Flex
-                direction={'column'}
-                borderTop={'1px solid'}
-                borderColor={'border'}
-                overflowY={'auto'}
-                justifyContent={'flex-end'}
-            >
+            <Flex direction={'column'} overflowY={'auto'} justifyContent={'flex-end'}>
                 <List width={'100%'} gap={2} p={3} display={'flex'} flexDir={'column'}>
                     <NavListItem
                         icon={<IoPersonAddOutline color={'gray.900'} size={14} />}

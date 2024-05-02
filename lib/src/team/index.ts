@@ -1,3 +1,3 @@
-export * from './create-team.dto';
-export * from './search-team.dto';
-export * from './team.dto';
+export * from './create-team-data';
+export * from './search-team-params';
+export * from './team';
