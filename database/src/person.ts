@@ -7,6 +7,7 @@ export const person = pgTable(
     {
         personId: text('person_id').primaryKey().notNull(),
         userId: text('user_id')
+            .primaryKey()
             .notNull()
             .references(() => user.userId),
         domainId: text('domain_id')

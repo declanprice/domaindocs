@@ -17,7 +17,7 @@ import { IoDocumentTextOutline } from 'react-icons/io5';
 import { MdOutlinePerson } from 'react-icons/md';
 import { LiaProjectDiagramSolid } from 'react-icons/lia';
 import { AiOutlineProfile } from 'react-icons/ai';
-import { PiPlugsConnected } from 'react-icons/pi';
+
 const NavListItem = (props: { icon: any; label: string; to: string; iconOnly: boolean }) => {
     const navigate = useNavigate();
 
@@ -53,6 +53,7 @@ const NavListItem = (props: { icon: any; label: string; to: string; iconOnly: bo
 export const NavBar = () => {
     const { isFullNavBar, closeNavBar, openNavBar } = useUiStore();
     const domains = useAuthStore((state) => state.user?.domains);
+    const userId = useAuthStore((state) => state.user?.userId);
     const { activeDomain, setActiveDomain } = useUiStore();
 
     if (!domains || !activeDomain) return 'active domains not set.';
@@ -127,14 +128,14 @@ export const NavBar = () => {
                     <NavListItem
                         icon={<AiOutlineProfile color={'gray.900'} size={18} />}
                         label={'My Profile'}
-                        to={'/profile'}
+                        to={`/${activeDomain.domainId}/people/${userId}`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<BsInbox color={'gray.900'} size={18} />}
                         label={'Inbox'}
-                        to={'/inbox'}
+                        to={`/${activeDomain.domainId}/inbox`}
                         iconOnly={!isFullNavBar}
                     />
                 </List>
@@ -187,14 +188,14 @@ export const NavBar = () => {
                     <NavListItem
                         icon={<MdOutlineWorkOutline color={'gray.900'} size={18} />}
                         label={'Work Areas'}
-                        to={`${activeDomain.domainId}/work`}
+                        to={`/${activeDomain.domainId}/work-areas`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
                         icon={<SiReacthookform color={'gray.900'} size={18} />}
                         label={'Forms'}
-                        to={`${activeDomain.domainId}/forms`}
+                        to={`/${activeDomain.domainId}/forms`}
                         iconOnly={!isFullNavBar}
                     />
 

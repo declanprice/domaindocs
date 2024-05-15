@@ -22,6 +22,23 @@ import { ProjectFilesPage } from './pages/project/ProjectFilesPage';
 import { DocumentationPage } from './pages/documentation/DocumentationPage';
 import { OnboardingPage } from './pages/onboarding/OnboardingPage';
 import { TeamPage } from './pages/team/TeamPage';
+import { UserSettingsPage } from './pages/user-settings/UserSettingsPage';
+import { PersonPage } from './pages/person/PersonPage';
+import { InboxPage } from './pages/inbox/InboxPage';
+import { WorkAreasPage } from './pages/work-areas/WorkAreasPage';
+import { WorkAreaBoardPage } from './pages/work-area/WorkAreaBoardPage';
+import { WorkAreaBacklogPage } from './pages/work-area/WorkAreaBacklogPage';
+import { WorkAreaItemsPage } from './pages/work-area/WorkAreaItemsPage';
+import { WorkAreaIntegrationsPage } from './pages/work-area/WorkAreaIntegrationsPage';
+import { WorkAreaSettingsPage } from './pages/work-area/WorkAreaSettingsPage';
+import { FormsPage } from './pages/forms/FormsPage';
+import { FormsYourFormsPage } from './pages/forms/FormsYourFormsPage';
+import { FormsYourSubmissionsPage } from './pages/forms/FormsYourSubmissionsPage';
+import { FormSubmissionsPage } from './pages/form/FormSubmissionsPage';
+import { FormFieldsPage } from './pages/form/FormFieldsPage';
+import { FormIntegrationsPage } from './pages/form/FormIntegrationsPage';
+import { FormSettingsPage } from './pages/form/FormSettingsPage';
+import { FilesPage } from './pages/files/FilesPage';
 
 export const routes = createBrowserRouter([
     {
@@ -52,6 +69,10 @@ export const routes = createBrowserRouter([
                                     {
                                         path: 'people',
                                         element: <PeoplePage />,
+                                    },
+                                    {
+                                        path: 'people/:personId',
+                                        element: <PersonPage />,
                                     },
                                     {
                                         path: 'teams',
@@ -113,8 +134,95 @@ export const routes = createBrowserRouter([
                                         ],
                                     },
                                     {
+                                        path: 'work-areas',
+                                        element: <WorkAreasPage />,
+                                    },
+                                    {
+                                        path: 'work-areas/:workAreaId',
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <Navigate to={'board'} />,
+                                            },
+                                            {
+                                                path: 'board',
+                                                element: <WorkAreaBoardPage />,
+                                            },
+                                            {
+                                                path: 'backlog',
+                                                element: <WorkAreaBacklogPage />,
+                                            },
+                                            {
+                                                path: 'items',
+                                                element: <WorkAreaItemsPage />,
+                                            },
+                                            {
+                                                path: 'integrations',
+                                                element: <WorkAreaIntegrationsPage />,
+                                            },
+                                            {
+                                                path: 'settings',
+                                                element: <WorkAreaSettingsPage />,
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        path: 'forms',
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <FormsPage />,
+                                            },
+                                            {
+                                                path: 'your-submissions',
+                                                element: <FormsYourSubmissionsPage />,
+                                            },
+                                            {
+                                                path: 'your-forms',
+                                                element: <FormsYourFormsPage />,
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        path: 'forms/:formId',
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <Navigate to={'submissions'} />,
+                                            },
+                                            {
+                                                path: 'submissions',
+                                                element: <FormSubmissionsPage />,
+                                            },
+                                            {
+                                                path: 'fields',
+                                                element: <FormFieldsPage />,
+                                            },
+                                            {
+                                                path: 'integrations',
+                                                element: <FormIntegrationsPage />,
+                                            },
+                                            {
+                                                path: 'settings',
+                                                element: <FormSettingsPage />,
+                                            },
+                                        ],
+                                    },
+                                    {
                                         path: 'onboarding',
                                         element: <OnboardingPage />,
+                                    },
+                                    {
+                                        path: 'files',
+                                        element: <FilesPage />,
+                                    },
+                                    {
+                                        path: 'user-settings',
+                                        element: <UserSettingsPage />,
+                                    },
+                                    {
+                                        path: 'inbox',
+                                        element: <InboxPage />,
                                     },
                                 ],
                             },

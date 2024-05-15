@@ -1,3 +1,3 @@
 export const InboxPage = () => {
-    return <>''</>;
+    return <>inbox page</>;
 };

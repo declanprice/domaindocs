@@ -1,3 +1,3 @@
 export const WorkAreasPage = () => {
-    return <>''</>;
+    return <>work areas</>;
 };

@@ -1,3 +1,3 @@
 export const PersonPage = () => {
-    return <>''</>;
+    return <>person page</>;
 };

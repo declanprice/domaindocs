@@ -11,11 +11,14 @@ import {
 } from '@chakra-ui/react';
 import { CiSettings } from 'react-icons/ci';
 import { PiSignOut } from 'react-icons/pi';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthStore } from '../state/stores/auth.store';
+import { DomainPageParams } from '../types/DomainPageParams';
 
 export const UserMenu = () => {
     const { signOut } = useAuthStore();
+
+    const { domainId } = useParams() as DomainPageParams;
 
     const navigate = useNavigate();
 
@@ -61,7 +64,13 @@ export const UserMenu = () => {
                         Declan Price
                     </Text>
 
-                    <UserMenuButton label={'User settings'} icon={<CiSettings />} />
+                    <UserMenuButton
+                        label={'User settings'}
+                        icon={<CiSettings />}
+                        onClick={() => {
+                            navigate(`/${domainId}/user-settings`);
+                        }}
+                    />
 
                     <Divider />
 
