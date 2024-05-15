@@ -65,10 +65,10 @@ export const NavBar = () => {
             minWidth={isFullNavBar ? '280px' : '55px'}
             background={'lightgray'}
             direction={'column'}
-            borderRight={'0.5px solid'}
+            borderRight={'1px solid'}
             borderColor={'border'}
         >
-            <Flex borderBottom={'0.5px solid'} borderColor={'border'} alignItems={'center'}>
+            <Flex borderBottom={'1px solid'} height={'40px'} borderColor={'border'} alignItems={'center'}>
                 <DomainSelectorMenu
                     value={activeDomain}
                     options={domains}
@@ -78,7 +78,7 @@ export const NavBar = () => {
             </Flex>
 
             {!isFullNavBar && (
-                <Flex width={'100%'} borderBottom={'0.5px solid'} borderColor={'border'} justifyContent={'center'}>
+                <Flex width={'100%'} borderBottom={'1px solid'} borderColor={'border'} justifyContent={'center'}>
                     <Button
                         variant={'ghost'}
                         colorScheme={'gray'}
@@ -98,7 +98,7 @@ export const NavBar = () => {
             )}
 
             {isFullNavBar && (
-                <Flex width={'100%'} borderBottom={'0.5px solid'} borderColor={'border'} justifyContent={'center'}>
+                <Flex width={'100%'} borderBottom={'1px solid'} borderColor={'border'} justifyContent={'center'}>
                     <Button
                         variant={'ghost'}
                         colorScheme={'gray'}
@@ -119,7 +119,7 @@ export const NavBar = () => {
 
             <Flex
                 direction={'column'}
-                borderBottom={'0.5px solid'}
+                borderBottom={'1px solid'}
                 borderColor={'border'}
                 overflowY={'auto'}
                 justifyContent={'flex-end'}
@@ -144,7 +144,7 @@ export const NavBar = () => {
             <Flex
                 width={'100%'}
                 direction={'column'}
-                borderBottom={'0.5px solid'}
+                borderBottom={'1px solid'}
                 borderColor={'border'}
                 overflowY={'auto'}
                 flex={1}
@@ -153,7 +153,7 @@ export const NavBar = () => {
                     <NavListItem
                         label={'Home'}
                         icon={<FiHome color={'gray.900'} size={18} />}
-                        to={`/${activeDomain.domainId}/home`}
+                        to={`/${activeDomain.domainId}/home/overview`}
                         iconOnly={!isFullNavBar}
                     />
 

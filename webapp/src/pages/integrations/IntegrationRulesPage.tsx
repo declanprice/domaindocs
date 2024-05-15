@@ -1,3 +1,3 @@
-export const IntegrationsConnectionsPage = () => {
-    return <>''</>;
+export const IntegrationRulesPage = () => {
+    return <>rules</>;
 };

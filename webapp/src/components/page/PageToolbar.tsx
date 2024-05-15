@@ -22,10 +22,10 @@ export const PageToolbar = (props: PageToolbarProps) => {
 
     return (
         <Flex
-            height={'45px'}
-            minHeight={'45px'}
+            height={'40px'}
+            minHeight={'40px'}
             width={'100%'}
-            borderBottom={'0.5px solid'}
+            borderBottom={'1px solid'}
             borderColor={'border'}
             alignItems={'center'}
             gap={10}
@@ -45,7 +45,7 @@ export const PageToolbar = (props: PageToolbarProps) => {
                 >
                     <TabList borderBottom={'0'}>
                         {tabs.map((t) => (
-                            <Tab onClick={t.onClick} fontSize={12} mb={'0.5px'}>
+                            <Tab onClick={t.onClick} fontSize={12}>
                                 {t.label}
                             </Tab>
                         ))}

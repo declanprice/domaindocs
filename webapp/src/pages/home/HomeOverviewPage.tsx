@@ -1,9 +1,9 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Heading } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { HomePageToolbar } from './HomePageToolbar';
 
-export const HomeDocumentationPage = () => {
+export const HomeOverviewPage = () => {
     const { domainId } = useParams() as DomainPageParams;
 
     return (
@@ -12,7 +12,9 @@ export const HomeDocumentationPage = () => {
 
             <Box height={'100%'} width={'100%'} overflowY={'auto'}>
                 <Flex p={4} gap={4} width={'100%'} direction={'column'}>
-                    docs
+                    <Heading width={'100%'} size={'md'} fontWeight={'regular'}>
+                        Welcome, Declan
+                    </Heading>
                 </Flex>
             </Box>
         </Flex>

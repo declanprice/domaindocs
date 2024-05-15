@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { HomePage } from './pages/home/HomePage';
+import { HomeOverviewPage } from './pages/home/HomeOverviewPage';
 import { SignInPage } from './pages/auth/sign-in/SignInPage';
 import { SignUpPage } from './pages/auth/sign-up/SignUpPage';
 import { VerifyMagicLinkPage } from './pages/auth/VerifyMagicLinkPage';
@@ -39,6 +39,11 @@ import { FormFieldsPage } from './pages/form/FormFieldsPage';
 import { FormIntegrationsPage } from './pages/form/FormIntegrationsPage';
 import { FormSettingsPage } from './pages/form/FormSettingsPage';
 import { FilesPage } from './pages/files/FilesPage';
+import { IntegrationsConnectionsPage } from './pages/integrations/IntegrationsConnectionsPage';
+import { IntegrationRulesPage } from './pages/integrations/IntegrationRulesPage';
+import { DomainSettingsPage } from './pages/domain-settings/DomainSettingsPage';
+import { HomeDocumentationPage } from './pages/home/HomeDocumentationPage';
+import { HomeNoticeBoardPage } from './pages/home/HomeNoticeBoardPage';
 
 export const routes = createBrowserRouter([
     {
@@ -63,7 +68,24 @@ export const routes = createBrowserRouter([
                                     },
                                     {
                                         path: 'home',
-                                        element: <HomePage />,
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <Navigate to={'overview'} />,
+                                            },
+                                            {
+                                                path: 'overview',
+                                                element: <HomeOverviewPage />,
+                                            },
+                                            {
+                                                path: 'notice-board',
+                                                element: <HomeNoticeBoardPage />,
+                                            },
+                                            {
+                                                path: 'documentation',
+                                                element: <HomeDocumentationPage />,
+                                            },
+                                        ],
                                     },
 
                                     {
@@ -224,6 +246,24 @@ export const routes = createBrowserRouter([
                                         path: 'inbox',
                                         element: <InboxPage />,
                                     },
+                                    {
+                                        path: 'integrations',
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <Navigate to={'connections'} />,
+                                            },
+                                            {
+                                                path: 'connections',
+                                                element: <IntegrationsConnectionsPage />,
+                                            },
+                                            {
+                                                path: 'rules',
+                                                element: <IntegrationRulesPage />,
+                                            },
+                                        ],
+                                    },
+                                    { path: 'settings', element: <DomainSettingsPage /> },
                                 ],
                             },
                         ],

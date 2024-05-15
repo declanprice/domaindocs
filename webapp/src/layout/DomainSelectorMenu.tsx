@@ -4,6 +4,7 @@ import { IoChevronDown } from 'react-icons/io5';
 
 import { Domain } from '@domaindocs/lib';
 import { CiSettings } from 'react-icons/ci';
+import { useNavigate } from 'react-router-dom';
 
 type DomainSelectorMenuProps = {
     iconOnly: boolean;
@@ -14,6 +15,8 @@ type DomainSelectorMenuProps = {
 
 export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
     const { value, options, onSelect, iconOnly } = props;
+
+    const navigate = useNavigate();
 
     const MenuButton = (props: { icon: any; label: string; onClick?: () => void }) => {
         const { icon, label, onClick } = props;
@@ -43,12 +46,7 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
             <PopoverTrigger>
                 <Button width={'100%'} aria-label={'domain selector button'} variant={'ghost'}>
                     <Flex width={'100%'} gap={2} alignItems="center">
-                        <Avatar
-                            name={'Registers Of Scotland'}
-                            size={'xs'}
-                            rounded={'lg'}
-                            backgroundColor={'gray.200'}
-                        ></Avatar>
+                        <Avatar name={value.name} size={'xs'} rounded={'lg'} backgroundColor={'gray.200'}></Avatar>
 
                         {!iconOnly && (
                             <>
@@ -71,9 +69,21 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
                         {value.name}
                     </Text>
 
-                    <MenuButton label={'Settings'} icon={<CiSettings />} />
+                    <MenuButton
+                        label={'Settings'}
+                        icon={<CiSettings />}
+                        onClick={() => {
+                            navigate(`/${value.domainId}/settings`);
+                        }}
+                    />
 
-                    <MenuButton label={'Integrations'} icon={<PiPlugsConnected />} />
+                    <MenuButton
+                        label={'Integrations'}
+                        icon={<PiPlugsConnected />}
+                        onClick={() => {
+                            navigate(`/${value.domainId}/integrations`);
+                        }}
+                    />
 
                     <Divider />
                     <Text mt={2} ml={2} fontSize={'xs'}>
