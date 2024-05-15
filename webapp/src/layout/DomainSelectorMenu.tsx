@@ -1,8 +1,9 @@
-import { Avatar, Box, Button, Flex, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
-
+import { Avatar, Box, Button, Divider, Flex, Popover, PopoverContent, PopoverTrigger, Text } from '@chakra-ui/react';
+import { PiPlugsConnected } from 'react-icons/pi';
 import { IoChevronDown } from 'react-icons/io5';
 
 import { Domain } from '@domaindocs/lib';
+import { CiSettings } from 'react-icons/ci';
 
 type DomainSelectorMenuProps = {
     iconOnly: boolean;
@@ -14,44 +15,89 @@ type DomainSelectorMenuProps = {
 export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
     const { value, options, onSelect, iconOnly } = props;
 
+    const MenuButton = (props: { icon: any; label: string; onClick?: () => void }) => {
+        const { icon, label, onClick } = props;
+
+        return (
+            <Button
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'flex-start'}
+                gap={2}
+                size={'sm'}
+                variant={'ghost'}
+                onClick={onClick}
+                fontWeight={'regular'}
+            >
+                {icon}
+
+                <Text fontSize={12} color={'gray.900'}>
+                    {label}
+                </Text>
+            </Button>
+        );
+    };
+
     return (
-        <Menu>
-            <MenuButton width={'100%'} as={Button} variant={'ghost'} rounded="md">
-                <Flex gap={2} alignItems="center" justifyContent="flex-start">
-                    <Avatar
-                        name={'Registers Of Scotland'}
-                        size={'xs'}
-                        rounded={'lg'}
-                        backgroundColor={'gray.200'}
-                    ></Avatar>
+        <Popover>
+            <PopoverTrigger>
+                <Button width={'100%'} aria-label={'domain selector button'} variant={'ghost'}>
+                    <Flex width={'100%'} gap={2} alignItems="center">
+                        <Avatar
+                            name={'Registers Of Scotland'}
+                            size={'xs'}
+                            rounded={'lg'}
+                            backgroundColor={'gray.200'}
+                        ></Avatar>
 
-                    {!iconOnly && (
-                        <>
-                            <Text color={'gray.900'} fontSize={12}>
-                                {value.name}
-                            </Text>
+                        {!iconOnly && (
+                            <>
+                                <Text color={'gray.900'} fontSize={12}>
+                                    {value.name}
+                                </Text>
 
-                            <Box marginLeft={'auto'}>
-                                <IoChevronDown color={'gray.900'} size={12} />
-                            </Box>
-                        </>
-                    )}
+                                <Box marginLeft={'auto'}>
+                                    <IoChevronDown color={'gray.900'} size={12} />
+                                </Box>
+                            </>
+                        )}
+                    </Flex>
+                </Button>
+            </PopoverTrigger>
+
+            <PopoverContent width={'220px'} ml={2}>
+                <Flex direction={'column'} gap={2} p={2}>
+                    <Text mt={2} ml={2} fontSize={'sm'}>
+                        {value.name}
+                    </Text>
+
+                    <MenuButton label={'Settings'} icon={<CiSettings />} />
+
+                    <MenuButton label={'Integrations'} icon={<PiPlugsConnected />} />
+
+                    <Divider />
+                    <Text mt={2} ml={2} fontSize={'xs'}>
+                        Switch Domains
+                    </Text>
+
+                    {options.map((option) => (
+                        <Button width={'100%'} aria-label={'domain selector button'} variant={'ghost'}>
+                            <Flex width={'100%'} gap={2} alignItems="center">
+                                <Avatar
+                                    name={option.name}
+                                    size={'xs'}
+                                    rounded={'lg'}
+                                    backgroundColor={'gray.200'}
+                                ></Avatar>
+
+                                <Text color={'gray.900'} fontSize={12}>
+                                    {option.name}
+                                </Text>
+                            </Flex>
+                        </Button>
+                    ))}
                 </Flex>
-            </MenuButton>
-
-            <MenuList>
-                {options.map((option) => (
-                    <MenuItem
-                        fontSize={12}
-                        key={option.domainId}
-                        onClick={() => {
-                            onSelect(option);
-                        }}
-                    >
-                        {option.name}
-                    </MenuItem>
-                ))}
-            </MenuList>
-        </Menu>
+            </PopoverContent>
+        </Popover>
     );
 };

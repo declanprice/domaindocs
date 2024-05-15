@@ -17,7 +17,7 @@ import { IoDocumentTextOutline } from 'react-icons/io5';
 import { MdOutlinePerson } from 'react-icons/md';
 import { LiaProjectDiagramSolid } from 'react-icons/lia';
 import { AiOutlineProfile } from 'react-icons/ai';
-
+import { PiPlugsConnected } from 'react-icons/pi';
 const NavListItem = (props: { icon: any; label: string; to: string; iconOnly: boolean }) => {
     const navigate = useNavigate();
 
