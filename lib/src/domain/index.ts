@@ -1,2 +1,2 @@
-export * from './domain.dto';
-export * from './setup-domain.dto';
+export * from './domain';
+export * from './setup-domain-data';

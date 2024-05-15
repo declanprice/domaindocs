@@ -2,7 +2,7 @@ import { DocumentationService } from './documentation.service';
 import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { SearchDocumentation, AddDocumentation } from '@domaindocs/lib';
+import { SearchDocumentationParams, AddDocumentationData } from '@domaindocs/lib';
 
 @Controller('domains/:domainId/documentation')
 @UseGuards(AuthGuard)
@@ -13,7 +13,7 @@ export class DocumentationController {
     async search(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
-        @Query() dto: SearchDocumentation,
+        @Query() dto: SearchDocumentationParams,
     ) {
         return this.documentationService.search(session, domainId, dto);
     }
@@ -32,7 +32,7 @@ export class DocumentationController {
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('documentationId') documentationId: string,
-        @Body() dto: AddDocumentation,
+        @Body() dto: AddDocumentationData,
     ) {
         return this.documentationService.add(session, domainId, documentationId, dto);
     }

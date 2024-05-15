@@ -5,63 +5,49 @@ import { DefaultError, useMutation } from '@tanstack/react-query';
 import { useAuthStore } from '../../state/stores/auth.store';
 import { domainsApi } from '../../state/api/domains-api';
 import { FormTextInput } from '../../components/form/FormInput';
-import { DomainDto, SetupDomainDto } from '@domaindocs/lib';
+import { Domain, SetupDomainData } from '@domaindocs/lib';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 export const DomainSetupPage = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const setUserDomains = useAuthStore((state) => state.setUserDomains);
+    const setUserDomains = useAuthStore((state) => state.setUserDomains);
 
-  const { mutate } = useMutation<DomainDto, DefaultError, SetupDomainDto>({
-    mutationKey: ['setupDomain'],
-    mutationFn: domainsApi.setupDomain,
-    onSuccess: (data) => {
-      setUserDomains(data);
-      navigate(`/${data.domainId}/home`);
-    },
-  });
+    const { mutate } = useMutation<Domain, DefaultError, SetupDomainData>({
+        mutationKey: ['setupDomain'],
+        mutationFn: domainsApi.setupDomain,
+        onSuccess: (data) => {
+            setUserDomains(data);
+            navigate(`/${data.domainId}/home`);
+        },
+    });
 
-  const { handleSubmit, control } = useForm<SetupDomainDto>({
-    values: {
-      domainName: '',
-    },
-    resolver: classValidatorResolver(SetupDomainDto),
-  });
+    const { handleSubmit, control } = useForm<SetupDomainData>({
+        values: {
+            domainName: '',
+        },
+        resolver: classValidatorResolver(SetupDomainData),
+    });
 
-  const submit = (data: SetupDomainDto) => {
-    return mutate(data);
-  };
+    const submit = (data: SetupDomainData) => {
+        return mutate(data);
+    };
 
-  return (
-    <Flex
-      height={'100%'}
-      width={'100%'}
-      justifyContent={'center'}
-      alignItems={'center'}
-    >
-      <form onSubmit={handleSubmit(submit)}>
-        <Flex direction={'column'} alignItems={'end'} gap={6}>
-          <Heading size={'lg'}>Create Domain</Heading>
-          <FormTextInput
-            name={'domainName'}
-            control={control}
-            placeholder={'Domain Name'}
-          />
-          <Button
-            type={'submit'}
-            color={'white'}
-            size={'xs'}
-            backgroundColor={'gray.700'}
-          >
-            Continue
-          </Button>
+    return (
+        <Flex height={'100%'} width={'100%'} justifyContent={'center'} alignItems={'center'}>
+            <form onSubmit={handleSubmit(submit)}>
+                <Flex direction={'column'} alignItems={'end'} gap={6}>
+                    <Heading size={'lg'}>Create Domain</Heading>
+                    <FormTextInput name={'domainName'} control={control} placeholder={'Domain Name'} />
+                    <Button type={'submit'} color={'white'} size={'xs'} backgroundColor={'gray.700'}>
+                        Continue
+                    </Button>
 
-          <Link href={'/auth/sign-in'} fontSize={12}>
-            Join an existing domain.
-          </Link>
+                    <Link href={'/auth/sign-in'} fontSize={12}>
+                        Join an existing domain.
+                    </Link>
+                </Flex>
+            </form>
         </Flex>
-      </form>
-    </Flex>
-  );
+    );
 };

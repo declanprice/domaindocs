@@ -1,39 +1,39 @@
 import { Button, Flex, List, ListItem, Text } from '@chakra-ui/react';
 import { FiHome } from 'react-icons/fi';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { TbLayoutSidebarRightCollapse } from 'react-icons/tb';
-import { LiaProjectDiagramSolid } from 'react-icons/lia';
-import { IoDocumentTextOutline } from 'react-icons/io5';
 import { MdOutlineManageHistory } from 'react-icons/md';
 import { TbLayoutSidebarLeftCollapse } from 'react-icons/tb';
 import { IoPersonAddOutline } from 'react-icons/io5';
-import { LuBadgeHelp } from 'react-icons/lu';
 import { GoPeople } from 'react-icons/go';
-import { TbUsersGroup } from 'react-icons/tb';
 import { useAuthStore } from '../state/stores/auth.store';
 import { useUiStore } from '../state/stores/ui.store';
 import { DomainSelectorMenu } from './DomainSelectorMenu';
-import { GoTasklist } from 'react-icons/go';
-import { FaWpforms } from 'react-icons/fa6';
-import { ImProfile } from 'react-icons/im';
 import { BsInbox } from 'react-icons/bs';
+import { PiFloppyDiskLight } from 'react-icons/pi';
+import { SiReacthookform } from 'react-icons/si';
+import { MdOutlineWorkOutline } from 'react-icons/md';
+import { IoDocumentTextOutline } from 'react-icons/io5';
+import { MdOutlinePerson } from 'react-icons/md';
+import { LiaProjectDiagramSolid } from 'react-icons/lia';
+import { AiOutlineProfile } from 'react-icons/ai';
+
 const NavListItem = (props: { icon: any; label: string; to: string; iconOnly: boolean }) => {
     const navigate = useNavigate();
 
     const { icon, label, to, iconOnly } = props;
 
     return (
-        <ListItem width={'100%'} key={props.label}>
+        <ListItem key={props.label}>
             <Button
                 variant={'ghost'}
                 colorScheme={'gray'}
                 alignItems={'center'}
-                justifyContent={'flex-start'}
+                justifyContent={iconOnly ? 'center' : 'flex-start'}
                 display={'flex'}
-                size={'xs'}
-                width={'100%'}
                 fontWeight={'regular'}
-                gap={4}
+                gap={3}
+                width={'100%'}
                 onClick={() => {
                     navigate(to);
                 }}
@@ -67,40 +67,51 @@ export const NavBar = () => {
             borderRight={'0.5px solid'}
             borderColor={'border'}
         >
-            <Flex
-                p={2}
-                width={'100%'}
-                height={'45px'}
-                minHeight={'45px'}
-                maxHeight={'45px'}
-                borderBottom={'0.5px solid'}
-                borderColor={'border'}
-                alignItems={'center'}
-            >
+            <Flex borderBottom={'0.5px solid'} borderColor={'border'} alignItems={'center'}>
                 <DomainSelectorMenu
                     value={activeDomain}
                     options={domains}
                     onSelect={setActiveDomain}
                     iconOnly={!isFullNavBar}
                 />
-
-                {isFullNavBar && (
-                    <Button size={'sm'} variant={'ghost'} ml={'auto'} onClick={closeNavBar}>
-                        <TbLayoutSidebarLeftCollapse color={'gray.900'} />
-                    </Button>
-                )}
             </Flex>
 
             {!isFullNavBar && (
-                <Flex
-                    borderBottom={'0.5px solid'}
-                    borderColor={'border'}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                    onClick={openNavBar}
-                >
-                    <Button my={2} size={'xs'} variant={'ghost'} onClick={() => {}}>
-                        <TbLayoutSidebarRightCollapse color={'gray.900'} size={14} />
+                <Flex width={'100%'} borderBottom={'0.5px solid'} borderColor={'border'} justifyContent={'center'}>
+                    <Button
+                        variant={'ghost'}
+                        colorScheme={'gray'}
+                        alignItems={'center'}
+                        justifyContent={'center'}
+                        display={'flex'}
+                        fontWeight={'regular'}
+                        gap={3}
+                        width={'100%'}
+                        onClick={() => {
+                            openNavBar();
+                        }}
+                    >
+                        <TbLayoutSidebarRightCollapse color={'gray.900'} size={18} />
+                    </Button>
+                </Flex>
+            )}
+
+            {isFullNavBar && (
+                <Flex width={'100%'} borderBottom={'0.5px solid'} borderColor={'border'} justifyContent={'center'}>
+                    <Button
+                        variant={'ghost'}
+                        colorScheme={'gray'}
+                        alignItems={'center'}
+                        justifyContent={'center'}
+                        display={'flex'}
+                        fontWeight={'regular'}
+                        gap={3}
+                        width={'100%'}
+                        onClick={() => {
+                            closeNavBar();
+                        }}
+                    >
+                        <TbLayoutSidebarLeftCollapse color={'gray.900'} size={18} />
                     </Button>
                 </Flex>
             )}
@@ -112,16 +123,16 @@ export const NavBar = () => {
                 overflowY={'auto'}
                 justifyContent={'flex-end'}
             >
-                <List width={'100%'} gap={2} p={3} display={'flex'} flexDir={'column'}>
+                <List width={'100%'} display={'flex'} flexDir={'column'}>
                     <NavListItem
-                        icon={<ImProfile color={'gray.900'} size={14} />}
+                        icon={<AiOutlineProfile color={'gray.900'} size={18} />}
                         label={'My Profile'}
                         to={'/profile'}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
-                        icon={<BsInbox color={'gray.900'} size={14} />}
+                        icon={<BsInbox color={'gray.900'} size={18} />}
                         label={'Inbox'}
                         to={'/inbox'}
                         iconOnly={!isFullNavBar}
@@ -137,78 +148,78 @@ export const NavBar = () => {
                 overflowY={'auto'}
                 flex={1}
             >
-                <List width={'100%'} gap={2} p={3} display={'flex'} flexDir={'column'}>
+                <List width={'100%'} display={'flex'} flexDir={'column'}>
                     <NavListItem
                         label={'Home'}
-                        icon={<FiHome color={'gray.900'} size={14} />}
+                        icon={<FiHome color={'gray.900'} size={18} />}
                         to={`/${activeDomain.domainId}/home`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
-                        icon={<GoPeople color={'gray.900'} size={14} />}
+                        icon={<MdOutlinePerson color={'gray.900'} size={18} />}
                         label={'People'}
                         to={`/${activeDomain.domainId}/people`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
-                        icon={<TbUsersGroup color={'gray.900'} size={14} />}
+                        icon={<GoPeople color={'gray.900'} size={18} />}
                         label={'Teams'}
                         to={`/${activeDomain.domainId}/teams`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
-                        icon={<LiaProjectDiagramSolid color={'gray.900'} size={14} />}
+                        icon={<LiaProjectDiagramSolid color={'gray.900'} size={18} />}
                         label={'Projects'}
                         to={`/${activeDomain.domainId}/projects`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
-                        icon={<IoDocumentTextOutline color={'gray.900'} size={14} />}
+                        icon={<IoDocumentTextOutline color={'gray.900'} size={18} />}
                         label={'Documentation'}
                         to={`/${activeDomain.domainId}/documentation/relevant`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
-                        icon={<GoTasklist color={'gray.900'} size={14} />}
-                        label={'Work Boards'}
+                        icon={<MdOutlineWorkOutline color={'gray.900'} size={18} />}
+                        label={'Work Areas'}
                         to={`${activeDomain.domainId}/work`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
-                        icon={<FaWpforms color={'gray.900'} size={14} />}
+                        icon={<SiReacthookform color={'gray.900'} size={18} />}
                         label={'Forms'}
                         to={`${activeDomain.domainId}/forms`}
                         iconOnly={!isFullNavBar}
                     />
 
                     <NavListItem
-                        icon={<MdOutlineManageHistory color={'gray.900'} size={14} />}
+                        icon={<MdOutlineManageHistory color={'gray.900'} size={18} />}
                         label={'Onboarding'}
                         to={`/${activeDomain.domainId}/onboarding`}
+                        iconOnly={!isFullNavBar}
+                    />
+
+                    <NavListItem
+                        icon={<PiFloppyDiskLight color={'gray.900'} size={18} />}
+                        label={'Files'}
+                        to={`${activeDomain.domainId}/files`}
                         iconOnly={!isFullNavBar}
                     />
                 </List>
             </Flex>
 
             <Flex direction={'column'} overflowY={'auto'} justifyContent={'flex-end'}>
-                <List width={'100%'} gap={2} p={3} display={'flex'} flexDir={'column'}>
+                <List width={'100%'} gap={2} display={'flex'} flexDir={'column'}>
                     <NavListItem
-                        icon={<IoPersonAddOutline color={'gray.900'} size={14} />}
+                        icon={<IoPersonAddOutline color={'gray.900'} size={18} />}
                         label={'Invite'}
                         to={'/invite'}
-                        iconOnly={!isFullNavBar}
-                    />
-
-                    <NavListItem
-                        icon={<LuBadgeHelp color={'gray.900'} size={14} />}
-                        label={'Help'}
-                        to={'/help'}
                         iconOnly={!isFullNavBar}
                     />
                 </List>

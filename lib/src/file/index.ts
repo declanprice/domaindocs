@@ -1,2 +1,2 @@
 export * from './file';
-export * from './search-files';
+export * from './search-files-params';

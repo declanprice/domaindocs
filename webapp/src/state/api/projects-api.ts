@@ -1,17 +1,17 @@
 import {
-    AddProjectOwnership,
-    CreateProject,
+    AddProjectOwnershipData,
+    CreateProjectData,
     DetailedProject,
     ProjectOverview,
-    SearchProjects,
-    UpdateProjectDescription,
-    AddProjectLink,
+    SearchProjectsParams,
+    UpdateProjectDescriptionData,
+    AddProjectLinkData,
 } from '@domaindocs/lib';
 
 import { apiClient } from './api-client';
 
 export const projectsApi = (() => {
-    const searchProjects = async (domainId: string, params: SearchProjects = {}): Promise<DetailedProject[]> => {
+    const searchProjects = async (domainId: string, params: SearchProjectsParams = {}): Promise<DetailedProject[]> => {
         const result = await apiClient.get<DetailedProject[]>(`/domains/${domainId}/projects`, {
             params,
         });
@@ -25,23 +25,23 @@ export const projectsApi = (() => {
         return result.data;
     };
 
-    const createProject = async (domainId: string, data: CreateProject): Promise<void> => {
+    const createProject = async (domainId: string, data: CreateProjectData): Promise<void> => {
         await apiClient.post(`/domains/${domainId}/projects`, data);
     };
 
     const updateDescription = async (
         domainId: string,
         projectId: string,
-        data: UpdateProjectDescription,
+        data: UpdateProjectDescriptionData,
     ): Promise<void> => {
         await apiClient.put(`/domains/${domainId}/projects/${projectId}/description`, data);
     };
 
-    const addOwnership = async (domainId: string, projectId: string, dto: AddProjectOwnership): Promise<void> => {
+    const addOwnership = async (domainId: string, projectId: string, dto: AddProjectOwnershipData): Promise<void> => {
         await apiClient.put(`/domains/${domainId}/projects/${projectId}/ownership`, dto);
     };
 
-    const addLink = async (domainId: string, projectId: string, dto: AddProjectLink): Promise<void> => {
+    const addLink = async (domainId: string, projectId: string, dto: AddProjectLinkData): Promise<void> => {
         await apiClient.put(`/domains/${domainId}/projects/${projectId}/resource-link`, dto);
     };
 

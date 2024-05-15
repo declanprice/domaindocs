@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import { and, eq, isNull } from 'drizzle-orm';
 import { file } from '@domaindocs/database';
-import { File, FileProject, SearchFiles } from '@domaindocs/lib';
+import { File, FileProject, SearchFilesParams } from '@domaindocs/lib';
 import { DATABASE, DatabaseSchema } from '../../tokens/database.token';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -21,7 +21,7 @@ export class FilesService {
         this.PRIVATE_BUCKET_NAME = this.config.get('PRIVATE_BUCKET_NAME');
     }
 
-    async searchFiles(session: UserSession, domainId: string, dto: SearchFiles): Promise<File[]> {
+    async searchFiles(session: UserSession, domainId: string, dto: SearchFilesParams): Promise<File[]> {
         let where = and(eq(file.domainId, domainId), isNull(file.projectId));
 
         if (dto.projectId) {

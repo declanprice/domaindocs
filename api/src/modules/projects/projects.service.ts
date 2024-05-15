@@ -1,21 +1,21 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import {
-    AddProjectOwnership,
-    CreateProject,
+    AddProjectOwnershipData,
+    CreateProjectData,
     DetailedProject,
     DocumentationType,
     Project,
     ProjectOverview,
     ProjectLink,
-    SearchProjects,
-    UpdateProjectDescription,
+    SearchProjectsParams,
+    UpdateProjectDescriptionData,
     ProjectPersonOwnership,
     ProjectTeamOwnership,
 } from '@domaindocs/lib';
 import { v4 } from 'uuid';
 import { createSlug } from '../../util/create-slug';
-import { AddProjectLink } from '../../../../lib/src/project/add-project-link';
+import { AddProjectLinkData } from '../../../../lib/src/project/add-project-link-data';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import * as schema from '@domaindocs/database';
 import { eq } from 'drizzle-orm';
@@ -25,7 +25,11 @@ import { documentation, project, projectLink, projectOwnership } from '@domaindo
 export class ProjectsService {
     constructor(@Inject('DB') private db: PostgresJsDatabase<typeof schema>) {}
 
-    async searchProjects(session: UserSession, domainId: string, dto: SearchProjects): Promise<DetailedProject[]> {
+    async searchProjects(
+        session: UserSession,
+        domainId: string,
+        dto: SearchProjectsParams,
+    ): Promise<DetailedProject[]> {
         const results = await this.db.query.project.findMany({
             where: eq(project.domainId, domainId),
             with: {
@@ -109,7 +113,7 @@ export class ProjectsService {
         );
     }
 
-    async createProject(session: UserSession, domainId: string, dto: CreateProject): Promise<void> {
+    async createProject(session: UserSession, domainId: string, dto: CreateProjectData): Promise<void> {
         await this.db.transaction(async (tx) => {
             const documentationId = v4();
             const projectId = createSlug(dto.name);
@@ -130,7 +134,12 @@ export class ProjectsService {
         });
     }
 
-    async updateDescription(session: UserSession, domainId: string, projectId: string, dto: UpdateProjectDescription) {
+    async updateDescription(
+        session: UserSession,
+        domainId: string,
+        projectId: string,
+        dto: UpdateProjectDescriptionData,
+    ) {
         await this.db
             .update(project)
             .set({
@@ -139,7 +148,7 @@ export class ProjectsService {
             .where(eq(project.projectId, projectId));
     }
 
-    async addOwnership(session: UserSession, domainId: string, projectId: string, dto: AddProjectOwnership) {
+    async addOwnership(session: UserSession, domainId: string, projectId: string, dto: AddProjectOwnershipData) {
         await this.db.insert(projectOwnership).values({
             ownershipId: v4(),
             projectId,
@@ -148,7 +157,7 @@ export class ProjectsService {
         });
     }
 
-    async addLink(session: UserSession, domainId: string, projectId: string, dto: AddProjectLink) {
+    async addLink(session: UserSession, domainId: string, projectId: string, dto: AddProjectLinkData) {
         await this.db.insert(projectLink).values({
             linkId: v4(),
             projectId,

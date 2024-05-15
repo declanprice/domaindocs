@@ -4,7 +4,7 @@ import { EditableCard } from '../../../components/editable-card/EditableCard';
 import { useMutation } from '@tanstack/react-query';
 import { FormTextArea } from '../../../components/form/FormTextArea';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { UpdateProjectDescription } from '@domaindocs/lib';
+import { UpdateProjectDescriptionData } from '@domaindocs/lib';
 import { projectsApi } from '../../../state/api/projects-api';
 
 type ProjectSummaryProps = {
@@ -21,7 +21,7 @@ export const ProjectSummary = (props: ProjectSummaryProps) => {
 
     const { mutateAsync: updateDescription } = useMutation({
         mutationKey: ['updateProjectDescription', { domainId, projectId }],
-        mutationFn: async (data: UpdateProjectDescription) => {
+        mutationFn: async (data: UpdateProjectDescriptionData) => {
             await projectsApi.updateDescription(domainId, projectId, data);
 
             toast({
@@ -45,9 +45,9 @@ export const ProjectSummary = (props: ProjectSummaryProps) => {
                 values: {
                     description: description,
                 },
-                resolver: classValidatorResolver(UpdateProjectDescription),
+                resolver: classValidatorResolver(UpdateProjectDescriptionData),
             }}
-            onSubmit={async (data: UpdateProjectDescription) => {
+            onSubmit={async (data: UpdateProjectDescriptionData) => {
                 await updateDescription(data);
             }}
             onClose={() => {}}

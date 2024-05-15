@@ -5,10 +5,10 @@ import {
     DocumentationType,
     DocumentDocumentation,
     FileDocumentation,
-    SearchDocumentation,
+    SearchDocumentationParams,
     ViewDocumentation,
 } from '@domaindocs/lib';
-import { AddDocumentation } from '@domaindocs/lib';
+import { AddDocumentationData } from '@domaindocs/lib';
 import { v4 } from 'uuid';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import * as schema from '@domaindocs/database';
@@ -19,7 +19,7 @@ import { and, eq, isNotNull } from 'drizzle-orm';
 export class DocumentationService {
     constructor(@Inject('DB') private db: PostgresJsDatabase<typeof schema>) {}
 
-    async search(session: UserSession, domainId: string, dto: SearchDocumentation) {
+    async search(session: UserSession, domainId: string, dto: SearchDocumentationParams) {
         let where = isNotNull(documentation.projectId);
 
         if (dto.projectId) {
@@ -91,14 +91,14 @@ export class DocumentationService {
         if (result.document) {
             return new DocumentDocumentation(result.documentationId, result.name, DocumentationType.DOCUMENT, {
                 documentId: result.document.documentId,
-                documentName: result.document.name,
+                documentName: result.document.title,
             });
         }
 
         throw new Error(`unsupported documentation type of ${result.type}`);
     }
 
-    async add(session: UserSession, domainId: string, documentationId: string, dto: AddDocumentation) {
+    async add(session: UserSession, domainId: string, documentationId: string, dto: AddDocumentationData) {
         await this.db.insert(documentation).values({
             documentationId: v4(),
             domainId,

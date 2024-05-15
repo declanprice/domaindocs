@@ -1,6 +1,6 @@
 import { useDisclosure } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import { AddProjectLink, ProjectLink } from '@domaindocs/lib';
+import { AddProjectLinkData, ProjectLink } from '@domaindocs/lib';
 
 import { ProjectLinkCard } from '../../../components/project-link/ProjectLinkCard';
 import { AddProjectLinkDialog } from '../../../components/project-link/AddProjectLinkDialog';
@@ -11,7 +11,7 @@ type ProjectLinksCardProps = {
     projectId: string;
     domainId: string;
     links: ProjectLink[];
-    onAddLink: (link: AddProjectLink) => Promise<void>;
+    onAddLink: (link: AddProjectLinkData) => Promise<void>;
 };
 
 export const ProjectLinks = (props: ProjectLinksCardProps) => {
@@ -21,7 +21,7 @@ export const ProjectLinks = (props: ProjectLinksCardProps) => {
 
     const { mutateAsync: addResourceLink } = useMutation({
         mutationKey: ['addProjectLink', { domainId, projectId }],
-        mutationFn: async (link: AddProjectLink) => {
+        mutationFn: async (link: AddProjectLinkData) => {
             await projectsApi.addLink(domainId, projectId, link);
             await onAddLink(link);
         },

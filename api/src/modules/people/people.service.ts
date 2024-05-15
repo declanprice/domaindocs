@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
-import { DetailedPersonDto, PersonDto, PersonSkillDto, PersonTeamDto, SearchPeopleDto } from '@domaindocs/lib';
+import { DetailedPersonDto, Person, PersonSkillDto, PersonTeamDto, SearchPeopleParams } from '@domaindocs/lib';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import * as schema from '@domaindocs/database';
 import { and, eq, ilike } from 'drizzle-orm';
@@ -10,7 +10,7 @@ import { person, personSkill, skill, team, teamMember, user } from '@domaindocs/
 export class PeopleService {
     constructor(@Inject('DB') private db: PostgresJsDatabase<typeof schema>) {}
 
-    async searchPeople(session: UserSession, domainId: string, dto: SearchPeopleDto): Promise<DetailedPersonDto[]> {
+    async searchPeople(session: UserSession, domainId: string, dto: SearchPeopleParams): Promise<DetailedPersonDto[]> {
         const whereClauses = [eq(person.domainId, domainId)];
 
         if (dto.name) {
@@ -32,7 +32,7 @@ export class PeopleService {
 
             if (!dto) {
                 dto = new DetailedPersonDto(
-                    new PersonDto(
+                    new Person(
                         row.person.personId,
                         row.user.userId,
                         row.user.firstName,

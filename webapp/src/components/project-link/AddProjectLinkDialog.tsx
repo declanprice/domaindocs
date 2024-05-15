@@ -14,13 +14,13 @@ import {
 import { useState } from 'react';
 import { FormTextInput } from '../form/FormInput';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { AddProjectLink } from '@domaindocs/lib';
+import { AddProjectLinkData } from '@domaindocs/lib';
 
 export type AddResourceLinkDialogProps = {
     isOpen: boolean;
     title: string;
     onClose: () => void;
-    onAddLink: (link: AddProjectLink) => Promise<void>;
+    onAddLink: (link: AddProjectLinkData) => Promise<void>;
 };
 
 export const AddProjectLinkDialog = (props: AddResourceLinkDialogProps) => {
@@ -33,14 +33,14 @@ export const AddProjectLinkDialog = (props: AddResourceLinkDialogProps) => {
         handleSubmit: submitResourceLink,
         formState: resourceLinkForm,
         reset: resetForm,
-    } = useForm<AddProjectLink>({
+    } = useForm<AddProjectLinkData>({
         values: {
             title: '',
             subTitle: '',
             href: '',
             iconUri: '',
         },
-        resolver: classValidatorResolver(AddProjectLink),
+        resolver: classValidatorResolver(AddProjectLinkData),
     });
 
     const closeAndReset = () => {
@@ -48,7 +48,7 @@ export const AddProjectLinkDialog = (props: AddResourceLinkDialogProps) => {
         onClose();
     };
 
-    const handleSubmit = async (link: AddProjectLink) => {
+    const handleSubmit = async (link: AddProjectLinkData) => {
         try {
             setIsAdding(true);
             await onAddLink(link);

@@ -3,7 +3,7 @@ import { TbUsersGroup } from 'react-icons/tb';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
-import { CreateProject, DetailedTeam } from '@domaindocs/lib';
+import { CreateProjectData, DetailedTeam } from '@domaindocs/lib';
 import { teamsApi } from '../../state/api/teams-api';
 import { queryClient } from '../../state/query-client';
 import { projectsApi } from '../../state/api/projects-api';
@@ -23,7 +23,7 @@ export const ProjectsPageToolbar = () => {
 
     const { mutateAsync: createProject } = useMutation({
         mutationKey: ['createProject', { domainId }],
-        mutationFn: async (data: CreateProject) => {
+        mutationFn: async (data: CreateProjectData) => {
             await projectsApi.createProject(domainId, data);
 
             await queryClient.invalidateQueries({

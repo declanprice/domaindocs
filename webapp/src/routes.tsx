@@ -48,6 +48,7 @@ export const routes = createBrowserRouter([
                                         path: 'home',
                                         element: <HomePage />,
                                     },
+
                                     {
                                         path: 'people',
                                         element: <PeoplePage />,

@@ -1,2 +1,2 @@
-export * from './person.dto';
-export * from './search-people.dto';
+export * from './person';
+export * from './search-people-params';

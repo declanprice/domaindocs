@@ -1,14 +1,14 @@
 import { apiClient } from './api-client';
-import { SetupUserDto, UserDto } from '@domaindocs/lib';
+import { SetupUserData, UserData } from '@domaindocs/lib';
 
 export const usersApi = (() => {
-    const setupUser = async (data: SetupUserDto): Promise<UserDto> => {
-        const result = await apiClient.post<UserDto>('/users/setup', data);
+    const setupUser = async (data: SetupUserData): Promise<UserData> => {
+        const result = await apiClient.post<UserData>('/users/setup', data);
         return result.data;
     };
 
-    const getAuthUser = async (): Promise<UserDto | null> => {
-        const result = await apiClient.get<UserDto | string>('/users/auth');
+    const getAuthUser = async (): Promise<UserData | null> => {
+        const result = await apiClient.get<UserData | string>('/users/auth');
         if (typeof result.data === 'string') return null;
         return result.data;
     };

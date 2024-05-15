@@ -1,8 +1,8 @@
 import { apiClient } from './api-client';
-import { AddDocumentation, Documentation, SearchDocumentation, ViewDocumentation } from '@domaindocs/lib';
+import { AddDocumentationData, Documentation, SearchDocumentationParams, ViewDocumentation } from '@domaindocs/lib';
 
 export const documentationApi = (() => {
-    const search = async (domainId: string, params: SearchDocumentation): Promise<Documentation[]> => {
+    const search = async (domainId: string, params: SearchDocumentationParams): Promise<Documentation[]> => {
         const result = await apiClient.get<Documentation[]>(`/domains/${domainId}/documentation`, {
             params,
         });
@@ -16,7 +16,7 @@ export const documentationApi = (() => {
         return result.data;
     };
 
-    const add = async (domainId: string, documentationId: string, data: AddDocumentation) => {
+    const add = async (domainId: string, documentationId: string, data: AddDocumentationData) => {
         await apiClient.post<Documentation>(`/domains/${domainId}/documentation/${documentationId}/add`, data);
     };
 

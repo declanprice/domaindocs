@@ -1,2 +1,2 @@
-export * from './setup-user.dto';
-export * from './user.dto';
+export * from './setup-user-data';
+export * from './user-data';

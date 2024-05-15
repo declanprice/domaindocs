@@ -4,12 +4,12 @@ import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import {
     DetailedProject,
-    SearchProjects,
-    CreateProject,
-    UpdateProjectDescription,
-    AddProjectOwnership,
+    SearchProjectsParams,
+    CreateProjectData,
+    UpdateProjectDescriptionData,
+    AddProjectOwnershipData,
 } from '@domaindocs/lib';
-import { AddProjectLink } from '../../../../lib/src/project/add-project-link';
+import { AddProjectLinkData } from '../../../../lib/src/project/add-project-link-data';
 
 @Controller('domains/:domainId/projects')
 @UseGuards(AuthGuard)
@@ -20,7 +20,7 @@ export class ProjectsController {
     async searchProjects(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
-        @Query() dto: SearchProjects,
+        @Query() dto: SearchProjectsParams,
     ): Promise<DetailedProject[]> {
         if (!domainId) {
             throw new BadRequestException('missing params (domainId)');
@@ -42,7 +42,7 @@ export class ProjectsController {
     async createProject(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
-        @Body() dto: CreateProject,
+        @Body() dto: CreateProjectData,
     ) {
         return this.projectsService.createProject(session, domainId, dto);
     }
@@ -52,7 +52,7 @@ export class ProjectsController {
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('projectId') projectId: string,
-        @Body() dto: UpdateProjectDescription,
+        @Body() dto: UpdateProjectDescriptionData,
     ) {
         return this.projectsService.updateDescription(session, domainId, projectId, dto);
     }
@@ -62,7 +62,7 @@ export class ProjectsController {
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('projectId') projectId: string,
-        @Body() dto: AddProjectOwnership,
+        @Body() dto: AddProjectOwnershipData,
     ) {
         return this.projectsService.addOwnership(session, domainId, projectId, dto);
     }
@@ -72,7 +72,7 @@ export class ProjectsController {
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('projectId') projectId: string,
-        @Body() dto: AddProjectLink,
+        @Body() dto: AddProjectLinkData,
     ) {
         return this.projectsService.addLink(session, domainId, projectId, dto);
     }

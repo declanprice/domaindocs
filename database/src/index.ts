@@ -1,5 +1,6 @@
 export * from './domain';
 export * from './documentation';
+export * from './document';
 export * from './person';
 export * from './project';
 export * from './skill';

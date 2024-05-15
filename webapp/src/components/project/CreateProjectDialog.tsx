@@ -10,24 +10,24 @@ import {
     Stack,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { CreateProject } from '@domaindocs/lib';
+import { CreateProjectData } from '@domaindocs/lib';
 import { FormTextInput } from '../form/FormInput';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 export type CreateProjectDialogProps = {
     isOpen: boolean;
     onClose: () => void;
-    onProjectCreate: (team: CreateProject) => Promise<void>;
+    onProjectCreate: (team: CreateProjectData) => Promise<void>;
 };
 
 export const CreateProjectDialog = (props: CreateProjectDialogProps) => {
     const { isOpen, onClose, onProjectCreate } = props;
 
-    const form = useForm<CreateProject>({
+    const form = useForm<CreateProjectData>({
         values: {
             name: '',
         },
-        resolver: classValidatorResolver(CreateProject),
+        resolver: classValidatorResolver(CreateProjectData),
     });
 
     const closeAndReset = () => {
@@ -35,7 +35,7 @@ export const CreateProjectDialog = (props: CreateProjectDialogProps) => {
         onClose();
     };
 
-    const submit = async (data: CreateProject) => {
+    const submit = async (data: CreateProjectData) => {
         await onProjectCreate(data);
         closeAndReset();
     };
