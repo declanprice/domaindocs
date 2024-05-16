@@ -2,7 +2,7 @@ import { PeopleService } from './people.service';
 import { BadRequestException, Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { SearchPeopleParams, DetailedPersonDto } from '@domaindocs/lib';
+import { SearchPeopleParams, DetailedPerson } from '@domaindocs/lib';
 
 @Controller('domains/:domainId/people')
 @UseGuards(AuthGuard)
@@ -14,7 +14,7 @@ export class PeopleController {
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Query() dto: SearchPeopleParams,
-    ): Promise<DetailedPersonDto[]> {
+    ): Promise<DetailedPerson[]> {
         if (!domainId) {
             throw new BadRequestException('missing params (domainId)');
         }

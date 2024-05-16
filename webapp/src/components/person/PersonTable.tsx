@@ -1,10 +1,10 @@
 import { Badge } from '@chakra-ui/react';
 import { Table } from '../table/Table';
-import { DetailedPersonDto } from '@domaindocs/lib';
+import { DetailedPerson } from '@domaindocs/lib';
 
 type PeopleTableProps = {
-    people: DetailedPersonDto[];
-    onPersonClick: (person: DetailedPersonDto) => void;
+    people: DetailedPerson[];
+    onPersonClick: (person: DetailedPerson) => void;
 };
 
 export const PersonTable = (props: PeopleTableProps) => {
@@ -16,14 +16,14 @@ export const PersonTable = (props: PeopleTableProps) => {
             fields={[
                 {
                     label: 'Person',
-                    render: (data: DetailedPersonDto) => `${data.person.firstName} ${data.person.lastName}`,
+                    render: (data: DetailedPerson) => `${data.person.firstName} ${data.person.lastName}`,
                     onClick: (row) => {
                         onPersonClick(row);
                     },
                 },
                 {
                     label: 'Teams',
-                    render: (data: DetailedPersonDto) => {
+                    render: (data: DetailedPerson) => {
                         if (data.teams.length) {
                             return data.teams.map((t) => t.teamName).join(' | ');
                         } else {
@@ -40,7 +40,7 @@ export const PersonTable = (props: PeopleTableProps) => {
                 },
                 {
                     label: 'Skills',
-                    render: (data: DetailedPersonDto) => {
+                    render: (data: DetailedPerson) => {
                         if (data.skills.length) {
                             return `${data.skills.map((s) => s.skillName).join(' | ')}`;
                         } else {

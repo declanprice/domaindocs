@@ -6,8 +6,12 @@ import { PersonContactDetails } from './PersonContactDetails';
 import { PersonSkillsList } from './PersonSkillsList';
 import { PersonPageToolbar } from './PersonPageToolbar';
 import { DetailedPerson } from '@domaindocs/lib';
+import { useParams } from 'react-router-dom';
+import { DomainPageParams } from '../../types/DomainPageParams';
 
 export const PersonPage = () => {
+    const { domainId } = useParams() as DomainPageParams;
+
     const person: DetailedPerson = {
         person: {
             userId: '1',
@@ -70,7 +74,7 @@ export const PersonPage = () => {
 
     return (
         <Flex direction="column" width={'100%'}>
-            <PersonPageToolbar person={person.person} />
+            <PersonPageToolbar domainId={domainId} person={person.person} />
 
             <Flex direction="column" width={'100%'} overflowY={'auto'} gap={2} p={8}>
                 <PersonSummary person={person.person} />
