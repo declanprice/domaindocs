@@ -1,15 +1,33 @@
-export class PersonTeamDto {
+export class PersonTeam {
     constructor(
         public teamId: string,
         public teamName: string,
+        public teamIconUri: string | undefined,
     ) {}
 }
 
-export class PersonSkillDto {
+export class PersonSkill {
     constructor(
         public skillId: string,
         public skillName: string,
         public skillDescription: string,
+    ) {}
+}
+
+export class PersonRole {
+    constructor(
+        public roleId: string,
+        public roleName: string,
+        public roleDescription: string,
+    ) {}
+}
+
+export class PersonContact {
+    constructor(
+        public personalMobile: string | null,
+        public personalEmail: string | null,
+        public contactEmail: string | null,
+        public contactMobile: string | null,
     ) {}
 }
 
@@ -19,21 +37,17 @@ export class Person {
         public userId: string,
         public firstName: string,
         public lastName: string,
-        public contact: {
-            personalContactMobile?: string;
-            personalContactEmail?: string;
-            contactEmail?: string;
-            contactMobile?: string;
-        },
         public iconUri: string | undefined,
-        public roleName: string | undefined,
+        public primaryRoleName: string | undefined,
     ) {}
 }
 
-export class DetailedPersonDto {
+export class DetailedPerson {
     constructor(
         public person: Person,
-        public skills: PersonSkillDto[],
-        public teams: PersonTeamDto[],
+        public contact: PersonContact,
+        public skills: PersonSkill[],
+        public teams: PersonTeam[],
+        public roles: PersonRole[],
     ) {}
 }

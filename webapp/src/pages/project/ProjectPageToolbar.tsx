@@ -15,40 +15,38 @@ export const ProjectPageToolbar = (props: ProjectPageToolbarProps) => {
     const navigate = useNavigate();
 
     return (
-        <>
-            <PageToolbar
-                title={
-                    <Flex alignItems={'center'}>
-                        <LiaProjectDiagramSolid color={'gray.900'} size={14} />
-                        <Text ml={2} fontSize={12}>
-                            Project | {projectName}
-                        </Text>
-                    </Flex>
-                }
-                tabs={[
-                    {
-                        label: 'Overview',
-                        isActive: location.pathname.includes(`/${domainId}/projects/${projectId}/overview`),
-                        onClick: () => {
-                            navigate(`/${domainId}/projects/${projectId}/overview`);
-                        },
+        <PageToolbar
+            title={
+                <Flex alignItems={'center'}>
+                    <LiaProjectDiagramSolid color={'gray.900'} size={14} />
+                    <Text ml={2} fontSize={12}>
+                        Project | {projectName}
+                    </Text>
+                </Flex>
+            }
+            tabs={[
+                {
+                    label: 'Overview',
+                    isActive: location.pathname.includes(`/${domainId}/projects/${projectId}/overview`),
+                    onClick: () => {
+                        navigate(`/${domainId}/projects/${projectId}/overview`);
                     },
-                    {
-                        label: 'Documentation',
-                        isActive: location.pathname.includes(`/${domainId}/projects/${projectId}/documentation`),
-                        onClick: () => {
-                            navigate(`/${domainId}/projects/${projectId}/documentation`);
-                        },
+                },
+                {
+                    label: 'Documentation',
+                    isActive: location.pathname.includes(`/${domainId}/projects/${projectId}/documentation`),
+                    onClick: () => {
+                        navigate(`/${domainId}/projects/${projectId}/documentation`);
                     },
-                    {
-                        label: 'Files',
-                        isActive: location.pathname.includes(`/${domainId}/projects/${projectId}/files`),
-                        onClick: () => {
-                            navigate(`/${domainId}/projects/${projectId}/files`);
-                        },
+                },
+                {
+                    label: 'Files',
+                    isActive: location.pathname.includes(`/${domainId}/projects/${projectId}/files`),
+                    onClick: () => {
+                        navigate(`/${domainId}/projects/${projectId}/files`);
                     },
-                ]}
-            />
-        </>
+                },
+            ]}
+        />
     );
 };
