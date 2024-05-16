@@ -22,8 +22,8 @@ export const FolderItem = (props: DocumentationFolderItemProps) => {
             gap={2}
             p={2}
             ref={ref}
-            backgroundColor={documentationId === activeDocumentationId ? 'lightgray' : undefined}
-            _hover={{ backgroundColor: 'lightgray', cursor: 'pointer' }}
+            backgroundColor={documentationId === activeDocumentationId ? 'hover' : undefined}
+            _hover={{ backgroundColor: 'hover', cursor: 'pointer' }}
             position={'relative'}
             onClick={() => {
                 onDocumentationClick(documentationId);

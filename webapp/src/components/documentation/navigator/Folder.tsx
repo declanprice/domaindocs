@@ -42,7 +42,7 @@ export const Folder = styled((props: DocsFolderProps) => {
                 ref={ref}
                 gap={2}
                 p={2}
-                _hover={{ backgroundColor: 'lightgray', cursor: 'pointer' }}
+                _hover={{ backgroundColor: 'hover', cursor: 'pointer' }}
                 position={'relative'}
             >
                 <Box

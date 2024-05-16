@@ -28,7 +28,14 @@ export const DocumentationNavigator = (props: DocsNavigatorProps) => {
     }, [searchParams]);
 
     return (
-        <Flex height={'100%'} width={'40px'} minWidth={'200px'} borderRight={'1px solid'} borderColor={'border'}>
+        <Flex
+            height={'100%'}
+            width={'40px'}
+            minWidth={'280px'}
+            borderRight={'1px solid'}
+            borderColor={'border'}
+            backgroundColor={'lightgray'}
+        >
             <List width={'100%'} height={'100%'}>
                 {documentation.map((doc) => (
                     <Folder

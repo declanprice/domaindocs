@@ -1,4 +1,4 @@
-import { Box, Stack } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { StarterKit } from '@tiptap/starter-kit';
 import { TaskList } from '@tiptap/extension-task-list';
@@ -7,15 +7,12 @@ import { CharacterCount } from '@tiptap/extension-character-count';
 import { Highlight } from '@tiptap/extension-highlight';
 
 import './DocumentPanel.css';
-
-import { DocumentBubbleMenu } from './menus/DocumentBubbleMenu';
-import { DocumentFloatingMenu } from './menus/DocumentFloatingMenu';
-import { DocumentSettingsSidebarActions } from './settings-sidebar/DocumentSettingsSidebarActions';
+import { DocumentBubbleMenu } from './DocumentBubbleMenu';
+import { DocumentDocumentation } from '@domaindocs/lib';
+import { DocumentToolbar } from './DocumentToolbar';
+import { DocumentOutline } from './DocumentOutline';
 import { DocumentTitle } from './DocumentTitle';
-import { DocumentSubtitle } from './DocumentSubtitle';
-import { DocumentActions } from './DocumentActions';
-import { DocumentContributors } from './DocumentContributors';
-import { DocumentDocumentation, ViewDocumentation } from '@domaindocs/lib';
+import { DocumentDetails } from './DocumentDetails';
 
 const extensions = [
     StarterKit,
@@ -42,17 +39,19 @@ export const DocumentPanel = (props: DocumentPanelProps) => {
     if (!editor) return null;
 
     return (
-        <Box className="editor" py={14}>
-            <Stack position={'relative'}>
-                <DocumentActions />
-                <DocumentTitle />
-                <DocumentSubtitle />
-                <DocumentContributors />
-                <DocumentSettingsSidebarActions />
-            </Stack>
-            <EditorContent className="editor-content" width={'1200px'} editor={editor} />
-            <DocumentBubbleMenu editor={editor} />
-            <DocumentFloatingMenu editor={editor} />
-        </Box>
+        <Flex width="100%" flexDirection="column">
+            <DocumentToolbar />
+
+            <Flex py={8} px={2}>
+                <DocumentOutline />
+
+                <Flex flex={1} gap={2} flexDirection={'column'} alignItems={'center'}>
+                    <DocumentTitle />
+                    <DocumentDetails />
+                    <EditorContent className={'editor-content'} editor={editor} />
+                    <DocumentBubbleMenu editor={editor} />
+                </Flex>
+            </Flex>
+        </Flex>
     );
 };

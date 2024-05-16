@@ -29,7 +29,7 @@ export const ProjectLinksList = (props: ProjectLinksCardProps) => {
     return (
         <Flex direction={'column'} gap={1}>
             <Flex>
-                <Text fontSize={16}>Ownership</Text>
+                <Text fontSize={16}>Links</Text>
 
                 <AddIconButton marginLeft={'auto'} />
             </Flex>

@@ -1,5 +1,11 @@
-import { Heading } from '@chakra-ui/react';
+import { Flex, Heading } from '@chakra-ui/react';
 
 export const DocumentTitle = () => {
-    return <Heading color={'gray.900'}>New Document</Heading>;
+    return (
+        <Flex maxWidth={'900px'} width={'100%'}>
+            <Heading variant={'h2'} fontWeight={'bold'}>
+                Document Title
+            </Heading>
+        </Flex>
+    );
 };
