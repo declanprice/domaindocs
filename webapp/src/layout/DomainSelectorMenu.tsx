@@ -44,7 +44,7 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
     return (
         <Popover>
             <PopoverTrigger>
-                <Button width={'100%'} aria-label={'domain selector button'} variant={'ghost'}>
+                <Button rounded={0} width={'100%'} aria-label={'domain selector button'} variant={'ghost'}>
                     <Flex width={'100%'} gap={2} alignItems="center">
                         <Avatar name={value.name} size={'xs'} rounded={'lg'} backgroundColor={'gray.200'}></Avatar>
 

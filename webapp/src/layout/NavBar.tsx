@@ -34,6 +34,7 @@ const NavListItem = (props: { icon: any; label: string; to: string; iconOnly: bo
                 fontWeight={'regular'}
                 gap={3}
                 width={'100%'}
+                rounded={0}
                 onClick={() => {
                     navigate(to);
                 }}
@@ -68,13 +69,31 @@ export const NavBar = () => {
             borderRight={'1px solid'}
             borderColor={'border'}
         >
-            <Flex borderBottom={'1px solid'} height={'40px'} borderColor={'border'} alignItems={'center'}>
+            <Flex borderBottom={'1px solid'} borderColor={'border'} alignItems={'center'}>
                 <DomainSelectorMenu
                     value={activeDomain}
                     options={domains}
                     onSelect={setActiveDomain}
                     iconOnly={!isFullNavBar}
                 />
+
+                <Button
+                    variant={'ghost'}
+                    colorScheme={'gray'}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    display={'flex'}
+                    fontWeight={'regular'}
+                    borderLeft={'1px solid'}
+                    borderColor={'border'}
+                    rounded={0}
+                    gap={3}
+                    onClick={() => {
+                        closeNavBar();
+                    }}
+                >
+                    <TbLayoutSidebarLeftCollapse color={'gray.900'} size={18} />
+                </Button>
             </Flex>
 
             {!isFullNavBar && (
@@ -97,25 +116,25 @@ export const NavBar = () => {
                 </Flex>
             )}
 
-            {isFullNavBar && (
-                <Flex width={'100%'} borderBottom={'1px solid'} borderColor={'border'} justifyContent={'center'}>
-                    <Button
-                        variant={'ghost'}
-                        colorScheme={'gray'}
-                        alignItems={'center'}
-                        justifyContent={'center'}
-                        display={'flex'}
-                        fontWeight={'regular'}
-                        gap={3}
-                        width={'100%'}
-                        onClick={() => {
-                            closeNavBar();
-                        }}
-                    >
-                        <TbLayoutSidebarLeftCollapse color={'gray.900'} size={18} />
-                    </Button>
-                </Flex>
-            )}
+            {/*{isFullNavBar && (*/}
+            {/*    <Flex width={'100%'} borderBottom={'1px solid'} borderColor={'border'} justifyContent={'center'}>*/}
+            {/*        <Button*/}
+            {/*            variant={'ghost'}*/}
+            {/*            colorScheme={'gray'}*/}
+            {/*            alignItems={'center'}*/}
+            {/*            justifyContent={'center'}*/}
+            {/*            display={'flex'}*/}
+            {/*            fontWeight={'regular'}*/}
+            {/*            gap={3}*/}
+            {/*            width={'100%'}*/}
+            {/*            onClick={() => {*/}
+            {/*                closeNavBar();*/}
+            {/*            }}*/}
+            {/*        >*/}
+            {/*            <TbLayoutSidebarLeftCollapse color={'gray.900'} size={18} />*/}
+            {/*        </Button>*/}
+            {/*    </Flex>*/}
+            {/*)}*/}
 
             <Flex
                 direction={'column'}
