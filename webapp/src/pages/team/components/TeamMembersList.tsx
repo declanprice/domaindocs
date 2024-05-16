@@ -11,7 +11,7 @@ export const TeamMembersList = (props: TeamMembersListProps) => {
     const { members } = props;
 
     return (
-        <Flex direction={'column'} py={2} gap={1}>
+        <Flex direction={'column'} gap={1}>
             <Flex>
                 <Text fontSize={16}>Members</Text>
 

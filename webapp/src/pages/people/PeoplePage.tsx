@@ -33,6 +33,18 @@ export const PeoplePage = () => {
                 <Flex p={4} width={'100%'} direction={'column'}>
                     <TableToolbar
                         title={'People (3)'}
+                        tabs={[
+                            {
+                                label: 'All',
+                                onClick: () => {},
+                                isActive: true,
+                            },
+                            {
+                                label: 'My Team Members',
+                                onClick: () => {},
+                                isActive: false,
+                            },
+                        ]}
                         actions={
                             <Button variant={'ghost'} size={'sm'} fontWeight={'regular'} leftIcon={<IoAddOutline />}>
                                 Invite

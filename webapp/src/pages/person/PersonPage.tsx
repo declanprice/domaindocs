@@ -76,7 +76,7 @@ export const PersonPage = () => {
         <Flex direction="column" width={'100%'}>
             <PersonPageToolbar domainId={domainId} person={person.person} />
 
-            <Flex direction="column" width={'100%'} overflowY={'auto'} gap={2} p={8}>
+            <Flex direction="column" width={'100%'} overflowY={'auto'} gap={6} p={8}>
                 <PersonAvatar {...person.person} />
 
                 <Divider />

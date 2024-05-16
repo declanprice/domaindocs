@@ -10,7 +10,7 @@ export const TeamProjectsList = (props: TeamProjectsListProps) => {
     const { projects } = props;
 
     return (
-        <Flex direction={'column'} py={2} gap={1}>
+        <Flex direction={'column'} gap={1}>
             <Flex>
                 <Text fontSize={16}>Projects</Text>
 

@@ -12,7 +12,7 @@ import {
     Stack,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { FormTextInput } from '../form/FormInput';
+import { FormTextInput } from '../../../components/form/FormInput';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { AddProjectLinkData } from '@domaindocs/lib';
 

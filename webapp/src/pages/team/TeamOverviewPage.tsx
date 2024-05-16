@@ -1,4 +1,4 @@
-import { Divider, Flex } from '@chakra-ui/react';
+import { Divider, Flex, Heading, Stack } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { DetailedTeam } from '@domaindocs/lib';
@@ -10,6 +10,8 @@ import { TeamSummary } from './components/TeamSummary';
 import { TeamMembersList } from './components/TeamMembersList';
 import { TeamProjectsList } from './components/TeamProjectsList';
 import { TeamAvatar } from '../../components/team/TeamAvatar';
+import { ProjectSummary } from '../project/components/ProjectSummary';
+import React from 'react';
 
 export const TeamOverviewPage = () => {
     const { domainId, teamId } = useParams() as TeamPageParams;
@@ -25,10 +27,12 @@ export const TeamOverviewPage = () => {
         <Flex direction="column" width={'100%'}>
             <TeamPageToolbar teamName={team.team.name} domainId={domainId} teamId={teamId} />
 
-            <Flex direction="column" width={'100%'} overflowY={'auto'} gap={2} p={8}>
-                <TeamAvatar team={team.team} />
+            <Flex direction="column" width={'100%'} overflowY={'auto'} gap={6} p={8}>
+                <Stack spacing={4}>
+                    <TeamAvatar name={team.team.name} iconUri={team.team.iconUri} />
 
-                <TeamSummary team={team.team} />
+                    <TeamSummary team={team.team} />
+                </Stack>
 
                 <Divider />
 
