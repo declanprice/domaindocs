@@ -1,66 +1,56 @@
-import { Box, Flex, Stack, useDisclosure } from '@chakra-ui/react';
-import { Outlet, useParams } from 'react-router-dom';
+import { Box, Button, Flex, Stack } from '@chakra-ui/react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 import { peopleApi } from '../../state/api/people-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { TableToolbar } from '../../components/table/TableToolbar';
 import { PersonTable } from '../../components/person/PersonTable';
-import { PersonSideBar } from '../../components/person/PersonSideBar';
 import { DetailedPersonDto } from '@domaindocs/lib';
 import { PeoplePageToolbar } from './PeoplePageToolbar';
+import { MdAddIcCall, MdPlusOne } from 'react-icons/md';
+import { IoAdd, IoAddOutline, IoAddSharp } from 'react-icons/io5';
 
 type PeoplePageParams = {
-  domainId: string;
+    domainId: string;
 };
 
 export const PeoplePage = () => {
-  const { domainId } = useParams() as PeoplePageParams;
+    const { domainId } = useParams() as PeoplePageParams;
 
-  const personSideBar = useDisclosure();
+    const navigate = useNavigate();
 
-  const [selectedPerson, setSelectedPerson] =
-    useState<DetailedPersonDto | null>(null);
+    const { data: people, isLoading } = useQuery<DetailedPersonDto[]>({
+        queryKey: ['searchPeople', { domainId }],
+        queryFn: () => peopleApi.searchPeople(domainId, {}),
+    });
 
-  const { data: people, isLoading } = useQuery<DetailedPersonDto[]>({
-    queryKey: ['searchPeople', { domainId }],
-    queryFn: () => peopleApi.searchPeople(domainId, {}),
-  });
+    if (!people || isLoading) return <LoadingContainer />;
 
-  if (!people || isLoading) return <LoadingContainer />;
+    return (
+        <Flex direction="column" width={'100%'}>
+            <PeoplePageToolbar />
 
-  return (
-    <Flex direction="column" width={'100%'}>
-      <PeoplePageToolbar />
+            <Box height={'100%'} width={'100%'} overflowY={'auto'}>
+                <Flex p={4} width={'100%'} direction={'column'}>
+                    <TableToolbar
+                        title={'People (3)'}
+                        actions={
+                            <Button variant={'ghost'} size={'sm'} fontWeight={'regular'} leftIcon={<IoAddOutline />}>
+                                Invite
+                            </Button>
+                        }
+                        onSearch={() => {}}
+                        onFilterClick={() => {}}
+                    />
 
-      <Box height={'100%'} width={'100%'} overflowY={'auto'}>
-        <Flex p={4} gap={4} width={'100%'} direction={'column'}>
-          <Stack>
-            <TableToolbar
-              title={'People (3)'}
-              onSearch={() => {}}
-              onFilterClick={() => {}}
-            />
-
-            <PersonTable
-              people={people}
-              onPersonClick={(person) => {
-                setSelectedPerson(person);
-                personSideBar.onOpen();
-              }}
-            />
-
-            <PersonSideBar
-              isOpen={personSideBar.isOpen}
-              onClose={() => {
-                setSelectedPerson(null);
-                personSideBar.onClose();
-              }}
-              person={selectedPerson}
-            />
-          </Stack>
+                    <PersonTable
+                        people={people}
+                        onPersonClick={(person) => {
+                            navigate(`/${domainId}/people/${person.person.userId}`);
+                        }}
+                    />
+                </Flex>
+            </Box>
         </Flex>
-      </Box>
-    </Flex>
-  );
+    );
 };

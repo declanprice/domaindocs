@@ -22,8 +22,8 @@ export const PageToolbar = (props: PageToolbarProps) => {
 
     return (
         <Flex
-            height={'40px'}
-            minHeight={'40px'}
+            height={'42px'}
+            minHeight={'42px'}
             width={'100%'}
             borderBottom={'1px solid'}
             borderColor={'border'}

@@ -1,24 +1,18 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { GoPeople } from 'react-icons/go';
 import { PageToolbar } from '../../components/page/PageToolbar';
+import { MdOutlinePerson } from 'react-icons/md';
 
 export const PeoplePageToolbar = () => {
-  return (
-    <PageToolbar
-      title={
-        <Flex alignItems={'center'}>
-          <GoPeople color={'gray.900'} size={14} />
-          <Text ml={2} fontSize={12}>
-            People
-          </Text>
-        </Flex>
-      }
-      actions={[
-        {
-          label: 'Invite',
-          onClick: async () => {},
-        },
-      ]}
-    />
-  );
+    return (
+        <PageToolbar
+            title={
+                <Flex alignItems={'center'}>
+                    <MdOutlinePerson color={'gray.900'} size={18} />
+                    <Text ml={2} fontSize={12}>
+                        People
+                    </Text>
+                </Flex>
+            }
+        />
+    );
 };
