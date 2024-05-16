@@ -12,10 +12,10 @@ import {
     UpdateProjectDescriptionData,
     ProjectPersonOwnership,
     ProjectTeamOwnership,
+    AddProjectLinkData,
 } from '@domaindocs/lib';
 import { v4 } from 'uuid';
 import { createSlug } from '../../util/create-slug';
-import { AddProjectLinkData } from '../../../../lib/src/project/add-project-link-data';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import * as schema from '@domaindocs/database';
 import { eq } from 'drizzle-orm';

@@ -7,7 +7,7 @@ import { DATABASE, DatabaseSchema } from '../../tokens/database.token';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { ConfigService } from '@nestjs/config';
-import { SignedFileUrl } from '../../../../lib/src/file/signed-file-url';
+import { SignedFileUrl } from '@domaindocs/lib';
 
 @Injectable()
 export class FilesService {

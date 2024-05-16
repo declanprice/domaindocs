@@ -8,8 +8,8 @@ import {
     CreateProjectData,
     UpdateProjectDescriptionData,
     AddProjectOwnershipData,
+    AddProjectLinkData,
 } from '@domaindocs/lib';
-import { AddProjectLinkData } from '../../../../lib/src/project/add-project-link-data';
 
 @Controller('domains/:domainId/projects')
 @UseGuards(AuthGuard)

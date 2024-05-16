@@ -13,6 +13,13 @@ import { DocumentToolbar } from './DocumentToolbar';
 import { DocumentOutline } from './DocumentOutline';
 import { DocumentTitle } from './DocumentTitle';
 import { DocumentDetails } from './DocumentDetails';
+import { HocuspocusProvider } from '@hocuspocus/provider';
+import { Collaboration } from '@tiptap/extension-collaboration';
+
+const provider = new HocuspocusProvider({
+    url: 'ws://127.0.0.1:5000',
+    name: 'example-document',
+});
 
 const extensions = [
     StarterKit,
@@ -21,6 +28,9 @@ const extensions = [
     TaskItem,
     CharacterCount.configure({
         limit: 10000,
+    }),
+    Collaboration.configure({
+        document: provider.document,
     }),
 ];
 

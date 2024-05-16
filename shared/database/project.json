@@ -1,0 +1,21 @@
+{
+    "name": "database",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "shared/database/src",
+    "projectType": "library",
+    "tags": [],
+    "targets": {
+        "seed": {
+            "command": "ts-node seed/index.ts",
+            "options": {
+                "cwd": "shared/database"
+            }
+        },
+        "push": {
+            "command": "drizzle-kit push:pg",
+            "options": {
+                "cwd": "shared/database"
+            }
+        }
+    }
+}

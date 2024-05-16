@@ -186,19 +186,19 @@ export const NavBar = () => {
                         iconOnly={!isFullNavBar}
                     />
 
-                    <NavListItem
-                        icon={<MdOutlineWorkOutline color={'gray.900'} size={18} />}
-                        label={'Work Areas'}
-                        to={`/${activeDomain.domainId}/work-areas`}
-                        iconOnly={!isFullNavBar}
-                    />
+                    {/*<NavListItem*/}
+                    {/*    icon={<MdOutlineWorkOutline color={'gray.900'} size={18} />}*/}
+                    {/*    label={'Work Areas'}*/}
+                    {/*    to={`/${activeDomain.domainId}/work-areas`}*/}
+                    {/*    iconOnly={!isFullNavBar}*/}
+                    {/*/>*/}
 
-                    <NavListItem
-                        icon={<SiReacthookform color={'gray.900'} size={18} />}
-                        label={'Forms'}
-                        to={`/${activeDomain.domainId}/forms`}
-                        iconOnly={!isFullNavBar}
-                    />
+                    {/*<NavListItem*/}
+                    {/*    icon={<SiReacthookform color={'gray.900'} size={18} />}*/}
+                    {/*    label={'Forms'}*/}
+                    {/*    to={`/${activeDomain.domainId}/forms`}*/}
+                    {/*    iconOnly={!isFullNavBar}*/}
+                    {/*/>*/}
 
                     <NavListItem
                         icon={<MdOutlineManageHistory color={'gray.900'} size={18} />}

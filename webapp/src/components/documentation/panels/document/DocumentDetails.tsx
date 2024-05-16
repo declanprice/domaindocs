@@ -1,5 +1,5 @@
-import { Avatar, Badge, Box, Button, Flex, Text } from '@chakra-ui/react';
-import { PersonAvatar } from '../../../person/PersonAvatar';
+import { Avatar, Button, Flex, Text } from '@chakra-ui/react';
+
 import { MdOutlineUpdate, MdOutlineWbSunny } from 'react-icons/md';
 
 export const DocumentDetails = () => {
