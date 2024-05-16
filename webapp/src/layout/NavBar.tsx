@@ -77,23 +77,25 @@ export const NavBar = () => {
                     iconOnly={!isFullNavBar}
                 />
 
-                <Button
-                    variant={'ghost'}
-                    colorScheme={'gray'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    display={'flex'}
-                    fontWeight={'regular'}
-                    borderLeft={'1px solid'}
-                    borderColor={'border'}
-                    rounded={0}
-                    gap={3}
-                    onClick={() => {
-                        closeNavBar();
-                    }}
-                >
-                    <TbLayoutSidebarLeftCollapse color={'gray.900'} size={18} />
-                </Button>
+                {isFullNavBar && (
+                    <Button
+                        variant={'ghost'}
+                        colorScheme={'gray'}
+                        alignItems={'center'}
+                        justifyContent={'center'}
+                        display={'flex'}
+                        fontWeight={'regular'}
+                        borderLeft={'1px solid'}
+                        borderColor={'border'}
+                        rounded={0}
+                        gap={3}
+                        onClick={() => {
+                            closeNavBar();
+                        }}
+                    >
+                        <TbLayoutSidebarLeftCollapse color={'gray.900'} size={18} />
+                    </Button>
+                )}
             </Flex>
 
             {!isFullNavBar && (
@@ -115,26 +117,6 @@ export const NavBar = () => {
                     </Button>
                 </Flex>
             )}
-
-            {/*{isFullNavBar && (*/}
-            {/*    <Flex width={'100%'} borderBottom={'1px solid'} borderColor={'border'} justifyContent={'center'}>*/}
-            {/*        <Button*/}
-            {/*            variant={'ghost'}*/}
-            {/*            colorScheme={'gray'}*/}
-            {/*            alignItems={'center'}*/}
-            {/*            justifyContent={'center'}*/}
-            {/*            display={'flex'}*/}
-            {/*            fontWeight={'regular'}*/}
-            {/*            gap={3}*/}
-            {/*            width={'100%'}*/}
-            {/*            onClick={() => {*/}
-            {/*                closeNavBar();*/}
-            {/*            }}*/}
-            {/*        >*/}
-            {/*            <TbLayoutSidebarLeftCollapse color={'gray.900'} size={18} />*/}
-            {/*        </Button>*/}
-            {/*    </Flex>*/}
-            {/*)}*/}
 
             <Flex
                 direction={'column'}
