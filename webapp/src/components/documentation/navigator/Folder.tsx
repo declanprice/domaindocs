@@ -5,9 +5,9 @@ import { IoMdAdd } from 'react-icons/io';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { useHover } from '@uidotdev/usehooks';
 import { useRef, useState } from 'react';
-import { DocumentationFolderItem } from './DocumentationFolderItem';
+import { FolderItem } from './FolderItem';
 
-export type DocumentationFolderProps = {
+export type DocsFolderProps = {
     activeDocumentationId?: string;
     documentationId: string;
     folderName: string;
@@ -18,7 +18,7 @@ export type DocumentationFolderProps = {
     onDocumentationClick: (documentationId: string) => any;
 } & StyleProps;
 
-export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
+export const Folder = styled((props: DocsFolderProps) => {
     const [isFolderOpen, setIsFolderOpen] = useState<boolean>(false);
 
     const folderRef = useRef(null);
@@ -92,7 +92,7 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                     {folderItems?.map((item) => {
                         if (item.type === DocumentationType.FOLDER) {
                             return (
-                                <DocumentationFolder
+                                <Folder
                                     folderName={item.name}
                                     parentFolderRef={folderRef}
                                     folderItems={item.documentation}
@@ -104,7 +104,7 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                             );
                         } else {
                             return (
-                                <DocumentationFolderItem
+                                <FolderItem
                                     itemName={item.name}
                                     parentFolderRef={folderRef}
                                     onDocumentationClick={onDocumentationClick}

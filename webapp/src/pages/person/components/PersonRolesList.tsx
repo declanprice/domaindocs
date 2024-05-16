@@ -1,5 +1,5 @@
-import { Flex, List, ListItem, Text } from '@chakra-ui/react';
-import { AddIconButton } from '../../components/buttons/AddIconButton';
+import { Badge, Flex, List, ListItem, Text } from '@chakra-ui/react';
+import { AddIconButton } from '../../../components/buttons/AddIconButton';
 import { PersonRole } from '@domaindocs/lib';
 
 type PersonRolesListProps = {
@@ -10,9 +10,9 @@ export const PersonRolesList = (props: PersonRolesListProps) => {
     const { roles } = props;
 
     return (
-        <Flex direction={'column'} py={2} gap={2}>
+        <Flex direction={'column'} py={2} gap={1}>
             <Flex>
-                <Text fontSize={18}>Roles</Text>
+                <Text fontSize={16}>Roles</Text>
 
                 <AddIconButton marginLeft={'auto'} />
             </Flex>
@@ -20,7 +20,9 @@ export const PersonRolesList = (props: PersonRolesListProps) => {
             <List spacing={1}>
                 {roles.map((role: PersonRole) => (
                     <ListItem>
-                        <Text fontSize={14}>{role.roleName}</Text>
+                        <Badge colorScheme={'orange'} fontSize={12}>
+                            {role.roleName}
+                        </Badge>
                     </ListItem>
                 ))}
             </List>

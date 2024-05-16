@@ -34,24 +34,24 @@ export const TeamPageToolbar = (props: TeamPageToolbarProps) => {
                         },
                     },
                     {
-                        label: 'Members',
-                        isActive: location.pathname.includes(`/${domainId}/teams/${teamId}/members`),
+                        label: 'Docs',
+                        isActive: location.pathname.includes(`/${domainId}/teams/${teamId}/docs`),
                         onClick: () => {
-                            navigate(`/${domainId}/teams/${teamId}/members`);
+                            navigate(`/${domainId}/teams/${teamId}/docs`);
                         },
                     },
                     {
-                        label: 'Projects',
-                        isActive: location.pathname.includes(`/${domainId}/teams/${teamId}/projects`),
+                        label: 'Files',
+                        isActive: location.pathname.includes(`/${domainId}/teams/${teamId}/files`),
                         onClick: () => {
-                            navigate(`/${domainId}/teams/${teamId}/projects`);
+                            navigate(`/${domainId}/teams/${teamId}/files`);
                         },
                     },
                     {
-                        label: 'Documentation',
-                        isActive: location.pathname.includes(`/${domainId}/teams/${teamId}/documentation`),
+                        label: 'Settings',
+                        isActive: location.pathname.includes(`/${domainId}/teams/${teamId}/settings`),
                         onClick: () => {
-                            navigate(`/${domainId}/teams/${teamId}/documentation`);
+                            navigate(`/${domainId}/teams/${teamId}/settings`);
                         },
                     },
                 ]}

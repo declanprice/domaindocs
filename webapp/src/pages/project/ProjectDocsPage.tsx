@@ -10,7 +10,7 @@ import { ProjectPageToolbar } from './ProjectPageToolbar';
 import { documentationApi } from '../../state/api/documentation-api';
 import { DocumentationViewer } from '../../components/documentation/DocumentationViewer';
 
-export const ProjectDocumentationPage = () => {
+export const ProjectDocsPage = () => {
     const { domainId, projectId } = useParams() as ProjectPageParams;
 
     const { data: project, isLoading: isProjectLoading } = useQuery<ProjectOverview>({

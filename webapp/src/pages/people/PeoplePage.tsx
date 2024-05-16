@@ -5,10 +5,9 @@ import { peopleApi } from '../../state/api/people-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { TableToolbar } from '../../components/table/TableToolbar';
 import { PersonTable } from '../../components/person/PersonTable';
-import { DetailedPersonDto } from '@domaindocs/lib';
 import { PeoplePageToolbar } from './PeoplePageToolbar';
-import { MdAddIcCall, MdPlusOne } from 'react-icons/md';
-import { IoAdd, IoAddOutline, IoAddSharp } from 'react-icons/io5';
+import { IoAddOutline } from 'react-icons/io5';
+import { DetailedPerson } from '@domaindocs/lib';
 
 type PeoplePageParams = {
     domainId: string;
@@ -19,7 +18,7 @@ export const PeoplePage = () => {
 
     const navigate = useNavigate();
 
-    const { data: people, isLoading } = useQuery<DetailedPersonDto[]>({
+    const { data: people, isLoading } = useQuery<DetailedPerson[]>({
         queryKey: ['searchPeople', { domainId }],
         queryFn: () => peopleApi.searchPeople(domainId, {}),
     });

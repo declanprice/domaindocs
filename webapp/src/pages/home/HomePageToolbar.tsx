@@ -40,10 +40,10 @@ export const HomePageToolbar = (props: HomePageToolbarProps) => {
                         },
                     },
                     {
-                        label: 'Documentation',
-                        isActive: location.pathname.includes(`/${domainId}/home/documentation`),
+                        label: 'Docs',
+                        isActive: location.pathname.includes(`/${domainId}/home/docs`),
                         onClick: () => {
-                            navigate(`/${domainId}/home/documentation`);
+                            navigate(`/${domainId}/home/docs`);
                         },
                     },
                 ]}

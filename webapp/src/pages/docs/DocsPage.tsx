@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { DocumentationToolbar } from './DocumentationPageToolbar';
+import { DocsPageToolbar } from './DocsPageToolbar';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { Documentation } from '@domaindocs/lib';
@@ -8,7 +8,7 @@ import { documentationApi } from '../../state/api/documentation-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { DocumentationViewer } from '../../components/documentation/DocumentationViewer';
 
-export const DocumentationPage = () => {
+export const DocsPage = () => {
     const { domainId } = useParams() as DomainPageParams;
 
     const {
@@ -24,7 +24,7 @@ export const DocumentationPage = () => {
 
     return (
         <Flex direction="column" width={'100%'}>
-            <DocumentationToolbar domainId={domainId} />
+            <DocsPageToolbar domainId={domainId} />
 
             <DocumentationViewer
                 documentation={documentation}

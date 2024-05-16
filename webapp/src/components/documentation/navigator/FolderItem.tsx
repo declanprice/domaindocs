@@ -10,7 +10,7 @@ export type DocumentationFolderItemProps = {
     parentFolderRef?: any;
 } & StyleProps;
 
-export const DocumentationFolderItem = (props: DocumentationFolderItemProps) => {
+export const FolderItem = (props: DocumentationFolderItemProps) => {
     const { itemName, onDocumentationClick, activeDocumentationId, documentationId } = props;
 
     const [ref, hovering] = useHover();

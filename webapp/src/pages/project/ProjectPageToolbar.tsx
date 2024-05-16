@@ -33,10 +33,10 @@ export const ProjectPageToolbar = (props: ProjectPageToolbarProps) => {
                     },
                 },
                 {
-                    label: 'Documentation',
-                    isActive: location.pathname.includes(`/${domainId}/projects/${projectId}/documentation`),
+                    label: 'Docs',
+                    isActive: location.pathname.includes(`/${domainId}/projects/${projectId}/docs`),
                     onClick: () => {
-                        navigate(`/${domainId}/projects/${projectId}/documentation`);
+                        navigate(`/${domainId}/projects/${projectId}/docs`);
                     },
                 },
                 {

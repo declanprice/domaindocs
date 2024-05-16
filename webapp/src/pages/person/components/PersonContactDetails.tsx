@@ -1,6 +1,6 @@
 import { Avatar, Flex, List, ListItem, Stack, Text, VStack, Wrap, WrapItem } from '@chakra-ui/react';
 import { PersonContact } from '@domaindocs/lib';
-import { AddIconButton } from '../../components/buttons/AddIconButton';
+import { AddIconButton } from '../../../components/buttons/AddIconButton';
 import React from 'react';
 
 type PersonContactDetailsProps = {
@@ -11,9 +11,9 @@ export const PersonContactDetails = (props: PersonContactDetailsProps) => {
     const { contact } = props;
 
     return (
-        <Flex direction={'column'} py={2} gap={2}>
+        <Flex direction={'column'} py={2} gap={1}>
             <Flex>
-                <Text fontSize={18}>Contact Details</Text>
+                <Text fontSize={16}>Contact Details</Text>
 
                 <AddIconButton marginLeft={'auto'} />
             </Flex>

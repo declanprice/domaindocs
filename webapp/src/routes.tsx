@@ -17,11 +17,11 @@ import { NoAuthGuard } from './components/guards/NoAuthGuard';
 import { SomethingWentWrongErrorPage } from './components/errors/SomethingWentWrongErrorPage';
 import { PageNotFoundErrorPage } from './components/errors/PageNotFoundErrorPage';
 import { ProjectOverviewPage } from './pages/project/ProjectOverviewPage';
-import { ProjectDocumentationPage } from './pages/project/ProjectDocumentationPage';
+import { ProjectDocsPage } from './pages/project/ProjectDocsPage';
 import { ProjectFilesPage } from './pages/project/ProjectFilesPage';
-import { DocumentationPage } from './pages/documentation/DocumentationPage';
+import { DocsPage } from './pages/docs/DocsPage';
 import { OnboardingPage } from './pages/onboarding/OnboardingPage';
-import { TeamPage } from './pages/team/TeamPage';
+import { TeamOverviewPage } from './pages/team/TeamOverviewPage';
 import { UserSettingsPage } from './pages/user-settings/UserSettingsPage';
 import { PersonPage } from './pages/person/PersonPage';
 import { InboxPage } from './pages/inbox/InboxPage';
@@ -42,8 +42,11 @@ import { FilesPage } from './pages/files/FilesPage';
 import { IntegrationsConnectionsPage } from './pages/integrations/IntegrationsConnectionsPage';
 import { IntegrationRulesPage } from './pages/integrations/IntegrationRulesPage';
 import { DomainSettingsPage } from './pages/domain-settings/DomainSettingsPage';
-import { HomeDocumentationPage } from './pages/home/HomeDocumentationPage';
+import { HomeDocsPage } from './pages/home/HomeDocsPage';
 import { HomeNoticeBoardPage } from './pages/home/HomeNoticeBoardPage';
+import { TeamDocsPage } from './pages/team/TeamDocsPage';
+import { TeamFilesPage } from './pages/team/TeamFilesPage';
+import { TeamSettingsPage } from './pages/team/TeamSettingsPage';
 
 export const routes = createBrowserRouter([
     {
@@ -82,8 +85,8 @@ export const routes = createBrowserRouter([
                                                 element: <HomeNoticeBoardPage />,
                                             },
                                             {
-                                                path: 'documentation',
-                                                element: <HomeDocumentationPage />,
+                                                path: 'docs',
+                                                element: <HomeDocsPage />,
                                             },
                                         ],
                                     },
@@ -109,7 +112,19 @@ export const routes = createBrowserRouter([
                                             },
                                             {
                                                 path: 'overview',
-                                                element: <TeamPage />,
+                                                element: <TeamOverviewPage />,
+                                            },
+                                            {
+                                                path: 'docs',
+                                                element: <TeamDocsPage />,
+                                            },
+                                            {
+                                                path: 'files',
+                                                element: <TeamFilesPage />,
+                                            },
+                                            {
+                                                path: 'settings',
+                                                element: <TeamSettingsPage />,
                                             },
                                         ],
                                     },
@@ -129,8 +144,8 @@ export const routes = createBrowserRouter([
                                                 element: <ProjectOverviewPage />,
                                             },
                                             {
-                                                path: 'documentation',
-                                                element: <ProjectDocumentationPage />,
+                                                path: 'docs',
+                                                element: <ProjectDocsPage />,
                                             },
                                             {
                                                 path: 'files',
@@ -139,7 +154,7 @@ export const routes = createBrowserRouter([
                                         ],
                                     },
                                     {
-                                        path: 'documentation',
+                                        path: 'docs',
                                         children: [
                                             {
                                                 path: '',
@@ -147,11 +162,11 @@ export const routes = createBrowserRouter([
                                             },
                                             {
                                                 path: 'relevant',
-                                                element: <DocumentationPage />,
+                                                element: <DocsPage />,
                                             },
                                             {
                                                 path: 'all',
-                                                element: <DocumentationPage />,
+                                                element: <DocsPage />,
                                             },
                                         ],
                                     },

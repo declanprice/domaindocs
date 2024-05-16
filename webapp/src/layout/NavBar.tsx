@@ -181,8 +181,8 @@ export const NavBar = () => {
 
                     <NavListItem
                         icon={<IoDocumentTextOutline color={'gray.900'} size={18} />}
-                        label={'Documentation'}
-                        to={`/${activeDomain.domainId}/documentation/relevant`}
+                        label={'Docs'}
+                        to={`/${activeDomain.domainId}/docs/relevant`}
                         iconOnly={!isFullNavBar}
                     />
 

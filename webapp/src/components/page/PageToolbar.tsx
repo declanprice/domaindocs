@@ -37,7 +37,7 @@ export const PageToolbar = (props: PageToolbarProps) => {
                 <Tabs
                     index={tabs.findIndex((t) => t.isActive)}
                     colorScheme={'gray'}
-                    size={'sm'}
+                    size={'md'}
                     height={'100%'}
                     display={'flex'}
                     alignItems={'flex-end'}

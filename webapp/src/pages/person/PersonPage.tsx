@@ -1,13 +1,13 @@
 import { Divider, Flex } from '@chakra-ui/react';
-import { PersonSummary } from './PersonSummary';
-import { PersonRolesList } from './PersonRolesList';
-import { PersonTeamsList } from './PersonTeamsList';
-import { PersonContactDetails } from './PersonContactDetails';
-import { PersonSkillsList } from './PersonSkillsList';
+import { PersonRolesList } from './components/PersonRolesList';
+import { PersonTeamsList } from './components/PersonTeamsList';
+import { PersonContactDetails } from './components/PersonContactDetails';
+import { PersonSkillsList } from './components/PersonSkillsList';
 import { PersonPageToolbar } from './PersonPageToolbar';
 import { DetailedPerson } from '@domaindocs/lib';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
+import { PersonAvatar } from '../../components/person/PersonAvatar';
 
 export const PersonPage = () => {
     const { domainId } = useParams() as DomainPageParams;
@@ -77,7 +77,7 @@ export const PersonPage = () => {
             <PersonPageToolbar domainId={domainId} person={person.person} />
 
             <Flex direction="column" width={'100%'} overflowY={'auto'} gap={2} p={8}>
-                <PersonSummary person={person.person} />
+                <PersonAvatar {...person.person} />
 
                 <Divider />
 

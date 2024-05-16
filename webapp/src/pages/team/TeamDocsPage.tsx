@@ -1,13 +1,13 @@
 import { Box, Flex } from '@chakra-ui/react';
+import { TeamPageToolbar } from './TeamPageToolbar';
 import { useParams } from 'react-router-dom';
+import { TeamPageParams } from './TeamPageParams';
 import { useQuery } from '@tanstack/react-query';
 import { DetailedTeam } from '@domaindocs/lib';
-import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { teamsApi } from '../../state/api/teams-api';
-import { TeamPageToolbar } from './TeamPageToolbar';
-import { TeamPageParams } from './TeamPageParams';
+import { LoadingContainer } from '../../components/loading/LoadingContainer';
 
-export const TeamPage = () => {
+export const TeamDocsPage = () => {
     const { domainId, teamId } = useParams() as TeamPageParams;
 
     const { data: team, isLoading } = useQuery<DetailedTeam>({
@@ -22,7 +22,9 @@ export const TeamPage = () => {
             <TeamPageToolbar teamName={team.team.name} domainId={domainId} teamId={teamId} />
 
             <Box height={'100%'} width={'100%'} overflowY={'auto'}>
-                <Flex p={4} gap={4} width={'100%'} direction={'column'}></Flex>
+                <Flex p={4} gap={4} width={'100%'} direction={'column'}>
+                    docs
+                </Flex>
             </Box>
         </Flex>
     );
