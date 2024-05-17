@@ -128,23 +128,23 @@ export class DocumentationService {
         );
     }
 
-    async add(session: UserSession, domainId: string, documentationId: string, data: AddDocumentationData) {
+    async add(session: UserSession, domainId: string, parentDocumentationId: string, data: AddDocumentationData) {
         const parent = await this.db.query.documentation.findFirst({
-            where: eq(documentation.documentationId, documentationId),
+            where: eq(documentation.documentationId, parentDocumentationId),
         });
 
         if (parent?.type === DocumentationType.FOLDER && data.type === DocumentationType.FOLDER) {
-            throw new BadRequestException('Cannot creat nested folders.');
+            throw new BadRequestException('Cannot create nested folders.');
         }
 
         await this.db.transaction(async (tx) => {
             const documentationId = v4();
 
             await tx.insert(documentation).values({
-                documentationId,
+                documentationId: documentationId,
                 domainId,
                 name: `New ${data.type}`,
-                parentId: documentationId,
+                parentId: parentDocumentationId,
                 type: data.type,
                 createdAt: new Date(),
                 updatedAt: new Date(),
