@@ -5,35 +5,24 @@ import { IoMdAdd } from 'react-icons/io';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { useHover } from '@uidotdev/usehooks';
 import { useRef, useState } from 'react';
-import { FolderItem } from './FolderItem';
+import { DocumentationFolderItem } from './DocumentationFolderItem';
 
-export type DocsFolderProps = {
-    activeDocumentationId?: string;
-    documentationId: string;
-    folderName: string;
-    folderSubtitle?: string;
-    folderItems: Documentation[] | null;
+export type DocumentationFolderProps = {
+    documentation: Documentation;
+    activeDocumentation?: Documentation;
     parentFolderRef?: any;
-    onAddFile: (documentationId: string) => any;
-    onDocumentationClick: (documentationId: string) => any;
+    onAddFile: (documentation: Documentation) => any;
+    onDocumentationClick: (documentation: Documentation) => any;
 } & StyleProps;
 
-export const Folder = styled((props: DocsFolderProps) => {
+export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
     const [isFolderOpen, setIsFolderOpen] = useState<boolean>(false);
 
     const folderRef = useRef(null);
 
     const [ref, hovering] = useHover();
 
-    const {
-        folderName,
-        folderSubtitle,
-        folderItems,
-        onAddFile,
-        documentationId,
-        onDocumentationClick,
-        activeDocumentationId,
-    } = props;
+    const { documentation, onAddFile, onDocumentationClick, activeDocumentation } = props;
 
     return (
         <Flex direction="column" {...props}>
@@ -62,9 +51,9 @@ export const Folder = styled((props: DocsFolderProps) => {
                         setIsFolderOpen(!isFolderOpen);
                     }}
                 >
-                    <Text fontSize={12}>{folderName}</Text>
+                    <Text fontSize={12}>{documentation.name}</Text>
 
-                    {folderSubtitle && <Text fontSize={10}>{folderSubtitle}</Text>}
+                    <Text fontSize={10}>{documentation.type}</Text>
                 </Flex>
 
                 <Flex position={'absolute'} right={0} mr={2} gap={1} hidden={!hovering}>
@@ -81,7 +70,7 @@ export const Folder = styled((props: DocsFolderProps) => {
                         aria-label={'folder-menu'}
                         icon={<IoMdAdd />}
                         onClick={() => {
-                            onAddFile(documentationId);
+                            onAddFile(documentation);
                         }}
                     ></IconButton>
                 </Flex>
@@ -89,27 +78,24 @@ export const Folder = styled((props: DocsFolderProps) => {
 
             {isFolderOpen && (
                 <List width={'100%'} height={'100%'}>
-                    {folderItems?.map((item) => {
-                        if (item.type === DocumentationType.FOLDER) {
+                    {documentation?.documentation?.map((doc) => {
+                        if (documentation.type === DocumentationType.FOLDER) {
                             return (
-                                <Folder
-                                    folderName={item.name}
+                                <DocumentationFolder
+                                    documentation={doc}
                                     parentFolderRef={folderRef}
-                                    folderItems={item.documentation}
-                                    documentationId={item.documentationId}
                                     onAddFile={onAddFile}
                                     onDocumentationClick={onDocumentationClick}
-                                    activeDocumentationId={activeDocumentationId}
+                                    activeDocumentation={activeDocumentation}
                                 />
                             );
                         } else {
                             return (
-                                <FolderItem
-                                    itemName={item.name}
+                                <DocumentationFolderItem
+                                    documentation={doc}
                                     parentFolderRef={folderRef}
                                     onDocumentationClick={onDocumentationClick}
-                                    documentationId={item.documentationId}
-                                    activeDocumentationId={activeDocumentationId}
+                                    activeDocumentation={activeDocumentation}
                                 />
                             );
                         }

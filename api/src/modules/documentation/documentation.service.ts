@@ -2,13 +2,11 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import {
     AddDocumentationData,
-    Documentation,
+    DetailedDocumentation,
     DocumentationType,
-    DocumentDocumentation,
-    FileDocumentation,
     SearchDocumentationParams,
     SignedFileUrl,
-    ViewDocumentation,
+    Documentation,
 } from '@domaindocs/lib';
 import { v4 } from 'uuid';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
@@ -108,12 +106,10 @@ export class DocumentationService {
         });
     }
 
-    async get(session: UserSession, domainId: string, documentationId: string): Promise<ViewDocumentation> {
+    async get(session: UserSession, domainId: string, documentationId: string): Promise<DetailedDocumentation> {
         const result = await this.db.query.documentation.findFirst({
             where: eq(documentation.documentationId, documentationId),
             with: {
-                file: true,
-                document: true,
                 createdBy: {
                     with: {
                         user: true,
@@ -122,31 +118,14 @@ export class DocumentationService {
             },
         });
 
-        if (result.file) {
-            return new FileDocumentation(
-                result.documentationId,
-                result.name,
-                DocumentationType.FILE,
-                result.createdAt.toISOString(),
-                result.updatedAt.toISOString(),
-                result.createdBy.user,
-                result.file.documentationFileId,
-            );
-        }
-
-        if (result.document) {
-            return new DocumentDocumentation(
-                result.documentationId,
-                result.name,
-                DocumentationType.DOCUMENT,
-                result.createdAt.toISOString(),
-                result.updatedAt.toISOString(),
-                result.createdBy.user,
-                result.document.documentationDocumentId,
-            );
-        }
-
-        throw new Error(`unsupported documentation type of ${result.type}`);
+        return new DetailedDocumentation(
+            result.documentationId,
+            result.name,
+            result.type as DocumentationType,
+            result.createdAt.toISOString(),
+            result.updatedAt.toISOString(),
+            result.createdBy.user,
+        );
     }
 
     async add(session: UserSession, domainId: string, documentationId: string, data: AddDocumentationData) {
@@ -176,7 +155,6 @@ export class DocumentationService {
                 await tx.insert(documentationFile).values({
                     domainId,
                     documentationId,
-                    documentationFileId: v4(),
                 });
             }
 
@@ -184,7 +162,6 @@ export class DocumentationService {
                 await tx.insert(documentationDocument).values({
                     domainId,
                     documentationId,
-                    documentationDocumentId: v4(),
                 });
             }
         });
@@ -194,9 +171,9 @@ export class DocumentationService {
         await this.db.delete(documentation).where(eq(documentation.documentationId, documentationId));
     }
 
-    async getDocumentationFileSignedUrl(session: UserSession, domainId: string, documentationFileId: string) {
+    async getDocumentationFileSignedUrl(session: UserSession, domainId: string, documentationId: string) {
         const result = await this.db.query.documentationFile.findFirst({
-            where: eq(documentationFile.documentationFileId, documentationFileId),
+            where: eq(documentationFile.documentationId, documentationId),
         });
 
         const getObject = new GetObjectCommand({

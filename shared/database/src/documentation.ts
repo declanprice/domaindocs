@@ -55,34 +55,30 @@ const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
 });
 
 export const documentationDocument = pgTable('documentation_document', {
-    documentationDocumentId: text('documentation_document_id').primaryKey(),
+    documentationId: text('documentation_id')
+        .primaryKey()
+        .references(() => documentation.documentationId),
     domainId: text('domain_id')
         .notNull()
         .references(() => domain.domainId, {
             onDelete: 'restrict',
             onUpdate: 'cascade',
         }),
-    documentationId: text('documentation_id').references(() => documentation.documentationId, {
-        onDelete: 'restrict',
-        onUpdate: 'cascade',
-    }),
     data: bytea('data'),
 });
 
 export const documentationFile = pgTable(
-    'file',
+    'documentation_file',
     {
-        documentationFileId: text('documentation_file_id').primaryKey(),
+        documentationId: text('documentation_id')
+            .primaryKey()
+            .references(() => documentation.documentationId),
         domainId: text('domain_id')
             .notNull()
             .references(() => domain.domainId, {
                 onDelete: 'restrict',
                 onUpdate: 'cascade',
             }),
-        documentationId: text('documentation_id').references(() => documentation.documentationId, {
-            onDelete: 'restrict',
-            onUpdate: 'cascade',
-        }),
         key: text('key'),
         name: text('name'),
         type: text('type'),

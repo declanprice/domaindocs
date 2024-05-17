@@ -1,31 +1,17 @@
 import { Documentation } from '@domaindocs/lib';
 import { Flex, List } from '@chakra-ui/react';
-import { Folder } from './Folder';
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { DocumentationFolder } from './DocumentationFolder';
 
 type DocsNavigatorProps = {
     documentation: Documentation[];
-    onDocumentationIdActive: (documentationId: string) => any;
-    onAddFile: (documentationId: string) => any;
-    onAddFolder: (documentationId: string) => any;
+    onDocumentationClick: (documentation: Documentation) => any;
+    onAddFile: (documentation: Documentation) => any;
+    onAddFolder: (documentation: Documentation) => any;
     activeDocumentation?: Documentation;
 };
 
 export const DocumentationNavigator = (props: DocsNavigatorProps) => {
-    const { documentation, onDocumentationIdActive, onAddFile } = props;
-
-    const [activeDocumentationId, setActiveDocumentationId] = useState<string>();
-
-    const [searchParams, setSearchParams] = useSearchParams();
-
-    useEffect(() => {
-        const active = searchParams.get('active');
-        if (active) {
-            setActiveDocumentationId(active);
-            onDocumentationIdActive(active);
-        }
-    }, [searchParams]);
+    const { documentation, activeDocumentation, onDocumentationClick, onAddFile } = props;
 
     return (
         <Flex
@@ -38,19 +24,14 @@ export const DocumentationNavigator = (props: DocsNavigatorProps) => {
         >
             <List width={'100%'} height={'100%'}>
                 {documentation.map((doc) => (
-                    <Folder
-                        folderName={doc.name}
-                        folderSubtitle={doc.type}
-                        folderItems={doc.documentation}
-                        documentationId={doc.documentationId}
-                        activeDocumentationId={activeDocumentationId}
-                        onAddFile={(documentationId) => {
-                            onAddFile(documentationId);
+                    <DocumentationFolder
+                        documentation={doc}
+                        activeDocumentation={activeDocumentation}
+                        onAddFile={(documentation) => {
+                            onAddFile(documentation);
                         }}
-                        onDocumentationClick={(documentationId) => {
-                            setActiveDocumentationId(documentationId);
-                            setSearchParams({ ['active']: documentationId });
-                            onDocumentationIdActive(documentationId);
+                        onDocumentationClick={(documentation) => {
+                            onDocumentationClick(documentation);
                         }}
                     />
                 ))}

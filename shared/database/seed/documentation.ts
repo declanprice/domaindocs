@@ -82,7 +82,6 @@ export const documentation = (): (typeof schema.documentation.$inferInsert)[] =>
 
 export const documentationFiles = (): (typeof documentationFile.$inferInsert)[] => [
     {
-        documentationFileId: `${deedSearchProject().projectId}-file1`,
         documentationId: `${deedSearchProject().projectId}-file1`,
         key: `${ros().domainId}/${deedSearchProject().projectId}/file1.jpg`,
         type: 'jpg',
@@ -90,7 +89,6 @@ export const documentationFiles = (): (typeof documentationFile.$inferInsert)[] 
         domainId: ros().domainId,
     },
     {
-        documentationFileId: `${deedSearchProject().projectId}-file2`,
         documentationId: `${deedSearchProject().projectId}-file2`,
         key: `${ros().domainId}/${deedSearchProject().projectId}/file2.jpg`,
         type: 'jpg',
@@ -102,7 +100,6 @@ export const documentationFiles = (): (typeof documentationFile.$inferInsert)[] 
 export const documentationDocuments = (): (typeof schema.documentationDocument.$inferInsert)[] => {
     return [
         {
-            documentationDocumentId: `${deedSearchProject().projectId}-doc1`,
             documentationId: `${deedSearchProject().projectId}-doc1`,
             domainId: ros().domainId,
             data: undefined,

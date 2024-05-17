@@ -7,7 +7,7 @@ import { CharacterCount } from '@tiptap/extension-character-count';
 import { Highlight } from '@tiptap/extension-highlight';
 import './DocumentPanel.css';
 import { DocumentBubbleMenu } from './DocumentBubbleMenu';
-import { DocumentDocumentation } from '@domaindocs/lib';
+import { DetailedDocumentation } from '@domaindocs/lib';
 import { DocumentToolbar } from './DocumentToolbar';
 import { DocumentTitle } from './DocumentTitle';
 import { DocumentDetails } from './DocumentDetails';
@@ -15,7 +15,7 @@ import { HocuspocusProvider } from '@hocuspocus/provider';
 import { Collaboration } from '@tiptap/extension-collaboration';
 
 type DocumentPanelProps = {
-    documentation: DocumentDocumentation;
+    documentation: DetailedDocumentation;
 };
 
 export const DocumentPanel = (props: DocumentPanelProps) => {
@@ -23,7 +23,7 @@ export const DocumentPanel = (props: DocumentPanelProps) => {
 
     const provider = new HocuspocusProvider({
         url: 'ws://127.0.0.1:5000',
-        name: documentation.documentId,
+        name: documentation.documentationId,
     });
 
     const extensions = [

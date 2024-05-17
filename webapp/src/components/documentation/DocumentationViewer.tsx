@@ -1,11 +1,12 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { DocumentationNavigator } from './navigator/DocumentationNavigator';
-import { Documentation, DocumentationType, ViewDocumentation } from '@domaindocs/lib';
+import { DetailedDocumentation, Documentation, DocumentationType } from '@domaindocs/lib';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { documentationApi } from '../../state/api/documentation-api';
 import { DocumentPanel } from './panels/document/DocumentPanel';
 import { FilePanel } from './panels/file/FilePanel';
+import { LoadingContainer } from '../loading/LoadingContainer';
 
 type DocumentationViewerProps = {
     domainId: string;
@@ -16,16 +17,16 @@ type DocumentationViewerProps = {
 export const DocumentationViewer = (props: DocumentationViewerProps) => {
     const { domainId, documentation, onChange } = props;
 
-    const [activeDocumentationId, setActiveDocumentationId] = useState<string>();
+    const [activeDocumentation, setActiveDocumentation] = useState<Documentation>();
 
     const {
-        data: viewerDocumentation,
+        data: detailedActiveDocumentation,
         isLoading: isDocumentationLoading,
         refetch: getDocumentation,
-    } = useQuery<ViewDocumentation>({
+    } = useQuery<DetailedDocumentation>({
         enabled: false,
-        queryKey: ['getDocumentation', { domainId, activeDocumentationId }],
-        queryFn: () => documentationApi.get(domainId, activeDocumentationId!),
+        queryKey: ['getDocumentation', { domainId, documentationId: activeDocumentation?.documentationId! }],
+        queryFn: () => documentationApi.get(domainId, activeDocumentation?.documentationId!),
     });
 
     const { mutate: addDocumentation } = useMutation({
@@ -37,79 +38,43 @@ export const DocumentationViewer = (props: DocumentationViewerProps) => {
     });
 
     useEffect(() => {
-        if (activeDocumentationId) {
+        if (activeDocumentation) {
             getDocumentation().then();
         }
-    }, [activeDocumentationId]);
+    }, [activeDocumentation]);
 
     const renderPanel = () => {
-        // return (
-        //     <FilePanel
-        //         domainId={domainId}
-        //         documentation={{
-        //             documentationId: '1',
-        //             name: 'File',
-        //             type: DocumentationType.FILE,
-        //             createdAt: new Date().toISOString(),
-        //             updatedAt: new Date().toISOString(),
-        //             createdBy: {
-        //                 firstName: 'Declan',
-        //                 lastName: 'Price',
-        //             },
-        //             fileId: '1',
-        //         }}
-        //     />
-        // );
+        if (isDocumentationLoading) return <LoadingContainer />;
 
-        return (
-            <DocumentPanel
-                documentation={{
-                    documentationId: '1',
-                    name: 'New Document',
-                    type: DocumentationType.DOCUMENT,
-                    createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString(),
-                    createdBy: {
-                        firstName: 'Declan',
-                        lastName: 'Price',
-                    },
-                    documentId: '1',
-                }}
-            />
-        );
+        if (!activeDocumentation || !detailedActiveDocumentation) return null;
 
-        // if (!viewerDocumentation) return null;
-        //
-        // if (isDocumentationLoading) return <LoadingContainer />;
-        //
-        // if (viewerDocumentation.type === DocumentationType.FILE) {
-        //     console.log(viewerDocumentation, isDocumentationLoading);
-        //     return <FilePanel domainId={domainId} file={viewerDocumentation} />;
-        // }
-        //
-        // if (viewerDocumentation.type === DocumentationType.DOCUMENT) {
-        //     return <DocumentPanel />;
-        // }
-        //
-        // return <>Unsupported documentation type</>;
+        if (detailedActiveDocumentation.type === DocumentationType.FILE) {
+            return <FilePanel domainId={domainId} documentation={detailedActiveDocumentation} />;
+        }
+
+        if (detailedActiveDocumentation.type === DocumentationType.DOCUMENT) {
+            return <DocumentPanel documentation={detailedActiveDocumentation} />;
+        }
+
+        return <>Unsupported documentation type</>;
     };
 
     return (
         <Flex height={'100%'} width={'100%'}>
             <DocumentationNavigator
                 documentation={documentation}
-                onDocumentationIdActive={(documentationId) => {
-                    setActiveDocumentationId(documentationId);
+                onDocumentationClick={(documentation) => {
+                    setActiveDocumentation(documentation);
                 }}
-                onAddFile={(documentationId) => {
+                onAddFile={(documentation) => {
                     addDocumentation({
-                        documentationId,
+                        documentationId: documentation.documentationId,
                         type: DocumentationType.FILE,
                     });
                 }}
-                onAddFolder={(documentationId) => {
+                onAddFolder={(documentation) => {
                     addDocumentation({
-                        documentationId,
+                        documentationId: documentation.documentationId,
                         type: DocumentationType.FOLDER,
                     });
                 }}

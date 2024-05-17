@@ -16,11 +16,11 @@ export class Documentation {
     ) {}
 }
 
-export class FileDocumentation {
+export class DetailedDocumentation {
     constructor(
         public documentationId: string,
         public name: string,
-        public type: DocumentationType.FILE,
+        public type: DocumentationType,
         public createdAt: string,
         public updatedAt: string,
         public createdBy: {
@@ -28,24 +28,23 @@ export class FileDocumentation {
             lastName: string;
             iconUri?: string;
         },
-        public fileId: string,
     ) {}
 }
 
-export class DocumentDocumentation {
+export class DocumentationFile {
     constructor(
         public documentationId: string,
         public name: string,
-        public type: DocumentationType.DOCUMENT,
-        public createdAt: string,
-        public updatedAt: string,
-        public createdBy: {
-            firstName: string;
-            lastName: string;
-            iconUri?: string;
-        },
-        public documentId: string,
+        public type: string | undefined,
+        public key: string | undefined,
     ) {}
 }
 
-export type ViewDocumentation = FileDocumentation | DocumentDocumentation;
+export class DocumentationDocument {
+    constructor(
+        public documentationId: string,
+
+        public name: string,
+        public data: string | undefined,
+    ) {}
+}

@@ -1,5 +1,5 @@
 import { Flex, Image } from '@chakra-ui/react';
-import { FileDocumentation } from '@domaindocs/lib';
+import { DetailedDocumentation } from '@domaindocs/lib';
 
 import { FileTitle } from './FileTitle';
 import { FileDetails } from './FileDetails';
@@ -7,13 +7,11 @@ import { FileToolbar } from './FileToolbar';
 
 type FilePanelProps = {
     domainId: string;
-    documentation: FileDocumentation;
+    documentation: DetailedDocumentation;
 };
 
 export const FilePanel = (props: FilePanelProps) => {
     const { domainId, documentation } = props;
-
-    const fileId = documentation.fileId;
 
     // const { data: signedUrl, isLoading: isSignedUrlLoading } = useQuery<SignedFileUrl>({
     //     staleTime: 0,
