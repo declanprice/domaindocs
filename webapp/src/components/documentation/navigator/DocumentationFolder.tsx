@@ -79,7 +79,7 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
             {isFolderOpen && (
                 <List width={'100%'} height={'100%'}>
                     {documentation?.documentation?.map((doc) => {
-                        if (documentation.type === DocumentationType.FOLDER) {
+                        if (doc.type == DocumentationType.FOLDER) {
                             return (
                                 <DocumentationFolder
                                     documentation={doc}

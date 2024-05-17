@@ -3,10 +3,10 @@ import { UserSession } from '../../auth/auth-session';
 import {
     AddDocumentationData,
     DetailedDocumentation,
+    Documentation,
     DocumentationType,
     SearchDocumentationParams,
     SignedFileUrl,
-    Documentation,
 } from '@domaindocs/lib';
 import { v4 } from 'uuid';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
@@ -133,7 +133,7 @@ export class DocumentationService {
             where: eq(documentation.documentationId, documentationId),
         });
 
-        if (parent?.type === DocumentationType.FOLDER) {
+        if (parent?.type === DocumentationType.FOLDER && data.type === DocumentationType.FOLDER) {
             throw new BadRequestException('Cannot creat nested folders.');
         }
 
