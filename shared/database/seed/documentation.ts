@@ -1,4 +1,5 @@
 import { DocumentationType } from '../../lib/src';
+import { declanPerson } from './people';
 
 export const documentation = (domainId: string, rootId: string, isDomainRoot?: boolean) => {
     return [
@@ -8,6 +9,9 @@ export const documentation = (domainId: string, rootId: string, isDomainRoot?: b
             documentationId: rootId,
             name: isDomainRoot ? 'Domain Root' : 'Project Root',
             type: isDomainRoot ? DocumentationType.DOMAIN_ROOT_FOLDER : DocumentationType.PROJECT_ROOT_FOLDER,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            createdBy: declanPerson().personId,
             parentId: null,
         },
         {
@@ -17,6 +21,9 @@ export const documentation = (domainId: string, rootId: string, isDomainRoot?: b
             name: 'Logo',
             parentId: rootId,
             type: DocumentationType.FILE,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            createdBy: declanPerson().personId,
         },
         {
             domainId,
@@ -24,7 +31,11 @@ export const documentation = (domainId: string, rootId: string, isDomainRoot?: b
             fileId: `${domainId}-${rootId}-file2`,
             name: 'Project Plan',
             parentId: rootId,
+            documentId: '1',
             type: DocumentationType.FILE,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            createdBy: declanPerson().personId,
         },
         {
             domainId,
@@ -32,6 +43,9 @@ export const documentation = (domainId: string, rootId: string, isDomainRoot?: b
             name: 'Site Maps',
             parentId: rootId,
             type: DocumentationType.FOLDER,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            createdBy: declanPerson().personId,
         },
         {
             domainId,
@@ -40,6 +54,9 @@ export const documentation = (domainId: string, rootId: string, isDomainRoot?: b
             parentId: `${rootId}-4`,
             name: 'Site Map Item',
             type: DocumentationType.FILE,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            createdBy: declanPerson().personId,
         },
     ];
 };

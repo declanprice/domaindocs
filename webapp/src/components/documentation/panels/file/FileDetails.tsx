@@ -12,7 +12,7 @@ type DocumentDetailsProps = {
     };
 };
 
-export const DocumentDetails = (props: DocumentDetailsProps) => {
+export const FileDetails = (props: DocumentDetailsProps) => {
     const { createdAt, updatedAt, createdBy } = props;
 
     return (

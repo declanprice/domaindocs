@@ -12,6 +12,7 @@ import { file } from '../src';
 import { files } from './files';
 import { projectLinks } from './project-links';
 import { teamOrionOwnership } from './project-ownership';
+import { document } from './document';
 
 const sql = postgres(process.env['DATABASE_URL'] as string, { max: 1 });
 
@@ -22,6 +23,7 @@ const db = drizzle(sql, { schema });
 
     await db.delete(schema.documentation);
 
+    await db.delete(schema.document);
     await db.delete(schema.file);
 
     await db.delete(schema.projectLink);
@@ -98,6 +100,8 @@ const db = drizzle(sql, { schema });
     await db
         .insert(file)
         .values([...files(ros().domainId, deedSearch().projectId), ...files(ros().domainId, lrArchive().projectId)]);
+
+    await db.insert(schema.document).values(document());
 
     await db
         .insert(schema.documentation)

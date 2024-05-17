@@ -1,23 +1,36 @@
-import { Hocuspocus, onStoreDocumentPayload } from '@hocuspocus/server';
+import { Hocuspocus } from '@hocuspocus/server';
 import { Database } from '@hocuspocus/extension-database';
+import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import * as schema from '@domaindocs/database';
+import { eq } from 'drizzle-orm';
 
 const server = new Hocuspocus({
     port: 5000,
 });
 
-let doc: any;
+const sql = postgres(process.env['DATABASE_URL'] as string, { max: 1 });
+
+const db = drizzle(sql, { schema });
 
 server.configure({
     extensions: [
         new Database({
-            // Return a Promise to retrieve data …
             fetch: async ({ documentName }) => {
-                return doc;
+                const document = await db
+                    .select()
+                    .from(schema.document)
+                    .where(eq(schema.document.documentId, documentName));
+
+                return document[0]?.data;
             },
-            // … and a Promise to store data:
             store: async ({ documentName, state }) => {
-                console.log('storing');
-                doc = state;
+                await db
+                    .update(schema.document)
+                    .set({
+                        data: state,
+                    })
+                    .where(eq(schema.document.documentId, documentName));
             },
         }),
     ],

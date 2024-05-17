@@ -1,12 +1,16 @@
-import { pgTable, text } from 'drizzle-orm/pg-core';
+import { customType, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm/relations';
 import { documentation } from './documentation';
 
+const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
+    dataType() {
+        return 'bytea';
+    },
+});
+
 export const document = pgTable('document', {
     documentId: text('document_id').primaryKey(),
-    title: text('title').notNull().default('New Document'),
-    subTitle: text('sub_title'),
-    content: text('content'),
+    data: bytea('data').notNull(),
 });
 
 export const documentRelations = relations(document, ({ one }) => ({

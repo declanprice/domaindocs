@@ -1,31 +1,53 @@
-import { Box, Flex, Image } from '@chakra-ui/react';
-import { FileDocumentation, ViewDocumentation } from '@domaindocs/lib';
-import { useQuery } from '@tanstack/react-query';
-import { filesApi } from '../../../../state/api/files-api';
-import { SignedFileUrl } from '../../../../../../lib/src/file/signed-file-url';
-import { LoadingContainer } from '../../../loading/LoadingContainer';
+import { Flex, Image } from '@chakra-ui/react';
+import { FileDocumentation } from '@domaindocs/lib';
+
+import { FileTitle } from './FileTitle';
+import { FileDetails } from './FileDetails';
+import { FileToolbar } from './FileToolbar';
 
 type FilePanelProps = {
     domainId: string;
-    file: FileDocumentation;
+    documentation: FileDocumentation;
 };
 
 export const FilePanel = (props: FilePanelProps) => {
-    const { domainId, file } = props;
+    const { domainId, documentation } = props;
 
-    const fileId = file.file.fileId;
+    const fileId = documentation.fileId;
 
-    const { data: signedUrl, isLoading: isSignedUrlLoading } = useQuery<SignedFileUrl>({
-        staleTime: 0,
-        queryKey: ['getFileSignedUrl', { domainId, fileId }],
-        queryFn: () => filesApi.getSignedUrl(domainId, fileId),
-    });
-
-    if (!signedUrl || isSignedUrlLoading) return <LoadingContainer />;
+    // const { data: signedUrl, isLoading: isSignedUrlLoading } = useQuery<SignedFileUrl>({
+    //     staleTime: 0,
+    //     queryKey: ['getFileSignedUrl', { domainId, fileId }],
+    //     queryFn: () => filesApi.getSignedUrl(domainId, fileId),
+    // });
+    //
+    // if (!signedUrl || isSignedUrlLoading) return <LoadingContainer />;
 
     return (
-        <Flex height={'100%'} width={'100%'} alignItems={'center'} justifyContent={'center'}>
-            <Image src={signedUrl.url} />
+        <Flex width="100%" flexDirection="column">
+            <FileToolbar />
+
+            <Flex py={8} px={2} flexDirection={'column'} alignItems={'center'}>
+                <FileTitle title={documentation.name} />
+
+                <FileDetails
+                    createdAt={new Date().toISOString()}
+                    updatedAt={new Date().toISOString()}
+                    createdBy={{
+                        firstName: 'Declan',
+                        lastName: 'Pride',
+                    }}
+                />
+
+                <Image
+                    maxWidth={'900px'}
+                    width={'100%'}
+                    mt={4}
+                    src={
+                        'https://png.pngtree.com/thumb_back/fh260/background/20230408/pngtree-rainbow-curves-abstract-colorful-background-image_2164067.jpg'
+                    }
+                />
+            </Flex>
         </Flex>
     );
 };

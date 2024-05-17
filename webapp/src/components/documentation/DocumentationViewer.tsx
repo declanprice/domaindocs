@@ -4,9 +4,8 @@ import { Documentation, DocumentationType, ViewDocumentation } from '@domaindocs
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { documentationApi } from '../../state/api/documentation-api';
-import { LoadingContainer } from '../loading/LoadingContainer';
-import { FilePanel } from './panels/file/FilePanel';
 import { DocumentPanel } from './panels/document/DocumentPanel';
+import { FilePanel } from './panels/file/FilePanel';
 
 type DocumentationViewerProps = {
     domainId: string;
@@ -44,7 +43,40 @@ export const DocumentationViewer = (props: DocumentationViewerProps) => {
     }, [activeDocumentationId]);
 
     const renderPanel = () => {
-        return <DocumentPanel document={{} as any} />;
+        return (
+            <FilePanel
+                domainId={domainId}
+                documentation={{
+                    documentationId: '1',
+                    name: 'File',
+                    type: DocumentationType.FILE,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    createdBy: {
+                        firstName: 'Declan',
+                        lastName: 'Price',
+                    },
+                    fileId: '1',
+                }}
+            />
+        );
+
+        // return (
+        //     <DocumentPanel
+        //         documentation={{
+        //             documentationId: '1',
+        //             name: 'New Document',
+        //             type: DocumentationType.DOCUMENT,
+        //             createdAt: new Date().toISOString(),
+        //             updatedAt: new Date().toISOString(),
+        //             createdBy: {
+        //                 firstName: 'Declan',
+        //                 lastName: 'Price',
+        //             },
+        //             documentId: '1',
+        //         }}
+        //     />
+        // );
 
         // if (!viewerDocumentation) return null;
         //

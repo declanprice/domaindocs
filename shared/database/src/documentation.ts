@@ -1,9 +1,10 @@
-import { pgTable, text, index, foreignKey } from 'drizzle-orm/pg-core';
+import { pgTable, text, index, foreignKey, timestamp } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm/relations';
 import { domain } from './domain';
 import { project } from './project';
 import { file } from './file';
 import { document } from './document';
+import { person } from './person';
 
 export const documentation = pgTable(
     'documentation',
@@ -14,6 +15,9 @@ export const documentation = pgTable(
             .references(() => domain.domainId),
         projectId: text('project_id').references(() => project.projectId),
         name: text('name').notNull(),
+        createdAt: timestamp('created_at').notNull().defaultNow(),
+        updatedAt: timestamp('updated_at').notNull().defaultNow(),
+        createdBy: text('created_by').references(() => person.personId),
         type: text('type').notNull(),
         parentId: text('parent_id'),
         fileId: text('file_id').references(() => file.fileId),
@@ -45,6 +49,10 @@ export const documentationRelations = relations(documentation, ({ one, many }) =
     file: one(file, {
         fields: [documentation.fileId],
         references: [file.fileId],
+    }),
+    createdBy: one(person, {
+        fields: [documentation.createdBy],
+        references: [person.personId],
     }),
     document: one(document, {
         fields: [documentation.documentId],

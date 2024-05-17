@@ -21,10 +21,14 @@ export class FileDocumentation {
         public documentationId: string,
         public name: string,
         public type: DocumentationType.FILE,
-        public file: {
-            fileId: string;
-            fileName: string;
+        public createdAt: string,
+        public updatedAt: string,
+        public createdBy: {
+            firstName: string;
+            lastName: string;
+            iconUri?: string;
         },
+        public fileId: string,
     ) {}
 }
 
@@ -33,10 +37,14 @@ export class DocumentDocumentation {
         public documentationId: string,
         public name: string,
         public type: DocumentationType.DOCUMENT,
-        public document: {
-            documentId: string;
-            documentName: string;
+        public createdAt: string,
+        public updatedAt: string,
+        public createdBy: {
+            firstName: string;
+            lastName: string;
+            iconUri?: string;
         },
+        public documentId: string,
     ) {}
 }
 

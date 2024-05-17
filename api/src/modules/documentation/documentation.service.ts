@@ -78,21 +78,36 @@ export class DocumentationService {
             with: {
                 file: true,
                 document: true,
+                createdBy: {
+                    with: {
+                        user: true,
+                    },
+                },
             },
         });
 
         if (result.file) {
-            return new FileDocumentation(result.documentationId, result.name, DocumentationType.FILE, {
-                fileId: result.file.fileId,
-                fileName: result.file.name,
-            });
+            return new FileDocumentation(
+                result.documentationId,
+                result.name,
+                DocumentationType.FILE,
+                result.createdAt.toISOString(),
+                result.updatedAt.toISOString(),
+                result.createdBy.user,
+                result.file.fileId,
+            );
         }
 
         if (result.document) {
-            return new DocumentDocumentation(result.documentationId, result.name, DocumentationType.DOCUMENT, {
-                documentId: result.document.documentId,
-                documentName: result.document.title,
-            });
+            return new DocumentDocumentation(
+                result.documentationId,
+                result.name,
+                DocumentationType.DOCUMENT,
+                result.createdAt.toISOString(),
+                result.updatedAt.toISOString(),
+                result.createdBy.user,
+                result.document.documentId,
+            );
         }
 
         throw new Error(`unsupported documentation type of ${result.type}`);
