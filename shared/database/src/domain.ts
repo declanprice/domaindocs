@@ -1,8 +1,7 @@
 import { pgTable, uniqueIndex, text } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm/relations';
 import { person } from './person';
-import { documentation } from './documentation';
-import { file } from './file';
+import { documentation, documentationFile } from './documentation';
 
 export const domain = pgTable(
     'domain',
@@ -19,9 +18,9 @@ export const domain = pgTable(
 
 export const domainRelations = relations(domain, ({ one, many }) => ({
     people: many(person),
-    files: many(file),
     documentation: one(documentation, {
         fields: [domain.domainId],
         references: [documentation.documentationId],
     }),
+    files: many(documentationFile),
 }));

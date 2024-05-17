@@ -11,8 +11,6 @@ import { useUiStore } from '../state/stores/ui.store';
 import { DomainSelectorMenu } from './DomainSelectorMenu';
 import { BsInbox } from 'react-icons/bs';
 import { PiFloppyDiskLight } from 'react-icons/pi';
-import { SiReacthookform } from 'react-icons/si';
-import { MdOutlineWorkOutline } from 'react-icons/md';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { MdOutlinePerson } from 'react-icons/md';
 import { LiaProjectDiagramSolid } from 'react-icons/lia';
@@ -154,7 +152,7 @@ export const NavBar = () => {
                     <NavListItem
                         label={'Home'}
                         icon={<FiHome color={'gray.900'} size={18} />}
-                        to={`/${activeDomain.domainId}/home/overview`}
+                        to={`/${activeDomain.domainId}/home/dashboard`}
                         iconOnly={!isFullNavBar}
                     />
 
@@ -204,13 +202,6 @@ export const NavBar = () => {
                         icon={<MdOutlineManageHistory color={'gray.900'} size={18} />}
                         label={'Onboarding'}
                         to={`/${activeDomain.domainId}/onboarding`}
-                        iconOnly={!isFullNavBar}
-                    />
-
-                    <NavListItem
-                        icon={<PiFloppyDiskLight color={'gray.900'} size={18} />}
-                        label={'Files'}
-                        to={`${activeDomain.domainId}/files`}
                         iconOnly={!isFullNavBar}
                     />
                 </List>

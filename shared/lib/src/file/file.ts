@@ -1,3 +1,11 @@
+export class FileTeam {
+    constructor(
+        public teamId: string,
+        public teamName: string,
+        public teamIconUri: string,
+    ) {}
+}
+
 export class FileProject {
     constructor(
         public projectId: string,
@@ -10,6 +18,13 @@ export class File {
         public fileId: string,
         public name: string,
         public type: string,
-        public project?: FileProject,
+    ) {}
+}
+
+export class DetailedFile {
+    constructor(
+        public file: File,
+        public project: FileProject | undefined,
+        public team: FileTeam | undefined,
     ) {}
 }

@@ -1,5 +1,5 @@
-import { pgTable, uniqueIndex, text, index, primaryKey } from 'drizzle-orm/pg-core';
-import { domain, person, project, projectOwnership } from './index';
+import { pgTable, uniqueIndex, text, index, primaryKey, foreignKey } from 'drizzle-orm/pg-core';
+import { domain, documentationFile, person, projectOwnership } from './index';
 import { relations } from 'drizzle-orm/relations';
 
 export const team = pgTable(
@@ -31,21 +31,30 @@ export const teamMember = pgTable(
                 onDelete: 'restrict',
                 onUpdate: 'cascade',
             }),
-        personId: text('person_id')
+        userId: text('user_id').notNull(),
+        domainId: text('domain_id')
             .notNull()
-            .references(() => person.personId, {
+            .references(() => domain.domainId, {
                 onDelete: 'restrict',
                 onUpdate: 'cascade',
             }),
     },
     (table) => {
         return {
-            personIdKey: uniqueIndex('team_member_personId_key').on(table.personId),
-            teamIdIdx: index('team_member_teamId_idx').on(table.teamId),
             teamMemberPkey: primaryKey({
-                columns: [table.teamId, table.personId],
+                columns: [table.teamId, table.userId],
                 name: 'team_member_pkey',
             }),
+            teamMemberPersonFkey: foreignKey({
+                columns: [table.userId, table.domainId],
+                foreignColumns: [person.userId, person.domainId],
+                name: 'team_member_person_fkey',
+            })
+                .onUpdate('cascade')
+                .onDelete('restrict'),
+            userIdIdx: index('team_member_userId_key').on(table.userId),
+            teamIdIdx: index('team_member_teamId_idx').on(table.teamId),
+            domainIdIdx: index('team_member_domain_id_idx').on(table.domainId),
         };
     },
 );
@@ -53,6 +62,7 @@ export const teamMember = pgTable(
 export const teamRelations = relations(team, ({ one, many }) => ({
     members: many(teamMember),
     ownership: many(projectOwnership),
+    files: many(documentationFile),
 }));
 
 export const teamMemberRelations = relations(teamMember, ({ one, many }) => ({
@@ -61,7 +71,7 @@ export const teamMemberRelations = relations(teamMember, ({ one, many }) => ({
         references: [team.teamId],
     }),
     person: one(person, {
-        fields: [teamMember.personId],
-        references: [person.personId],
+        fields: [teamMember.userId, teamMember.domainId],
+        references: [person.userId, person.domainId],
     }),
 }));

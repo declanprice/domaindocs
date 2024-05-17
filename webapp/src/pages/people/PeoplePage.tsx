@@ -32,21 +32,15 @@ export const PeoplePage = () => {
             <Box height={'100%'} width={'100%'} overflowY={'auto'}>
                 <Flex p={4} width={'100%'} direction={'column'}>
                     <TableToolbar
-                        title={'People (3)'}
-                        tabs={[
-                            {
-                                label: 'All',
-                                onClick: () => {},
-                                isActive: true,
-                            },
-                            {
-                                label: 'My Team Members',
-                                onClick: () => {},
-                                isActive: false,
-                            },
-                        ]}
+                        title={`People (${people.length})`}
                         actions={
-                            <Button variant={'ghost'} size={'sm'} fontWeight={'regular'} leftIcon={<IoAddOutline />}>
+                            <Button
+                                fontSize={12}
+                                variant={'ghost'}
+                                size={'sm'}
+                                fontWeight={'regular'}
+                                leftIcon={<IoAddOutline />}
+                            >
                                 Invite
                             </Button>
                         }

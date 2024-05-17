@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { HomePageToolbar } from './HomePageToolbar';
 
-export const HomeOverviewPage = () => {
+export const HomeDashboardPage = () => {
     const { domainId } = useParams() as DomainPageParams;
 
     return (

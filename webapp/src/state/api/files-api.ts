@@ -1,10 +1,9 @@
 import { apiClient } from './api-client';
-import { File, SearchFilesParams } from '@domaindocs/lib';
-import { SignedFileUrl } from '../../../../lib/src/file/signed-file-url';
+import { DetailedFile, File, SearchFilesParams, SignedFileUrl } from '@domaindocs/lib';
 
 export const filesApi = (() => {
-    const searchFiles = async (domainId: string, params: SearchFilesParams): Promise<File[]> => {
-        const result = await apiClient.get<File[]>(`/domains/${domainId}/files`, { params });
+    const searchFiles = async (domainId: string, params: SearchFilesParams): Promise<DetailedFile[]> => {
+        const result = await apiClient.get<DetailedFile[]>(`/domains/${domainId}/files`, { params });
         return result.data;
     };
 

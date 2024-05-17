@@ -29,18 +29,6 @@ export const ProjectsPage = () => {
                 <Flex p={4} width={'100%'} direction={'column'}>
                     <TableToolbar
                         title={`Projects (${projects.length})`}
-                        tabs={[
-                            {
-                                label: 'All',
-                                onClick: () => {},
-                                isActive: true,
-                            },
-                            {
-                                label: 'My Projects',
-                                onClick: () => {},
-                                isActive: false,
-                            },
-                        ]}
                         onSearch={() => {}}
                         onFilterClick={() => {}}
                     />

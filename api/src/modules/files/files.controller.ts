@@ -1,8 +1,8 @@
+import { SearchFilesParams } from '@domaindocs/lib';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { FilesService } from './files.service';
-import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { SearchFilesParams } from '@domaindocs/lib';
 
 @Controller('domains/:domainId/files')
 @UseGuards(AuthGuard)
@@ -13,9 +13,9 @@ export class FilesController {
     async searchFiles(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
-        @Query() dto: SearchFilesParams,
+        @Query() params: SearchFilesParams,
     ) {
-        return this.filesService.searchFiles(session, domainId, dto);
+        return this.filesService.searchFiles(session, domainId, params);
     }
 
     @Get(':fileId/signed-url')

@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { HomeOverviewPage } from './pages/home/HomeOverviewPage';
+import { HomeDashboardPage } from './pages/home/HomeDashboardPage';
 import { SignInPage } from './pages/auth/sign-in/SignInPage';
 import { SignUpPage } from './pages/auth/sign-up/SignUpPage';
 import { VerifyMagicLinkPage } from './pages/auth/VerifyMagicLinkPage';
@@ -18,7 +18,6 @@ import { SomethingWentWrongErrorPage } from './components/errors/SomethingWentWr
 import { PageNotFoundErrorPage } from './components/errors/PageNotFoundErrorPage';
 import { ProjectOverviewPage } from './pages/project/ProjectOverviewPage';
 import { ProjectDocsPage } from './pages/project/ProjectDocsPage';
-import { ProjectFilesPage } from './pages/project/ProjectFilesPage';
 import { DocsPage } from './pages/docs/DocsPage';
 import { OnboardingPage } from './pages/onboarding/OnboardingPage';
 import { TeamOverviewPage } from './pages/team/TeamOverviewPage';
@@ -38,14 +37,12 @@ import { FormSubmissionsPage } from './pages/form/FormSubmissionsPage';
 import { FormFieldsPage } from './pages/form/FormFieldsPage';
 import { FormIntegrationsPage } from './pages/form/FormIntegrationsPage';
 import { FormSettingsPage } from './pages/form/FormSettingsPage';
-import { FilesPage } from './pages/files/FilesPage';
 import { IntegrationsConnectionsPage } from './pages/integrations/IntegrationsConnectionsPage';
 import { IntegrationRulesPage } from './pages/integrations/IntegrationRulesPage';
 import { DomainSettingsPage } from './pages/domain-settings/DomainSettingsPage';
 import { HomeDocsPage } from './pages/home/HomeDocsPage';
 import { HomeNoticeBoardPage } from './pages/home/HomeNoticeBoardPage';
 import { TeamDocsPage } from './pages/team/TeamDocsPage';
-import { TeamFilesPage } from './pages/team/TeamFilesPage';
 import { TeamSettingsPage } from './pages/team/TeamSettingsPage';
 
 export const routes = createBrowserRouter([
@@ -74,11 +71,11 @@ export const routes = createBrowserRouter([
                                         children: [
                                             {
                                                 path: '',
-                                                element: <Navigate to={'overview'} />,
+                                                element: <Navigate to={'dashboard'} />,
                                             },
                                             {
-                                                path: 'overview',
-                                                element: <HomeOverviewPage />,
+                                                path: 'dashboard',
+                                                element: <HomeDashboardPage />,
                                             },
                                             {
                                                 path: 'notice-board',
@@ -86,6 +83,10 @@ export const routes = createBrowserRouter([
                                             },
                                             {
                                                 path: 'docs',
+                                                element: <HomeDocsPage />,
+                                            },
+                                            {
+                                                path: 'files',
                                                 element: <HomeDocsPage />,
                                             },
                                         ],
@@ -119,10 +120,6 @@ export const routes = createBrowserRouter([
                                                 element: <TeamDocsPage />,
                                             },
                                             {
-                                                path: 'files',
-                                                element: <TeamFilesPage />,
-                                            },
-                                            {
                                                 path: 'settings',
                                                 element: <TeamSettingsPage />,
                                             },
@@ -146,10 +143,6 @@ export const routes = createBrowserRouter([
                                             {
                                                 path: 'docs',
                                                 element: <ProjectDocsPage />,
-                                            },
-                                            {
-                                                path: 'files',
-                                                element: <ProjectFilesPage />,
                                             },
                                         ],
                                     },
@@ -248,10 +241,6 @@ export const routes = createBrowserRouter([
                                     {
                                         path: 'onboarding',
                                         element: <OnboardingPage />,
-                                    },
-                                    {
-                                        path: 'files',
-                                        element: <FilesPage />,
                                     },
                                     {
                                         path: 'user-settings',

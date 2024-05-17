@@ -166,7 +166,9 @@ export const SelectPeopleDialog = (props: SelectPeopleDialogProps) => {
                                                             {p.firstName} {p.lastName}
                                                         </Text>
 
-                                                        {p.roleName && <Text fontSize={12}>{p.roleName}</Text>}
+                                                        {p.primaryRoleName && (
+                                                            <Text fontSize={12}>{p.primaryRoleName}</Text>
+                                                        )}
                                                     </Box>
                                                 </Flex>
 

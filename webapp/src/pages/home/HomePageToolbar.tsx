@@ -26,10 +26,10 @@ export const HomePageToolbar = (props: HomePageToolbarProps) => {
                 }
                 tabs={[
                     {
-                        label: 'Overview',
-                        isActive: location.pathname.includes(`/${domainId}/home/overview`),
+                        label: 'Dashboard',
+                        isActive: location.pathname.includes(`/${domainId}/home/dashboard`),
                         onClick: () => {
-                            navigate(`/${domainId}/home/overview`);
+                            navigate(`/${domainId}/home/dashboard`);
                         },
                     },
                     {

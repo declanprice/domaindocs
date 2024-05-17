@@ -1,5 +1,5 @@
-import { pgTable, text, index } from 'drizzle-orm/pg-core';
-import { documentation, domain, file, person, team } from './index';
+import { pgTable, text, index, foreignKey } from 'drizzle-orm/pg-core';
+import { documentation, domain, documentationFile, person, team } from './index';
 import { relations } from 'drizzle-orm/relations';
 
 export const project = pgTable(
@@ -8,27 +8,20 @@ export const project = pgTable(
         projectId: text('project_id').primaryKey().notNull(),
         domainId: text('domain_id')
             .notNull()
-            .references(() => domain.domainId),
+            .references(() => domain.domainId, {
+                onDelete: 'restrict',
+                onUpdate: 'cascade',
+            }),
         name: text('name').notNull(),
         iconUri: text('icon_uri').default('https://cdn-icons-png.freepik.com/256/12148/12148631.png'),
         description: text('description').default('').notNull(),
     },
     (table) => {
         return {
-            domainIdIdx: index('project_domainId_idx').on(table.domainId),
+            domainIdIdx: index('project_domain_id_idx').on(table.domainId),
         };
     },
 );
-
-export const projectOwnership = pgTable('project_ownership', {
-    ownershipId: text('ownership_id').primaryKey().notNull(),
-    projectId: text('project_id')
-        .notNull()
-        .references(() => project.projectId),
-    teamId: text('team_id').references(() => team.teamId),
-    personId: text('person_id').references(() => person.personId),
-    description: text('description').default('Full Project').notNull(),
-});
 
 export const projectLink = pgTable(
     'project_link',
@@ -38,6 +31,12 @@ export const projectLink = pgTable(
             onDelete: 'restrict',
             onUpdate: 'cascade',
         }),
+        domainId: text('domain_id')
+            .notNull()
+            .references(() => domain.domainId, {
+                onDelete: 'restrict',
+                onUpdate: 'cascade',
+            }),
         title: text('title').notNull(),
         subTitle: text('sub_title').default('Go').notNull(),
         href: text('href').notNull(),
@@ -47,11 +46,52 @@ export const projectLink = pgTable(
     },
     (table) => {
         return {
+            domainIdIdx: index('project_link_domain_id_idx').on(table.domainId),
             projectIndex: index('project_link_project_index').on(table.projectId),
         };
     },
 );
 
+export const projectOwnership = pgTable(
+    'project_ownership',
+    {
+        ownershipId: text('ownership_id').primaryKey().notNull(),
+        projectId: text('project_id')
+            .notNull()
+            .references(() => project.projectId, {
+                onDelete: 'restrict',
+                onUpdate: 'cascade',
+            }),
+        domainId: text('domain_id')
+            .notNull()
+            .references(() => domain.domainId, {
+                onDelete: 'restrict',
+                onUpdate: 'cascade',
+            }),
+        teamId: text('team_id').references(() => team.teamId, {
+            onDelete: 'restrict',
+            onUpdate: 'cascade',
+        }),
+        userId: text('user_id'),
+        description: text('description').default('Full Project').notNull(),
+    },
+    (table) => {
+        return {
+            domainIdIdx: index('project_ownership_domain_id_idx').on(table.domainId),
+            personFkey: foreignKey({
+                columns: [table.userId, table.domainId],
+                foreignColumns: [person.userId, person.domainId],
+                name: 'project_ownership_person_fkey',
+            })
+                .onUpdate('cascade')
+                .onDelete('restrict'),
+        };
+    },
+);
+
+/**
+ *  Relations
+ * **/
 export const projectRelations = relations(project, ({ one, many }) => ({
     domain: one(domain, {
         fields: [project.domainId],
@@ -63,7 +103,14 @@ export const projectRelations = relations(project, ({ one, many }) => ({
     }),
     ownership: many(projectOwnership),
     links: many(projectLink),
-    files: many(file),
+    files: many(documentationFile),
+}));
+
+export const projectLinkRelations = relations(projectLink, ({ one }) => ({
+    project: one(project, {
+        fields: [projectLink.projectId],
+        references: [project.projectId],
+    }),
 }));
 
 export const projectOwnershipRelations = relations(projectOwnership, ({ one }) => ({
@@ -72,18 +119,11 @@ export const projectOwnershipRelations = relations(projectOwnership, ({ one }) =
         references: [project.projectId],
     }),
     person: one(person, {
-        fields: [projectOwnership.personId],
-        references: [person.personId],
+        fields: [projectOwnership.userId, projectOwnership.domainId],
+        references: [person.userId, person.domainId],
     }),
     team: one(team, {
         fields: [projectOwnership.teamId],
         references: [team.teamId],
-    }),
-}));
-
-export const projectLinkRelations = relations(projectLink, ({ one }) => ({
-    project: one(project, {
-        fields: [projectLink.projectId],
-        references: [project.projectId],
     }),
 }));

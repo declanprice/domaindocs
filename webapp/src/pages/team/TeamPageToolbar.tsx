@@ -41,13 +41,6 @@ export const TeamPageToolbar = (props: TeamPageToolbarProps) => {
                         },
                     },
                     {
-                        label: 'Files',
-                        isActive: location.pathname.includes(`/${domainId}/teams/${teamId}/files`),
-                        onClick: () => {
-                            navigate(`/${domainId}/teams/${teamId}/files`);
-                        },
-                    },
-                    {
                         label: 'Settings',
                         isActive: location.pathname.includes(`/${domainId}/teams/${teamId}/settings`),
                         onClick: () => {

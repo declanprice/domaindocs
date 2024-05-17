@@ -43,40 +43,40 @@ export const DocumentationViewer = (props: DocumentationViewerProps) => {
     }, [activeDocumentationId]);
 
     const renderPanel = () => {
-        return (
-            <FilePanel
-                domainId={domainId}
-                documentation={{
-                    documentationId: '1',
-                    name: 'File',
-                    type: DocumentationType.FILE,
-                    createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString(),
-                    createdBy: {
-                        firstName: 'Declan',
-                        lastName: 'Price',
-                    },
-                    fileId: '1',
-                }}
-            />
-        );
-
         // return (
-        //     <DocumentPanel
+        //     <FilePanel
+        //         domainId={domainId}
         //         documentation={{
         //             documentationId: '1',
-        //             name: 'New Document',
-        //             type: DocumentationType.DOCUMENT,
+        //             name: 'File',
+        //             type: DocumentationType.FILE,
         //             createdAt: new Date().toISOString(),
         //             updatedAt: new Date().toISOString(),
         //             createdBy: {
         //                 firstName: 'Declan',
         //                 lastName: 'Price',
         //             },
-        //             documentId: '1',
+        //             fileId: '1',
         //         }}
         //     />
         // );
+
+        return (
+            <DocumentPanel
+                documentation={{
+                    documentationId: '1',
+                    name: 'New Document',
+                    type: DocumentationType.DOCUMENT,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    createdBy: {
+                        firstName: 'Declan',
+                        lastName: 'Price',
+                    },
+                    documentId: '1',
+                }}
+            />
+        );
 
         // if (!viewerDocumentation) return null;
         //

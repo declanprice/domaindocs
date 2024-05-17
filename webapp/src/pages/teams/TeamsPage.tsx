@@ -27,23 +27,7 @@ export const TeamsPage = () => {
 
             <Box height={'100%'} width={'100%'} overflowY={'auto'}>
                 <Flex p={4} width={'100%'} direction={'column'}>
-                    <TableToolbar
-                        title={`Teams (${teams.length})`}
-                        tabs={[
-                            {
-                                label: 'All',
-                                onClick: () => {},
-                                isActive: true,
-                            },
-                            {
-                                label: 'My Teams',
-                                onClick: () => {},
-                                isActive: false,
-                            },
-                        ]}
-                        onSearch={() => {}}
-                        onFilterClick={() => {}}
-                    />
+                    <TableToolbar title={`Teams (${teams.length})`} onSearch={() => {}} onFilterClick={() => {}} />
 
                     <TeamTable
                         teams={teams}

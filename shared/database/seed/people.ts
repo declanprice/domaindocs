@@ -1,42 +1,110 @@
 import { benUser, declanUser, natashaUser } from './users';
 import { ros } from './domain';
-import { person } from '../src';
+import * as schema from '../src';
+import { softwareDevRole, teamLeadRole } from './roles';
+import { apiDevSkill, devOpsSkill, uiDevSkill } from './skills';
 
-export const declanPerson = (): typeof person.$inferInsert => {
+export const declanPerson = (): typeof schema.person.$inferInsert => {
     return {
-        personId: 'declan',
         userId: declanUser().userId,
         domainId: ros().domainId,
-        role: 'Software Developer',
-        contactEmail: 'work-areas@gmail.com',
-        contactMobile: '07304624123',
-        personalContactMobile: '07304624123',
-        personalContactEmail: 'personal@gmail.com',
     };
 };
 
-export const benPerson = (): typeof person.$inferInsert => {
+export const benPerson = (): typeof schema.person.$inferInsert => {
     return {
-        personId: 'ben',
         userId: benUser().userId,
         domainId: ros().domainId,
-        role: 'Project Manager',
-        contactEmail: 'work-areas@gmail.com',
-        contactMobile: '07304624123',
-        personalContactMobile: '07304624123',
-        personalContactEmail: 'personal@gmail.com',
     };
 };
 
-export const natashaPerson = (): typeof person.$inferInsert => {
+export const natashaPerson = (): typeof schema.person.$inferInsert => {
     return {
-        personId: 'natasha',
         userId: natashaUser().userId,
         domainId: ros().domainId,
-        role: 'UX Designer',
-        contactEmail: 'work-areas@gmail.com',
-        contactMobile: '07304624123',
-        personalContactMobile: '07304624123',
-        personalContactEmail: 'personal@gmail.com',
     };
+};
+
+export const personContactDetails = (): (typeof schema.personContactDetails.$inferInsert)[] => {
+    return [
+        {
+            userId: declanUser().userId,
+            domainId: ros().domainId,
+            workEmail: 'work-areas@gmail.com',
+            workMobile: '07304624123',
+            personalMobile: '07304624123',
+            personalEmail: 'personal@gmail.com',
+        },
+        {
+            userId: benUser().userId,
+            domainId: ros().domainId,
+            workEmail: 'work-areas@gmail.com',
+            workMobile: '07304624123',
+            personalMobile: '07304624123',
+            personalEmail: 'personal@gmail.com',
+        },
+        {
+            userId: natashaUser().userId,
+            domainId: ros().domainId,
+            workEmail: 'work-areas@gmail.com',
+            workMobile: '07304624123',
+            personalMobile: '07304624123',
+            personalEmail: 'personal@gmail.com',
+        },
+    ];
+};
+
+export const personRoles = (): (typeof schema.personRole.$inferInsert)[] => {
+    return [
+        {
+            userId: declanUser().userId,
+            domainId: ros().domainId,
+            roleId: softwareDevRole().roleId,
+        },
+        {
+            userId: declanUser().userId,
+            domainId: ros().domainId,
+            roleId: teamLeadRole().roleId,
+        },
+        {
+            userId: benUser().userId,
+            domainId: ros().domainId,
+            roleId: softwareDevRole().roleId,
+        },
+        {
+            userId: natashaUser().userId,
+            domainId: ros().domainId,
+            roleId: softwareDevRole().roleId,
+        },
+    ];
+};
+
+export const personSkills = (): (typeof schema.personSkill.$inferInsert)[] => {
+    return [
+        {
+            userId: declanUser().userId,
+            domainId: ros().domainId,
+            skillId: apiDevSkill().skillId,
+        },
+        {
+            userId: declanUser().userId,
+            domainId: ros().domainId,
+            skillId: uiDevSkill().skillId,
+        },
+        {
+            userId: declanUser().userId,
+            domainId: ros().domainId,
+            skillId: devOpsSkill().skillId,
+        },
+        {
+            userId: benUser().userId,
+            domainId: ros().domainId,
+            skillId: devOpsSkill().skillId,
+        },
+        {
+            userId: natashaUser().userId,
+            domainId: ros().domainId,
+            skillId: uiDevSkill().skillId,
+        },
+    ];
 };

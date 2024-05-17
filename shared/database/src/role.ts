@@ -2,10 +2,10 @@ import { pgTable, uniqueIndex, text, index } from 'drizzle-orm/pg-core';
 import { domain, personSkill } from './index';
 import { relations } from 'drizzle-orm/relations';
 
-export const skill = pgTable(
-    'skill',
+export const role = pgTable(
+    'role',
     {
-        skillId: text('skill_id').primaryKey().notNull(),
+        roleId: text('role_id').primaryKey().notNull(),
         domainId: text('domain_id')
             .notNull()
             .references(() => domain.domainId, {
@@ -17,12 +17,12 @@ export const skill = pgTable(
     },
     (table) => {
         return {
-            domainIdIdx: index('skill_domain_id_index').on(table.domainId),
-            domainIdNameIdx: uniqueIndex('skill_domain_id_name_index').on(table.name, table.domainId),
+            domainIdIdx: index('role_domain_id_idx').on(table.domainId),
+            domainIdNameIdx: uniqueIndex('role_domain_id_name_idx').on(table.name, table.domainId),
         };
     },
 );
 
-export const skillRelations = relations(skill, ({ many }) => ({
+export const roleRelations = relations(role, ({ many }) => ({
     people: many(personSkill),
 }));
