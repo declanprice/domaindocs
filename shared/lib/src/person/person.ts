@@ -26,8 +26,8 @@ export class PersonContact {
     constructor(
         public personalMobile: string | null,
         public personalEmail: string | null,
-        public contactEmail: string | null,
-        public contactMobile: string | null,
+        public workEmail: string | null,
+        public workMobile: string | null,
     ) {}
 }
 
@@ -44,7 +44,7 @@ export class Person {
 export class DetailedPerson {
     constructor(
         public person: Person,
-        public contact: PersonContact,
+        public contact: PersonContact | null,
         public skills: PersonSkill[],
         public teams: PersonTeam[],
         public roles: PersonRole[],

@@ -1,5 +1,4 @@
 import { Avatar, AvatarGroup, Button, Divider, Flex, IconButton } from '@chakra-ui/react';
-import { IoCloudUpload } from 'react-icons/io5';
 import { FaRegComments } from 'react-icons/fa';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { PiUploadSimpleThin } from 'react-icons/pi';

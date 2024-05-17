@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Stack } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { peopleApi } from '../../state/api/people-api';

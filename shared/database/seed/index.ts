@@ -3,7 +3,7 @@ import * as postgres from 'postgres';
 import * as schema from '../src';
 import { benUser, declanUser, natashaUser } from './users';
 import { ros } from './domain';
-import { benPerson, declanPerson, natashaPerson, personRoles, personSkills } from './people';
+import { benPerson, declanPerson, natashaPerson, personContactDetails, personRoles, personSkills } from './people';
 import { teamKeplar, teamMembers, teamOrion } from './teams';
 import { documentation, documentationDocuments, documentationFiles } from './documentation';
 import { apiDevSkill, devOpsSkill, uiDevSkill } from './skills';
@@ -28,6 +28,7 @@ const db = drizzle(sql, { schema });
     await db.delete(schema.teamMember);
     await db.delete(schema.team);
 
+    await db.delete(schema.personContactDetails);
     await db.delete(schema.personSkill);
     await db.delete(schema.personRole);
     await db.delete(schema.person);
@@ -53,6 +54,8 @@ const db = drizzle(sql, { schema });
     await db.insert(schema.personSkill).values(personSkills());
 
     await db.insert(schema.personRole).values(personRoles());
+
+    await db.insert(schema.personContactDetails).values(personContactDetails());
 
     await db.insert(schema.team).values([teamOrion(), teamKeplar()]);
 
