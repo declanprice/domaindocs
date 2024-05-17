@@ -176,6 +176,10 @@ export class DocumentationService {
             where: eq(documentationFile.documentationId, documentationId),
         });
 
+        if (!result?.key) {
+            return new SignedFileUrl(null);
+        }
+
         const getObject = new GetObjectCommand({
             Bucket: this.PRIVATE_BUCKET_NAME,
             Key: result.key,

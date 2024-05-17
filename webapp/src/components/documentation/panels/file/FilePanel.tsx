@@ -1,9 +1,13 @@
-import { Flex, Image } from '@chakra-ui/react';
-import { DetailedDocumentation } from '@domaindocs/lib';
+import { Box, Button, Flex, Image, Text } from '@chakra-ui/react';
+import { DetailedDocumentation, SignedFileUrl } from '@domaindocs/lib';
+import { useQuery } from '@tanstack/react-query';
 
 import { FileTitle } from './FileTitle';
 import { FileDetails } from './FileDetails';
 import { FileToolbar } from './FileToolbar';
+import { documentationApi } from '../../../../state/api/documentation-api';
+import { LoadingContainer } from '../../../loading/LoadingContainer';
+import { PiUploadSimpleThin } from 'react-icons/pi';
 
 type FilePanelProps = {
     domainId: string;
@@ -13,13 +17,13 @@ type FilePanelProps = {
 export const FilePanel = (props: FilePanelProps) => {
     const { domainId, documentation } = props;
 
-    // const { data: signedUrl, isLoading: isSignedUrlLoading } = useQuery<SignedFileUrl>({
-    //     staleTime: 0,
-    //     queryKey: ['getFileSignedUrl', { domainId, fileId }],
-    //     queryFn: () => filesApi.getSignedUrl(domainId, fileId),
-    // });
-    //
-    // if (!signedUrl || isSignedUrlLoading) return <LoadingContainer />;
+    const { data: signedUrl, isLoading: isSignedUrlLoading } = useQuery<SignedFileUrl>({
+        staleTime: 0,
+        queryKey: ['getFileSignedUrl', { domainId, documentationId: documentation.documentationId }],
+        queryFn: () => documentationApi.getDocumentationSignedUrl(domainId, documentation.documentationId),
+    });
+
+    if (!signedUrl || isSignedUrlLoading) return <LoadingContainer />;
 
     return (
         <Flex width="100%" flexDirection="column">
@@ -29,22 +33,25 @@ export const FilePanel = (props: FilePanelProps) => {
                 <FileTitle title={documentation.name} />
 
                 <FileDetails
-                    createdAt={new Date().toISOString()}
-                    updatedAt={new Date().toISOString()}
-                    createdBy={{
-                        firstName: 'Declan',
-                        lastName: 'Pride',
-                    }}
+                    createdAt={documentation.createdAt}
+                    updatedAt={documentation.updatedAt}
+                    createdBy={documentation.createdBy}
                 />
 
-                <Image
-                    maxWidth={'900px'}
-                    width={'100%'}
-                    mt={4}
-                    src={
-                        'https://png.pngtree.com/thumb_back/fh260/background/20230408/pngtree-rainbow-curves-abstract-colorful-background-image_2164067.jpg'
-                    }
-                />
+                {signedUrl.url ? (
+                    <Image maxWidth={'900px'} width={'100%'} mt={4} src={signedUrl.url} />
+                ) : (
+                    <Flex maxWidth={'900px'} width={'100%'} border={'1px solid'} borderColor={'border'} mt={4} p={4}>
+                        <Button
+                            leftIcon={<PiUploadSimpleThin size={18} color={'gray.900'} />}
+                            variant={'ghost'}
+                            size={'lg'}
+                            fontWeight={'normal'}
+                        >
+                            Upload
+                        </Button>
+                    </Flex>
+                )}
             </Flex>
         </Flex>
     );
