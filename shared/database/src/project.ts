@@ -103,7 +103,6 @@ export const projectRelations = relations(project, ({ one, many }) => ({
     }),
     ownership: many(projectOwnership),
     links: many(projectLink),
-    files: many(documentationFile),
 }));
 
 export const projectLinkRelations = relations(projectLink, ({ one }) => ({

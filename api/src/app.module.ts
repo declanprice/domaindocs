@@ -9,7 +9,6 @@ import { PeopleModule } from './modules/people/people.module';
 import { DocumentationModule } from './modules/documentation/documentation.module';
 import { DrizzlePostgresModule } from '@knaadh/nestjs-drizzle-postgres';
 import * as schema from '@domaindocs/database';
-import { FilesModule } from './modules/files/files.module';
 
 @Module({
     imports: [
@@ -37,7 +36,6 @@ import { FilesModule } from './modules/files/files.module';
         TeamsModule,
         ProjectsModule,
         DocumentationModule,
-        FilesModule,
     ],
     controllers: [],
     providers: [],

@@ -16,23 +16,16 @@ export const documentation = pgTable(
             onDelete: 'restrict',
             onUpdate: 'cascade',
         }),
-        name: text('name').notNull(),
+        teamId: text('team_id').references(() => team.teamId, {
+            onDelete: 'restrict',
+            onUpdate: 'cascade',
+        }),
+        name: text('name'),
         createdAt: timestamp('created_at').notNull().defaultNow(),
         updatedAt: timestamp('updated_at').notNull().defaultNow(),
         type: text('type').notNull(),
         parentId: text('parent_id'),
         createdByUserId: text('created_by_user_id').notNull(),
-        documentationFileId: text('documentation_file_id').references(() => documentationFile.documentationFileId, {
-            onDelete: 'restrict',
-            onUpdate: 'cascade',
-        }),
-        documentationDocumentId: text('documentation_document_id').references(
-            () => documentationDocument.documentationDocumentId,
-            {
-                onDelete: 'restrict',
-                onUpdate: 'cascade',
-            },
-        ),
     },
     (table) => {
         return {
@@ -69,6 +62,10 @@ export const documentationDocument = pgTable('documentation_document', {
             onDelete: 'restrict',
             onUpdate: 'cascade',
         }),
+    documentationId: text('documentation_id').references(() => documentation.documentationId, {
+        onDelete: 'restrict',
+        onUpdate: 'cascade',
+    }),
     data: bytea('data'),
 });
 
@@ -76,28 +73,23 @@ export const documentationFile = pgTable(
     'file',
     {
         documentationFileId: text('documentation_file_id').primaryKey(),
-        key: text('key').notNull(),
-        name: text('name').notNull(),
-        type: text('type').notNull(),
-        isUploaded: boolean('is_uploaded').notNull().default(false),
         domainId: text('domain_id')
             .notNull()
             .references(() => domain.domainId, {
                 onDelete: 'restrict',
                 onUpdate: 'cascade',
             }),
-        projectId: text('project_id').references(() => project.projectId, {
+        documentationId: text('documentation_id').references(() => documentation.documentationId, {
             onDelete: 'restrict',
             onUpdate: 'cascade',
         }),
-        teamId: text('team_id').references(() => team.teamId, {
-            onDelete: 'restrict',
-            onUpdate: 'cascade',
-        }),
+        key: text('key'),
+        name: text('name'),
+        type: text('type'),
+        isUploaded: boolean('is_uploaded').notNull().default(false),
     },
     (table) => ({
         domainIndex: index('file_domain_index').on(table.domainId),
-        projectIndex: index('file_project_index').on(table.projectId),
     }),
 );
 
@@ -110,13 +102,17 @@ export const documentationRelations = relations(documentation, ({ one, many }) =
         fields: [documentation.projectId],
         references: [project.projectId],
     }),
+    team: one(team, {
+        fields: [documentation.teamId],
+        references: [team.teamId],
+    }),
     file: one(documentationFile, {
-        fields: [documentation.documentationFileId],
-        references: [documentationFile.documentationFileId],
+        fields: [documentation.documentationId],
+        references: [documentationFile.documentationId],
     }),
     document: one(documentationDocument, {
         fields: [documentation.documentationId],
-        references: [documentationDocument.documentationDocumentId],
+        references: [documentationDocument.documentationId],
     }),
     createdBy: one(person, {
         fields: [documentation.createdByUserId],
@@ -131,9 +127,13 @@ export const documentationRelations = relations(documentation, ({ one, many }) =
 }));
 
 export const documentationDocumentRelations = relations(documentationDocument, ({ one }) => ({
+    domain: one(domain, {
+        fields: [documentationDocument.domainId],
+        references: [domain.domainId],
+    }),
     documentation: one(documentation, {
-        fields: [documentationDocument.documentationDocumentId],
-        references: [documentation.documentationDocumentId],
+        fields: [documentationDocument.documentationId],
+        references: [documentation.documentationId],
     }),
 }));
 
@@ -142,16 +142,8 @@ export const documentationFileRelations = relations(documentationFile, ({ one })
         fields: [documentationFile.domainId],
         references: [domain.domainId],
     }),
-    project: one(project, {
-        fields: [documentationFile.projectId],
-        references: [project.projectId],
-    }),
-    team: one(team, {
-        fields: [documentationFile.teamId],
-        references: [team.teamId],
-    }),
     documentation: one(documentation, {
-        fields: [documentationFile.documentationFileId],
-        references: [documentation.documentationFileId],
+        fields: [documentationFile.documentationId],
+        references: [documentation.documentationId],
     }),
 }));

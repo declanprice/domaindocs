@@ -39,7 +39,7 @@ export class TeamsService {
                     t.members.map(
                         (p) =>
                             new TeamMember(
-                                p.personId,
+                                p.userId,
                                 p.person.user.firstName,
                                 p.person.user.lastName,
                                 p.person.user.iconUri,
@@ -82,8 +82,7 @@ export class TeamsService {
         return new DetailedTeam(
             new Team(result.teamId, result.name, result.iconUri),
             result.members.map(
-                (m) =>
-                    new TeamMember(m.personId, m.person.user.firstName, m.person.user.lastName, m.person.user.iconUri),
+                (m) => new TeamMember(m.userId, m.person.user.firstName, m.person.user.lastName, m.person.user.iconUri),
             ),
             result.ownership.map((p) => new TeamProject(p.projectId, p.project.name)),
         );

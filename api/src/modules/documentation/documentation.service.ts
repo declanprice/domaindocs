@@ -1,42 +1,70 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import {
+    AddDocumentationData,
     Documentation,
     DocumentationType,
     DocumentDocumentation,
     FileDocumentation,
     SearchDocumentationParams,
+    SignedFileUrl,
     ViewDocumentation,
 } from '@domaindocs/lib';
-import { AddDocumentationData } from '@domaindocs/lib';
 import { v4 } from 'uuid';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import * as schema from '@domaindocs/database';
-import { documentation } from '@domaindocs/database';
-import { and, eq, isNotNull } from 'drizzle-orm';
+import { documentation, documentationDocument, documentationFile } from '@domaindocs/database';
+import { and, eq, or } from 'drizzle-orm';
+import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class DocumentationService {
-    constructor(@Inject('DB') private db: PostgresJsDatabase<typeof schema>) {}
+    private s3 = new S3Client({});
+    private PRIVATE_BUCKET_NAME: string;
 
-    async search(session: UserSession, domainId: string, dto: SearchDocumentationParams) {
-        let where = isNotNull(documentation.projectId);
+    constructor(
+        private config: ConfigService,
+        @Inject('DB') private db: PostgresJsDatabase<typeof schema>,
+    ) {
+        this.PRIVATE_BUCKET_NAME = this.config.get('PRIVATE_BUCKET_NAME');
+    }
 
-        if (dto.projectId) {
-            where = eq(documentation.documentationId, dto.projectId);
-        }
+    async search(session: UserSession, domainId: string, params: SearchDocumentationParams) {
+        let where = or(
+            eq(documentation.type, DocumentationType.DOMAIN_ROOT_FOLDER),
+            eq(documentation.type, DocumentationType.PROJECT_ROOT_FOLDER),
+            eq(documentation.type, DocumentationType.TEAM_ROOT_FOLDER),
+        );
 
-        if (dto.domainWiki) {
+        if (params.domainId) {
             where = and(
                 eq(documentation.domainId, domainId),
                 eq(documentation.type, DocumentationType.DOMAIN_ROOT_FOLDER),
             );
         }
 
+        if (params.projectId) {
+            where = and(
+                eq(documentation.projectId, params.projectId),
+                eq(documentation.type, DocumentationType.PROJECT_ROOT_FOLDER),
+            );
+        }
+
+        if (params.teamId) {
+            where = and(
+                eq(documentation.teamId, params.teamId),
+                eq(documentation.type, DocumentationType.TEAM_ROOT_FOLDER),
+            );
+        }
+
         const result = await this.db.query.documentation.findMany({
             where,
             with: {
+                domain: true,
                 project: true,
+                team: true,
                 children: {
                     with: {
                         children: true,
@@ -45,31 +73,39 @@ export class DocumentationService {
             },
         });
 
-        return result.map(
-            (d) =>
-                new Documentation(
-                    d.documentationId,
-                    d.project.name,
-                    d.type as DocumentationType,
-                    d.children.map(
-                        (d1) =>
-                            new Documentation(
-                                d1.documentationId,
-                                d1.name,
-                                d1.type as DocumentationType,
-                                d1.children.map(
-                                    (d2) =>
-                                        new Documentation(
-                                            d2.documentationId,
-                                            d2.name,
-                                            d2.type as DocumentationType,
-                                            null,
-                                        ),
-                                ),
+        return result.map((d) => {
+            let rootName = d.name;
+
+            if (d.domain) {
+                rootName = d.domain.name;
+            }
+
+            if (d.project) {
+                rootName = d.project.name;
+            }
+
+            if (d.team) {
+                rootName = d.team.name;
+            }
+
+            return new Documentation(
+                d.documentationId,
+                rootName,
+                d.type as DocumentationType,
+                d.children.map(
+                    (d1) =>
+                        new Documentation(
+                            d1.documentationId,
+                            d1.name,
+                            d1.type as DocumentationType,
+                            d1.children.map(
+                                (d2) =>
+                                    new Documentation(d2.documentationId, d2.name, d2.type as DocumentationType, null),
                             ),
-                    ),
+                        ),
                 ),
-        );
+            );
+        });
     }
 
     async get(session: UserSession, domainId: string, documentationId: string): Promise<ViewDocumentation> {
@@ -94,7 +130,7 @@ export class DocumentationService {
                 result.createdAt.toISOString(),
                 result.updatedAt.toISOString(),
                 result.createdBy.user,
-                result.file.fileId,
+                result.file.documentationFileId,
             );
         }
 
@@ -106,24 +142,70 @@ export class DocumentationService {
                 result.createdAt.toISOString(),
                 result.updatedAt.toISOString(),
                 result.createdBy.user,
-                result.document.documentId,
+                result.document.documentationDocumentId,
             );
         }
 
         throw new Error(`unsupported documentation type of ${result.type}`);
     }
 
-    async add(session: UserSession, domainId: string, documentationId: string, dto: AddDocumentationData) {
-        await this.db.insert(documentation).values({
-            documentationId: v4(),
-            domainId,
-            name: `New ${dto.type}`,
-            parentId: documentationId,
-            type: dto.type,
+    async add(session: UserSession, domainId: string, documentationId: string, data: AddDocumentationData) {
+        const parent = await this.db.query.documentation.findFirst({
+            where: eq(documentation.documentationId, documentationId),
+        });
+
+        if (parent?.type === DocumentationType.FOLDER) {
+            throw new BadRequestException('Cannot creat nested folders.');
+        }
+
+        await this.db.transaction(async (tx) => {
+            const documentationId = v4();
+
+            await tx.insert(documentation).values({
+                documentationId,
+                domainId,
+                name: `New ${data.type}`,
+                parentId: documentationId,
+                type: data.type,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+                createdByUserId: session.userId,
+            });
+
+            if (data.type === DocumentationType.FILE) {
+                await tx.insert(documentationFile).values({
+                    domainId,
+                    documentationId,
+                    documentationFileId: v4(),
+                });
+            }
+
+            if (data.type === DocumentationType.DOCUMENT) {
+                await tx.insert(documentationDocument).values({
+                    domainId,
+                    documentationId,
+                    documentationDocumentId: v4(),
+                });
+            }
         });
     }
 
     async remove(session: UserSession, domainId: string, documentationId: string) {
         await this.db.delete(documentation).where(eq(documentation.documentationId, documentationId));
+    }
+
+    async getDocumentationFileSignedUrl(session: UserSession, domainId: string, documentationFileId: string) {
+        const result = await this.db.query.documentationFile.findFirst({
+            where: eq(documentationFile.documentationFileId, documentationFileId),
+        });
+
+        const getObject = new GetObjectCommand({
+            Bucket: this.PRIVATE_BUCKET_NAME,
+            Key: result.key,
+        });
+
+        const signedUrl = await getSignedUrl(this.s3, getObject, { expiresIn: 3600 });
+
+        return new SignedFileUrl(signedUrl);
     }
 }

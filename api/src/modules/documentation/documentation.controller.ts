@@ -27,6 +27,15 @@ export class DocumentationController {
         return this.documentationService.get(session, domainId, documentationId);
     }
 
+    @Get(':documentationId/signed-url')
+    async getDocumentationFileSignedUrl(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('documentationId') documentationId: string,
+    ) {
+        return this.documentationService.getDocumentationFileSignedUrl(session, domainId, documentationId);
+    }
+
     @Post('/:documentationId/add')
     async addItem(
         @AuthSession() session: UserSession,

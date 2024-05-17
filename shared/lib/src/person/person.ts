@@ -33,7 +33,6 @@ export class PersonContact {
 
 export class Person {
     constructor(
-        public personId: string,
         public userId: string,
         public firstName: string,
         public lastName: string,

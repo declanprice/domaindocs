@@ -2,19 +2,37 @@ import { Box, Flex } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { HomePageToolbar } from './HomePageToolbar';
+import { useQuery } from '@tanstack/react-query';
+import { Documentation } from '@domaindocs/lib';
+import { documentationApi } from '../../state/api/documentation-api';
+import { LoadingContainer } from '../../components/loading/LoadingContainer';
+import { DocumentationViewer } from '../../components/documentation/DocumentationViewer';
 
 export const HomeDocsPage = () => {
     const { domainId } = useParams() as DomainPageParams;
+
+    const {
+        data: documentation,
+        isLoading: isDocumentationLoading,
+        refetch: searchDocumentation,
+    } = useQuery<Documentation[]>({
+        queryKey: ['searchDocumentation', { domainId }],
+        queryFn: () => documentationApi.search(domainId, { domainId }),
+    });
+
+    if (!documentation || isDocumentationLoading) return <LoadingContainer />;
 
     return (
         <Flex direction="column" width={'100%'}>
             <HomePageToolbar domainId={domainId} />
 
-            <Box height={'100%'} width={'100%'} overflowY={'auto'}>
-                <Flex p={4} gap={4} width={'100%'} direction={'column'}>
-                    docs
-                </Flex>
-            </Box>
+            <DocumentationViewer
+                documentation={documentation}
+                domainId={domainId}
+                onChange={() => {
+                    searchDocumentation();
+                }}
+            />
         </Flex>
     );
 };

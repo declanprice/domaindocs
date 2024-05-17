@@ -3,9 +3,11 @@ import { TeamPageToolbar } from './TeamPageToolbar';
 import { useParams } from 'react-router-dom';
 import { TeamPageParams } from './TeamPageParams';
 import { useQuery } from '@tanstack/react-query';
-import { DetailedTeam } from '@domaindocs/lib';
+import { DetailedTeam, Documentation } from '@domaindocs/lib';
 import { teamsApi } from '../../state/api/teams-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
+import { documentationApi } from '../../state/api/documentation-api';
+import { DocumentationViewer } from '../../components/documentation/DocumentationViewer';
 
 export const TeamDocsPage = () => {
     const { domainId, teamId } = useParams() as TeamPageParams;
@@ -15,17 +17,28 @@ export const TeamDocsPage = () => {
         queryFn: () => teamsApi.getTeam(domainId, teamId),
     });
 
-    if (!team || isLoading) return <LoadingContainer />;
+    const {
+        data: documentation,
+        isLoading: isDocumentationLoading,
+        refetch: searchDocumentation,
+    } = useQuery<Documentation[]>({
+        queryKey: ['searchDocumentation', { domainId }],
+        queryFn: () => documentationApi.search(domainId, { teamId }),
+    });
+
+    if (!team || !documentation || isLoading || isDocumentationLoading) return <LoadingContainer />;
 
     return (
         <Flex direction="column" width={'100%'}>
             <TeamPageToolbar teamName={team.team.name} domainId={domainId} teamId={teamId} />
 
-            <Box height={'100%'} width={'100%'} overflowY={'auto'}>
-                <Flex p={4} gap={4} width={'100%'} direction={'column'}>
-                    docs
-                </Flex>
-            </Box>
+            <DocumentationViewer
+                documentation={documentation}
+                domainId={domainId}
+                onChange={() => {
+                    searchDocumentation();
+                }}
+            />
         </Flex>
     );
 };

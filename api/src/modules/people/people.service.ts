@@ -21,24 +21,26 @@ export class PeopleService {
             .select()
             .from(person)
             .leftJoin(user, eq(user.userId, person.userId))
-            .leftJoin(personSkill, eq(personSkill.personId, person.personId))
+            .leftJoin(
+                personSkill,
+                and(eq(personSkill.userId, person.userId), eq(personSkill.domainId, person.domainId)),
+            )
             .leftJoin(skill, eq(skill.skillId, personSkill.skillId))
-            .leftJoin(teamMember, eq(teamMember.personId, person.personId))
+            .leftJoin(teamMember, and(eq(teamMember.userId, person.userId), eq(teamMember.domainId, person.domainId)))
             .leftJoin(team, eq(team.teamId, teamMember.teamId))
             .where(and(...whereClauses));
 
         const dtos = result.reduce<Map<string, DetailedPerson>>((acc, row) => {
-            let dto: DetailedPerson = acc.get(row.person.personId);
+            let dto: DetailedPerson = acc.get(row.person.userId);
 
             if (!dto) {
                 dto = new DetailedPerson(
                     new Person(
-                        row.person.personId,
+                        row.person.userId,
                         row.user.userId,
                         row.user.firstName,
                         row.user.lastName,
                         row.user.iconUri,
-                        row.person.role,
                     ),
                     new PersonContact(null, null, null, null),
                     [],
@@ -46,7 +48,7 @@ export class PeopleService {
                     [],
                 );
 
-                acc.set(row.person.personId, dto);
+                acc.set(row.person.userId, dto);
             }
 
             if (row.team_member) {

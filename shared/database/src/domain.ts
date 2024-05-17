@@ -22,5 +22,4 @@ export const domainRelations = relations(domain, ({ one, many }) => ({
         fields: [domain.domainId],
         references: [documentation.documentationId],
     }),
-    files: many(documentationFile),
 }));

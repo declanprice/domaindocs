@@ -54,7 +54,7 @@ export class ProjectsService {
                     result.ownership?.map((o) => {
                         if (o.person) {
                             return new ProjectPersonOwnership(
-                                o.person.personId,
+                                o.person.userId,
                                 o.person.user.firstName,
                                 o.person.user.lastName,
                                 o.description,
@@ -97,7 +97,7 @@ export class ProjectsService {
             result.ownership?.map((o) => {
                 if (o.person) {
                     return new ProjectPersonOwnership(
-                        o.person.personId,
+                        o.person.userId,
                         o.person.user.firstName,
                         o.person.user.lastName,
                         o.description,
@@ -124,6 +124,9 @@ export class ProjectsService {
                 domainId,
                 type: DocumentationType.FOLDER,
                 projectId,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+                createdByUserId: session.userId,
             });
 
             await tx.insert(project).values({
@@ -152,8 +155,9 @@ export class ProjectsService {
         await this.db.insert(projectOwnership).values({
             ownershipId: v4(),
             projectId,
-            personId: dto.personId,
+            userId: dto.userId,
             teamId: dto.teamId,
+            domainId,
         });
     }
 
@@ -165,6 +169,7 @@ export class ProjectsService {
             subTitle: dto.subTitle,
             href: dto.href,
             iconUri: dto.iconUri,
+            domainId,
         });
     }
 }

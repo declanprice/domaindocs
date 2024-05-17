@@ -64,11 +64,9 @@ const db = drizzle(sql, { schema });
 
     await db.insert(schema.projectOwnership).values(projectOwnership());
 
-    await db.insert(schema.documentationFile).values(documentationFiles());
-
-    await db.insert(schema.documentationDocument).values(documentationDocuments());
-
     await db.insert(schema.documentation).values(documentation());
+    await db.insert(schema.documentationDocument).values(documentationDocuments());
+    await db.insert(schema.documentationFile).values(documentationFiles());
 
     process.exit(0);
 })();

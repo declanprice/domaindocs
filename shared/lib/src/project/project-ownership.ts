@@ -1,6 +1,6 @@
 export class ProjectPersonOwnership {
     constructor(
-        public personId: string,
+        public userId: string,
         public firstName: string,
         public lastName: string,
         public description: string,
@@ -18,7 +18,7 @@ export class ProjectTeamOwnership {
 }
 
 export const isPersonOwnership = (ownership: any): ownership is ProjectPersonOwnership => {
-    return !!ownership.personId;
+    return !!ownership.userId;
 };
 
 export const isTeamOwnership = (ownership: any): ownership is ProjectTeamOwnership => {

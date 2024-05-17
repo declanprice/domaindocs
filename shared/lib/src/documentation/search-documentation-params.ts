@@ -1,15 +1,15 @@
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class SearchDocumentationParams {
     @IsString()
     @IsOptional()
+    domainId?: string;
+
+    @IsString()
+    @IsOptional()
+    teamId?: string;
+
+    @IsString()
+    @IsOptional()
     projectId?: string;
-
-    @IsBoolean()
-    @IsOptional()
-    relevant?: boolean;
-
-    @IsBoolean()
-    @IsOptional()
-    domainWiki?: boolean;
 }
