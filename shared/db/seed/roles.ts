@@ -6,7 +6,6 @@ export const softwareDevRole = (): Role => {
         roleId: 'softwaredev',
         domainId: ros().domainId,
         name: 'Software Developer',
-        description: 'Developing user interfaces for the browser.',
     };
 };
 
@@ -15,6 +14,5 @@ export const teamLeadRole = (): Role => {
         roleId: 'teamleader',
         domainId: ros().domainId,
         name: 'Team Leader',
-        description: 'Developing user interfaces for the browser.',
     };
 };

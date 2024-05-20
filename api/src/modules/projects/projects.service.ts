@@ -99,7 +99,7 @@ export class ProjectsService {
                 }
 
                 if (o.team) {
-                    return new ProjectTeamOwnership(o.team.teamId, o.team.name, o.team.iconUri);
+                    return new ProjectTeamOwnership(o.team.teamId, o.team.name, o.description, o.team.iconUri);
                 }
             }),
             result.links.map((r) => new ProjectLink(r.linkId, r.title, r.subTitle, r.href, r.iconUri)),

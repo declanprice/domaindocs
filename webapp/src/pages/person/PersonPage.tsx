@@ -8,6 +8,7 @@ import { DetailedPerson } from '@domaindocs/lib';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { PersonAvatar } from '../../components/person/PersonAvatar';
+import { PersonSkillsListEdit } from './components/PersonSkillsListEdit';
 
 export const PersonPage = () => {
     const { domainId } = useParams() as DomainPageParams;
@@ -15,7 +16,6 @@ export const PersonPage = () => {
     const person: DetailedPerson = {
         person: {
             userId: '1',
-            personId: '1',
             iconUri: 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745',
             firstName: 'Declan',
             lastName: 'Declan',
@@ -24,19 +24,17 @@ export const PersonPage = () => {
         contact: {
             personalEmail: 'declan@declan.com',
             personalMobile: '0123456789',
-            contactEmail: 'declan@declan.com',
-            contactMobile: '0123456789',
+            workEmail: 'declan@declan.com',
+            workMobile: '0123456789',
         },
         roles: [
             {
                 roleId: '1',
                 roleName: 'Software Developer',
-                roleDescription: '',
             },
             {
                 roleId: '2',
                 roleName: 'Team Lead',
-                roleDescription: '',
             },
         ],
         teams: [
@@ -57,17 +55,14 @@ export const PersonPage = () => {
             {
                 skillId: '1',
                 skillName: 'Node.Js',
-                skillDescription: '',
             },
             {
                 skillId: '2',
                 skillName: 'Dev Ops',
-                skillDescription: '',
             },
             {
                 skillId: '3',
                 skillName: 'AWS',
-                skillDescription: '',
             },
         ],
     };
@@ -93,7 +88,8 @@ export const PersonPage = () => {
 
                 <Divider />
 
-                <PersonSkillsList skills={person.skills} />
+                <PersonSkillsListEdit skills={person.skills} />
+                {/*<PersonSkillsList skills={person.skills} />*/}
             </Flex>
         </Flex>
     );

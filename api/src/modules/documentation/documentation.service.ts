@@ -9,10 +9,6 @@ import {
     SignedFileUrl,
 } from '@domaindocs/lib';
 import { v4 } from 'uuid';
-import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import * as schema from '@domaindocs/database';
-import { documentation, documentationDocument, documentationFile } from '@domaindocs/database';
-import { and, eq, or } from 'drizzle-orm';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { ConfigService } from '@nestjs/config';

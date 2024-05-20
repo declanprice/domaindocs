@@ -10,7 +10,6 @@ export class PersonSkill {
     constructor(
         public skillId: string,
         public skillName: string,
-        public skillDescription: string,
     ) {}
 }
 
@@ -18,7 +17,6 @@ export class PersonRole {
     constructor(
         public roleId: string,
         public roleName: string,
-        public roleDescription: string,
     ) {}
 }
 

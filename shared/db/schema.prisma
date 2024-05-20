@@ -259,7 +259,6 @@ model Role {
   roleId      String @id @map("role_id")
   domainId    String @map("domain_id")
   name        String
-  description String
 
   domain   Domain @relation(fields: [domainId], references: [domainId])
   peopleRoles PersonRole[]
@@ -272,7 +271,6 @@ model Skill {
   skillId     String @id @map("skill_id")
   domainId    String @map("domain_id")
   name        String
-  description String
 
   domain   Domain @relation(fields: [domainId], references: [domainId])
   peopleSkills PersonSkill[]

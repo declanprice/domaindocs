@@ -54,9 +54,9 @@ export class PeopleService {
                         p.contactDetails.workEmail,
                         p.contactDetails.workMobile,
                     ),
-                    p.skills.map((s) => new PersonSkill(s.skill.skillId, s.skill.name, s.skill.description)),
+                    p.skills.map((s) => new PersonSkill(s.skill.skillId, s.skill.name)),
                     p.teamMembers.map((t) => new PersonTeam(t.team.teamId, t.team.name, t.team.iconUri)),
-                    p.roles.map((r) => new PersonRole(r.role.roleId, r.role.name, r.role.description)),
+                    p.roles.map((r) => new PersonRole(r.role.roleId, r.role.name)),
                 ),
         );
     }

@@ -7,7 +7,6 @@ import { apiDevSkill, devOpsSkill, uiDevSkill } from './skills';
 import { softwareDevRole, teamLeadRole } from './roles';
 import { deedSearchProject, projectLinks, projectOwnership } from './projects';
 import { PrismaClient } from '@prisma/client';
-import { personRole, teamMember } from '../../database/src';
 
 const client = new PrismaClient();
 

@@ -5,3 +5,5 @@ export * from './team';
 export * from './user';
 export * from './documentation';
 export * from './file';
+export * from './role';
+export * from './skill';

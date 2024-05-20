@@ -6,7 +6,6 @@ export const uiDevSkill = (): Skill => {
         skillId: 'uidev',
         domainId: ros().domainId,
         name: 'UI Development',
-        description: 'Developing user interfaces for the browser.',
     };
 };
 
@@ -15,7 +14,6 @@ export const apiDevSkill = (): Skill => {
         skillId: 'apidev',
         domainId: ros().domainId,
         name: 'API Development',
-        description: 'Developing backend api services.',
     };
 };
 
@@ -24,6 +22,5 @@ export const devOpsSkill = (): Skill => {
         skillId: 'devops',
         domainId: ros().domainId,
         name: 'Dev Ops',
-        description: 'Development operations.',
     };
 };
