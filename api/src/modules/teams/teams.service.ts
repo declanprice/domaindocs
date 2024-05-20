@@ -1,38 +1,37 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import { v4 } from 'uuid';
 import { DetailedTeam, CreateTeamData, SearchTeamParams, Team, TeamMember, TeamProject } from '@domaindocs/lib';
-import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import * as schema from '@domaindocs/database';
-import { team } from '@domaindocs/database';
-import { eq } from 'drizzle-orm';
+import { PrismaService } from '../../shared/prisma.service';
 
 @Injectable()
 export class TeamsService {
-    constructor(@Inject('DB') private db: PostgresJsDatabase<typeof schema>) {}
+    constructor(private prisma: PrismaService) {}
 
     async searchByDomain(session: UserSession, domainId: string, dto: SearchTeamParams): Promise<DetailedTeam[]> {
-        const result = await this.db.query.team.findMany({
-            where: eq(team.domainId, domainId),
-            with: {
+        const results = await this.prisma.team.findMany({
+            where: {
+                domainId,
+            },
+            include: {
                 members: {
-                    with: {
+                    include: {
                         person: {
-                            with: {
+                            include: {
                                 user: true,
                             },
                         },
                     },
                 },
-                ownership: {
-                    with: {
+                projectOwnership: {
+                    include: {
                         project: true,
                     },
                 },
             },
         });
 
-        return result.map(
+        return results.map(
             (t) =>
                 new DetailedTeam(
                     new Team(t.teamId, t.name, t.iconUri),
@@ -45,34 +44,38 @@ export class TeamsService {
                                 p.person.user.iconUri,
                             ),
                     ),
-                    t.ownership.map((p) => new TeamProject(p.projectId, p.project.name)),
+                    t.projectOwnership.map((p) => new TeamProject(p.projectId, p.project.name)),
                 ),
         );
     }
 
     async createTeam(session: UserSession, domainId: string, dto: CreateTeamData) {
-        await this.db.insert(team).values({
-            teamId: v4(),
-            domainId,
-            name: dto.name,
+        await this.prisma.team.create({
+            data: {
+                teamId: v4(),
+                domainId,
+                name: dto.name,
+            },
         });
     }
 
     async getTeam(session: UserSession, domainId: string, teamId: string) {
-        const result = await this.db.query.team.findFirst({
-            where: eq(team.teamId, teamId),
-            with: {
+        const result = await this.prisma.team.findFirstOrThrow({
+            where: {
+                teamId,
+            },
+            include: {
                 members: {
-                    with: {
+                    include: {
                         person: {
-                            with: {
+                            include: {
                                 user: true,
                             },
                         },
                     },
                 },
-                ownership: {
-                    with: {
+                projectOwnership: {
+                    include: {
                         project: true,
                     },
                 },
@@ -84,7 +87,7 @@ export class TeamsService {
             result.members.map(
                 (m) => new TeamMember(m.userId, m.person.user.firstName, m.person.user.lastName, m.person.user.iconUri),
             ),
-            result.ownership.map((p) => new TeamProject(p.projectId, p.project.name)),
+            result.projectOwnership.map((p) => new TeamProject(p.projectId, p.project.name)),
         );
     }
 }

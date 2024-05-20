@@ -16,6 +16,7 @@ import { and, eq, or } from 'drizzle-orm';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { ConfigService } from '@nestjs/config';
+import { PrismaService } from '../../shared/prisma.service';
 
 @Injectable()
 export class DocumentationService {
@@ -24,47 +25,55 @@ export class DocumentationService {
 
     constructor(
         private config: ConfigService,
-        @Inject('DB') private db: PostgresJsDatabase<typeof schema>,
+        private prisma: PrismaService,
     ) {
         this.PRIVATE_BUCKET_NAME = this.config.get('PRIVATE_BUCKET_NAME');
     }
 
     async search(session: UserSession, domainId: string, params: SearchDocumentationParams) {
-        let where = or(
-            eq(documentation.type, DocumentationType.DOMAIN_ROOT_FOLDER),
-            eq(documentation.type, DocumentationType.PROJECT_ROOT_FOLDER),
-            eq(documentation.type, DocumentationType.TEAM_ROOT_FOLDER),
-        );
+        let where: any = {
+            OR: [
+                {
+                    type: DocumentationType.DOMAIN_ROOT_FOLDER,
+                },
+                {
+                    type: DocumentationType.PROJECT_ROOT_FOLDER,
+                },
+                {
+                    type: DocumentationType.TEAM_ROOT_FOLDER,
+                },
+            ],
+        };
 
         if (params.domainId) {
-            where = and(
-                eq(documentation.domainId, domainId),
-                eq(documentation.type, DocumentationType.DOMAIN_ROOT_FOLDER),
-            );
+            where = {
+                domainId,
+                type: DocumentationType.DOMAIN_ROOT_FOLDER,
+            };
         }
 
         if (params.projectId) {
-            where = and(
-                eq(documentation.projectId, params.projectId),
-                eq(documentation.type, DocumentationType.PROJECT_ROOT_FOLDER),
-            );
+            where = {
+                projectId: params.projectId,
+                type: DocumentationType.PROJECT_ROOT_FOLDER,
+            };
         }
 
         if (params.teamId) {
-            where = and(
-                eq(documentation.teamId, params.teamId),
-                eq(documentation.type, DocumentationType.TEAM_ROOT_FOLDER),
-            );
+            where = {
+                teamId: params.teamId,
+                type: DocumentationType.TEAM_ROOT_FOLDER,
+            };
         }
 
-        const result = await this.db.query.documentation.findMany({
+        const result = await this.prisma.documentation.findMany({
             where,
-            with: {
+            include: {
                 domain: true,
                 project: true,
                 team: true,
                 children: {
-                    with: {
+                    include: {
                         children: true,
                     },
                 },
@@ -107,14 +116,12 @@ export class DocumentationService {
     }
 
     async get(session: UserSession, domainId: string, documentationId: string): Promise<DetailedDocumentation> {
-        const result = await this.db.query.documentation.findFirst({
-            where: eq(documentation.documentationId, documentationId),
-            with: {
-                createdBy: {
-                    with: {
-                        user: true,
-                    },
-                },
+        const result = await this.prisma.documentation.findFirst({
+            where: {
+                documentationId,
+            },
+            include: {
+                createdByUser: true,
             },
         });
 
@@ -124,56 +131,70 @@ export class DocumentationService {
             result.type as DocumentationType,
             result.createdAt.toISOString(),
             result.updatedAt.toISOString(),
-            result.createdBy.user,
+            result.createdByUser,
         );
     }
 
     async add(session: UserSession, domainId: string, parentDocumentationId: string, data: AddDocumentationData) {
-        const parent = await this.db.query.documentation.findFirst({
-            where: eq(documentation.documentationId, parentDocumentationId),
+        const parent = await this.prisma.documentation.findFirst({
+            where: {
+                documentationId: parentDocumentationId,
+            },
         });
 
         if (parent?.type === DocumentationType.FOLDER && data.type === DocumentationType.FOLDER) {
             throw new BadRequestException('Cannot create nested folders.');
         }
 
-        await this.db.transaction(async (tx) => {
+        await this.prisma.$transaction(async (tx) => {
             const documentationId = v4();
 
-            await tx.insert(documentation).values({
-                documentationId: documentationId,
-                domainId,
-                name: `New ${data.type}`,
-                parentId: parentDocumentationId,
-                type: data.type,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                createdByUserId: session.userId,
+            await tx.documentation.create({
+                data: {
+                    documentationId: documentationId,
+                    domainId,
+                    name: `New ${data.type}`,
+                    parentId: parentDocumentationId,
+                    type: data.type,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    createdByUserId: session.userId,
+                },
             });
 
             if (data.type === DocumentationType.FILE) {
-                await tx.insert(documentationFile).values({
-                    domainId,
-                    documentationId,
+                await tx.documentationFile.create({
+                    data: {
+                        domainId,
+                        documentationId,
+                    },
                 });
             }
 
             if (data.type === DocumentationType.DOCUMENT) {
-                await tx.insert(documentationDocument).values({
-                    domainId,
-                    documentationId,
+                await tx.documentationDocument.create({
+                    data: {
+                        domainId,
+                        documentationId,
+                    },
                 });
             }
         });
     }
 
     async remove(session: UserSession, domainId: string, documentationId: string) {
-        await this.db.delete(documentation).where(eq(documentation.documentationId, documentationId));
+        await this.prisma.documentation.delete({
+            where: {
+                documentationId,
+            },
+        });
     }
 
     async getDocumentationFileSignedUrl(session: UserSession, domainId: string, documentationId: string) {
-        const result = await this.db.query.documentationFile.findFirst({
-            where: eq(documentationFile.documentationId, documentationId),
+        const result = await this.prisma.documentationFile.findFirst({
+            where: {
+                documentationId,
+            },
         });
 
         if (!result?.key) {

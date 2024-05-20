@@ -2,23 +2,23 @@ import { Inject, Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import { AuthService } from '../../auth/auth.service';
 import { UserData, SetupUserData, UserDomainDto } from '@domaindocs/lib';
-import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import * as schema from '@domaindocs/database';
-import { eq } from 'drizzle-orm';
+import { PrismaService } from '../../shared/prisma.service';
 
 @Injectable()
 export class UsersService {
     constructor(
         readonly authService: AuthService,
-        @Inject('DB') private db: PostgresJsDatabase<typeof schema>,
+        readonly prisma: PrismaService,
     ) {}
 
     async getAuthUser(session: UserSession) {
-        const result = await this.db.query.user.findFirst({
-            where: eq(schema.user.userId, session.userId),
-            with: {
+        const result = await this.prisma.user.findFirst({
+            where: {
+                userId: session.userId,
+            },
+            include: {
                 people: {
-                    with: {
+                    include: {
                         domain: true,
                     },
                 },
@@ -39,16 +39,15 @@ export class UsersService {
     async setupUser(session: UserSession, dto: SetupUserData) {
         const authUser = await this.authService.getUser(session.userId);
 
-        const result = await this.db
-            .insert(schema.user)
-            .values({
+        const result = await this.prisma.user.create({
+            data: {
                 userId: session.userId,
                 email: authUser.emails[0],
                 firstName: dto.firstName,
                 lastName: dto.lastName,
                 fullName: `${dto.firstName} ${dto.lastName}`,
-            })
-            .returning();
+            },
+        });
 
         const user = result[0];
 

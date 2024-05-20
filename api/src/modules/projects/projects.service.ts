@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import {
     AddProjectOwnershipData,
@@ -16,30 +16,25 @@ import {
 } from '@domaindocs/lib';
 import { v4 } from 'uuid';
 import { createSlug } from '../../util/create-slug';
-import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import * as schema from '@domaindocs/database';
-import { eq } from 'drizzle-orm';
-import { documentation, project, projectLink, projectOwnership } from '@domaindocs/database';
+import { PrismaService } from '../../shared/prisma.service';
 
 @Injectable()
 export class ProjectsService {
-    constructor(@Inject('DB') private db: PostgresJsDatabase<typeof schema>) {}
+    constructor(private prisma: PrismaService) {}
 
     async searchProjects(
         session: UserSession,
         domainId: string,
         dto: SearchProjectsParams,
     ): Promise<DetailedProject[]> {
-        const results = await this.db.query.project.findMany({
-            where: eq(project.domainId, domainId),
-            with: {
+        const results = await this.prisma.project.findMany({
+            where: {
+                domainId: domainId,
+            },
+            include: {
                 ownership: {
-                    with: {
-                        person: {
-                            with: {
-                                user: true,
-                            },
-                        },
+                    include: {
+                        user: true,
                         team: true,
                     },
                 },
@@ -52,13 +47,13 @@ export class ProjectsService {
                 new DetailedProject(
                     new Project(result.projectId, result.name),
                     result.ownership?.map((o) => {
-                        if (o.person) {
+                        if (o.user) {
                             return new ProjectPersonOwnership(
-                                o.person.userId,
-                                o.person.user.firstName,
-                                o.person.user.lastName,
+                                o.user.userId,
+                                o.user.firstName,
+                                o.user.lastName,
                                 o.description,
-                                o.person.user.iconUri,
+                                o.user.iconUri,
                             );
                         }
 
@@ -71,16 +66,14 @@ export class ProjectsService {
     }
 
     async getProjectOverview(session: UserSession, domainId: string, projectId: string): Promise<ProjectOverview> {
-        const result = await this.db.query.project.findFirst({
-            where: eq(project.projectId, projectId),
-            with: {
+        const result = await this.prisma.project.findFirstOrThrow({
+            where: {
+                projectId,
+            },
+            include: {
                 ownership: {
-                    with: {
-                        person: {
-                            with: {
-                                user: true,
-                            },
-                        },
+                    include: {
+                        user: true,
                         team: true,
                     },
                 },
@@ -95,13 +88,13 @@ export class ProjectsService {
             result.name,
             result.description,
             result.ownership?.map((o) => {
-                if (o.person) {
+                if (o.user) {
                     return new ProjectPersonOwnership(
-                        o.person.userId,
-                        o.person.user.firstName,
-                        o.person.user.lastName,
+                        o.user.userId,
+                        o.user.firstName,
+                        o.user.lastName,
                         o.description,
-                        o.person.user.iconUri,
+                        o.user.iconUri,
                     );
                 }
 
@@ -114,25 +107,30 @@ export class ProjectsService {
     }
 
     async createProject(session: UserSession, domainId: string, dto: CreateProjectData): Promise<void> {
-        await this.db.transaction(async (tx) => {
+        await this.prisma.$transaction(async (tx) => {
             const documentationId = v4();
             const projectId = createSlug(dto.name);
 
-            await tx.insert(documentation).values({
-                documentationId,
-                name: dto.name,
-                domainId,
-                type: DocumentationType.FOLDER,
-                projectId,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                createdByUserId: session.userId,
+            await tx.documentation.create({
+                data: {
+                    documentationId,
+                    name: dto.name,
+                    domainId,
+                    type: DocumentationType.FOLDER,
+                    projectId,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    createdByUserId: session.userId,
+                },
             });
 
-            await tx.insert(project).values({
-                projectId,
-                domainId,
-                name: dto.name,
+            await tx.project.create({
+                data: {
+                    projectId,
+                    domainId,
+                    name: dto.name,
+                    description: '',
+                },
             });
         });
     }
@@ -143,33 +141,39 @@ export class ProjectsService {
         projectId: string,
         dto: UpdateProjectDescriptionData,
     ) {
-        await this.db
-            .update(project)
-            .set({
+        await this.prisma.project.update({
+            where: {
+                projectId,
+            },
+            data: {
                 description: dto.description,
-            })
-            .where(eq(project.projectId, projectId));
+            },
+        });
     }
 
     async addOwnership(session: UserSession, domainId: string, projectId: string, dto: AddProjectOwnershipData) {
-        await this.db.insert(projectOwnership).values({
-            ownershipId: v4(),
-            projectId,
-            userId: dto.userId,
-            teamId: dto.teamId,
-            domainId,
+        await this.prisma.projectOwnership.create({
+            data: {
+                ownershipId: v4(),
+                projectId,
+                userId: dto.userId,
+                teamId: dto.teamId,
+                domainId,
+            },
         });
     }
 
     async addLink(session: UserSession, domainId: string, projectId: string, dto: AddProjectLinkData) {
-        await this.db.insert(projectLink).values({
-            linkId: v4(),
-            projectId,
-            title: dto.title,
-            subTitle: dto.subTitle,
-            href: dto.href,
-            iconUri: dto.iconUri,
-            domainId,
+        await this.prisma.projectLink.create({
+            data: {
+                linkId: v4(),
+                projectId,
+                title: dto.title,
+                subTitle: dto.subTitle,
+                href: dto.href,
+                iconUri: dto.iconUri,
+                domainId,
+            },
         });
     }
 }

@@ -1,0 +1,282 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  userId  String @id @map("user_id")
+  email   String @map("email") @unique
+  firstName String @map("first_name")
+  lastName String @map("last_name")
+  fullName String @map("full_name")
+  iconUri String? @map("icon_uri") @default("https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745")
+
+  people Person[]
+  peopleContactDetails PersonContactDetails[]
+  teamMembers TeamMember[]
+  projectOwnership ProjectOwnership[]
+  skills PersonSkill[]
+  roles PersonRole[]
+  createdDocumentation Documentation[]
+  @@map("user")
+}
+
+model Domain {
+  domainId String @id @map("domain_id")
+  name String @map("name")
+
+  skills Skill[]
+  roles Role[]
+  people Person[]
+  peopleContactDetails PersonContactDetails[]
+  peopleSkills PersonSkill[]
+  peopleRoles PersonRole[]
+  teams Team[]
+  teamMembers TeamMember[]
+  projects Project[]
+  projectLinks ProjectLink[]
+  projectOwnerships ProjectOwnership[]
+  documentation Documentation[]
+  documentationDocuments DocumentationDocument[]
+  documentationFiles DocumentationFile[]
+
+  @@map("domain")
+}
+
+model Person {
+  userId String @map("user_id")
+  domainId String @map("domain_id")
+  contactDetails PersonContactDetails?
+
+  domain Domain @relation(fields: [domainId], references: [domainId])
+  user User @relation(fields: [userId], references: [userId])
+  skills PersonSkill[]
+  roles PersonRole[]
+  teamMembers TeamMember[]
+  projectOwnership ProjectOwnership[]
+  createdDocumentation Documentation[]
+  @@id([userId, domainId])
+  @@index([domainId])
+
+  @@map("person")
+}
+
+model PersonRole {
+  userId String @map("user_id")
+  roleId String @map("role_id")
+  domainId String @map("domain_id")
+
+  domain Domain @relation(fields: [domainId], references: [domainId])
+  user User @relation(fields: [userId], references: [userId])
+  role Role @relation(fields: [roleId], references: [roleId])
+  person Person @relation(fields: [userId, domainId], references: [userId, domainId])
+
+  @@id([userId, roleId])
+  @@index(domainId)
+  @@index(roleId)
+  @@index(userId)
+  @@map("person_role")
+}
+
+model PersonSkill {
+  userId String @map("user_id")
+  skillId String @map("skill_id")
+  domainId String @map("domain_id")
+
+  domain Domain @relation(fields: [domainId], references: [domainId])
+  user User @relation(fields: [userId], references: [userId])
+  skill Skill @relation(fields: [skillId], references: [skillId])
+  person Person @relation(fields: [userId, domainId], references: [userId, domainId])
+
+  @@id([userId, skillId])
+
+  @@index(domainId)
+  @@index(skillId)
+  @@index(userId)
+  @@map("person_skill")
+}
+
+model PersonContactDetails {
+  userId String @map("user_id")
+  domainId String @map("domain_id")
+  workMobile String @map("work_mobile")
+  workEmail String @map("work_email")
+  personalMobile String @map("personal_mobile")
+  personalEmail String @map("personal_email")
+
+  domain Domain @relation(fields: [domainId], references: [domainId])
+  person Person @relation(fields: [userId, domainId], references: [userId, domainId])
+  user User @relation(fields: [userId], references: [userId])
+
+  @@id([userId, domainId])
+  @@index([domainId])
+  @@map("person_contact_details")
+}
+
+model Team {
+  teamId   String  @id @map("team_id")
+  domainId String  @map("domain_id")
+  name     String  @map("name")
+  iconUri  String? @map("icon_uri") @default("https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745")
+
+  domain   Domain  @relation(fields: [domainId], references: [domainId])
+
+  members TeamMember[]
+  projectOwnership ProjectOwnership[]
+  documentation Documentation[]
+
+  @@index([domainId])
+  @@map("team")
+}
+
+model TeamMember {
+  teamId String @map("team_id")
+  userId String @map("user_id")
+  domainId String @map("domain_id")
+
+  team   Team @relation(fields: [teamId], references: [teamId])
+  user   User @relation(fields: [userId], references: [userId])
+  domain Domain @relation(fields: [domainId], references: [domainId])
+  person Person @relation(fields: [userId, domainId], references: [userId, domainId])
+
+  @@id([teamId, userId])
+  @@index([domainId])
+  @@index([userId])
+  @@index([teamId])
+  @@map("team_member")
+}
+
+model Project {
+  projectId String @id @map("project_id")
+  domainId String @map("domain_id")
+  name String @map("name")
+  description String @map("description")
+
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+  links ProjectLink[]
+  ownership ProjectOwnership[]
+  documentation Documentation[]
+
+  @@index(domainId)
+  @@map("project")
+}
+
+model ProjectLink {
+  linkId String @id @map("link_id")
+  projectId String @map("project_id")
+  domainId String @map("domain_id")
+  title String
+  subTitle String
+  href String
+  iconUri String @default("https://cdn1.vectorstock.com/i/1000x1000/25/25/resources-allocation-icon-on-white-vector-27442525.jpg")
+
+  project   Project @relation(fields: [projectId], references: [projectId])
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+
+  @@index([domainId])
+  @@index([projectId])
+  @@map("project_link")
+}
+
+model ProjectOwnership {
+  ownershipId String @id @map("ownership_id")
+  projectId String @map("project_id")
+  domainId String @map("domain_id")
+  teamId String? @map("team_id")
+  userId String? @map("user_id")
+  description String @default("Full Ownership")
+
+  team     Team? @relation(fields: [teamId], references: [teamId])
+  user     User? @relation(fields: [userId], references: [userId])
+  person   Person? @relation(fields: [userId, domainId], references: [userId, domainId])
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+  project  Project @relation(fields: [projectId], references: [projectId])
+
+  @@index(projectId)
+  @@index(domainId)
+  @@index(teamId)
+  @@index(userId)
+  @@map("project_ownership")
+}
+
+model Documentation {
+  documentationId String @id @map("documentation_id")
+  domainId String @map("domain_id")
+  projectId String? @map("project_id")
+  teamId String? @map("team_id")
+  type String @map("type")
+  createdAt DateTime @map("created_at")
+  updatedAt DateTime @map("updated_at")
+  name String? @map("name")
+  parentId String? @map("parent_id")
+  createdByUserId String @map("created_by_user_id")
+
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+  project   Project? @relation(fields: [projectId], references: [projectId])
+  team Team? @relation(fields: [teamId], references: [teamId])
+  parent Documentation? @relation("children", fields: [parentId], references: [documentationId])
+  children Documentation[] @relation("children")
+  createdByUser User @relation(fields: [createdByUserId], references: [userId])
+  createdByPerson Person @relation(fields: [createdByUserId, domainId], references: [userId, domainId])
+  documents DocumentationDocument[]
+  files DocumentationFile[]
+
+  @@map("documentation")
+}
+
+model DocumentationDocument {
+  documentationId String @id @map("documentation_id")
+  domainId String @map("domain_id")
+  data Bytes? @map("data")  @db.ByteA
+
+  documentation Documentation @relation(fields: [documentationId], references: [documentationId])
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+
+  @@index(domainId)
+  @@map("documentation_document")
+}
+
+model DocumentationFile {
+  documentationId String @id @map("documentation_id")
+  domainId String @map("domain_id")
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+  key String? @map("key")
+  name String? @map("name")
+  type String? @map("type")
+  isUploaded Boolean @map("is_uploaded") @default(false)
+
+  documentation Documentation @relation(fields: [documentationId], references: [documentationId])
+
+  @@index(domainId)
+  @@map("documentation_file")
+}
+
+model Role {
+  roleId      String @id @map("role_id")
+  domainId    String @map("domain_id")
+  name        String
+  description String
+
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+  peopleRoles PersonRole[]
+
+  @@index([domainId])
+  @@map("role")
+}
+
+model Skill {
+  skillId     String @id @map("skill_id")
+  domainId    String @map("domain_id")
+  name        String
+  description String
+
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+  peopleSkills PersonSkill[]
+
+  @@index([domainId])
+  @@map("skill")
+}

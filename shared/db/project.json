@@ -1,0 +1,21 @@
+{
+    "name": "db",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "shared/db/src",
+    "projectType": "library",
+    "tags": [],
+    "targets": {
+        "seed": {
+            "command": "ts-node seed/index.ts",
+            "options": {
+                "cwd": "shared/db"
+            }
+        },
+        "push": {
+            "command": "prisma db push",
+            "options": {
+                "cwd": "shared/db"
+            }
+        }
+    }
+}
