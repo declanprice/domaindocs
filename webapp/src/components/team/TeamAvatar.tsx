@@ -21,7 +21,7 @@ export const TeamAvatar = (props: TeamAvatarProps) => {
     }
 
     return (
-        <Flex alignItems={'center'} mb={4} gap={2}>
+        <Flex alignItems={'center'} gap={2}>
             <Avatar size={avatarSize} src={iconUri} name={name} rounded={8} />
 
             <Stack spacing={1}>

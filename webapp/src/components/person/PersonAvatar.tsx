@@ -1,4 +1,17 @@
-import { Avatar, Badge, Box, Flex, Stack, Text, Tooltip } from '@chakra-ui/react';
+import {
+    Avatar,
+    Badge,
+    Box,
+    Flex,
+    Popover,
+    PopoverBody,
+    PopoverCloseButton,
+    PopoverContent,
+    PopoverTrigger,
+    Stack,
+    Text,
+    Tooltip,
+} from '@chakra-ui/react';
 import { PersonRole } from '@domaindocs/lib';
 
 type PersonAvatarProps = {
@@ -30,6 +43,43 @@ export const PersonAvatar = (props: PersonAvatarProps) => {
         roleFontSize = 10;
     }
 
+    const renderRoles = () => {
+        if (!roles?.length) {
+            return <Text fontSize={roleFontSize}>None</Text>;
+        }
+
+        if (roles.length === 1) {
+            const role = roles[0];
+            return <Text fontSize={roleFontSize}>{role.roleName}</Text>;
+        }
+
+        return (
+            <Popover>
+                <PopoverTrigger>
+                    <Text
+                        _hover={{ textDecoration: 'underline' }}
+                        cursor={'pointer'}
+                        fontSize={roleFontSize}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                        }}
+                    >
+                        {roles.length} Roles
+                    </Text>
+                </PopoverTrigger>
+                <PopoverContent backgroundColor={'lightgray'}>
+                    <PopoverBody>
+                        <Stack spacing={2}>
+                            {roles.map((r) => (
+                                <Text fontSize={12}>{r.roleName}</Text>
+                            ))}
+                        </Stack>
+                    </PopoverBody>
+                </PopoverContent>
+            </Popover>
+        );
+    };
+
     return (
         <Flex alignItems={'center'}>
             <Avatar size={avatarSize} src={iconUri} name={`${firstName} ${lastName}`} />
@@ -39,32 +89,7 @@ export const PersonAvatar = (props: PersonAvatarProps) => {
                     {firstName} {lastName}
                 </Text>
 
-                {displayRoles !== false && (
-                    <Box>
-                        {roles?.length ? (
-                            <>
-                                {roles.length > 1 ? (
-                                    <Tooltip
-                                        backgroundColor={'white'}
-                                        label={roles.map((r) => (
-                                            <Stack spacing={4}>
-                                                <Text my={1} fontSize={roleFontSize} color={'gray.900'}>
-                                                    {r.roleName}
-                                                </Text>
-                                            </Stack>
-                                        ))}
-                                    >
-                                        <Text fontSize={roleFontSize}>{roles.length} Roles</Text>
-                                    </Tooltip>
-                                ) : (
-                                    <Text fontSize={roleFontSize}>{roles[0].roleName}</Text>
-                                )}
-                            </>
-                        ) : (
-                            <Badge fontSize={roleFontSize}>No Roles</Badge>
-                        )}
-                    </Box>
-                )}
+                {displayRoles !== false && <>{renderRoles()}</>}
             </Flex>
         </Flex>
     );

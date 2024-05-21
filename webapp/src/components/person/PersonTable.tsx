@@ -1,7 +1,24 @@
-import { Avatar, Badge, Tag, TagLabel } from '@chakra-ui/react';
+import {
+    Avatar,
+    Badge,
+    Button,
+    Popover,
+    PopoverArrow,
+    PopoverBody,
+    PopoverCloseButton,
+    PopoverContent,
+    PopoverHeader,
+    PopoverTrigger,
+    Stack,
+    Tag,
+    TagLabel,
+    Text,
+    Tooltip,
+} from '@chakra-ui/react';
 import { Table } from '../table/Table';
 import { DetailedPerson } from '@domaindocs/lib';
 import { PersonAvatar } from './PersonAvatar';
+import { TeamAvatar } from '../team/TeamAvatar';
 
 type PeopleTableProps = {
     people: DetailedPerson[];
@@ -33,15 +50,40 @@ export const PersonTable = (props: PeopleTableProps) => {
                 {
                     label: 'Teams',
                     render: (data: DetailedPerson) => {
-                        if (data.teams.length) {
-                            return data.teams.map((t) => t.teamName).join(' | ');
-                        } else {
+                        const teams = data.teams;
+
+                        if (!teams.length) {
+                            return <Text>None</Text>;
+                        }
+
+                        if (teams.length === 1) {
+                            const team = teams[0];
                             return (
-                                <Badge size={'xs'} colorScheme={'yellow'}>
-                                    Not Assigned
-                                </Badge>
+                                <Text _hover={{ textDecoration: 'underline' }} cursor={'pointer'}>
+                                    {team.teamName}
+                                </Text>
                             );
                         }
+
+                        return (
+                            <Popover>
+                                <PopoverTrigger>
+                                    <Text _hover={{ textDecoration: 'underline' }} cursor={'pointer'}>
+                                        {teams.length} Teams
+                                    </Text>
+                                </PopoverTrigger>
+                                <PopoverContent backgroundColor={'lightgray'}>
+                                    <PopoverCloseButton />
+                                    <PopoverBody>
+                                        <Stack spacing={2}>
+                                            {teams.map((t) => (
+                                                <TeamAvatar small name={t.teamName} iconUri={t.teamIconUri} />
+                                            ))}
+                                        </Stack>
+                                    </PopoverBody>
+                                </PopoverContent>
+                            </Popover>
+                        );
                     },
                     onClick: (row) => {
                         console.log('clicked row', row);
@@ -50,15 +92,36 @@ export const PersonTable = (props: PeopleTableProps) => {
                 {
                     label: 'Skills',
                     render: (data: DetailedPerson) => {
-                        if (data.skills.length) {
-                            return `${data.skills.map((s) => s.skillName).join(' | ')}`;
-                        } else {
-                            return (
-                                <Badge size={'xs'} colorScheme={'gray'}>
-                                    Not Set
-                                </Badge>
-                            );
+                        const skills = data.skills;
+
+                        if (!skills.length) {
+                            return <Text>None</Text>;
                         }
+
+                        if (skills.length === 1) {
+                            const skill = skills[0];
+                            return <Text fontSize={12}>{skill.skillName}</Text>;
+                        }
+
+                        return (
+                            <Popover>
+                                <PopoverTrigger>
+                                    <Text _hover={{ textDecoration: 'underline' }} cursor={'pointer'}>
+                                        {skills.length} Skills
+                                    </Text>
+                                </PopoverTrigger>
+                                <PopoverContent backgroundColor={'lightgray'}>
+                                    <PopoverCloseButton />
+                                    <PopoverBody>
+                                        <Stack spacing={2}>
+                                            {skills.map((s) => (
+                                                <Text fontSize={12}>{s.skillName}</Text>
+                                            ))}
+                                        </Stack>
+                                    </PopoverBody>
+                                </PopoverContent>
+                            </Popover>
+                        );
                     },
                     onClick: (row) => {
                         console.log('clicked row', row);
