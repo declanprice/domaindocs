@@ -1,29 +1,32 @@
-import { Avatar, Badge, Flex, List, ListItem, Text } from '@chakra-ui/react';
-import { PersonSkill, PersonTeam } from '@domaindocs/lib';
-import { AddIconButton } from '../../../components/buttons/AddIconButton';
+import { Badge, Flex, Text, Wrap, WrapItem } from '@chakra-ui/react';
+import { PersonSkill } from '@domaindocs/lib';
+import { EditIconButton } from '../../../components/buttons/EditIconButton';
 
 type PersonSkillsListProps = {
     skills: PersonSkill[];
+    onEdit: () => void;
 };
 
 export const PersonSkillsList = (props: PersonSkillsListProps) => {
     const { skills } = props;
 
     return (
-        <Flex direction={'column'} gap={1}>
-            <Flex>
-                <Text fontSize={16}>Skills</Text>
+        <>
+            <Flex direction={'column'} gap={1}>
+                <Flex>
+                    <Text fontSize={16}>Skills</Text>
 
-                <AddIconButton marginLeft={'auto'} />
+                    <EditIconButton marginLeft={'auto'} onClick={props.onEdit} />
+                </Flex>
+
+                <Wrap spacing={2}>
+                    {skills.map((skill: PersonSkill) => (
+                        <WrapItem>
+                            <Badge fontSize={12}>{skill.skillName}</Badge>
+                        </WrapItem>
+                    ))}
+                </Wrap>
             </Flex>
-
-            <List spacing={2}>
-                {skills.map((skill: PersonSkill) => (
-                    <ListItem>
-                        <Badge fontSize={12}>{skill.skillName}</Badge>
-                    </ListItem>
-                ))}
-            </List>
-        </Flex>
+        </>
     );
 };

@@ -1,10 +1,10 @@
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText, FormControlProps } from '@chakra-ui/react';
 
-import { Select } from 'chakra-react-select';
+import { CreatableSelect } from 'chakra-react-select';
 
 import { Control, useController } from 'react-hook-form';
 
-type FormSelectableProps = {
+type FormCreatableSelectProps = {
     name: string;
     placeholder?: string;
     control: Control<any>;
@@ -13,9 +13,10 @@ type FormSelectableProps = {
     options: { value: string; label: string }[];
     onChange?: (e: any) => void;
     onBlur?: () => void;
+    onCreateOption?: (value: string) => void;
 } & Partial<FormControlProps>;
 
-export const FormSelectable = (props: FormSelectableProps) => {
+export const FormCreatableSelect = (props: FormCreatableSelectProps) => {
     const { field, fieldState } = useController({
         name: props.name,
         control: props.control,
@@ -29,7 +30,7 @@ export const FormSelectable = (props: FormSelectableProps) => {
                 </FormLabel>
             )}
 
-            <Select
+            <CreatableSelect
                 name={field.name}
                 value={field.value}
                 isDisabled={field.disabled}
@@ -39,6 +40,7 @@ export const FormSelectable = (props: FormSelectableProps) => {
                     if (props.onChange) {
                         props.onChange(e);
                     }
+                    console.log('change', e);
                 }}
                 onBlur={() => {
                     field.onBlur();
@@ -46,6 +48,7 @@ export const FormSelectable = (props: FormSelectableProps) => {
                         props.onBlur();
                     }
                 }}
+                onCreateOption={props.onCreateOption}
                 isMulti
                 size="sm"
                 variant={'filled'}

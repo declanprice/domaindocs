@@ -1,6 +1,7 @@
-import { Badge } from '@chakra-ui/react';
+import { Avatar, Badge, Tag, TagLabel } from '@chakra-ui/react';
 import { Table } from '../table/Table';
 import { DetailedPerson } from '@domaindocs/lib';
+import { PersonAvatar } from './PersonAvatar';
 
 type PeopleTableProps = {
     people: DetailedPerson[];
@@ -16,7 +17,15 @@ export const PersonTable = (props: PeopleTableProps) => {
             fields={[
                 {
                     label: 'Person',
-                    render: (data: DetailedPerson) => `${data.person.firstName} ${data.person.lastName}`,
+                    render: (data: DetailedPerson) => (
+                        <PersonAvatar
+                            firstName={data.person.firstName}
+                            lastName={data.person.lastName}
+                            iconUri={data.person.iconUri}
+                            roles={data.roles}
+                            small
+                        />
+                    ),
                     onClick: (row) => {
                         onPersonClick(row);
                     },

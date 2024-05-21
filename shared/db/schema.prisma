@@ -265,6 +265,8 @@ model Role {
 
   @@index([domainId])
   @@map("role")
+
+  @@unique([roleId, domainId])
 }
 
 model Skill {
@@ -277,4 +279,6 @@ model Skill {
 
   @@index([domainId])
   @@map("skill")
+
+  @@unique([skillId, domainId])
 }

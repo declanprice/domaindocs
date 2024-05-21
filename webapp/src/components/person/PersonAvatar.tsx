@@ -1,17 +1,18 @@
-import { Avatar, Badge, Box, Flex, Text } from '@chakra-ui/react';
+import { Avatar, Badge, Box, Flex, Stack, Text, Tooltip } from '@chakra-ui/react';
+import { PersonRole } from '@domaindocs/lib';
 
 type PersonAvatarProps = {
     firstName: string;
     lastName: string;
     iconUri?: string;
-    primaryRoleName?: string;
+    roles?: PersonRole[];
     small?: boolean;
     extraSmall?: boolean;
     displayRoles?: boolean;
 };
 
 export const PersonAvatar = (props: PersonAvatarProps) => {
-    const { firstName, lastName, iconUri, primaryRoleName, displayRoles, small, extraSmall } = props;
+    const { firstName, lastName, iconUri, roles, displayRoles, small, extraSmall } = props;
 
     let avatarSize = 'md';
     let nameFontSize = 14;
@@ -40,12 +41,27 @@ export const PersonAvatar = (props: PersonAvatarProps) => {
 
                 {displayRoles !== false && (
                     <Box>
-                        {primaryRoleName ? (
-                            <Text fontSize={roleFontSize}>{primaryRoleName}</Text>
+                        {roles?.length ? (
+                            <>
+                                {roles.length > 1 ? (
+                                    <Tooltip
+                                        backgroundColor={'white'}
+                                        label={roles.map((r) => (
+                                            <Stack spacing={4}>
+                                                <Text my={1} fontSize={roleFontSize} color={'gray.900'}>
+                                                    {r.roleName}
+                                                </Text>
+                                            </Stack>
+                                        ))}
+                                    >
+                                        <Text fontSize={roleFontSize}>{roles.length} Roles</Text>
+                                    </Tooltip>
+                                ) : (
+                                    <Text fontSize={roleFontSize}>{roles[0].roleName}</Text>
+                                )}
+                            </>
                         ) : (
-                            <Badge colorScheme={'orange'} fontSize={roleFontSize}>
-                                No Roles
-                            </Badge>
+                            <Badge fontSize={roleFontSize}>No Roles</Badge>
                         )}
                     </Box>
                 )}

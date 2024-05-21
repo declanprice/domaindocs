@@ -97,7 +97,7 @@ export const routes = createBrowserRouter([
                                         element: <PeoplePage />,
                                     },
                                     {
-                                        path: 'people/:personId',
+                                        path: 'people/:userId',
                                         element: <PersonPage />,
                                     },
                                     {

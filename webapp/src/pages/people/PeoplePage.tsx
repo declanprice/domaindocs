@@ -20,7 +20,7 @@ export const PeoplePage = () => {
 
     const { data: people, isLoading } = useQuery<DetailedPerson[]>({
         queryKey: ['searchPeople', { domainId }],
-        queryFn: () => peopleApi.searchPeople(domainId, {}),
+        queryFn: () => peopleApi.search(domainId, {}),
     });
 
     if (!people || isLoading) return <LoadingContainer />;

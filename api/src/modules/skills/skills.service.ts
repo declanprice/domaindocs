@@ -1,13 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
-import { SearchSkillsParams, Skill } from '@domaindocs/lib';
+import { CreateSkillData, SearchSkillsParams, Skill } from '@domaindocs/lib';
 import { PrismaService } from '../../shared/prisma.service';
+import { createSlug } from '../../util/create-slug';
 
 @Injectable()
 export class SkillsService {
     constructor(private prisma: PrismaService) {}
 
-    async searchSkills(session: UserSession, domainId: string, dto: SearchSkillsParams): Promise<Skill[]> {
-        return [];
+    async search(session: UserSession, domainId: string, params: SearchSkillsParams): Promise<Skill[]> {
+        const results = await this.prisma.skill.findMany({
+            where: {
+                domainId: domainId,
+                name: params.name
+                    ? {
+                          contains: params.name,
+                      }
+                    : undefined,
+            },
+        });
+
+        return results.map((s) => new Skill(s.skillId, s.name));
+    }
+
+    async create(session: UserSession, domainId: string, dto: CreateSkillData): Promise<Skill> {
+        const result = await this.prisma.skill.create({
+            data: {
+                skillId: createSlug(dto.name),
+                name: dto.name,
+                domainId,
+            },
+        });
+
+        return new Skill(result.skillId, result.name);
     }
 }

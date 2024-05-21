@@ -10,18 +10,16 @@ export const PersonTeamsList = (props: PersonTeamsListProps) => {
     const { teams } = props;
 
     return (
-        <Flex direction={'column'} gap={1}>
+        <Flex direction={'column'} gap={4}>
             <Flex>
                 <Text fontSize={16}>Teams</Text>
-
-                <AddIconButton marginLeft={'auto'} />
             </Flex>
 
-            <List spacing={2}>
+            <List spacing={3}>
                 {teams.map((team: PersonTeam) => (
                     <ListItem>
                         <Flex alignItems={'center'}>
-                            <Avatar size={'xs'} src={team.teamIconUri} name={team.teamName} />
+                            <Avatar rounded={4} size={'sm'} src={team.teamIconUri} name={team.teamName} />
 
                             <Flex ml={4} direction={'column'} justifyContent={'center'}>
                                 <Text fontSize={14}>{team.teamName}</Text>

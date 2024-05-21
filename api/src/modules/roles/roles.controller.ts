@@ -1,8 +1,8 @@
 import { RolesService } from './roles.service';
-import { BadRequestException, Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { SearchRolesParams, Role } from '@domaindocs/lib';
+import { SearchRolesParams, Role, CreateSkillData, Skill, CreateRoleData } from '@domaindocs/lib';
 
 @Controller('domains/:domainId/roles')
 @UseGuards(AuthGuard)
@@ -20,5 +20,14 @@ export class RolesController {
         }
 
         return this.rolesService.search(session, domainId, dto);
+    }
+
+    @Post('')
+    async create(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Body() data: CreateRoleData,
+    ): Promise<Role> {
+        return this.rolesService.create(session, domainId, data);
     }
 }
