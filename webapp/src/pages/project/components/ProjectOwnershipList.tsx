@@ -22,13 +22,13 @@ export const ProjectOwnershipList = (props: ProjectOwnershipProps) => {
                 <AddIconButton marginLeft={'auto'} />
             </Flex>
 
-            <List spacing={2}>
+            <List spacing={4}>
                 {ownership.map((o) => {
                     if (isPersonOwnership(o)) {
                         return (
                             <ListItem>
                                 <PersonAvatar {...o} />
-                                <Text> API Development </Text>
+                                <Text> {o.description} </Text>
                             </ListItem>
                         );
                     }

@@ -15,6 +15,8 @@ import { TeamSummary } from '../team/components/TeamSummary';
 import { TeamMembersList } from '../team/components/TeamMembersList';
 import { TeamProjectsList } from '../team/components/TeamProjectsList';
 import React from 'react';
+import { useEditable } from '../../hooks/useEditable';
+import { ProjectSummaryEdit } from './components/ProjectSummaryEdit';
 
 export const ProjectOverviewPage = () => {
     const { domainId, projectId } = useParams() as ProjectPageParams;
@@ -28,6 +30,8 @@ export const ProjectOverviewPage = () => {
         queryFn: () => projectsApi.getProjectOverview(domainId, projectId),
     });
 
+    const editSummary = useEditable();
+
     if (!project || isLoading) return <LoadingContainer />;
 
     return (
@@ -40,14 +44,25 @@ export const ProjectOverviewPage = () => {
                         {project.name}
                     </Heading>
 
-                    <ProjectSummary
-                        domainId={domainId}
-                        projectId={projectId}
-                        description={project.description}
-                        onDescriptionChange={async () => {
-                            await refetch();
-                        }}
-                    />
+                    {editSummary.isEditing ? (
+                        <ProjectSummaryEdit
+                            domainId={domainId}
+                            projectId={projectId}
+                            description={project.description}
+                            onCancel={editSummary.onClose}
+                            onSubmit={async () => {
+                                await refetch();
+                                editSummary.onClose();
+                            }}
+                        />
+                    ) : (
+                        <ProjectSummary
+                            domainId={domainId}
+                            projectId={projectId}
+                            description={project.description}
+                            onEdit={editSummary.onEdit}
+                        />
+                    )}
                 </Stack>
 
                 <Divider />

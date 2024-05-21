@@ -25,7 +25,7 @@ async function bootstrap() {
                 brokers: ['localhost:9092'],
             },
             consumer: {
-                groupId: 'notification-service-consumer', // hero-consumer-server
+                groupId: 'notification-service-consumer',
             },
         },
     });

@@ -155,7 +155,7 @@ model Project {
   projectId String @id @map("project_id")
   domainId String @map("domain_id")
   name String @map("name")
-  description String @map("description")
+  description String @map("description") @default("")
 
   domain   Domain @relation(fields: [domainId], references: [domainId])
   links ProjectLink[]

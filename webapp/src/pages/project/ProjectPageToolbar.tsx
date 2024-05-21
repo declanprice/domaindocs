@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Link, Text } from '@chakra-ui/react';
 import { LiaProjectDiagramSolid } from 'react-icons/lia';
 import { PageToolbar } from '../../components/page/PageToolbar';
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +20,14 @@ export const ProjectPageToolbar = (props: ProjectPageToolbarProps) => {
                 <Flex alignItems={'center'}>
                     <LiaProjectDiagramSolid color={'gray.900'} size={14} />
                     <Text ml={2} fontSize={12}>
-                        Project | {projectName}
+                        <Link
+                            onClick={() => {
+                                navigate(`/${domainId}/projects`);
+                            }}
+                        >
+                            Projects{' '}
+                        </Link>
+                        | {projectName}
                     </Text>
                 </Flex>
             }

@@ -52,7 +52,7 @@ export const TeamMembersListEdit = (props: TeamMembersListEditProps) => {
             <Flex>
                 <Text fontSize={16}>Members</Text>
 
-                <CloseIconButton marginLeft={'auto'} />
+                <CloseIconButton marginLeft={'auto'} onClick={onCancel} />
 
                 <CheckIconButton
                     onClick={async () => {

@@ -45,7 +45,7 @@ export class ProjectsService {
         return results.map(
             (result) =>
                 new DetailedProject(
-                    new Project(result.projectId, result.name),
+                    new Project(result.projectId, result.name, result.description),
                     result.ownership?.map((o) => {
                         if (o.user) {
                             return new ProjectPersonOwnership(
@@ -58,7 +58,7 @@ export class ProjectsService {
                         }
 
                         if (o.team) {
-                            return new ProjectTeamOwnership(o.team.teamId, o.team.name, o.team.iconUri);
+                            return new ProjectTeamOwnership(o.team.teamId, o.team.name, o.description, o.team.iconUri);
                         }
                     }),
                 ),
