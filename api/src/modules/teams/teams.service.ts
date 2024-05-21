@@ -1,7 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import { v4 } from 'uuid';
-import { DetailedTeam, CreateTeamData, SearchTeamParams, Team, TeamMember, TeamProject } from '@domaindocs/lib';
+import {
+    DetailedTeam,
+    CreateTeamData,
+    SearchTeamParams,
+    Team,
+    TeamMember,
+    TeamProject,
+    UpdateTeamSummaryData,
+    UpdateTeamMembersData,
+} from '@domaindocs/lib';
 import { PrismaService } from '../../shared/prisma.service';
 
 @Injectable()
@@ -39,7 +48,7 @@ export class TeamsService {
         return results.map(
             (t) =>
                 new DetailedTeam(
-                    new Team(t.teamId, t.name, t.iconUri),
+                    new Team(t.teamId, t.name, t.description, t.iconUri),
                     t.members.map(
                         (p) =>
                             new TeamMember(
@@ -58,12 +67,12 @@ export class TeamsService {
         );
     }
 
-    async createTeam(session: UserSession, domainId: string, dto: CreateTeamData) {
+    async createTeam(session: UserSession, domainId: string, data: CreateTeamData) {
         await this.prisma.team.create({
             data: {
                 teamId: v4(),
                 domainId,
-                name: dto.name,
+                name: data.name,
             },
         });
     }
@@ -97,7 +106,7 @@ export class TeamsService {
         });
 
         return new DetailedTeam(
-            new Team(result.teamId, result.name, result.iconUri),
+            new Team(result.teamId, result.name, result.description, result.iconUri),
             result.members.map(
                 (m) =>
                     new TeamMember(
@@ -113,5 +122,51 @@ export class TeamsService {
             ),
             result.projectOwnership.map((p) => new TeamProject(p.projectId, p.project.name)),
         );
+    }
+
+    async updateSummary(session: UserSession, domainId: string, teamId: string, data: UpdateTeamSummaryData) {
+        await this.prisma.team.update({
+            where: {
+                teamId,
+            },
+            data: {
+                description: data.description,
+            },
+        });
+    }
+
+    async updateMembers(session: UserSession, domainId: string, teamId: string, data: UpdateTeamMembersData) {
+        await this.prisma.$transaction(async (tx) => {
+            for (const userId of data.userIds) {
+                await tx.teamMember.upsert({
+                    where: {
+                        teamId_userId: {
+                            teamId,
+                            userId,
+                        },
+                    },
+                    create: {
+                        domainId,
+                        userId,
+                        teamId,
+                    },
+                    update: {
+                        domainId,
+                        userId,
+                        teamId,
+                    },
+                });
+            }
+
+            await tx.teamMember.deleteMany({
+                where: {
+                    domainId,
+                    teamId,
+                    userId: {
+                        not: { in: data.userIds },
+                    },
+                },
+            });
+        });
     }
 }

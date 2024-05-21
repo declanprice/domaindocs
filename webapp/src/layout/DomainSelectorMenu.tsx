@@ -91,7 +91,12 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
                     </Text>
 
                     {options.map((option) => (
-                        <Button width={'100%'} aria-label={'domain selector button'} variant={'ghost'}>
+                        <Button
+                            key={option.domainId}
+                            width={'100%'}
+                            aria-label={'domain selector button'}
+                            variant={'ghost'}
+                        >
                             <Flex width={'100%'} gap={2} alignItems="center">
                                 <Avatar
                                     name={option.name}

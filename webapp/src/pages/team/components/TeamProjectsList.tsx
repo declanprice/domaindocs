@@ -1,28 +1,40 @@
 import { Flex, List, ListItem, Stack, Text } from '@chakra-ui/react';
 import { AddIconButton } from '../../../components/buttons/AddIconButton';
 import { TeamProject } from '@domaindocs/lib';
+import { useNavigate } from 'react-router-dom';
 
 type TeamProjectsListProps = {
+    domainId: string;
     projects: TeamProject[];
 };
 
 export const TeamProjectsList = (props: TeamProjectsListProps) => {
-    const { projects } = props;
+    const { domainId, projects } = props;
+
+    const navigate = useNavigate();
 
     return (
         <Flex direction={'column'} gap={1}>
             <Flex>
                 <Text fontSize={16}>Projects</Text>
-
-                <AddIconButton marginLeft={'auto'} />
             </Flex>
 
-            <List spacing={2}>
+            <List spacing={4}>
                 {projects.map((project: TeamProject) => (
-                    <ListItem>
-                        <Stack spacing={0}>
-                            <Text fontSize={14}>{project.projectName}</Text>
-                            <Text fontSize={12}>{project.ownershipDescription || 'Full Ownership'}</Text>
+                    <ListItem
+                        key={project.projectId}
+                        onClick={() => {
+                            navigate(`/${domainId}/projects/${project.projectId}`);
+                        }}
+                        _hover={{
+                            cursor: 'pointer',
+                        }}
+                    >
+                        <Stack spacing={1}>
+                            <Text _hover={{ textDecoration: 'underline' }} fontSize={12}>
+                                {project.projectName}
+                            </Text>
+                            <Text fontSize={10}>{project.ownershipDescription || 'Full Ownership'}</Text>
                         </Stack>
                     </ListItem>
                 ))}

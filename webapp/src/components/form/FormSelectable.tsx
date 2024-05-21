@@ -1,10 +1,11 @@
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText, FormControlProps } from '@chakra-ui/react';
 
-import { CreatableSelect } from 'chakra-react-select';
+import { Select } from 'chakra-react-select';
 
 import { Control, useController } from 'react-hook-form';
+import { SelectComponentsConfig } from 'react-select/dist/declarations/src/components';
 
-type FormCreatableSelectProps = {
+type FormSelectableProps = {
     name: string;
     placeholder?: string;
     control: Control<any>;
@@ -13,24 +14,30 @@ type FormCreatableSelectProps = {
     options: { value: string; label: string }[];
     onChange?: (e: any) => void;
     onBlur?: () => void;
-    onCreateOption?: (value: string) => void;
+    components?: SelectComponentsConfig<any, any, any>;
 } & Partial<FormControlProps>;
 
-export const FormCreatableSelect = (props: FormCreatableSelectProps) => {
+export const FormSelectable = (props: FormSelectableProps) => {
     const { field, fieldState } = useController({
         name: props.name,
         control: props.control,
     });
 
     return (
-        <FormControl isInvalid={fieldState.invalid} {...props}>
+        <FormControl
+            isInvalid={fieldState.invalid}
+            onBlur={props.onBlur}
+            onChange={props.onChange}
+            label={props.label}
+            placeholder={props.placeholder}
+        >
             {props.label && (
                 <FormLabel fontSize={12} mb={1}>
                     {props.label}
                 </FormLabel>
             )}
 
-            <CreatableSelect
+            <Select
                 name={field.name}
                 value={field.value}
                 isDisabled={field.disabled}
@@ -48,13 +55,11 @@ export const FormCreatableSelect = (props: FormCreatableSelectProps) => {
                         props.onBlur();
                     }
                 }}
-                onCreateOption={props.onCreateOption}
                 isMulti
                 size="sm"
-                variant={'filled'}
                 placeholder={props.placeholder}
-                colorScheme={'orange'}
                 options={props.options}
+                components={props.components}
             />
 
             {props.helperText && <FormHelperText fontSize={12}>{props.helperText}</FormHelperText>}

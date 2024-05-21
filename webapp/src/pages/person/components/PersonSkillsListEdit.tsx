@@ -5,7 +5,7 @@ import { CreateSkillData, DetailedPerson, PersonSkill, Skill } from '@domaindocs
 
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { CheckIconButton } from '../../../components/buttons/CheckIconButton';
-import { FormCreatableSelect } from '../../../components/form/FormCreatableSelect';
+import { FormCreatableSelectable } from '../../../components/form/FormCreatableSelectable';
 import { LoadingContainer } from '../../../components/loading/LoadingContainer';
 import { skillsApi } from '../../../state/api/skills-api';
 import { queryClient } from '../../../state/query-client';
@@ -72,7 +72,7 @@ export const PersonSkillsListEdit = (props: PersonSkillsListEditProps) => {
                 />
             </Flex>
 
-            <FormCreatableSelect
+            <FormCreatableSelectable
                 name={'skills'}
                 control={control}
                 options={allSkills.map((s) => ({

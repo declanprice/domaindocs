@@ -1,8 +1,10 @@
-import { FormControl, FormLabel, FormErrorMessage, FormHelperText, FormControlProps, Select } from '@chakra-ui/react';
+import { FormControl, FormLabel, FormErrorMessage, FormHelperText, FormControlProps } from '@chakra-ui/react';
+
+import { CreatableSelect } from 'chakra-react-select';
 
 import { Control, useController } from 'react-hook-form';
 
-type FormSelectProps = {
+type FormCreatableSelectProps = {
     name: string;
     placeholder?: string;
     control: Control<any>;
@@ -11,9 +13,10 @@ type FormSelectProps = {
     options: { value: string; label: string }[];
     onChange?: (e: any) => void;
     onBlur?: () => void;
+    onCreateOption?: (value: string) => void;
 } & Partial<FormControlProps>;
 
-export const FormSelect = (props: FormSelectProps) => {
+export const FormCreatableSelectable = (props: FormCreatableSelectProps) => {
     const { field, fieldState } = useController({
         name: props.name,
         control: props.control,
@@ -33,18 +36,17 @@ export const FormSelect = (props: FormSelectProps) => {
                 </FormLabel>
             )}
 
-            <Select
-                autoComplete="off"
+            <CreatableSelect
                 name={field.name}
                 value={field.value}
                 isDisabled={field.disabled}
-                disabled={field.disabled}
                 ref={field.ref}
                 onChange={(e) => {
                     field.onChange(e);
                     if (props.onChange) {
                         props.onChange(e);
                     }
+                    console.log('change', e);
                 }}
                 onBlur={() => {
                     field.onBlur();
@@ -52,16 +54,12 @@ export const FormSelect = (props: FormSelectProps) => {
                         props.onBlur();
                     }
                 }}
-                variant={'filled'}
+                onCreateOption={props.onCreateOption}
+                isMulti
+                size="sm"
                 placeholder={props.placeholder}
-                size={'xs'}
-            >
-                {props.options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                        {option.label}
-                    </option>
-                ))}
-            </Select>
+                options={props.options}
+            />
 
             {props.helperText && <FormHelperText fontSize={12}>{props.helperText}</FormHelperText>}
 

@@ -45,7 +45,7 @@ export const PageToolbar = (props: PageToolbarProps) => {
                 >
                     <TabList borderBottom={'0'}>
                         {tabs.map((t) => (
-                            <Tab onClick={t.onClick} fontSize={12}>
+                            <Tab key={t.label} onClick={t.onClick} fontSize={12}>
                                 {t.label}
                             </Tab>
                         ))}

@@ -8,11 +8,11 @@ import {
     PersonSkill,
     PersonTeam,
     SearchPeopleParams,
+    UpdatePersonContactDetailsData,
+    UpdatePersonRolesData,
+    UpdatePersonSkillsData,
 } from '@domaindocs/lib';
 import { PrismaService } from '../../shared/prisma.service';
-import { UpdatePersonSkillsData } from '../../../../shared/lib/src/person/update-person-skills-data';
-import { UpdatePersonContactDetailsData } from '../../../../shared/lib/src/person/update-person-contact-details-data';
-import { UpdatePersonRolesData } from '../../../../shared/lib/src/person/update-person-roles-data';
 
 @Injectable()
 export class PeopleService {
@@ -50,7 +50,7 @@ export class PeopleService {
         return results.map(
             (p) =>
                 new DetailedPerson(
-                    new Person(p.user.userId, p.user.firstName, p.user.lastName, p.user.iconUri, null),
+                    new Person(p.user.userId, p.user.firstName, p.user.lastName, p.user.iconUri),
                     new PersonContact(
                         p.contactDetails.personalMobile,
                         p.contactDetails.personalEmail,
@@ -92,7 +92,7 @@ export class PeopleService {
         });
 
         return new DetailedPerson(
-            new Person(result.user.userId, result.user.firstName, result.user.lastName, result.user.iconUri, null),
+            new Person(result.user.userId, result.user.firstName, result.user.lastName, result.user.iconUri),
             new PersonContact(
                 result.contactDetails.personalMobile,
                 result.contactDetails.personalEmail,
@@ -112,19 +112,37 @@ export class PeopleService {
         data: UpdatePersonSkillsData,
     ): Promise<void> {
         await this.prisma.$transaction(async (tx) => {
+            for (const skillId of data.skillIds) {
+                await tx.personSkill.upsert({
+                    where: {
+                        userId_skillId: {
+                            userId,
+                            skillId,
+                        },
+                    },
+                    create: {
+                        skillId,
+                        userId,
+                        domainId,
+                    },
+                    update: {
+                        skillId,
+                        userId,
+                        domainId,
+                    },
+                });
+            }
+
             await tx.personSkill.deleteMany({
                 where: {
                     userId,
                     domainId,
+                    skillId: {
+                        not: {
+                            in: data.skillIds,
+                        },
+                    },
                 },
-            });
-
-            await tx.personSkill.createMany({
-                data: data.skillIds.map((skillId) => ({
-                    skillId,
-                    userId,
-                    domainId,
-                })),
             });
         });
     }
@@ -136,19 +154,37 @@ export class PeopleService {
         data: UpdatePersonRolesData,
     ): Promise<void> {
         await this.prisma.$transaction(async (tx) => {
+            for (const roleId of data.roleIds) {
+                await tx.personRole.upsert({
+                    where: {
+                        userId_roleId: {
+                            userId,
+                            roleId,
+                        },
+                    },
+                    create: {
+                        roleId,
+                        userId,
+                        domainId,
+                    },
+                    update: {
+                        roleId,
+                        userId,
+                        domainId,
+                    },
+                });
+            }
+
             await tx.personRole.deleteMany({
                 where: {
                     userId,
                     domainId,
+                    roleId: {
+                        not: {
+                            in: data.roleIds,
+                        },
+                    },
                 },
-            });
-
-            await tx.personRole.createMany({
-                data: data.roleIds.map((roleId) => ({
-                    roleId,
-                    userId,
-                    domainId,
-                })),
             });
         });
     }

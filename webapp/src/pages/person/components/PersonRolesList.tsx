@@ -20,7 +20,7 @@ export const PersonRolesList = (props: PersonRolesListProps) => {
 
             <List spacing={1}>
                 {roles.map((role: PersonRole) => (
-                    <ListItem>
+                    <ListItem key={role.roleId}>
                         <Badge colorScheme={'orange'} fontSize={12}>
                             {role.roleName}
                         </Badge>

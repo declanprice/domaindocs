@@ -71,7 +71,9 @@ export const PersonAvatar = (props: PersonAvatarProps) => {
                     <PopoverBody>
                         <Stack spacing={2}>
                             {roles.map((r) => (
-                                <Text fontSize={12}>{r.roleName}</Text>
+                                <Text key={r.roleId} fontSize={12}>
+                                    {r.roleName}
+                                </Text>
                             ))}
                         </Stack>
                     </PopoverBody>

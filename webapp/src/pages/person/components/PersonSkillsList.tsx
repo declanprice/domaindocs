@@ -21,7 +21,7 @@ export const PersonSkillsList = (props: PersonSkillsListProps) => {
 
                 <Wrap spacing={2}>
                     {skills.map((skill: PersonSkill) => (
-                        <WrapItem>
+                        <WrapItem key={skill.skillId}>
                             <Badge fontSize={12}>{skill.skillName}</Badge>
                         </WrapItem>
                     ))}

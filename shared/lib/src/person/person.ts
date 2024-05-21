@@ -34,8 +34,7 @@ export class Person {
         public userId: string,
         public firstName: string,
         public lastName: string,
-        public iconUri: string | undefined,
-        public primaryRoleName: string | undefined,
+        public iconUri?: string,
     ) {}
 }
 

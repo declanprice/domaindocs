@@ -40,7 +40,7 @@ export const PersonContactDetailsEdit = (props: PersonRolesListEditProps) => {
     return (
         <Flex direction={'column'} gap={1}>
             <Flex>
-                <Text fontSize={16}>Skills</Text>
+                <Text fontSize={16}>Contact Details</Text>
 
                 <CloseIconButton marginLeft={'auto'} onClick={props.onCancel} />
                 <CheckIconButton

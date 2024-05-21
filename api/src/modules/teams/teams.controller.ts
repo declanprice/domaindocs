@@ -2,7 +2,13 @@ import { TeamsService } from './teams.service';
 import { BadRequestException, Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { DetailedTeam, SearchTeamParams, CreateTeamData } from '@domaindocs/lib';
+import {
+    DetailedTeam,
+    SearchTeamParams,
+    CreateTeamData,
+    UpdateTeamSummaryData,
+    UpdateTeamMembersData,
+} from '@domaindocs/lib';
 
 @Controller('domains/:domainId/teams')
 @UseGuards(AuthGuard)
@@ -26,9 +32,9 @@ export class TeamsController {
     async createTeam(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
-        @Body() dto: CreateTeamData,
+        @Body() data: CreateTeamData,
     ) {
-        return this.teamsService.createTeam(session, domainId, dto);
+        return this.teamsService.createTeam(session, domainId, data);
     }
 
     @Get(':teamId')
@@ -38,5 +44,25 @@ export class TeamsController {
         @Param('teamId') teamId: string,
     ) {
         return this.teamsService.getTeam(session, domainId, teamId);
+    }
+
+    @Post(':teamId/summary')
+    async updateSummary(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('teamId') teamId: string,
+        @Body() data: UpdateTeamSummaryData,
+    ) {
+        return this.teamsService.updateSummary(session, domainId, teamId, data);
+    }
+
+    @Post(':teamId/members')
+    async updateMembers(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('teamId') teamId: string,
+        @Body() data: UpdateTeamMembersData,
+    ) {
+        return this.teamsService.updateMembers(session, domainId, teamId, data);
     }
 }

@@ -76,7 +76,12 @@ export const PersonTable = (props: PeopleTableProps) => {
                                     <PopoverBody>
                                         <Stack spacing={2}>
                                             {teams.map((t) => (
-                                                <TeamAvatar small name={t.teamName} iconUri={t.teamIconUri} />
+                                                <TeamAvatar
+                                                    key={t.teamId}
+                                                    small
+                                                    name={t.teamName}
+                                                    iconUri={t.teamIconUri}
+                                                />
                                             ))}
                                         </Stack>
                                     </PopoverBody>
@@ -114,7 +119,9 @@ export const PersonTable = (props: PeopleTableProps) => {
                                     <PopoverBody>
                                         <Stack spacing={2}>
                                             {skills.map((s) => (
-                                                <Text fontSize={12}>{s.skillName}</Text>
+                                                <Text key={s.skillId} fontSize={12}>
+                                                    {s.skillName}
+                                                </Text>
                                             ))}
                                         </Stack>
                                     </PopoverBody>

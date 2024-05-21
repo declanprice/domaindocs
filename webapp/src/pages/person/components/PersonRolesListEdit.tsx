@@ -5,7 +5,7 @@ import { CreateRoleData, PersonRole, Role, UpdatePersonRolesData } from '@domain
 
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { CheckIconButton } from '../../../components/buttons/CheckIconButton';
-import { FormCreatableSelect } from '../../../components/form/FormCreatableSelect';
+import { FormCreatableSelectable } from '../../../components/form/FormCreatableSelectable';
 import { LoadingContainer } from '../../../components/loading/LoadingContainer';
 import { queryClient } from '../../../state/query-client';
 import { peopleApi } from '../../../state/api/people-api';
@@ -71,7 +71,7 @@ export const PersonRolesListEdit = (props: PersonRolesListEditProps) => {
                 />
             </Flex>
 
-            <FormCreatableSelect
+            <FormCreatableSelectable
                 name={'roles'}
                 control={control}
                 options={allRoles.map((s) => ({

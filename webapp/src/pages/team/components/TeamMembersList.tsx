@@ -1,10 +1,11 @@
 import { Flex, List, ListItem, Text } from '@chakra-ui/react';
-import { AddIconButton } from '../../../components/buttons/AddIconButton';
 import { TeamMember } from '@domaindocs/lib';
 import { PersonAvatar } from '../../../components/person/PersonAvatar';
+import { EditIconButton } from '../../../components/buttons/EditIconButton';
 
 type TeamMembersListProps = {
     members: TeamMember[];
+    onEdit: () => void;
 };
 
 export const TeamMembersList = (props: TeamMembersListProps) => {
@@ -15,12 +16,12 @@ export const TeamMembersList = (props: TeamMembersListProps) => {
             <Flex>
                 <Text fontSize={16}>Members</Text>
 
-                <AddIconButton marginLeft={'auto'} />
+                <EditIconButton marginLeft={'auto'} onClick={props.onEdit} />
             </Flex>
 
             <List spacing={4}>
                 {members.map((member: TeamMember) => (
-                    <ListItem>
+                    <ListItem key={member.userId}>
                         <PersonAvatar
                             small
                             firstName={member.firstName}

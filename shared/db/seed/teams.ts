@@ -8,6 +8,7 @@ export const teamOrion = (): Team => {
         domainId: ros().domainId,
         iconUri: null,
         name: 'Team Orion',
+        description: '',
     };
 };
 
@@ -17,6 +18,7 @@ export const teamKeplar = (): Team => {
         domainId: ros().domainId,
         iconUri: null,
         name: 'Team Keplar',
+        description: '',
     };
 };
 

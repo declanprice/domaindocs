@@ -10,16 +10,25 @@ import { TeamSummary } from './components/TeamSummary';
 import { TeamMembersList } from './components/TeamMembersList';
 import { TeamProjectsList } from './components/TeamProjectsList';
 import { TeamAvatar } from '../../components/team/TeamAvatar';
-import { ProjectSummary } from '../project/components/ProjectSummary';
 import React from 'react';
+import { useEditable } from '../../hooks/useEditable';
+import { TeamSummaryEdit } from './components/TeamSummaryEdit';
+import { TeamMembersListEdit } from './components/TeamMembersListEdit';
 
 export const TeamOverviewPage = () => {
     const { domainId, teamId } = useParams() as TeamPageParams;
 
-    const { data: team, isLoading } = useQuery<DetailedTeam>({
+    const {
+        data: team,
+        isLoading,
+        refetch,
+    } = useQuery<DetailedTeam>({
         queryKey: ['getTeam', { domainId, teamId }],
         queryFn: () => teamsApi.getTeam(domainId, teamId),
     });
+
+    const editSummary = useEditable();
+    const editMembers = useEditable();
 
     if (!team || isLoading) return <LoadingContainer />;
 
@@ -31,16 +40,41 @@ export const TeamOverviewPage = () => {
                 <Stack spacing={4}>
                     <TeamAvatar name={team.team.name} iconUri={team.team.iconUri} />
 
-                    <TeamSummary team={team.team} />
+                    {editSummary.isEditing ? (
+                        <TeamSummaryEdit
+                            domainId={domainId}
+                            team={team.team}
+                            onSubmit={async () => {
+                                await refetch();
+                                editSummary.onClose();
+                            }}
+                            onCancel={editSummary.onClose}
+                        />
+                    ) : (
+                        <TeamSummary team={team.team} onEdit={editSummary.onEdit} />
+                    )}
                 </Stack>
 
                 <Divider />
 
-                <TeamMembersList members={team.members} />
+                {editMembers.isEditing ? (
+                    <TeamMembersListEdit
+                        domainId={domainId}
+                        teamId={team.team.teamId}
+                        members={team.members}
+                        onSubmit={async () => {
+                            await refetch();
+                            editMembers.onClose();
+                        }}
+                        onCancel={editMembers.onClose}
+                    />
+                ) : (
+                    <TeamMembersList members={team.members} onEdit={editMembers.onEdit} />
+                )}
 
                 <Divider />
 
-                <TeamProjectsList projects={team.projects} />
+                <TeamProjectsList domainId={domainId} projects={team.projects} />
             </Flex>
         </Flex>
     );

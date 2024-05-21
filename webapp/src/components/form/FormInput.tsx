@@ -1,32 +1,31 @@
-import {
-    FormControl,
-    FormLabel,
-    FormErrorMessage,
-    FormHelperText,
-    Input,
-    FormControlProps,
-} from '@chakra-ui/react'
+import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Input, FormControlProps } from '@chakra-ui/react';
 
-import { Control, useController } from 'react-hook-form'
+import { Control, useController } from 'react-hook-form';
 
 type FormTextInputProps = {
-    name: string
-    placeholder?: string
-    control: Control<any>
-    label?: string
-    helperText?: string
-    onChange?: (e: any) => void
-    onBlur?: () => void
-} & Partial<FormControlProps>
+    name: string;
+    placeholder?: string;
+    control: Control<any>;
+    label?: string;
+    helperText?: string;
+    onChange?: (e: any) => void;
+    onBlur?: () => void;
+} & Partial<FormControlProps>;
 
 export const FormTextInput = (props: FormTextInputProps) => {
     const { field, fieldState } = useController({
         name: props.name,
         control: props.control,
-    })
+    });
 
     return (
-        <FormControl isInvalid={fieldState.invalid} {...props}>
+        <FormControl
+            isInvalid={fieldState.invalid}
+            onBlur={props.onBlur}
+            onChange={props.onChange}
+            label={props.label}
+            placeholder={props.placeholder}
+        >
             {props.label && (
                 <FormLabel fontSize={12} mb={1}>
                     {props.label}
@@ -41,15 +40,15 @@ export const FormTextInput = (props: FormTextInputProps) => {
                 disabled={field.disabled}
                 ref={field.ref}
                 onChange={(e) => {
-                    field.onChange(e)
+                    field.onChange(e);
                     if (props.onChange) {
-                        props.onChange(e)
+                        props.onChange(e);
                     }
                 }}
                 onBlur={() => {
-                    field.onBlur()
+                    field.onBlur();
                     if (props.onBlur) {
-                        props.onBlur()
+                        props.onBlur();
                     }
                 }}
                 variant={'filled'}
@@ -57,17 +56,9 @@ export const FormTextInput = (props: FormTextInputProps) => {
                 size={'xs'}
             />
 
-            {props.helperText && (
-                <FormHelperText fontSize={12}>
-                    {props.helperText}
-                </FormHelperText>
-            )}
+            {props.helperText && <FormHelperText fontSize={12}>{props.helperText}</FormHelperText>}
 
-            {fieldState.error && (
-                <FormErrorMessage fontSize={12}>
-                    {fieldState.error.message}
-                </FormErrorMessage>
-            )}
+            {fieldState.error && <FormErrorMessage fontSize={12}>{fieldState.error.message}</FormErrorMessage>}
         </FormControl>
-    )
-}
+    );
+};

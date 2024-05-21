@@ -17,7 +17,7 @@ export const PersonTeamsList = (props: PersonTeamsListProps) => {
 
             <List spacing={3}>
                 {teams.map((team: PersonTeam) => (
-                    <ListItem>
+                    <ListItem key={team.teamId}>
                         <Flex alignItems={'center'}>
                             <Avatar rounded={4} size={'sm'} src={team.teamIconUri} name={team.teamName} />
 

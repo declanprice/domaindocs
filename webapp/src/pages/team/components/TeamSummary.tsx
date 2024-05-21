@@ -4,6 +4,7 @@ import { EditIconButton } from '../../../components/buttons/EditIconButton';
 
 type TeamSummaryProps = {
     team: Team;
+    onEdit: () => void;
 };
 
 export const TeamSummary = (props: TeamSummaryProps) => {
@@ -14,10 +15,10 @@ export const TeamSummary = (props: TeamSummaryProps) => {
             <Flex>
                 <Text fontSize={16}>Summary</Text>
 
-                <EditIconButton marginLeft={'auto'} />
+                <EditIconButton marginLeft={'auto'} onClick={props.onEdit} />
             </Flex>
 
-            <Text>{team.description}</Text>
+            <Text fontSize={12}>{team.description}</Text>
         </Flex>
     );
 };

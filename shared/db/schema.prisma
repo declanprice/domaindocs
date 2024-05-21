@@ -121,6 +121,7 @@ model Team {
   teamId   String  @id @map("team_id")
   domainId String  @map("domain_id")
   name     String  @map("name")
+  description String @map("description") @default("")
   iconUri  String? @map("icon_uri") @default("https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745")
 
   domain   Domain  @relation(fields: [domainId], references: [domainId])
