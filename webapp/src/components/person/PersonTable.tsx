@@ -1,6 +1,7 @@
 import {
     Avatar,
     Badge,
+    Box,
     Button,
     Popover,
     PopoverArrow,
@@ -35,13 +36,15 @@ export const PersonTable = (props: PeopleTableProps) => {
                 {
                     label: 'Person',
                     render: (data: DetailedPerson) => (
-                        <PersonAvatar
-                            firstName={data.person.firstName}
-                            lastName={data.person.lastName}
-                            iconUri={data.person.iconUri}
-                            roles={data.roles}
-                            small
-                        />
+                        <Box cursor="pointer">
+                            <PersonAvatar
+                                firstName={data.person.firstName}
+                                lastName={data.person.lastName}
+                                iconUri={data.person.iconUri}
+                                roles={data.roles}
+                                small
+                            />
+                        </Box>
                     ),
                     onClick: (row) => {
                         onPersonClick(row);
@@ -58,11 +61,7 @@ export const PersonTable = (props: PeopleTableProps) => {
 
                         if (teams.length === 1) {
                             const team = teams[0];
-                            return (
-                                <Text _hover={{ textDecoration: 'underline' }} cursor={'pointer'}>
-                                    {team.teamName}
-                                </Text>
-                            );
+                            return <TeamAvatar small name={team.teamName} iconUri={team.teamIconUri} />;
                         }
 
                         return (

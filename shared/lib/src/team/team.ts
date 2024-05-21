@@ -4,7 +4,7 @@ export class TeamMember {
         public firstName: string,
         public lastName: string,
         public iconUri?: string,
-        public primaryRoleName?: string,
+        public roles?: { roleId: string; roleName: string }[],
     ) {}
 }
 

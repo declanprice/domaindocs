@@ -19,6 +19,11 @@ export class TeamsService {
                         person: {
                             include: {
                                 user: true,
+                                roles: {
+                                    include: {
+                                        role: true,
+                                    },
+                                },
                             },
                         },
                     },
@@ -42,6 +47,10 @@ export class TeamsService {
                                 p.person.user.firstName,
                                 p.person.user.lastName,
                                 p.person.user.iconUri,
+                                p.person.roles.map((p) => ({
+                                    roleId: p.roleId,
+                                    roleName: p.role.name,
+                                })),
                             ),
                     ),
                     t.projectOwnership.map((p) => new TeamProject(p.projectId, p.project.name)),
@@ -70,6 +79,11 @@ export class TeamsService {
                         person: {
                             include: {
                                 user: true,
+                                roles: {
+                                    include: {
+                                        role: true,
+                                    },
+                                },
                             },
                         },
                     },
@@ -85,7 +99,17 @@ export class TeamsService {
         return new DetailedTeam(
             new Team(result.teamId, result.name, result.iconUri),
             result.members.map(
-                (m) => new TeamMember(m.userId, m.person.user.firstName, m.person.user.lastName, m.person.user.iconUri),
+                (m) =>
+                    new TeamMember(
+                        m.userId,
+                        m.person.user.firstName,
+                        m.person.user.lastName,
+                        m.person.user.iconUri,
+                        m.person.roles.map((p) => ({
+                            roleId: p.roleId,
+                            roleName: p.role.name,
+                        })),
+                    ),
             ),
             result.projectOwnership.map((p) => new TeamProject(p.projectId, p.project.name)),
         );

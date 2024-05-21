@@ -18,7 +18,7 @@ type PersonAvatarProps = {
     firstName: string;
     lastName: string;
     iconUri?: string;
-    roles?: PersonRole[];
+    roles?: { roleId: string; roleName: string }[];
     small?: boolean;
     extraSmall?: boolean;
     displayRoles?: boolean;
@@ -45,7 +45,7 @@ export const PersonAvatar = (props: PersonAvatarProps) => {
 
     const renderRoles = () => {
         if (!roles?.length) {
-            return <Text fontSize={roleFontSize}>None</Text>;
+            return <Text fontSize={roleFontSize}>Employee</Text>;
         }
 
         if (roles.length === 1) {

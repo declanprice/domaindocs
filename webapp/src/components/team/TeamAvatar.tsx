@@ -2,13 +2,14 @@ import { Avatar, Flex, Stack, Text } from '@chakra-ui/react';
 
 type TeamAvatarProps = {
     name: string;
+    nameLink?: boolean;
     iconUri?: string;
     subTitle?: string;
     small?: boolean;
 };
 
 export const TeamAvatar = (props: TeamAvatarProps) => {
-    const { name, subTitle, iconUri, small } = props;
+    const { name, nameLink, subTitle, iconUri, small } = props;
 
     let avatarSize = 'md';
     let nameFontSize = 14;
@@ -25,7 +26,12 @@ export const TeamAvatar = (props: TeamAvatarProps) => {
             <Avatar size={avatarSize} src={iconUri} name={name} rounded={8} />
 
             <Stack spacing={1}>
-                <Text fontSize={nameFontSize}>{name}</Text>
+                <Text
+                    fontSize={nameFontSize}
+                    _hover={nameLink === true ? { textDecoration: 'underline', cursor: 'pointer' } : undefined}
+                >
+                    {name}
+                </Text>
 
                 {subTitle && <Text fontSize={subTitleSize}>{subTitle}</Text>}
             </Stack>

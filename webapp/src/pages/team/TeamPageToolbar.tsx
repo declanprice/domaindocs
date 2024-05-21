@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Link, Text } from '@chakra-ui/react';
 import { PageToolbar } from '../../components/page/PageToolbar';
 import { useNavigate } from 'react-router-dom';
 import { TbUsersGroup } from 'react-icons/tb';
@@ -20,8 +20,17 @@ export const TeamPageToolbar = (props: TeamPageToolbarProps) => {
                 title={
                     <Flex alignItems={'center'}>
                         <TbUsersGroup color={'gray.900'} size={14} />
+
                         <Text ml={2} fontSize={12}>
-                            Teams | {teamName}
+                            <Link
+                                href={undefined}
+                                onClick={() => {
+                                    navigate(`/${domainId}/teams`);
+                                }}
+                            >
+                                Teams
+                            </Link>{' '}
+                            | {teamName}
                         </Text>
                     </Flex>
                 }

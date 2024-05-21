@@ -1,7 +1,7 @@
-import { Flex, Text, useDisclosure } from '@chakra-ui/react';
+import { Flex, Link, Text, useDisclosure } from '@chakra-ui/react';
 import { TbUsersGroup } from 'react-icons/tb';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { teamsApi } from '../../state/api/teams-api';
 import { queryClient } from '../../state/query-client';
@@ -13,6 +13,8 @@ export const TeamsPageToolbar = () => {
     const { domainId } = useParams() as DomainPageParams;
 
     const createTeamDialog = useDisclosure();
+
+    const navigate = useNavigate();
 
     const { mutateAsync: createTeam } = useMutation({
         mutationKey: ['createTeam', { domainId }],

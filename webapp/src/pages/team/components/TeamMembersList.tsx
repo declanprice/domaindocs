@@ -18,7 +18,7 @@ export const TeamMembersList = (props: TeamMembersListProps) => {
                 <AddIconButton marginLeft={'auto'} />
             </Flex>
 
-            <List spacing={2}>
+            <List spacing={4}>
                 {members.map((member: TeamMember) => (
                     <ListItem>
                         <PersonAvatar
@@ -26,7 +26,7 @@ export const TeamMembersList = (props: TeamMembersListProps) => {
                             firstName={member.firstName}
                             lastName={member.lastName}
                             iconUri={member.iconUri}
-                            primaryRoleName={member.primaryRoleName}
+                            roles={member.roles}
                         />
                     </ListItem>
                 ))}

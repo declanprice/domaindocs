@@ -33,8 +33,9 @@ export const TeamsPage = () => {
                         teams={teams}
                         onTeamClick={(team) => {
                             navigate(`/${domainId}/teams/${team.team.teamId}`);
-                            // setSelectedTeam(team);
-                            // teamSideBar.onOpen();
+                        }}
+                        onProjectClick={(project) => {
+                            navigate(`/${domainId}/projects/${project.projectId}`);
                         }}
                     />
                 </Flex>
