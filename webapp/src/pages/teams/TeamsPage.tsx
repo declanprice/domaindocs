@@ -5,7 +5,7 @@ import { teamsApi } from '../../state/api/teams-api';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { TableToolbar } from '../../components/table/TableToolbar';
-import { TeamTable } from '../../components/team/TeamTable';
+import { TeamsTable } from './components/TeamsTable';
 import { DetailedTeam } from '@domaindocs/lib';
 import { TeamsPageToolbar } from './TeamsPageToolbar';
 
@@ -29,7 +29,7 @@ export const TeamsPage = () => {
                 <Flex p={4} width={'100%'} direction={'column'}>
                     <TableToolbar title={`Teams (${teams.length})`} onSearch={() => {}} onFilterClick={() => {}} />
 
-                    <TeamTable
+                    <TeamsTable
                         teams={teams}
                         onTeamClick={(team) => {
                             navigate(`/${domainId}/teams/${team.team.teamId}`);

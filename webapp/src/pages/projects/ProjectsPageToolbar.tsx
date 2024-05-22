@@ -7,7 +7,7 @@ import { CreateProjectData, DetailedTeam } from '@domaindocs/lib';
 import { teamsApi } from '../../state/api/teams-api';
 import { queryClient } from '../../state/query-client';
 import { projectsApi } from '../../state/api/projects-api';
-import { CreateProjectDialog } from '../../components/project/CreateProjectDialog';
+import { CreateProjectDialog } from './components/CreateProjectDialog';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { PageToolbar } from '../../components/page/PageToolbar';
 

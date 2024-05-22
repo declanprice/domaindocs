@@ -1,5 +1,6 @@
 export class ProjectPersonOwnership {
     constructor(
+        public ownershipId: string,
         public userId: string,
         public firstName: string,
         public lastName: string,
@@ -10,6 +11,7 @@ export class ProjectPersonOwnership {
 
 export class ProjectTeamOwnership {
     constructor(
+        public ownershipId: string,
         public teamId: string,
         public name: string,
         public description: string,

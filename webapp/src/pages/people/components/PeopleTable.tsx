@@ -16,17 +16,17 @@ import {
     Text,
     Tooltip,
 } from '@chakra-ui/react';
-import { Table } from '../table/Table';
+import { Table } from '../../../components/table/Table';
 import { DetailedPerson } from '@domaindocs/lib';
-import { PersonAvatar } from './PersonAvatar';
-import { TeamAvatar } from '../team/TeamAvatar';
+import { PersonAvatar } from '../../../components/person/PersonAvatar';
+import { TeamAvatar } from '../../../components/team/TeamAvatar';
 
 type PeopleTableProps = {
     people: DetailedPerson[];
     onPersonClick: (person: DetailedPerson) => void;
 };
 
-export const PersonTable = (props: PeopleTableProps) => {
+export const PeopleTable = (props: PeopleTableProps) => {
     const { people, onPersonClick } = props;
 
     return (

@@ -1,4 +1,4 @@
-import { Table } from '../table/Table';
+import { Table } from '../../../components/table/Table';
 import { DetailedProject, isPersonOwnership, isTeamOwnership, ProjectOwnership } from '@domaindocs/lib';
 import {
     Link,
@@ -11,8 +11,8 @@ import {
     Stack,
     Text,
 } from '@chakra-ui/react';
-import { TeamAvatar } from '../team/TeamAvatar';
-import { PersonAvatar } from '../person/PersonAvatar';
+import { TeamAvatar } from '../../../components/team/TeamAvatar';
+import { PersonAvatar } from '../../../components/person/PersonAvatar';
 
 type ProjectTableProps = {
     projects: DetailedProject[];

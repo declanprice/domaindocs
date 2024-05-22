@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { peopleApi } from '../../state/api/people-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { TableToolbar } from '../../components/table/TableToolbar';
-import { PersonTable } from '../../components/person/PersonTable';
+import { PeopleTable } from './components/PeopleTable';
 import { PeoplePageToolbar } from './PeoplePageToolbar';
 import { IoAddOutline } from 'react-icons/io5';
 import { DetailedPerson } from '@domaindocs/lib';
@@ -48,7 +48,7 @@ export const PeoplePage = () => {
                         onFilterClick={() => {}}
                     />
 
-                    <PersonTable
+                    <PeopleTable
                         people={people}
                         onPersonClick={(person) => {
                             navigate(`/${domainId}/people/${person.person.userId}`);

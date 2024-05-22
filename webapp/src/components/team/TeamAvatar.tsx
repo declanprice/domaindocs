@@ -1,4 +1,4 @@
-import { Avatar, Flex, Stack, Text } from '@chakra-ui/react';
+import { Avatar, Flex, Text } from '@chakra-ui/react';
 
 type TeamAvatarProps = {
     name: string;
@@ -25,7 +25,7 @@ export const TeamAvatar = (props: TeamAvatarProps) => {
         <Flex alignItems={'center'} gap={2}>
             <Avatar size={avatarSize} src={iconUri} name={name} rounded={8} />
 
-            <Stack spacing={1}>
+            <Flex direction={'column'} justifyContent={'center'}>
                 <Text
                     fontSize={nameFontSize}
                     _hover={nameLink === true ? { textDecoration: 'underline', cursor: 'pointer' } : undefined}
@@ -34,7 +34,7 @@ export const TeamAvatar = (props: TeamAvatarProps) => {
                 </Text>
 
                 {subTitle && <Text fontSize={subTitleSize}>{subTitle}</Text>}
-            </Stack>
+            </Flex>
         </Flex>
     );
 };

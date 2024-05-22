@@ -15,8 +15,9 @@ import {
 import { PersonRole } from '@domaindocs/lib';
 
 type PersonAvatarProps = {
-    firstName: string;
-    lastName: string;
+    firstName?: string;
+    lastName?: string;
+    subTitle?: any;
     iconUri?: string;
     roles?: { roleId: string; roleName: string }[];
     small?: boolean;
@@ -25,7 +26,7 @@ type PersonAvatarProps = {
 };
 
 export const PersonAvatar = (props: PersonAvatarProps) => {
-    const { firstName, lastName, iconUri, roles, displayRoles, small, extraSmall } = props;
+    const { firstName, lastName, subTitle, iconUri, roles, displayRoles, small, extraSmall } = props;
 
     let avatarSize = 'md';
     let nameFontSize = 14;
@@ -83,13 +84,15 @@ export const PersonAvatar = (props: PersonAvatarProps) => {
     };
 
     return (
-        <Flex alignItems={'center'}>
+        <Flex alignItems={'center'} gap={2}>
             <Avatar size={avatarSize} src={iconUri} name={`${firstName} ${lastName}`} />
 
-            <Flex ml={2} direction={'column'} justifyContent={'center'}>
+            <Flex direction={'column'} justifyContent={'center'}>
                 <Text fontSize={nameFontSize} fontWeight={'normal'}>
                     {firstName} {lastName}
                 </Text>
+
+                {subTitle && <>{subTitle}</>}
 
                 {displayRoles !== false && <>{renderRoles()}</>}
             </Flex>

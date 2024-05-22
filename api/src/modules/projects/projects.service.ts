@@ -49,6 +49,7 @@ export class ProjectsService {
                     result.ownership?.map((o) => {
                         if (o.user) {
                             return new ProjectPersonOwnership(
+                                o.ownershipId,
                                 o.user.userId,
                                 o.user.firstName,
                                 o.user.lastName,
@@ -58,7 +59,13 @@ export class ProjectsService {
                         }
 
                         if (o.team) {
-                            return new ProjectTeamOwnership(o.team.teamId, o.team.name, o.description, o.team.iconUri);
+                            return new ProjectTeamOwnership(
+                                o.ownershipId,
+                                o.team.teamId,
+                                o.team.name,
+                                o.description,
+                                o.team.iconUri,
+                            );
                         }
                     }),
                 ),
@@ -90,6 +97,7 @@ export class ProjectsService {
             result.ownership?.map((o) => {
                 if (o.user) {
                     return new ProjectPersonOwnership(
+                        o.ownershipId,
                         o.user.userId,
                         o.user.firstName,
                         o.user.lastName,
@@ -99,7 +107,13 @@ export class ProjectsService {
                 }
 
                 if (o.team) {
-                    return new ProjectTeamOwnership(o.team.teamId, o.team.name, o.description, o.team.iconUri);
+                    return new ProjectTeamOwnership(
+                        o.ownershipId,
+                        o.team.teamId,
+                        o.team.name,
+                        o.description,
+                        o.team.iconUri,
+                    );
                 }
             }),
             result.links.map((r) => new ProjectLink(r.linkId, r.title, r.subTitle, r.href, r.iconUri)),
@@ -151,14 +165,23 @@ export class ProjectsService {
         });
     }
 
-    async addOwnership(session: UserSession, domainId: string, projectId: string, dto: AddProjectOwnershipData) {
+    async addOwnership(session: UserSession, domainId: string, projectId: string, data: AddProjectOwnershipData) {
         await this.prisma.projectOwnership.create({
             data: {
                 ownershipId: v4(),
                 projectId,
-                userId: dto.userId,
-                teamId: dto.teamId,
+                userId: data.userId,
+                teamId: data.teamId,
+                description: data.description,
                 domainId,
+            },
+        });
+    }
+
+    async removeOwnership(session: UserSession, domainId: string, projectId: string, ownershipId: string) {
+        await this.prisma.projectOwnership.delete({
+            where: {
+                ownershipId,
             },
         });
     }

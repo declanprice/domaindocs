@@ -14,6 +14,7 @@ type FormSelectableProps = {
     options: { value: string; label: string }[];
     onChange?: (e: any) => void;
     onBlur?: () => void;
+    isMulti?: boolean;
     components?: SelectComponentsConfig<any, any, any>;
 } & Partial<FormControlProps>;
 
@@ -55,7 +56,7 @@ export const FormSelectable = (props: FormSelectableProps) => {
                         props.onBlur();
                     }
                 }}
-                isMulti
+                isMulti={props.isMulti !== undefined ? props.isMulti : true}
                 size="sm"
                 placeholder={props.placeholder}
                 options={props.options}

@@ -37,12 +37,16 @@ export const projectsApi = (() => {
         await apiClient.put(`/domains/${domainId}/projects/${projectId}/description`, data);
     };
 
-    const addOwnership = async (domainId: string, projectId: string, dto: AddProjectOwnershipData): Promise<void> => {
-        await apiClient.put(`/domains/${domainId}/projects/${projectId}/ownership`, dto);
+    const addOwnership = async (domainId: string, projectId: string, data: AddProjectOwnershipData): Promise<void> => {
+        await apiClient.post(`/domains/${domainId}/projects/${projectId}/ownership`, data);
     };
 
-    const addLink = async (domainId: string, projectId: string, dto: AddProjectLinkData): Promise<void> => {
-        await apiClient.put(`/domains/${domainId}/projects/${projectId}/resource-link`, dto);
+    const removeOwnership = async (domainId: string, projectId: string, ownershipId: string): Promise<void> => {
+        await apiClient.delete(`/domains/${domainId}/projects/${projectId}/ownership/${ownershipId}`);
+    };
+
+    const addLink = async (domainId: string, projectId: string, data: AddProjectLinkData): Promise<void> => {
+        await apiClient.put(`/domains/${domainId}/projects/${projectId}/resource-link`, data);
     };
 
     return {
@@ -51,6 +55,7 @@ export const projectsApi = (() => {
         getProjectOverview,
         updateDescription,
         addOwnership,
+        removeOwnership,
         addLink,
     };
 })();

@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { teamsApi } from '../../state/api/teams-api';
 import { queryClient } from '../../state/query-client';
-import { CreateTeamDialog } from '../../components/team/CreateTeamDialog';
+import { CreateTeamDialog } from './components/CreateTeamDialog';
 import { PageToolbar } from '../../components/page/PageToolbar';
 import { CreateTeamData } from '@domaindocs/lib';
 

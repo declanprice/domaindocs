@@ -6,7 +6,7 @@ export class AddProjectOwnershipData {
     userId?: string;
 
     @IsString()
-    @ValidateIf((data) => data.projectId === undefined)
+    @ValidateIf((data) => data.userId === undefined)
     teamId?: string;
 
     @IsString()

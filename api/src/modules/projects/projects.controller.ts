@@ -1,5 +1,5 @@
 import { ProjectsService } from './projects.service';
-import { BadRequestException, Body, Controller, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import {
@@ -57,14 +57,24 @@ export class ProjectsController {
         return this.projectsService.updateDescription(session, domainId, projectId, dto);
     }
 
-    @Put(':projectId/project-ownership')
-    async addContact(
+    @Post(':projectId/ownership')
+    async addOwnership(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('projectId') projectId: string,
         @Body() dto: AddProjectOwnershipData,
     ) {
         return this.projectsService.addOwnership(session, domainId, projectId, dto);
+    }
+
+    @Delete(':projectId/ownership/:ownershipId')
+    async removeOwnership(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('projectId') projectId: string,
+        @Param('ownershipId') ownershipId: string,
+    ) {
+        return this.projectsService.removeOwnership(session, domainId, projectId, ownershipId);
     }
 
     @Put(':projectId/link')

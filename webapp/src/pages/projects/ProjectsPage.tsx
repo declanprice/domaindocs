@@ -6,7 +6,7 @@ import { DomainPageParams } from '../../types/DomainPageParams';
 import { projectsApi } from '../../state/api/projects-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { TableToolbar } from '../../components/table/TableToolbar';
-import { ProjectTable } from '../../components/project/ProjectTable';
+import { ProjectTable } from './components/ProjectTable';
 import { ProjectsPageToolbar } from './ProjectsPageToolbar';
 
 export const ProjectsPage = () => {

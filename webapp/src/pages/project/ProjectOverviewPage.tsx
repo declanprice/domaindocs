@@ -1,4 +1,4 @@
-import { Box, Divider, Flex, Heading, Stack } from '@chakra-ui/react';
+import { Box, Divider, Flex, Heading, Stack, useDisclosure } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { ProjectOverview } from '@domaindocs/lib';
@@ -10,13 +10,11 @@ import { ProjectPageToolbar } from './ProjectPageToolbar';
 import { ProjectSummary } from './components/ProjectSummary';
 import { ProjectLinksList } from './components/ProjectLinksList';
 import { ProjectOwnershipList } from './components/ProjectOwnershipList';
-import { TeamAvatar } from '../../components/team/TeamAvatar';
-import { TeamSummary } from '../team/components/TeamSummary';
-import { TeamMembersList } from '../team/components/TeamMembersList';
-import { TeamProjectsList } from '../team/components/TeamProjectsList';
 import React from 'react';
 import { useEditable } from '../../hooks/useEditable';
 import { ProjectSummaryEdit } from './components/ProjectSummaryEdit';
+import { AddTeamOwnership } from './components/AddTeamOwnership';
+import { AddPersonOwnership } from './components/AddPersonOwnership';
 
 export const ProjectOverviewPage = () => {
     const { domainId, projectId } = useParams() as ProjectPageParams;
@@ -31,6 +29,8 @@ export const ProjectOverviewPage = () => {
     });
 
     const editSummary = useEditable();
+    const addTeamOwnership = useDisclosure();
+    const addPersonOwnership = useDisclosure();
 
     if (!project || isLoading) return <LoadingContainer />;
 
@@ -72,6 +72,34 @@ export const ProjectOverviewPage = () => {
                     projectName={project.name}
                     projectId={projectId}
                     ownership={project.ownership}
+                    onAddTeamOwnership={addTeamOwnership.onOpen}
+                    onAddPersonOwnership={addPersonOwnership.onOpen}
+                    onRemoveOwnership={async () => {
+                        addPersonOwnership.onClose();
+                        await refetch();
+                    }}
+                />
+
+                <AddTeamOwnership
+                    isOpen={addTeamOwnership.isOpen}
+                    domainId={domainId}
+                    projectId={projectId}
+                    ownership={project.ownership}
+                    onClose={addTeamOwnership.onClose}
+                    onSubmit={async () => {
+                        await refetch();
+                    }}
+                />
+
+                <AddPersonOwnership
+                    isOpen={addPersonOwnership.isOpen}
+                    domainId={domainId}
+                    projectId={projectId}
+                    ownership={project.ownership}
+                    onClose={addPersonOwnership.onClose}
+                    onSubmit={async () => {
+                        await refetch();
+                    }}
                 />
 
                 <Divider />

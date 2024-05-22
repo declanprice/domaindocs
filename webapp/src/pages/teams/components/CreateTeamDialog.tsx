@@ -10,7 +10,7 @@ import {
     Stack,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { FormTextInput } from '../form/FormInput';
+import { FormTextInput } from '../../../components/form/FormInput';
 import { CreateTeamData } from '@domaindocs/lib';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
