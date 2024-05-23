@@ -1,11 +1,24 @@
 import { Documentation, DocumentationType } from '@domaindocs/lib';
-import { Box, Flex, IconButton, List, styled, StyleProps, Text } from '@chakra-ui/react';
-import { IoFolderOutline } from 'react-icons/io5';
-import { IoMdAdd } from 'react-icons/io';
-import { HiOutlineDotsHorizontal } from 'react-icons/hi';
+import {
+    Flex,
+    IconButton,
+    List,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    styled,
+    StyleProps,
+    Text,
+} from '@chakra-ui/react';
 import { useHover } from '@uidotdev/usehooks';
 import { useRef, useState } from 'react';
 import { DocumentationFolderItem } from './DocumentationFolderItem';
+import { FaRegFolderOpen } from 'react-icons/fa';
+import { FaRegFolderClosed } from 'react-icons/fa6';
+import { HiOutlineDotsHorizontal } from 'react-icons/hi';
+import { IoDocumentTextOutline } from 'react-icons/io5';
+import { MdAttachFile, MdOutlineDeleteOutline } from 'react-icons/md';
 
 export type DocumentationFolderProps = {
     documentation: Documentation;
@@ -31,18 +44,20 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                 ref={ref}
                 gap={2}
                 p={2}
-                _hover={{ backgroundColor: 'hover', cursor: 'pointer' }}
+                _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
                 position={'relative'}
             >
-                <Box
+                <IconButton
+                    aria-label={'toggle-folder'}
+                    icon={isFolderOpen ? <FaRegFolderOpen /> : <FaRegFolderClosed />}
+                    variant={'ghost'}
                     ref={folderRef}
                     ml={props?.parentFolderRef ? `${props.parentFolderRef.current.offsetLeft + 4}px` : undefined}
                     onClick={() => {
                         setIsFolderOpen(!isFolderOpen);
                     }}
-                >
-                    <IoFolderOutline fontSize={14} />
-                </Box>
+                    size={'xs'}
+                />
 
                 <Flex
                     width="100%"
@@ -52,27 +67,61 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                     }}
                 >
                     <Text fontSize={12}>{documentation.name}</Text>
-
-                    <Text fontSize={10}>{documentation.type}</Text>
                 </Flex>
 
                 <Flex position={'absolute'} right={0} mr={2} gap={1} hidden={!hovering}>
-                    <IconButton
-                        colorScheme={'gray'}
-                        size={'xs'}
-                        aria-label={'folder-menu'}
-                        icon={<HiOutlineDotsHorizontal />}
-                    ></IconButton>
+                    <Menu>
+                        <MenuButton>
+                            <IconButton
+                                colorScheme={'gray'}
+                                size={'xs'}
+                                aria-label={'folder-menu'}
+                                icon={<HiOutlineDotsHorizontal />}
+                            ></IconButton>
+                        </MenuButton>
 
-                    <IconButton
-                        colorScheme={'gray'}
-                        size={'xs'}
-                        aria-label={'folder-menu'}
-                        icon={<IoMdAdd />}
-                        onClick={() => {
-                            onAddFile(documentation);
-                        }}
-                    ></IconButton>
+                        <MenuList>
+                            {documentation.type !== DocumentationType.FOLDER && (
+                                <MenuItem>
+                                    <Flex width={'100%'} alignItems={'center'} p={1}>
+                                        <FaRegFolderClosed />
+                                        <Text fontSize={12} flex={1} ml={1}>
+                                            Create Folder
+                                        </Text>
+                                    </Flex>
+                                </MenuItem>
+                            )}
+
+                            <MenuItem>
+                                <Flex width={'100%'} alignItems={'center'} p={1}>
+                                    <MdAttachFile />
+                                    <Text fontSize={12} flex={1} ml={1}>
+                                        Create File
+                                    </Text>
+                                </Flex>
+                            </MenuItem>
+
+                            <MenuItem>
+                                <Flex width={'100%'} alignItems={'center'} p={1}>
+                                    <IoDocumentTextOutline />
+                                    <Text fontSize={12} flex={1} ml={1}>
+                                        Create Document
+                                    </Text>
+                                </Flex>
+                            </MenuItem>
+
+                            {documentation.type === DocumentationType.FOLDER && (
+                                <MenuItem>
+                                    <Flex width={'100%'} alignItems={'center'} p={1}>
+                                        <MdOutlineDeleteOutline />
+                                        <Text fontSize={12} ml={1}>
+                                            Remove Folder
+                                        </Text>
+                                    </Flex>
+                                </MenuItem>
+                            )}
+                        </MenuList>
+                    </Menu>
                 </Flex>
             </Flex>
 

@@ -43,7 +43,7 @@ export const PageToolbar = (props: PageToolbarProps) => {
                     alignItems={'flex-end'}
                     zIndex={1}
                 >
-                    <TabList borderBottom={'0'}>
+                    <TabList borderBottom={'0'} pb={'2px'}>
                         {tabs.map((t) => (
                             <Tab key={t.label} onClick={t.onClick} fontSize={12}>
                                 {t.label}
