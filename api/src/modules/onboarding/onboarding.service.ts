@@ -6,6 +6,8 @@ import {
     OnboardingGuide,
     OnboardingGuideProgress,
     OnboardingGuideProgressStatus,
+    OnboardingGuideStep,
+    OnboardingGuideStepType,
 } from '@domaindocs/lib';
 
 @Injectable()
@@ -31,7 +33,9 @@ export class OnboardingService {
             (guide) =>
                 new DetailedOnboardingGuide(
                     new OnboardingGuide(guide.guideId, guide.name),
-                    [],
+                    guide.steps.map(
+                        (step) => new OnboardingGuideStep(step.stepId, step.name, step.type as OnboardingGuideStepType),
+                    ),
                     guide.progress[0]
                         ? new OnboardingGuideProgress(
                               JSON.parse(guide.progress[0].progress as string),
@@ -89,7 +93,9 @@ export class OnboardingService {
             (guide) =>
                 new DetailedOnboardingGuide(
                     new OnboardingGuide(guide.guideId, guide.name),
-                    [],
+                    guide.steps.map(
+                        (step) => new OnboardingGuideStep(step.stepId, step.name, step.type as OnboardingGuideStepType),
+                    ),
                     guide.progress[0]
                         ? new OnboardingGuideProgress(
                               JSON.parse(guide.progress[0].progress as string),
@@ -97,6 +103,35 @@ export class OnboardingService {
                           )
                         : null,
                 ),
+        );
+    }
+
+    async get(session: UserSession, domainId: string, guideId: string) {
+        const guide = await this.prisma.onboardingGuide.findUniqueOrThrow({
+            where: {
+                guideId,
+            },
+            include: {
+                steps: true,
+                progress: {
+                    where: {
+                        userId: session.userId,
+                    },
+                },
+            },
+        });
+
+        return new DetailedOnboardingGuide(
+            new OnboardingGuide(guide.guideId, guide.name),
+            guide.steps.map(
+                (step) => new OnboardingGuideStep(step.stepId, step.name, step.type as OnboardingGuideStepType),
+            ),
+            guide.progress![0]
+                ? new OnboardingGuideProgress(
+                      JSON.parse(guide.progress![0].progress as string),
+                      guide.progress![0].status as OnboardingGuideProgressStatus,
+                  )
+                : null,
         );
     }
 }

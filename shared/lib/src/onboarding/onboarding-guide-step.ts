@@ -3,6 +3,7 @@ export enum OnboardingGuideStepType {
     FILE = 'File',
     NOTE = 'Note',
 }
+
 export class OnboardingGuideStep {
     constructor(
         public stepId: string,

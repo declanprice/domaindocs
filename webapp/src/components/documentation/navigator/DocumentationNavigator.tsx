@@ -17,7 +17,7 @@ export const DocumentationNavigator = (props: DocsNavigatorProps) => {
         <Flex
             height={'100%'}
             width={'40px'}
-            minWidth={'280px'}
+            minWidth={'220px'}
             borderRight={'1px solid'}
             borderColor={'border'}
             backgroundColor={'lightgray'}

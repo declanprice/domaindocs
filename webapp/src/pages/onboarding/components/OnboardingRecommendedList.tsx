@@ -1,5 +1,6 @@
 import { DetailedOnboardingGuide, OnboardingGuideProgressStatus } from '@domaindocs/lib';
 import { Button, Divider, Flex, List, ListItem, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 type OnboardingRecommendedList = {
     domainId: string;
@@ -8,6 +9,8 @@ type OnboardingRecommendedList = {
 
 export const OnboardingRecommendedList = (props: OnboardingRecommendedList) => {
     const { guides, domainId } = props;
+
+    const navigate = useNavigate();
 
     const renderList = () => {
         const renderStatus = (guide: DetailedOnboardingGuide) => {
@@ -25,7 +28,16 @@ export const OnboardingRecommendedList = (props: OnboardingRecommendedList) => {
         return (
             <List spacing={2}>
                 {guides.map((guide: DetailedOnboardingGuide) => (
-                    <ListItem fontSize={12} key={guide.guide.guideId} as={Button} variant={'ghost'} width={'100%'}>
+                    <ListItem
+                        fontSize={12}
+                        key={guide.guide.guideId}
+                        as={Button}
+                        variant={'ghost'}
+                        width={'100%'}
+                        onClick={() => {
+                            navigate(`/${domainId}/onboarding/${guide.guide.guideId}`);
+                        }}
+                    >
                         <Flex alignItems={'center'} width={'100%'}>
                             <Text ml={2}>{guide.guide.name}</Text>
                             <Text ml={'auto'}>{guide.steps.length} Steps</Text>

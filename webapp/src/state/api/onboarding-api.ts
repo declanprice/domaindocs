@@ -12,8 +12,14 @@ export const onboardingApi = (() => {
         return result.data;
     };
 
+    const get = async (domainId: string, guideId: string): Promise<DetailedOnboardingGuide> => {
+        const result = await apiClient.get<DetailedOnboardingGuide>(`/domains/${domainId}/onboarding/${guideId}`);
+        return result.data;
+    };
+
     return {
         search,
         getRecommended,
+        get,
     };
 })();

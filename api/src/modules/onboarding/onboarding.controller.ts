@@ -17,4 +17,13 @@ export class OnboardingController {
     async getRecommended(@AuthSession() session: UserSession, @Param('domainId') domainId: string) {
         return this.onboardingService.getRecommended(session, domainId);
     }
+
+    @Get('/:guideId')
+    async get(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('guideId') guideId: string,
+    ) {
+        return this.onboardingService.get(session, domainId, guideId);
+    }
 }

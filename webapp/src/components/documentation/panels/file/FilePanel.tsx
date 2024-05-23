@@ -12,10 +12,11 @@ import { PiUploadSimpleThin } from 'react-icons/pi';
 type FilePanelProps = {
     domainId: string;
     documentation: DetailedDocumentation;
+    toolbar?: boolean;
 };
 
 export const FilePanel = (props: FilePanelProps) => {
-    const { domainId, documentation } = props;
+    const { domainId, documentation, toolbar } = props;
 
     const { data: signedUrl, isLoading: isSignedUrlLoading } = useQuery<SignedFileUrl>({
         staleTime: 0,
@@ -27,7 +28,7 @@ export const FilePanel = (props: FilePanelProps) => {
 
     return (
         <Flex width="100%" flexDirection="column">
-            <FileToolbar />
+            {toolbar !== false && <FileToolbar />}
 
             <Flex py={8} px={2} flexDirection={'column'} alignItems={'center'}>
                 <FileTitle title={documentation.name} />

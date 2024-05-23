@@ -1,5 +1,5 @@
 import { OnboardingGuideProgress } from './onboarding-guide-progress';
-import { OnboardingGuideStep } from '@prisma/client';
+import { OnboardingGuideStep } from './onboarding-guide-step';
 
 export class OnboardingGuide {
     constructor(

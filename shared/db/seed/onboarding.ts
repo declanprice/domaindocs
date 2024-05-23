@@ -1,7 +1,9 @@
-import { OnboardingGuide } from '@prisma/client';
+import { OnboardingGuide, OnboardingGuideStep } from '@prisma/client';
 import { ros } from './domain';
 import { softwareDevRole } from './roles';
 import { teamOrion } from './teams';
+import { deedSearchProject } from './projects';
+import { OnboardingGuideStepType } from '../../lib/src';
 
 export const onboarding = (): OnboardingGuide[] => {
     return [
@@ -25,6 +27,33 @@ export const onboarding = (): OnboardingGuide[] => {
             name: 'Manager - Onboarding',
             roleIds: [],
             teamIds: [],
+        },
+    ];
+};
+
+export const onboardingSteps = (): OnboardingGuideStep[] => {
+    return [
+        {
+            stepId: '1',
+            guideId: '1',
+            domainId: ros().domainId,
+            name: 'Welcome',
+            type: OnboardingGuideStepType.NOTE,
+            note: 'i am a note',
+            documentationId: null,
+            fileId: null,
+            videoId: null,
+        },
+        {
+            stepId: '2',
+            guideId: '1',
+            domainId: ros().domainId,
+            name: 'General Developer Setup',
+            type: OnboardingGuideStepType.DOCUMENTATION,
+            note: null,
+            documentationId: `${deedSearchProject().projectId}-file1`,
+            fileId: null,
+            videoId: null,
         },
     ];
 };

@@ -44,6 +44,7 @@ import { HomeDocsPage } from './pages/home/HomeDocsPage';
 import { HomeNoticeBoardPage } from './pages/home/HomeNoticeBoardPage';
 import { TeamDocsPage } from './pages/team/TeamDocsPage';
 import { TeamSettingsPage } from './pages/team/TeamSettingsPage';
+import { OnboardingGuidePage } from './pages/onboarding-guide/OnboardingGuidePage';
 
 export const routes = createBrowserRouter([
     {
@@ -241,6 +242,10 @@ export const routes = createBrowserRouter([
                                     {
                                         path: 'onboarding',
                                         element: <OnboardingPage />,
+                                    },
+                                    {
+                                        path: 'onboarding/:guideId',
+                                        element: <OnboardingGuidePage />,
                                     },
                                     {
                                         path: 'user-settings',

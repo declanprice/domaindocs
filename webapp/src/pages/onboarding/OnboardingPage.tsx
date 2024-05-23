@@ -57,7 +57,12 @@ export const OnboardingPage = () => {
                             onFilterClick={() => {}}
                         />
 
-                        <OnboardingTable guides={guides} onGuideClick={() => {}} />
+                        <OnboardingTable
+                            guides={guides}
+                            onGuideClick={(guide) => {
+                                navigate(`/${domainId}/onboarding/${guide.guide.guideId}`);
+                            }}
+                        />
                     </Flex>
                 </Flex>
             </Box>

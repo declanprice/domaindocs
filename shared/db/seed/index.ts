@@ -7,7 +7,7 @@ import { apiDevSkill, devOpsSkill, uiDevSkill } from './skills';
 import { softwareDevRole, teamLeadRole } from './roles';
 import { deedSearchProject, projectLinks, projectOwnership } from './projects';
 import { PrismaClient } from '@prisma/client';
-import { onboarding } from './onboarding';
+import { onboarding, onboardingSteps } from './onboarding';
 
 const client = new PrismaClient();
 
@@ -71,5 +71,6 @@ const client = new PrismaClient();
     await client.documentationFile.createMany({ data: documentationFiles() });
 
     await client.onboardingGuide.createMany({ data: onboarding() });
+    await client.onboardingGuideStep.createMany({ data: onboardingSteps() });
     process.exit(0);
 })();
