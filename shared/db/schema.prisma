@@ -22,6 +22,7 @@ model User {
   skills PersonSkill[]
   roles PersonRole[]
   createdDocumentation Documentation[]
+  onboardingGuideProgress OnboardingGuideProgress[]
   @@map("user")
 }
 
@@ -43,6 +44,9 @@ model Domain {
   documentation Documentation[]
   documentationDocuments DocumentationDocument[]
   documentationFiles DocumentationFile[]
+  onboardingGuides OnboardingGuide[]
+  onboardingGuideSteps OnboardingGuideStep[]
+  onboardingGuideProgress OnboardingGuideProgress[]
 
   @@map("domain")
 }
@@ -59,6 +63,8 @@ model Person {
   teamMembers TeamMember[]
   projectOwnership ProjectOwnership[]
   createdDocumentation Documentation[]
+  onboardingGuideProgress OnboardingGuideProgress[]
+
   @@id([userId, domainId])
   @@index([domainId])
 
@@ -283,3 +289,60 @@ model Skill {
 
   @@unique([skillId, domainId])
 }
+
+
+model OnboardingGuide {
+  guideId String @id  @map("guide_id")
+  domainId String  @map("domain_id")
+  name String @map("name")
+  teamIds String[]
+  roleIds String[]
+
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+  steps    OnboardingGuideStep[]
+  progress OnboardingGuideProgress[]
+
+  @@index(domainId)
+  @@index(teamIds)
+  @@index(roleIds)
+  @@map("onboarding_guide")
+}
+
+model OnboardingGuideStep {
+  stepId   String   @id @map("step_id")
+  guideId  String  @map("guide_id")
+  domainId String @map("domain_id")
+  name String     @map("name")
+  type String     @map("type")
+  documentationId String?
+  fileId String?
+  videoId String?
+  note String?
+
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+  guide   OnboardingGuide @relation(fields: [guideId], references: [guideId])
+
+  @@index(domainId)
+  @@index(guideId)
+  @@map("onboarding_guide_step")
+}
+
+model OnboardingGuideProgress {
+  guideId String    @map("guide_id")
+  domainId String   @map("domain_id")
+  userId String     @map("user_id")
+  status String     @map("status")
+  progress Json     @map("progress")
+
+  guide   OnboardingGuide @relation(fields: [guideId], references: [guideId])
+  domain  Domain @relation(fields: [domainId], references: [domainId])
+  user    User @relation(fields: [userId], references: [userId])
+  person  Person @relation(fields: [domainId, userId], references: [domainId, userId])
+
+  @@id([domainId, guideId, userId])
+  @@index(domainId)
+  @@index(userId)
+  @@map("onboarding_progress")
+}
+
+

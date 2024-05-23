@@ -9,6 +9,7 @@ import { PeopleModule } from './modules/people/people.module';
 import { DocumentationModule } from './modules/documentation/documentation.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { SkillsModule } from './modules/skills/skills.module';
+import { OnboardingModule } from './modules/onboarding/onboarding.module';
 
 @Module({
     imports: [
@@ -31,6 +32,7 @@ import { SkillsModule } from './modules/skills/skills.module';
         DocumentationModule,
         RolesModule,
         SkillsModule,
+        OnboardingModule,
     ],
     controllers: [],
     providers: [],

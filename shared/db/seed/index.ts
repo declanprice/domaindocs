@@ -7,11 +7,16 @@ import { apiDevSkill, devOpsSkill, uiDevSkill } from './skills';
 import { softwareDevRole, teamLeadRole } from './roles';
 import { deedSearchProject, projectLinks, projectOwnership } from './projects';
 import { PrismaClient } from '@prisma/client';
+import { onboarding } from './onboarding';
 
 const client = new PrismaClient();
 
 (async () => {
     /** CLEAR **/
+
+    await client.onboardingGuideProgress.deleteMany();
+    await client.onboardingGuideStep.deleteMany();
+    await client.onboardingGuide.deleteMany();
 
     await client.documentationFile.deleteMany();
     await client.documentationDocument.deleteMany();
@@ -65,5 +70,6 @@ const client = new PrismaClient();
     await client.documentationDocument.createMany({ data: documentationDocuments() });
     await client.documentationFile.createMany({ data: documentationFiles() });
 
+    await client.onboardingGuide.createMany({ data: onboarding() });
     process.exit(0);
 })();

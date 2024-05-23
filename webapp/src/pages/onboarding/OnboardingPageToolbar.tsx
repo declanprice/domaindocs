@@ -13,12 +13,6 @@ export const OnboardingPageToolbar = () => {
                     </Text>
                 </Flex>
             }
-            actions={[
-                {
-                    label: 'New Guide',
-                    onClick: () => {},
-                },
-            ]}
         />
     );
 };

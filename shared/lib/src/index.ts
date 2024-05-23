@@ -7,3 +7,4 @@ export * from './documentation';
 export * from './file';
 export * from './role';
 export * from './skill';
+export * from './onboarding';
