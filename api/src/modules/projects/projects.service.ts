@@ -186,16 +186,24 @@ export class ProjectsService {
         });
     }
 
-    async addLink(session: UserSession, domainId: string, projectId: string, dto: AddProjectLinkData) {
+    async addLink(session: UserSession, domainId: string, projectId: string, data: AddProjectLinkData) {
         await this.prisma.projectLink.create({
             data: {
                 linkId: v4(),
                 projectId,
-                title: dto.title,
-                subTitle: dto.subTitle,
-                href: dto.href,
-                iconUri: dto.iconUri,
+                title: data.title,
+                subTitle: data.subTitle,
+                href: data.href,
+                iconUri: data.iconUri,
                 domainId,
+            },
+        });
+    }
+
+    async removeLink(session: UserSession, domainId: string, projectId: string, linkId: string) {
+        await this.prisma.projectLink.delete({
+            where: {
+                linkId,
             },
         });
     }

@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class AddProjectLinkData {
     @IsString()
@@ -11,5 +11,6 @@ export class AddProjectLinkData {
     href: string;
 
     @IsString()
+    @IsOptional()
     iconUri?: string;
 }

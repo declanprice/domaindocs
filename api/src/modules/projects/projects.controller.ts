@@ -77,13 +77,23 @@ export class ProjectsController {
         return this.projectsService.removeOwnership(session, domainId, projectId, ownershipId);
     }
 
-    @Put(':projectId/link')
-    async addResourceLink(
+    @Post(':projectId/links')
+    async addLink(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('projectId') projectId: string,
-        @Body() dto: AddProjectLinkData,
+        @Body() data: AddProjectLinkData,
     ) {
-        return this.projectsService.addLink(session, domainId, projectId, dto);
+        return this.projectsService.addLink(session, domainId, projectId, data);
+    }
+
+    @Delete(':projectId/links/:linkId')
+    async removeLink(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('projectId') projectId: string,
+        @Param('linkId') linkId: string,
+    ) {
+        return this.projectsService.removeLink(session, domainId, projectId, linkId);
     }
 }

@@ -46,7 +46,11 @@ export const projectsApi = (() => {
     };
 
     const addLink = async (domainId: string, projectId: string, data: AddProjectLinkData): Promise<void> => {
-        await apiClient.put(`/domains/${domainId}/projects/${projectId}/resource-link`, data);
+        await apiClient.post(`/domains/${domainId}/projects/${projectId}/links`, data);
+    };
+
+    const removeLink = async (domainId: string, projectId: string, linkId: string): Promise<void> => {
+        await apiClient.delete(`/domains/${domainId}/projects/${projectId}/links/${linkId}`);
     };
 
     return {
@@ -57,5 +61,6 @@ export const projectsApi = (() => {
         addOwnership,
         removeOwnership,
         addLink,
+        removeLink,
     };
 })();

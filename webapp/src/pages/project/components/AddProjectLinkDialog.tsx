@@ -15,25 +15,23 @@ import { useState } from 'react';
 import { FormTextInput } from '../../../components/form/FormInput';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { AddProjectLinkData } from '@domaindocs/lib';
+import { DefaultError, useMutation } from '@tanstack/react-query';
+import { projectsApi } from '../../../state/api/projects-api';
 
 export type AddResourceLinkDialogProps = {
+    domainId: string;
+    projectId: string;
     isOpen: boolean;
-    title: string;
     onClose: () => void;
-    onAddLink: (link: AddProjectLinkData) => Promise<void>;
+    onSubmit: () => void;
 };
 
 export const AddProjectLinkDialog = (props: AddResourceLinkDialogProps) => {
-    const { isOpen, title, onClose, onAddLink } = props;
+    const { isOpen, domainId, projectId, onClose, onSubmit } = props;
 
     const [isAdding, setIsAdding] = useState(false);
 
-    const {
-        control: resourceLinkControl,
-        handleSubmit: submitResourceLink,
-        formState: resourceLinkForm,
-        reset: resetForm,
-    } = useForm<AddProjectLinkData>({
+    const form = useForm<AddProjectLinkData>({
         values: {
             title: '',
             subTitle: '',
@@ -43,15 +41,23 @@ export const AddProjectLinkDialog = (props: AddResourceLinkDialogProps) => {
         resolver: classValidatorResolver(AddProjectLinkData),
     });
 
+    const { mutateAsync: addProjectLink } = useMutation<void, DefaultError, AddProjectLinkData>({
+        mutationKey: ['addProjectLink', { domainId }],
+        mutationFn: async (data) => {
+            return projectsApi.addLink(domainId, projectId, data);
+        },
+    });
+
     const closeAndReset = () => {
-        resetForm();
+        form.reset();
         onClose();
     };
 
     const handleSubmit = async (link: AddProjectLinkData) => {
         try {
             setIsAdding(true);
-            await onAddLink(link);
+            await addProjectLink(link);
+            onSubmit();
             closeAndReset();
         } finally {
             setIsAdding(false);
@@ -62,32 +68,37 @@ export const AddProjectLinkDialog = (props: AddResourceLinkDialogProps) => {
         <Modal isOpen={isOpen} onClose={closeAndReset} isCentered size={'lg'}>
             <ModalOverlay />
             <ModalContent>
-                <form onSubmit={submitResourceLink(handleSubmit)}>
-                    <ModalHeader>{title}</ModalHeader>
+                <form onSubmit={form.handleSubmit(handleSubmit)}>
+                    <ModalHeader>Add Project Link</ModalHeader>
                     <ModalBody>
                         <Stack gap={4}>
                             <FormTextInput
                                 label={'Title'}
                                 name={'title'}
-                                placeholder={'Eg: Alerts'}
-                                control={resourceLinkControl}
+                                placeholder={'Alerts'}
+                                control={form.control}
                             />
 
                             <FormTextInput
                                 label={'Subtitle'}
                                 name={'subTitle'}
-                                placeholder={'Eg: see alerts'}
-                                control={resourceLinkControl}
+                                placeholder={'Go to alert dashboard'}
+                                control={form.control}
                             />
 
                             <FormTextInput
                                 label={'Link text'}
                                 name={'href'}
-                                placeholder={'Eg: https://alerts.com'}
-                                control={resourceLinkControl}
+                                placeholder={'https://alerts.com'}
+                                control={form.control}
                             />
 
-                            <FormTextInput label={'Icon Url'} name={'iconUri'} control={resourceLinkControl} />
+                            <FormTextInput
+                                label={'Icon Url'}
+                                name={'iconUri'}
+                                control={form.control}
+                                placeholder={'https://alerts.com/icons/alert-icon'}
+                            />
                         </Stack>
                     </ModalBody>
                     <ModalFooter>
@@ -99,7 +110,7 @@ export const AddProjectLinkDialog = (props: AddResourceLinkDialogProps) => {
                                 size={'xs'}
                                 colorScheme={'gray'}
                                 variant={'solid'}
-                                isDisabled={!resourceLinkForm.isValid || isAdding}
+                                isDisabled={!form.formState.isValid || isAdding}
                                 isLoading={isAdding}
                                 type={'submit'}
                             >

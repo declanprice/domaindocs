@@ -13,8 +13,6 @@ import { ProjectOwnershipList } from './components/ProjectOwnershipList';
 import React from 'react';
 import { useEditable } from '../../hooks/useEditable';
 import { ProjectSummaryEdit } from './components/ProjectSummaryEdit';
-import { AddTeamOwnership } from './components/AddTeamOwnership';
-import { AddPersonOwnership } from './components/AddPersonOwnership';
 
 export const ProjectOverviewPage = () => {
     const { domainId, projectId } = useParams() as ProjectPageParams;
@@ -28,10 +26,6 @@ export const ProjectOverviewPage = () => {
         queryFn: () => projectsApi.getProjectOverview(domainId, projectId),
     });
 
-    const editSummary = useEditable();
-    const addTeamOwnership = useDisclosure();
-    const addPersonOwnership = useDisclosure();
-
     if (!project || isLoading) return <LoadingContainer />;
 
     return (
@@ -44,25 +38,12 @@ export const ProjectOverviewPage = () => {
                         {project.name}
                     </Heading>
 
-                    {editSummary.isEditing ? (
-                        <ProjectSummaryEdit
-                            domainId={domainId}
-                            projectId={projectId}
-                            description={project.description}
-                            onCancel={editSummary.onClose}
-                            onSubmit={async () => {
-                                await refetch();
-                                editSummary.onClose();
-                            }}
-                        />
-                    ) : (
-                        <ProjectSummary
-                            domainId={domainId}
-                            projectId={projectId}
-                            description={project.description}
-                            onEdit={editSummary.onEdit}
-                        />
-                    )}
+                    <ProjectSummary
+                        domainId={domainId}
+                        projectId={projectId}
+                        description={project.description}
+                        onEdit={refetch}
+                    />
                 </Stack>
 
                 <Divider />
@@ -72,46 +53,19 @@ export const ProjectOverviewPage = () => {
                     projectName={project.name}
                     projectId={projectId}
                     ownership={project.ownership}
-                    onAddTeamOwnership={addTeamOwnership.onOpen}
-                    onAddPersonOwnership={addPersonOwnership.onOpen}
-                    onRemoveOwnership={async () => {
-                        addPersonOwnership.onClose();
-                        await refetch();
-                    }}
-                />
-
-                <AddTeamOwnership
-                    isOpen={addTeamOwnership.isOpen}
-                    domainId={domainId}
-                    projectId={projectId}
-                    ownership={project.ownership}
-                    onClose={addTeamOwnership.onClose}
-                    onSubmit={async () => {
-                        await refetch();
-                    }}
-                />
-
-                <AddPersonOwnership
-                    isOpen={addPersonOwnership.isOpen}
-                    domainId={domainId}
-                    projectId={projectId}
-                    ownership={project.ownership}
-                    onClose={addPersonOwnership.onClose}
-                    onSubmit={async () => {
-                        await refetch();
-                    }}
+                    onAddTeamOwnership={refetch}
+                    onAddPersonOwnership={refetch}
+                    onRemoveOwnership={refetch}
                 />
 
                 <Divider />
 
                 <ProjectLinksList
                     domainId={domainId}
-                    projectName={project.name}
                     projectId={projectId}
                     links={project.links}
-                    onAddLink={async () => {
-                        await refetch();
-                    }}
+                    onAddLink={refetch}
+                    onRemoveLink={refetch}
                 />
             </Flex>
         </Flex>
