@@ -10,3 +10,4 @@ export * from './file';
 export * from './role';
 export * from './skill';
 export * from './onboarding';
+export * from './work-area';

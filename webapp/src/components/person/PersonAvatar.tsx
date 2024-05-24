@@ -22,11 +22,10 @@ type PersonAvatarProps = {
     roles?: { roleId: string; roleName: string }[];
     small?: boolean;
     extraSmall?: boolean;
-    displayRoles?: boolean;
 };
 
 export const PersonAvatar = (props: PersonAvatarProps) => {
-    const { firstName, lastName, subTitle, iconUri, roles, displayRoles, small, extraSmall } = props;
+    const { firstName, lastName, subTitle, iconUri, roles, small, extraSmall } = props;
 
     let avatarSize = 'md';
     let nameFontSize = 14;
@@ -94,7 +93,7 @@ export const PersonAvatar = (props: PersonAvatarProps) => {
 
                 {subTitle && <>{subTitle}</>}
 
-                {displayRoles !== false && <>{renderRoles()}</>}
+                {roles !== undefined && <>{renderRoles()}</>}
             </Flex>
         </Flex>
     );

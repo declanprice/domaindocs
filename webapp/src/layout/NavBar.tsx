@@ -2,7 +2,7 @@ import { Button, Flex, List, ListItem, Text } from '@chakra-ui/react';
 import { FiHome } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { TbLayoutSidebarRightCollapse } from 'react-icons/tb';
-import { MdOutlineManageHistory } from 'react-icons/md';
+import { MdOutlineManageHistory, MdOutlineWorkOutline } from 'react-icons/md';
 import { TbLayoutSidebarLeftCollapse } from 'react-icons/tb';
 import { IoPersonAddOutline } from 'react-icons/io5';
 import { GoPeople } from 'react-icons/go';
@@ -10,11 +10,11 @@ import { useAuthStore } from '../state/stores/auth.store';
 import { useUiStore } from '../state/stores/ui.store';
 import { DomainSelectorMenu } from './DomainSelectorMenu';
 import { BsInbox } from 'react-icons/bs';
-import { PiFloppyDiskLight } from 'react-icons/pi';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { MdOutlinePerson } from 'react-icons/md';
 import { LiaProjectDiagramSolid } from 'react-icons/lia';
 import { AiOutlineProfile } from 'react-icons/ai';
+import { SiReacthookform } from 'react-icons/si';
 
 const NavListItem = (props: { icon: any; label: string; to: string; iconOnly: boolean }) => {
     const navigate = useNavigate();
@@ -184,19 +184,19 @@ export const NavBar = () => {
                         iconOnly={!isFullNavBar}
                     />
 
-                    {/*<NavListItem*/}
-                    {/*    icon={<MdOutlineWorkOutline color={'gray.900'} size={18} />}*/}
-                    {/*    label={'Work Areas'}*/}
-                    {/*    to={`/${activeDomain.domainId}/work-areas`}*/}
-                    {/*    iconOnly={!isFullNavBar}*/}
-                    {/*/>*/}
+                    <NavListItem
+                        icon={<MdOutlineWorkOutline color={'gray.900'} size={18} />}
+                        label={'Work Areas'}
+                        to={`/${activeDomain.domainId}/work-areas`}
+                        iconOnly={!isFullNavBar}
+                    />
 
-                    {/*<NavListItem*/}
-                    {/*    icon={<SiReacthookform color={'gray.900'} size={18} />}*/}
-                    {/*    label={'Forms'}*/}
-                    {/*    to={`/${activeDomain.domainId}/forms`}*/}
-                    {/*    iconOnly={!isFullNavBar}*/}
-                    {/*/>*/}
+                    <NavListItem
+                        icon={<SiReacthookform color={'gray.900'} size={18} />}
+                        label={'Forms'}
+                        to={`/${activeDomain.domainId}/forms`}
+                        iconOnly={!isFullNavBar}
+                    />
 
                     <NavListItem
                         icon={<MdOutlineManageHistory color={'gray.900'} size={18} />}

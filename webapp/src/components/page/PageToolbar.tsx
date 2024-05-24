@@ -1,9 +1,10 @@
-import { Button, Flex, Tabs, TabList, Tab } from '@chakra-ui/react';
+import { Button, Flex, Tabs, TabList, Tab, Text } from '@chakra-ui/react';
 import { PropsWithChildren } from 'react';
 
 type PageTabOption = {
     isActive: boolean;
     label: string;
+    icon?: any;
     onClick: () => void;
 };
 
@@ -41,7 +42,10 @@ export const PageToolbar = (props: PageToolbarProps) => {
                     <TabList borderBottom={'0'} pb={'2px'}>
                         {tabs.map((t) => (
                             <Tab key={t.label} onClick={t.onClick} fontSize={12}>
-                                {t.label}
+                                <Flex alignItems={'center'} gap={2}>
+                                    {t.icon && <>{t.icon}</>}
+                                    <Text>{t.label}</Text>
+                                </Flex>
                             </Tab>
                         ))}
                     </TabList>

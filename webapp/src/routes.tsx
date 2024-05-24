@@ -175,7 +175,7 @@ export const routes = createBrowserRouter([
                                         element: <WorkAreasPage />,
                                     },
                                     {
-                                        path: 'work-areas/:workAreaId',
+                                        path: 'work-areas/:areaId',
                                         children: [
                                             {
                                                 path: '',

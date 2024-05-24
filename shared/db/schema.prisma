@@ -47,6 +47,11 @@ model Domain {
   onboardingGuides OnboardingGuide[]
   onboardingGuideSteps OnboardingGuideStep[]
   onboardingGuideProgress OnboardingGuideProgress[]
+  workAreas WorkArea[]
+  workBoards WorkBoard[]
+  workBoardColumns WorkBoardColumn[]
+  workBacklogs WorkBacklog[]
+  workItems WorkItem[]
 
   @@map("domain")
 }
@@ -346,3 +351,60 @@ model OnboardingGuideProgress {
 }
 
 
+
+model WorkArea {
+  workAreaId String @id @map("work_area_id")
+  domainId String @map("domain_id")
+  name String @map("name")
+
+  domain  Domain @relation(fields: [domainId], references: [domainId])
+  workBoard WorkBoard @relation(fields: [workAreaId], references: [workAreaId])
+
+  @@map("work_area")
+}
+
+model WorkBoard {
+  boardId String @id @map("board_id")
+  workAreaId String @unique @map("work_area_id")
+  domainId String @map("domain_id")
+
+  domain  Domain @relation(fields: [domainId], references: [domainId])
+  workArea WorkArea?
+  columns WorkBoardColumn[]
+
+  @@map("work_board")
+}
+
+model WorkBoardColumn {
+  columnId String @id @map("column_id")
+  boardId String  @map("board_id")
+  domainId String @map("domain_id")
+  name String @map("name")
+
+  domain  Domain @relation(fields: [domainId], references: [domainId])
+  board  WorkBoard @relation(fields: [boardId], references: [boardId])
+
+  @@map("work_board_column")
+}
+
+model WorkBacklog {
+  backlogId String @id @map("backlog_id")
+  boardId String  @map("board_id")
+  domainId String @map("domain_id")
+
+  domain  Domain @relation(fields: [domainId], references: [domainId])
+
+  @@map("work_backlog")
+}
+
+model WorkItem {
+  itemId String @id @map("item_id")
+  boardId String  @map("board_id")
+  workAreaId String @map("work_area_id")
+  domainId String @map("domain_id")
+  name String
+
+  domain  Domain @relation(fields: [domainId], references: [domainId])
+
+  @@map("work_item")
+}

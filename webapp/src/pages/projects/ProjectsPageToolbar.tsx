@@ -1,10 +1,9 @@
 import { Flex, Text, useDisclosure } from '@chakra-ui/react';
 import { TbUsersGroup } from 'react-icons/tb';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
-import { CreateProjectData, DetailedTeam } from '@domaindocs/lib';
-import { teamsApi } from '../../state/api/teams-api';
+import { CreateProjectData } from '@domaindocs/lib';
 import { queryClient } from '../../state/query-client';
 import { projectsApi } from '../../state/api/projects-api';
 import { CreateProjectDialog } from './components/CreateProjectDialog';
@@ -15,11 +14,6 @@ export const ProjectsPageToolbar = () => {
     const { domainId } = useParams() as DomainPageParams;
 
     const createProjectDialog = useDisclosure();
-
-    const { data: teams } = useQuery<DetailedTeam[]>({
-        queryKey: ['searchTeams', { domainId }],
-        queryFn: () => teamsApi.search(domainId),
-    });
 
     const { mutateAsync: createProject } = useMutation({
         mutationKey: ['createProject', { domainId }],
@@ -43,12 +37,6 @@ export const ProjectsPageToolbar = () => {
                         </Text>
                     </Flex>
                 }
-                actions={[
-                    {
-                        label: 'New Project',
-                        onClick: createProjectDialog.onOpen,
-                    },
-                ]}
             />
 
             <CreateProjectDialog
