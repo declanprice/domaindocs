@@ -49,6 +49,9 @@ export const OnboardingPage = () => {
                                     size={'sm'}
                                     fontWeight={'regular'}
                                     leftIcon={<IoAddOutline />}
+                                    onClick={() => {
+                                        navigate(`/${domainId}/onboarding/new`);
+                                    }}
                                 >
                                     New Guide
                                 </Button>

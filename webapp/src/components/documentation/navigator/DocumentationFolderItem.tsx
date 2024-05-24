@@ -10,10 +10,11 @@ export type DocumentationFolderItemProps = {
     activeDocumentation?: Documentation;
     onDocumentationClick: (documentation: Documentation) => any;
     parentFolderRef?: any;
+    readonly?: boolean;
 } & StyleProps;
 
 export const DocumentationFolderItem = (props: DocumentationFolderItemProps) => {
-    const { documentation, onDocumentationClick, activeDocumentation } = props;
+    const { documentation, readonly, onDocumentationClick, activeDocumentation } = props;
 
     const [ref, hovering] = useHover();
 
@@ -25,11 +26,13 @@ export const DocumentationFolderItem = (props: DocumentationFolderItemProps) => 
             p={3}
             ref={ref}
             backgroundColor={
-                documentation.documentationId === activeDocumentation?.documentationId ? 'hover' : undefined
+                documentation.documentationId == activeDocumentation?.documentationId ? 'gray.100' : undefined
             }
             _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
             position={'relative'}
             onClick={() => {
+                console.log(activeDocumentation?.documentationId);
+                console.log(documentation.documentationId == activeDocumentation?.documentationId);
                 onDocumentationClick(documentation);
             }}
         >
@@ -41,29 +44,31 @@ export const DocumentationFolderItem = (props: DocumentationFolderItemProps) => 
             <Flex width="100%" alignItems="center">
                 <Text fontSize={12}>{documentation.name}</Text>
 
-                <Flex position={'absolute'} right={0} mr={2} gap={1} hidden={!hovering}>
-                    <Menu>
-                        <MenuButton>
-                            <IconButton
-                                colorScheme={'gray'}
-                                size={'xs'}
-                                aria-label={'folder-menu'}
-                                icon={<HiOutlineDotsHorizontal />}
-                            ></IconButton>
-                        </MenuButton>
+                {props.readonly !== true && (
+                    <Flex position={'absolute'} right={0} mr={2} gap={1} hidden={!hovering}>
+                        <Menu>
+                            <MenuButton>
+                                <IconButton
+                                    colorScheme={'gray'}
+                                    size={'xs'}
+                                    aria-label={'folder-menu'}
+                                    icon={<HiOutlineDotsHorizontal />}
+                                ></IconButton>
+                            </MenuButton>
 
-                        <MenuList>
-                            <MenuItem>
-                                <Flex width={'100%'} alignItems={'center'} p={1}>
-                                    <MdOutlineDeleteOutline />
-                                    <Text fontSize={12} ml={1}>
-                                        Remove {documentation.type}
-                                    </Text>
-                                </Flex>
-                            </MenuItem>
-                        </MenuList>
-                    </Menu>
-                </Flex>
+                            <MenuList>
+                                <MenuItem>
+                                    <Flex width={'100%'} alignItems={'center'} p={1}>
+                                        <MdOutlineDeleteOutline />
+                                        <Text fontSize={12} ml={1}>
+                                            Remove {documentation.type}
+                                        </Text>
+                                    </Flex>
+                                </MenuItem>
+                            </MenuList>
+                        </Menu>
+                    </Flex>
+                )}
             </Flex>
         </Flex>
     );

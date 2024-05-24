@@ -8,7 +8,7 @@ import {
 } from '@domaindocs/lib';
 
 export const teamsApi = (() => {
-    const searchTeams = async (domainId: string, dto: SearchTeamParams = {}): Promise<DetailedTeam[]> => {
+    const search = async (domainId: string, dto: SearchTeamParams = {}): Promise<DetailedTeam[]> => {
         const result = await apiClient.get<DetailedTeam[]>(`/domains/${domainId}/teams`, {
             params: dto,
         });
@@ -16,8 +16,14 @@ export const teamsApi = (() => {
         return result.data;
     };
 
-    const createTeam = async (domainId: string, dto: CreateTeamData): Promise<void> => {
+    const create = async (domainId: string, dto: CreateTeamData): Promise<void> => {
         await apiClient.post(`/domains/${domainId}/teams`, dto);
+    };
+
+    const get = async (domainId: string, teamId: string): Promise<DetailedTeam> => {
+        const result = await apiClient.get<DetailedTeam>(`/domains/${domainId}/teams/${teamId}`);
+
+        return result.data;
     };
 
     const updateSummary = async (domainId: string, teamId: string, data: UpdateTeamSummaryData): Promise<void> => {
@@ -28,17 +34,11 @@ export const teamsApi = (() => {
         await apiClient.post(`/domains/${domainId}/teams/${teamId}/members`, data);
     };
 
-    const getTeam = async (domainId: string, teamId: string): Promise<DetailedTeam> => {
-        const result = await apiClient.get<DetailedTeam>(`/domains/${domainId}/teams/${teamId}`);
-
-        return result.data;
-    };
-
     return {
-        searchTeams,
-        createTeam,
+        search,
+        create,
+        get,
         updateSummary,
         updateMembers,
-        getTeam,
     };
 })();

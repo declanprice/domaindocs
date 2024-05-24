@@ -18,7 +18,7 @@ export const ProjectsPageToolbar = () => {
 
     const { data: teams } = useQuery<DetailedTeam[]>({
         queryKey: ['searchTeams', { domainId }],
-        queryFn: () => teamsApi.searchTeams(domainId),
+        queryFn: () => teamsApi.search(domainId),
     });
 
     const { mutateAsync: createProject } = useMutation({

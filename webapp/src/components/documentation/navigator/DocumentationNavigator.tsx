@@ -4,19 +4,19 @@ import { DocumentationFolder } from './DocumentationFolder';
 
 type DocsNavigatorProps = {
     documentation: Documentation[];
-    onDocumentationClick: (documentation: Documentation) => any;
-    onAddFile: (documentation: Documentation) => any;
-    onAddFolder: (documentation: Documentation) => any;
+    onDocumentationClick?: (documentation: Documentation) => any;
+    readonly?: boolean;
+    onAddFile?: (documentation: Documentation) => any;
+    onAddFolder?: (documentation: Documentation) => any;
     activeDocumentation?: Documentation;
 };
 
 export const DocumentationNavigator = (props: DocsNavigatorProps) => {
-    const { documentation, activeDocumentation, onDocumentationClick, onAddFile } = props;
+    const { documentation, readonly, activeDocumentation, onDocumentationClick, onAddFile } = props;
 
     return (
         <Flex
             height={'100%'}
-            width={'40px'}
             minWidth={'220px'}
             borderRight={'1px solid'}
             borderColor={'border'}
@@ -25,13 +25,18 @@ export const DocumentationNavigator = (props: DocsNavigatorProps) => {
             <List width={'100%'} height={'100%'}>
                 {documentation.map((doc) => (
                     <DocumentationFolder
+                        readonly={true}
                         documentation={doc}
                         activeDocumentation={activeDocumentation}
                         onAddFile={(documentation) => {
-                            onAddFile(documentation);
+                            if (onAddFile) {
+                                onAddFile(documentation);
+                            }
                         }}
                         onDocumentationClick={(documentation) => {
-                            onDocumentationClick(documentation);
+                            if (onDocumentationClick) {
+                                onDocumentationClick(documentation);
+                            }
                         }}
                     />
                 ))}

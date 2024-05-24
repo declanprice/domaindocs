@@ -11,8 +11,6 @@ import { ProjectSummary } from './components/ProjectSummary';
 import { ProjectLinksList } from './components/ProjectLinksList';
 import { ProjectOwnershipList } from './components/ProjectOwnershipList';
 import React from 'react';
-import { useEditable } from '../../hooks/useEditable';
-import { ProjectSummaryEdit } from './components/ProjectSummaryEdit';
 
 export const ProjectOverviewPage = () => {
     const { domainId, projectId } = useParams() as ProjectPageParams;

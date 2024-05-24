@@ -14,7 +14,7 @@ export const TeamDocsPage = () => {
 
     const { data: team, isLoading } = useQuery<DetailedTeam>({
         queryKey: ['getTeam', { domainId, teamId }],
-        queryFn: () => teamsApi.getTeam(domainId, teamId),
+        queryFn: () => teamsApi.get(domainId, teamId),
     });
 
     const {

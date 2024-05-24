@@ -26,6 +26,7 @@ export type DocumentationFolderProps = {
     parentFolderRef?: any;
     onAddFile: (documentation: Documentation) => any;
     onDocumentationClick: (documentation: Documentation) => any;
+    readonly?: boolean;
 } & StyleProps;
 
 export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
@@ -69,60 +70,62 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                     <Text fontSize={12}>{documentation.name}</Text>
                 </Flex>
 
-                <Flex position={'absolute'} right={0} mr={2} gap={1} hidden={!hovering}>
-                    <Menu>
-                        <MenuButton>
-                            <IconButton
-                                colorScheme={'gray'}
-                                size={'xs'}
-                                aria-label={'folder-menu'}
-                                icon={<HiOutlineDotsHorizontal />}
-                            ></IconButton>
-                        </MenuButton>
+                {props.readonly !== true && (
+                    <Flex mr={2} gap={1} hidden={!hovering}>
+                        <Menu>
+                            <MenuButton>
+                                <IconButton
+                                    colorScheme={'gray'}
+                                    size={'xs'}
+                                    aria-label={'folder-menu'}
+                                    icon={<HiOutlineDotsHorizontal />}
+                                ></IconButton>
+                            </MenuButton>
 
-                        <MenuList>
-                            {documentation.type !== DocumentationType.FOLDER && (
+                            <MenuList>
+                                {documentation.type !== DocumentationType.FOLDER && (
+                                    <MenuItem>
+                                        <Flex width={'100%'} alignItems={'center'} p={1}>
+                                            <FaRegFolderClosed />
+                                            <Text fontSize={12} flex={1} ml={1}>
+                                                Create Folder
+                                            </Text>
+                                        </Flex>
+                                    </MenuItem>
+                                )}
+
                                 <MenuItem>
                                     <Flex width={'100%'} alignItems={'center'} p={1}>
-                                        <FaRegFolderClosed />
+                                        <MdAttachFile />
                                         <Text fontSize={12} flex={1} ml={1}>
-                                            Create Folder
+                                            Create File
                                         </Text>
                                     </Flex>
                                 </MenuItem>
-                            )}
 
-                            <MenuItem>
-                                <Flex width={'100%'} alignItems={'center'} p={1}>
-                                    <MdAttachFile />
-                                    <Text fontSize={12} flex={1} ml={1}>
-                                        Create File
-                                    </Text>
-                                </Flex>
-                            </MenuItem>
-
-                            <MenuItem>
-                                <Flex width={'100%'} alignItems={'center'} p={1}>
-                                    <IoDocumentTextOutline />
-                                    <Text fontSize={12} flex={1} ml={1}>
-                                        Create Document
-                                    </Text>
-                                </Flex>
-                            </MenuItem>
-
-                            {documentation.type === DocumentationType.FOLDER && (
                                 <MenuItem>
                                     <Flex width={'100%'} alignItems={'center'} p={1}>
-                                        <MdOutlineDeleteOutline />
-                                        <Text fontSize={12} ml={1}>
-                                            Remove Folder
+                                        <IoDocumentTextOutline />
+                                        <Text fontSize={12} flex={1} ml={1}>
+                                            Create Document
                                         </Text>
                                     </Flex>
                                 </MenuItem>
-                            )}
-                        </MenuList>
-                    </Menu>
-                </Flex>
+
+                                {documentation.type === DocumentationType.FOLDER && (
+                                    <MenuItem>
+                                        <Flex width={'100%'} alignItems={'center'} p={1}>
+                                            <MdOutlineDeleteOutline />
+                                            <Text fontSize={12} ml={1}>
+                                                Remove Folder
+                                            </Text>
+                                        </Flex>
+                                    </MenuItem>
+                                )}
+                            </MenuList>
+                        </Menu>
+                    </Flex>
+                )}
             </Flex>
 
             {isFolderOpen && (
@@ -131,6 +134,7 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                         if (doc.type == DocumentationType.FOLDER) {
                             return (
                                 <DocumentationFolder
+                                    readonly={props.readonly}
                                     documentation={doc}
                                     parentFolderRef={folderRef}
                                     onAddFile={onAddFile}
@@ -141,6 +145,7 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                         } else {
                             return (
                                 <DocumentationFolderItem
+                                    readonly={props.readonly}
                                     documentation={doc}
                                     parentFolderRef={folderRef}
                                     onDocumentationClick={onDocumentationClick}

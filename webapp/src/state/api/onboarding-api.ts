@@ -1,5 +1,5 @@
 import { apiClient } from './api-client';
-import { DetailedOnboardingGuide } from '@domaindocs/lib';
+import { CreateEditOnboardingGuideData, DetailedOnboardingGuide } from '@domaindocs/lib';
 
 export const onboardingApi = (() => {
     const search = async (domainId: string): Promise<DetailedOnboardingGuide[]> => {
@@ -17,9 +17,14 @@ export const onboardingApi = (() => {
         return result.data;
     };
 
+    const create = async (domainId: string, data: CreateEditOnboardingGuideData): Promise<void> => {
+        await apiClient.post<void>(`/domains/${domainId}/onboarding`, data);
+    };
+
     return {
         search,
         getRecommended,
         get,
+        create,
     };
 })();

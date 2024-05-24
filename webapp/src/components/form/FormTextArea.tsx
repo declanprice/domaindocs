@@ -1,6 +1,7 @@
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Textarea, FormControlProps } from '@chakra-ui/react';
 
 import { Control, useController } from 'react-hook-form';
+import { getFontSize } from '../../util/getFontSize';
 
 type FormTextAreaProps = {
     name: string;
@@ -19,20 +20,15 @@ export const FormTextArea = (props: FormTextAreaProps) => {
     });
 
     return (
-        <FormControl
-            isInvalid={fieldState.invalid}
-            onBlur={props.onBlur}
-            onChange={props.onChange}
-            label={props.label}
-            placeholder={props.placeholder}
-        >
-            {props.label && <FormLabel>{props.label}</FormLabel>}
+        <FormControl isInvalid={fieldState.invalid} {...props}>
+            {props.label && <FormLabel fontSize={getFontSize(props.size)}>{props.label}</FormLabel>}
 
             <Textarea
                 name={field.name}
                 value={field.value}
                 isDisabled={field.disabled}
                 disabled={field.disabled}
+                fontSize={getFontSize(props.size)}
                 ref={field.ref}
                 onChange={(e) => {
                     field.onChange(e);
@@ -48,12 +44,14 @@ export const FormTextArea = (props: FormTextAreaProps) => {
                 }}
                 variant={'filled'}
                 placeholder={props.placeholder}
-                size={'xs'}
+                size={props.size}
             />
 
-            {props.helperText && <FormHelperText fontSize={12}>{props.helperText}</FormHelperText>}
+            {props.helperText && <FormHelperText fontSize={getFontSize(props.size)}>{props.helperText}</FormHelperText>}
 
-            {fieldState.error && <FormErrorMessage fontSize={12}>{fieldState.error.message}</FormErrorMessage>}
+            {fieldState.error && (
+                <FormErrorMessage fontSize={getFontSize(props.size)}>{fieldState.error.message}</FormErrorMessage>
+            )}
         </FormControl>
     );
 };

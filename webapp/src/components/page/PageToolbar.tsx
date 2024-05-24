@@ -1,4 +1,5 @@
 import { Button, Flex, Tabs, TabList, Tab } from '@chakra-ui/react';
+import { PropsWithChildren } from 'react';
 
 type PageTabOption = {
     isActive: boolean;
@@ -6,19 +7,13 @@ type PageTabOption = {
     onClick: () => void;
 };
 
-type PageActionOption = {
-    label: string;
-    onClick: () => void;
-};
-
 type PageToolbarProps = {
     title?: any;
     tabs?: PageTabOption[];
-    actions?: PageActionOption[];
-};
+} & PropsWithChildren;
 
 export const PageToolbar = (props: PageToolbarProps) => {
-    const { title, tabs, actions } = props;
+    const { title, tabs, children } = props;
 
     return (
         <Flex
@@ -53,23 +48,7 @@ export const PageToolbar = (props: PageToolbarProps) => {
                 </Tabs>
             )}
 
-            {actions && (
-                <Flex ml={'auto'}>
-                    {actions.map((action) => (
-                        <Button
-                            key={action.label}
-                            variant={'ghost'}
-                            size={'sm'}
-                            fontWeight={'regular'}
-                            fontSize={12}
-                            colorScheme="gray"
-                            onClick={action.onClick}
-                        >
-                            {action.label}
-                        </Button>
-                    ))}
-                </Flex>
-            )}
+            {props.children}
         </Flex>
     );
 };

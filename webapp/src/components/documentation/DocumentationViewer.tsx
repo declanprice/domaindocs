@@ -63,6 +63,7 @@ export const DocumentationViewer = (props: DocumentationViewerProps) => {
         <Flex height={'100%'} width={'100%'}>
             <DocumentationNavigator
                 documentation={documentation}
+                activeDocumentation={activeDocumentation}
                 onDocumentationClick={(documentation) => {
                     setActiveDocumentation(documentation);
                 }}

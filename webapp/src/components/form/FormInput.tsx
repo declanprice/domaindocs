@@ -1,6 +1,7 @@
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Input, FormControlProps } from '@chakra-ui/react';
 
 import { Control, useController } from 'react-hook-form';
+import { getFontSize } from '../../util/getFontSize';
 
 type FormTextInputProps = {
     name: string;
@@ -19,18 +20,8 @@ export const FormTextInput = (props: FormTextInputProps) => {
     });
 
     return (
-        <FormControl
-            isInvalid={fieldState.invalid}
-            onBlur={props.onBlur}
-            onChange={props.onChange}
-            label={props.label}
-            placeholder={props.placeholder}
-        >
-            {props.label && (
-                <FormLabel fontSize={12} mb={1}>
-                    {props.label}
-                </FormLabel>
-            )}
+        <FormControl isInvalid={fieldState.invalid} {...props}>
+            {props.label && <FormLabel fontSize={getFontSize(props.size)}>{props.label}</FormLabel>}
 
             <Input
                 autoComplete="off"
@@ -53,12 +44,13 @@ export const FormTextInput = (props: FormTextInputProps) => {
                 }}
                 variant={'filled'}
                 placeholder={props.placeholder}
-                size={'xs'}
+                size={props.size || 'xs'}
+                fontSize={getFontSize(props.size)}
             />
 
-            {props.helperText && <FormHelperText fontSize={12}>{props.helperText}</FormHelperText>}
+            {props.helperText && <FormHelperText fontSize={getFontSize(props.size)}>{props.helperText}</FormHelperText>}
 
-            {fieldState.error && <FormErrorMessage fontSize={12}>{fieldState.error.message}</FormErrorMessage>}
+            <FormErrorMessage fontSize={getFontSize(props.size)}>{fieldState?.error?.message}</FormErrorMessage>
         </FormControl>
     );
 };

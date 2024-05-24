@@ -16,7 +16,7 @@ export const TeamsPage = () => {
 
     const { data: teams, isLoading } = useQuery<DetailedTeam[]>({
         queryKey: ['searchTeams', { domainId }],
-        queryFn: () => teamsApi.searchTeams(domainId, {}),
+        queryFn: () => teamsApi.search(domainId, {}),
     });
 
     if (!teams || isLoading) return <LoadingContainer />;

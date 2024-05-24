@@ -19,7 +19,7 @@ export const TeamsPageToolbar = () => {
     const { mutateAsync: createTeam } = useMutation({
         mutationKey: ['createTeam', { domainId }],
         mutationFn: async (data: CreateTeamData) => {
-            await teamsApi.createTeam(domainId, data);
+            await teamsApi.create(domainId, data);
 
             await queryClient.invalidateQueries({
                 queryKey: ['searchTeams', { domainId }],

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import { PrismaService } from '../../shared/prisma.service';
 import {
+    CreateEditOnboardingGuideData,
     DetailedOnboardingGuide,
     OnboardingGuide,
     OnboardingGuideProgress,
@@ -9,6 +10,7 @@ import {
     OnboardingGuideStep,
     OnboardingGuideStepType,
 } from '@domaindocs/lib';
+import { v4 } from 'uuid';
 
 @Injectable()
 export class OnboardingService {
@@ -133,5 +135,27 @@ export class OnboardingService {
                   )
                 : null,
         );
+    }
+
+    async create(session: UserSession, domainId: string, data: CreateEditOnboardingGuideData) {
+        await this.prisma.onboardingGuide.create({
+            data: {
+                guideId: v4(),
+                domainId,
+                roleIds: data.roleIds.map((t) => t.value),
+                teamIds: data.teamIds.map((t) => t.value),
+                name: data.guideName,
+                steps: {
+                    create: data.steps.map((s) => ({
+                        stepId: v4(),
+                        domainId,
+                        name: s.name,
+                        type: s.type,
+                        documentationId: s.documentationId,
+                        note: s.note,
+                    })),
+                },
+            },
+        });
     }
 }

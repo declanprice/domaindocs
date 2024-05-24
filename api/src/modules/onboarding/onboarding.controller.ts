@@ -1,7 +1,8 @@
 import { OnboardingService } from './onboarding.service';
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
+import { CreateEditOnboardingGuideData } from '@domaindocs/lib';
 
 @Controller('domains/:domainId/onboarding')
 @UseGuards(AuthGuard)
@@ -11,6 +12,15 @@ export class OnboardingController {
     @Get('')
     async search(@AuthSession() session: UserSession, @Param('domainId') domainId: string) {
         return this.onboardingService.search(session, domainId);
+    }
+
+    @Post('/')
+    async create(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Body() data: CreateEditOnboardingGuideData,
+    ) {
+        return this.onboardingService.create(session, domainId, data);
     }
 
     @Get('/recommended')

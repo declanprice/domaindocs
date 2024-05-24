@@ -4,6 +4,7 @@ import { Select } from 'chakra-react-select';
 
 import { Control, useController } from 'react-hook-form';
 import { SelectComponentsConfig } from 'react-select/dist/declarations/src/components';
+import { getFontSize } from '../../util/getFontSize';
 
 type FormSelectableProps = {
     name: string;
@@ -25,15 +26,9 @@ export const FormSelectable = (props: FormSelectableProps) => {
     });
 
     return (
-        <FormControl
-            isInvalid={fieldState.invalid}
-            onBlur={props.onBlur}
-            onChange={props.onChange}
-            label={props.label}
-            placeholder={props.placeholder}
-        >
+        <FormControl isInvalid={fieldState.invalid} {...props}>
             {props.label && (
-                <FormLabel fontSize={12} mb={1}>
+                <FormLabel mb={1} fontSize={getFontSize(props.size)}>
                     {props.label}
                 </FormLabel>
             )}
@@ -57,15 +52,17 @@ export const FormSelectable = (props: FormSelectableProps) => {
                     }
                 }}
                 isMulti={props.isMulti !== undefined ? props.isMulti : true}
-                size="sm"
+                size={'sm'}
                 placeholder={props.placeholder}
                 options={props.options}
                 components={props.components}
             />
 
-            {props.helperText && <FormHelperText fontSize={12}>{props.helperText}</FormHelperText>}
+            {props.helperText && <FormHelperText fontSize={getFontSize(props.size)}>{props.helperText}</FormHelperText>}
 
-            {fieldState.error && <FormErrorMessage fontSize={12}>{fieldState.error.message}</FormErrorMessage>}
+            {fieldState.error && (
+                <FormErrorMessage fontSize={getFontSize(props.size)}>{fieldState.error.message}</FormErrorMessage>
+            )}
         </FormControl>
     );
 };

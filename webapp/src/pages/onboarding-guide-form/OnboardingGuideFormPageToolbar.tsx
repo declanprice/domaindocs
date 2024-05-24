@@ -2,13 +2,15 @@ import { Flex, Link, Text } from '@chakra-ui/react';
 import { PageToolbar } from '../../components/page/PageToolbar';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineManageHistory } from 'react-icons/md';
+import { PropsWithChildren } from 'react';
 
 type OnboardingGuidePageToolbarProps = {
     domainId: string;
-    guideName: string;
-};
-export const OnboardingGuidePageToolbar = (props: OnboardingGuidePageToolbarProps) => {
-    const { domainId, guideName } = props;
+    guideName?: string;
+} & PropsWithChildren;
+
+export const OnboardingGuideFormPageToolbar = (props: OnboardingGuidePageToolbarProps) => {
+    const { domainId, guideName, children } = props;
 
     const navigate = useNavigate();
 
@@ -27,10 +29,12 @@ export const OnboardingGuidePageToolbar = (props: OnboardingGuidePageToolbarProp
                         >
                             Onboarding
                         </Link>{' '}
-                        | {guideName}
+                        | {guideName ? `${guideName} | Edit` : 'New Guide'}
                     </Text>
                 </Flex>
             }
-        />
+        >
+            {props.children}
+        </PageToolbar>
     );
 };

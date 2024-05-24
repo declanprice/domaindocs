@@ -13,6 +13,7 @@ import { OnboardingGuidePageParams } from './OnboardingGuidePageParams';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { LiaCheckCircle, LiaCircle } from 'react-icons/lia';
 import { FilePanel } from '../../components/documentation/panels/file/FilePanel';
+
 export const OnboardingGuidePage = () => {
     const { domainId, guideId } = useParams() as OnboardingGuidePageParams;
 
@@ -100,7 +101,7 @@ export const OnboardingGuidePage = () => {
                             documentationId: 'deedsearch-file1',
                             updatedAt: new Date().toString(),
                             createdAt: new Date().toString(),
-                            type: DocumentationType.DOCUMENTATION,
+                            type: DocumentationType.FILE,
                             name: 'File Name',
                             createdBy: {
                                 firstName: 'Declan',

@@ -50,7 +50,7 @@ export const AddTeamOwnership = (props: AddTeamOwnershipProps) => {
 
     const { data: allTeams, isLoading } = useQuery<DetailedTeam[]>({
         queryKey: ['searchTeams', { domainId }],
-        queryFn: () => teamsApi.searchTeams(domainId, {}),
+        queryFn: () => teamsApi.search(domainId, {}),
     });
 
     const { mutateAsync: addOwnership } = useMutation<void, DefaultError, AddProjectOwnershipData>({

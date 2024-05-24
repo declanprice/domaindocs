@@ -292,7 +292,7 @@ model Skill {
 
 
 model OnboardingGuide {
-  guideId String @id  @map("guide_id")
+  guideId  String @id  @map("guide_id")
   domainId String  @map("domain_id")
   name String @map("name")
   teamIds String[]
