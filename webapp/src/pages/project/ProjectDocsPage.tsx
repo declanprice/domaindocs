@@ -31,7 +31,7 @@ export const ProjectDocsPage = () => {
 
     return (
         <Flex direction="column" width={'100%'}>
-            <ProjectPageToolbar projectName={project.description} domainId={domainId} projectId={projectId} />
+            <ProjectPageToolbar projectName={project.name} domainId={domainId} projectId={projectId} />
 
             <DocumentationViewer
                 documentation={documentation}

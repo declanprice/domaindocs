@@ -38,7 +38,7 @@ export const ProjectSummary = (props: ProjectSummaryProps) => {
                         <EditIconButton marginLeft={'auto'} onClick={editSummary.onEdit} />
                     </Flex>
 
-                    <Text>{description}</Text>
+                    <Text fontSize={12}>{description}</Text>
                 </Flex>
             )}
         </>

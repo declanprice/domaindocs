@@ -1,5 +1,5 @@
 import { IsString } from 'class-validator';
-import { OnboardingProgressStatus } from '@domaindocs/lib';
+import { OnboardingProgressStatus } from './onboarding-progress';
 
 export class UpdateOnboardingProgressData {
     @IsString()

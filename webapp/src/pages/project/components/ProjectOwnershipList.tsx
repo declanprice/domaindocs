@@ -28,6 +28,7 @@ import { projectsApi } from '../../../state/api/projects-api';
 import { AddTeamOwnership } from './AddTeamOwnership';
 import { AddPersonOwnership } from './AddPersonOwnership';
 import React from 'react';
+import { TeamAvatar } from '../../../components/team/TeamAvatar';
 
 type ProjectOwnershipProps = {
     domainId: string;
@@ -173,12 +174,7 @@ const TeamOwnershipItem = (props: {
     return (
         <ListItem key={ownership.teamId} ref={ref} p={1} rounded={6}>
             <Flex alignItems={'center'}>
-                <PersonAvatar
-                    {...ownership}
-                    displayRoles={false}
-                    subTitle={<Text fontSize={10}>{ownership.description}</Text>}
-                    small
-                />
+                <TeamAvatar name={ownership.name} subTitle={ownership.description} small />
 
                 <Box flex={1}></Box>
 
