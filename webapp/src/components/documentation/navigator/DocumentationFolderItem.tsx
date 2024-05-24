@@ -1,4 +1,4 @@
-import { Badge, Box, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, StyleProps, Text } from '@chakra-ui/react';
+import { Box, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, StyleProps, Text } from '@chakra-ui/react';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { useHover } from '@uidotdev/usehooks';
 import { Documentation, DocumentationType } from '@domaindocs/lib';
@@ -8,13 +8,14 @@ import { IoDocumentTextOutline } from 'react-icons/io5';
 export type DocumentationFolderItemProps = {
     documentation: Documentation;
     activeDocumentation?: Documentation;
-    onDocumentationClick: (documentation: Documentation) => any;
+    onRemoveDocumentation?: (documentation: Documentation) => any;
+    onDocumentationClick?: (documentation: Documentation) => any;
     parentFolderRef?: any;
     readonly?: boolean;
 } & StyleProps;
 
 export const DocumentationFolderItem = (props: DocumentationFolderItemProps) => {
-    const { documentation, readonly, onDocumentationClick, activeDocumentation } = props;
+    const { documentation, readonly, onDocumentationClick, onRemoveDocumentation, activeDocumentation } = props;
 
     const [ref, hovering] = useHover();
 
@@ -31,9 +32,9 @@ export const DocumentationFolderItem = (props: DocumentationFolderItemProps) => 
             _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
             position={'relative'}
             onClick={() => {
-                console.log(activeDocumentation?.documentationId);
-                console.log(documentation.documentationId == activeDocumentation?.documentationId);
-                onDocumentationClick(documentation);
+                if (onDocumentationClick) {
+                    onDocumentationClick(documentation);
+                }
             }}
         >
             <Box ml={`${props?.parentFolderRef?.current?.offsetLeft + 4}px`}>
@@ -60,7 +61,15 @@ export const DocumentationFolderItem = (props: DocumentationFolderItemProps) => 
                                 <MenuItem>
                                     <Flex width={'100%'} alignItems={'center'} p={1}>
                                         <MdOutlineDeleteOutline />
-                                        <Text fontSize={12} ml={1}>
+                                        <Text
+                                            fontSize={12}
+                                            ml={1}
+                                            onClick={() => {
+                                                if (onRemoveDocumentation) {
+                                                    onRemoveDocumentation(documentation);
+                                                }
+                                            }}
+                                        >
                                             Remove {documentation.type}
                                         </Text>
                                     </Flex>

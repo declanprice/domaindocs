@@ -22,10 +22,10 @@ type DocumentPanelProps = {
 export const DocumentPanel = (props: DocumentPanelProps) => {
     const { documentation, toolbar } = props;
 
-    const provider = new HocuspocusProvider({
-        url: 'ws://127.0.0.1:5000',
-        name: documentation.documentationId,
-    });
+    // const provider = new HocuspocusProvider({
+    //     url: 'ws://127.0.0.1:5000',
+    //     name: documentation.documentationId,
+    // });
 
     const extensions = [
         StarterKit,
@@ -35,9 +35,9 @@ export const DocumentPanel = (props: DocumentPanelProps) => {
         CharacterCount.configure({
             limit: 10000,
         }),
-        Collaboration.configure({
-            document: provider.document,
-        }),
+        // Collaboration.configure({
+        //     document: provider.document,
+        // }),
     ];
 
     const editor = useEditor({

@@ -24,19 +24,30 @@ export type DocumentationFolderProps = {
     documentation: Documentation;
     activeDocumentation?: Documentation;
     parentFolderRef?: any;
-    onAddFile: (documentation: Documentation) => any;
-    onDocumentationClick: (documentation: Documentation) => any;
+    onAddFile?: (documentation: Documentation) => any;
+    onAddDocument?: (documentation: Documentation) => any;
+    onAddFolder?: (documentation: Documentation) => any;
+    onRemoveDocumentation?: (documentation: Documentation) => any;
+    onDocumentationClick?: (documentation: Documentation) => any;
     readonly?: boolean;
 } & StyleProps;
 
 export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
+    const {
+        documentation,
+        onAddFile,
+        onRemoveDocumentation,
+        onAddFolder,
+        onAddDocument,
+        onDocumentationClick,
+        activeDocumentation,
+    } = props;
+
     const [isFolderOpen, setIsFolderOpen] = useState<boolean>(false);
 
     const folderRef = useRef(null);
 
     const [ref, hovering] = useHover();
-
-    const { documentation, onAddFile, onDocumentationClick, activeDocumentation } = props;
 
     return (
         <Flex direction="column" {...props}>
@@ -87,7 +98,16 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                                     <MenuItem>
                                         <Flex width={'100%'} alignItems={'center'} p={1}>
                                             <FaRegFolderClosed />
-                                            <Text fontSize={12} flex={1} ml={1}>
+                                            <Text
+                                                fontSize={12}
+                                                flex={1}
+                                                ml={1}
+                                                onClick={() => {
+                                                    if (onAddFolder) {
+                                                        onAddFolder(documentation);
+                                                    }
+                                                }}
+                                            >
                                                 Create Folder
                                             </Text>
                                         </Flex>
@@ -97,7 +117,16 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                                 <MenuItem>
                                     <Flex width={'100%'} alignItems={'center'} p={1}>
                                         <MdAttachFile />
-                                        <Text fontSize={12} flex={1} ml={1}>
+                                        <Text
+                                            fontSize={12}
+                                            flex={1}
+                                            ml={1}
+                                            onClick={() => {
+                                                if (onAddFile) {
+                                                    onAddFile(documentation);
+                                                }
+                                            }}
+                                        >
                                             Create File
                                         </Text>
                                     </Flex>
@@ -106,7 +135,16 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                                 <MenuItem>
                                     <Flex width={'100%'} alignItems={'center'} p={1}>
                                         <IoDocumentTextOutline />
-                                        <Text fontSize={12} flex={1} ml={1}>
+                                        <Text
+                                            fontSize={12}
+                                            flex={1}
+                                            ml={1}
+                                            onClick={() => {
+                                                if (onAddDocument) {
+                                                    onAddDocument(documentation);
+                                                }
+                                            }}
+                                        >
                                             Create Document
                                         </Text>
                                     </Flex>
@@ -116,7 +154,15 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                                     <MenuItem>
                                         <Flex width={'100%'} alignItems={'center'} p={1}>
                                             <MdOutlineDeleteOutline />
-                                            <Text fontSize={12} ml={1}>
+                                            <Text
+                                                fontSize={12}
+                                                ml={1}
+                                                onClick={() => {
+                                                    if (onRemoveDocumentation) {
+                                                        onRemoveDocumentation(documentation);
+                                                    }
+                                                }}
+                                            >
                                                 Remove Folder
                                             </Text>
                                         </Flex>
@@ -138,6 +184,9 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                                     documentation={doc}
                                     parentFolderRef={folderRef}
                                     onAddFile={onAddFile}
+                                    onAddDocument={onAddDocument}
+                                    onAddFolder={onAddFolder}
+                                    onRemoveDocumentation={onRemoveDocumentation}
                                     onDocumentationClick={onDocumentationClick}
                                     activeDocumentation={activeDocumentation}
                                 />
@@ -149,6 +198,7 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                                     documentation={doc}
                                     parentFolderRef={folderRef}
                                     onDocumentationClick={onDocumentationClick}
+                                    onRemoveDocumentation={onRemoveDocumentation}
                                     activeDocumentation={activeDocumentation}
                                 />
                             );

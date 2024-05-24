@@ -73,12 +73,19 @@ export const DocumentationViewer = (props: DocumentationViewerProps) => {
                         type: DocumentationType.FILE,
                     });
                 }}
+                onAddDocument={(documentation) => {
+                    addDocumentation({
+                        documentationId: documentation.documentationId,
+                        type: DocumentationType.DOCUMENT,
+                    });
+                }}
                 onAddFolder={(documentation) => {
                     addDocumentation({
                         documentationId: documentation.documentationId,
                         type: DocumentationType.FOLDER,
                     });
                 }}
+                onRemoveDocumentation={(documentation) => {}}
             />
 
             <Box flex={1}>{renderPanel()}</Box>

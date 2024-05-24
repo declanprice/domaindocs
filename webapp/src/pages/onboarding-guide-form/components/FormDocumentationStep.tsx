@@ -77,6 +77,7 @@ export const FormDocumentationStep = (props: FormDocumentationStepProps) => {
 
                 <ModalBody>
                     <DocumentationNavigator
+                        readonly={true}
                         documentation={documentation}
                         activeDocumentation={activeDocumentation}
                         onDocumentationClick={(documentation) => {

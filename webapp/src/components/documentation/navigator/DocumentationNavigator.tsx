@@ -6,13 +6,24 @@ type DocsNavigatorProps = {
     documentation: Documentation[];
     onDocumentationClick?: (documentation: Documentation) => any;
     readonly?: boolean;
-    onAddFile?: (documentation: Documentation) => any;
-    onAddFolder?: (documentation: Documentation) => any;
+    onAddFile?: (documentation: Documentation) => void;
+    onAddFolder?: (documentation: Documentation) => void;
+    onAddDocument?: (documentation: Documentation) => void;
+    onRemoveDocumentation?: (documentation: Documentation) => void;
     activeDocumentation?: Documentation;
 };
 
 export const DocumentationNavigator = (props: DocsNavigatorProps) => {
-    const { documentation, readonly, activeDocumentation, onDocumentationClick, onAddFile } = props;
+    const {
+        documentation,
+        readonly,
+        activeDocumentation,
+        onAddDocument,
+        onAddFile,
+        onAddFolder,
+        onRemoveDocumentation,
+        onDocumentationClick,
+    } = props;
 
     return (
         <Flex
@@ -25,19 +36,14 @@ export const DocumentationNavigator = (props: DocsNavigatorProps) => {
             <List width={'100%'} height={'100%'}>
                 {documentation.map((doc) => (
                     <DocumentationFolder
-                        readonly={true}
+                        readonly={readonly}
                         documentation={doc}
                         activeDocumentation={activeDocumentation}
-                        onAddFile={(documentation) => {
-                            if (onAddFile) {
-                                onAddFile(documentation);
-                            }
-                        }}
-                        onDocumentationClick={(documentation) => {
-                            if (onDocumentationClick) {
-                                onDocumentationClick(documentation);
-                            }
-                        }}
+                        onAddFile={onAddFile}
+                        onAddFolder={onAddFolder}
+                        onAddDocument={onAddDocument}
+                        onDocumentationClick={onDocumentationClick}
+                        onRemoveDocumentation={onRemoveDocumentation}
                     />
                 ))}
             </List>

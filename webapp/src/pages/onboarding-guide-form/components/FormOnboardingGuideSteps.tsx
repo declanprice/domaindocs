@@ -56,8 +56,6 @@ export const FormOnboardingGuideSteps = (props: FormOnboardingGuideStepsProps) =
                 return 'Read Note';
             case OnboardingStepType.DOCUMENTATION:
                 return 'Read Documentation';
-            case OnboardingStepType.FILE:
-                return 'See File';
         }
     };
 
