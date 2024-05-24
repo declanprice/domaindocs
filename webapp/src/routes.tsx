@@ -46,6 +46,7 @@ import { TeamDocsPage } from './pages/team/TeamDocsPage';
 import { TeamSettingsPage } from './pages/team/TeamSettingsPage';
 import { OnboardingGuidePage } from './pages/onboarding-guide/OnboardingGuidePage';
 import { OnboardingGuideFormPage } from './pages/onboarding-guide-form/OnboardingGuideFormPage';
+import { ProjectSettingsPage } from './pages/project/ProjectSettingsPage';
 
 export const routes = createBrowserRouter([
     {
@@ -145,6 +146,10 @@ export const routes = createBrowserRouter([
                                             {
                                                 path: 'docs',
                                                 element: <ProjectDocsPage />,
+                                            },
+                                            {
+                                                path: 'settings',
+                                                element: <ProjectSettingsPage />,
                                             },
                                         ],
                                     },

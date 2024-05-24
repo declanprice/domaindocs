@@ -46,6 +46,13 @@ export const ProjectPageToolbar = (props: ProjectPageToolbarProps) => {
                         navigate(`/${domainId}/projects/${projectId}/docs`);
                     },
                 },
+                {
+                    label: 'Settings',
+                    isActive: location.pathname.includes(`/${domainId}/projects/${projectId}/settings`),
+                    onClick: () => {
+                        navigate(`/${domainId}/projects/${projectId}/settings`);
+                    },
+                },
             ]}
         />
     );

@@ -8,7 +8,8 @@ export const teamOrion = (): Team => {
         domainId: ros().domainId,
         iconUri: null,
         name: 'Team Orion',
-        description: '',
+        description:
+            'Team orion is responsible for the development and maintenance of Deed Search, LR Archive, DocMan & more.',
     };
 };
 
