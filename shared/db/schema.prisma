@@ -332,7 +332,7 @@ model OnboardingGuideProgress {
   domainId String   @map("domain_id")
   userId String     @map("user_id")
   status String     @map("status")
-  progress Json     @map("progress")
+  seen String[]     @map("seen")
 
   guide   OnboardingGuide @relation(fields: [guideId], references: [guideId])
   domain  Domain @relation(fields: [domainId], references: [domainId])

@@ -1,5 +1,5 @@
-import { OnboardingGuideProgress } from './onboarding-guide-progress';
-import { OnboardingGuideStep } from './onboarding-guide-step';
+import { OnboardingProgress } from './onboarding-progress';
+import { OnboardingStep } from './onboarding-step';
 
 export class OnboardingGuide {
     constructor(
@@ -11,7 +11,7 @@ export class OnboardingGuide {
 export class DetailedOnboardingGuide {
     constructor(
         public guide: OnboardingGuide,
-        public steps: OnboardingGuideStep[],
-        public progress: OnboardingGuideProgress | null,
+        public steps: OnboardingStep[],
+        public progress: OnboardingProgress,
     ) {}
 }

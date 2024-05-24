@@ -15,11 +15,12 @@ import { HocuspocusProvider } from '@hocuspocus/provider';
 import { Collaboration } from '@tiptap/extension-collaboration';
 
 type DocumentPanelProps = {
+    toolbar?: boolean;
     documentation: DetailedDocumentation;
 };
 
 export const DocumentPanel = (props: DocumentPanelProps) => {
-    const { documentation } = props;
+    const { documentation, toolbar } = props;
 
     const provider = new HocuspocusProvider({
         url: 'ws://127.0.0.1:5000',
@@ -47,7 +48,7 @@ export const DocumentPanel = (props: DocumentPanelProps) => {
 
     return (
         <Flex width="100%" flexDirection="column">
-            <DocumentToolbar />
+            {toolbar !== false && <DocumentToolbar />}
 
             <Flex py={8} px={2} flexDirection={'column'} alignItems={'center'}>
                 <DocumentTitle title={documentation.name} />

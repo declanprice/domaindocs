@@ -1,4 +1,4 @@
-import { DetailedOnboardingGuide, OnboardingGuideProgressStatus } from '@domaindocs/lib';
+import { DetailedOnboardingGuide, OnboardingProgressStatus } from '@domaindocs/lib';
 import { Button, Divider, Flex, List, ListItem, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,11 +14,11 @@ export const OnboardingRecommendedList = (props: OnboardingRecommendedList) => {
 
     const renderList = () => {
         const renderStatus = (guide: DetailedOnboardingGuide) => {
-            if (guide.progress === null) {
+            if (guide.progress === null || guide.progress.status == OnboardingProgressStatus.NOT_STARTED) {
                 return <Text>Not Started</Text>;
             }
 
-            if (guide.progress.status === OnboardingGuideProgressStatus.IN_PROGRESS) {
+            if (guide.progress.status == OnboardingProgressStatus.IN_PROGRESS) {
                 return <Text>In Progress</Text>;
             }
 

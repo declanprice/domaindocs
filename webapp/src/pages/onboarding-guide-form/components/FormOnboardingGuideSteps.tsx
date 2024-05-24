@@ -16,7 +16,7 @@ import {
     Text,
     useDisclosure,
 } from '@chakra-ui/react';
-import { OnboardingGuideStepData, OnboardingGuideStepType } from '@domaindocs/lib';
+import { OnboardingGuideStepData, OnboardingStepType } from '@domaindocs/lib';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { getFontSize } from '../../../util/getFontSize';
 import { useState } from 'react';
@@ -52,11 +52,11 @@ export const FormOnboardingGuideSteps = (props: FormOnboardingGuideStepsProps) =
 
     const renderType = (step: OnboardingGuideStepData) => {
         switch (step.type) {
-            case OnboardingGuideStepType.NOTE:
+            case OnboardingStepType.NOTE:
                 return 'Read Note';
-            case OnboardingGuideStepType.DOCUMENTATION:
+            case OnboardingStepType.DOCUMENTATION:
                 return 'Read Documentation';
-            case OnboardingGuideStepType.FILE:
+            case OnboardingStepType.FILE:
                 return 'See File';
         }
     };
@@ -134,7 +134,7 @@ export const FormOnboardingGuideSteps = (props: FormOnboardingGuideStepsProps) =
                 activeField={activeField}
                 onSubmit={(field) => {
                     append({
-                        type: OnboardingGuideStepType.NOTE,
+                        type: OnboardingStepType.NOTE,
                         note: field.note,
                         name: field.name,
                     });
@@ -148,7 +148,7 @@ export const FormOnboardingGuideSteps = (props: FormOnboardingGuideStepsProps) =
                 activeField={activeField}
                 onSubmit={(field) => {
                     append({
-                        type: OnboardingGuideStepType.DOCUMENTATION,
+                        type: OnboardingStepType.DOCUMENTATION,
                         documentationId: field.documentationId,
                         name: field.name,
                     });

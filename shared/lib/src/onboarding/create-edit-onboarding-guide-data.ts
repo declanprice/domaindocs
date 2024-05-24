@@ -1,5 +1,5 @@
 import { ArrayMinSize, IsArray, IsOptional, IsString, MinLength, ValidateNested } from 'class-validator';
-import { OnboardingGuideStepType } from '@domaindocs/lib';
+import { OnboardingStepType } from '@domaindocs/lib';
 import { Type } from 'class-transformer';
 
 export class CreateEditOnboardingGuideData {
@@ -31,7 +31,7 @@ export class Option {
 
 export class OnboardingGuideStepData {
     @IsString()
-    type: OnboardingGuideStepType;
+    type: OnboardingStepType;
 
     @IsString()
     name: string;

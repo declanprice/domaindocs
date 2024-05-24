@@ -5,10 +5,11 @@ import {
     CreateEditOnboardingGuideData,
     DetailedOnboardingGuide,
     OnboardingGuide,
-    OnboardingGuideProgress,
-    OnboardingGuideProgressStatus,
-    OnboardingGuideStep,
-    OnboardingGuideStepType,
+    OnboardingProgress,
+    OnboardingProgressStatus,
+    OnboardingStep,
+    OnboardingStepType,
+    UpdateOnboardingProgressData,
 } from '@domaindocs/lib';
 import { v4 } from 'uuid';
 
@@ -36,14 +37,19 @@ export class OnboardingService {
                 new DetailedOnboardingGuide(
                     new OnboardingGuide(guide.guideId, guide.name),
                     guide.steps.map(
-                        (step) => new OnboardingGuideStep(step.stepId, step.name, step.type as OnboardingGuideStepType),
+                        (step) =>
+                            new OnboardingStep(
+                                step.stepId,
+                                step.name,
+                                step.type as OnboardingStepType,
+                                step.note || null,
+                                step.documentationId || null,
+                            ),
                     ),
-                    guide.progress[0]
-                        ? new OnboardingGuideProgress(
-                              JSON.parse(guide.progress[0].progress as string),
-                              guide.progress[0].status as OnboardingGuideProgressStatus,
-                          )
-                        : null,
+                    new OnboardingProgress(
+                        guide.progress[0]?.status as OnboardingProgressStatus,
+                        guide.progress[0]?.seen,
+                    ),
                 ),
         );
     }
@@ -96,14 +102,19 @@ export class OnboardingService {
                 new DetailedOnboardingGuide(
                     new OnboardingGuide(guide.guideId, guide.name),
                     guide.steps.map(
-                        (step) => new OnboardingGuideStep(step.stepId, step.name, step.type as OnboardingGuideStepType),
+                        (step) =>
+                            new OnboardingStep(
+                                step.stepId,
+                                step.name,
+                                step.type as OnboardingStepType,
+                                step.note || null,
+                                step.documentationId || null,
+                            ),
                     ),
-                    guide.progress[0]
-                        ? new OnboardingGuideProgress(
-                              JSON.parse(guide.progress[0].progress as string),
-                              guide.progress[0].status as OnboardingGuideProgressStatus,
-                          )
-                        : null,
+                    new OnboardingProgress(
+                        guide.progress[0]?.status as OnboardingProgressStatus,
+                        guide.progress[0]?.seen,
+                    ),
                 ),
         );
     }
@@ -126,14 +137,16 @@ export class OnboardingService {
         return new DetailedOnboardingGuide(
             new OnboardingGuide(guide.guideId, guide.name),
             guide.steps.map(
-                (step) => new OnboardingGuideStep(step.stepId, step.name, step.type as OnboardingGuideStepType),
+                (step) =>
+                    new OnboardingStep(
+                        step.stepId,
+                        step.name,
+                        step.type as OnboardingStepType,
+                        step.note || null,
+                        step.documentationId || null,
+                    ),
             ),
-            guide.progress![0]
-                ? new OnboardingGuideProgress(
-                      JSON.parse(guide.progress![0].progress as string),
-                      guide.progress![0].status as OnboardingGuideProgressStatus,
-                  )
-                : null,
+            new OnboardingProgress(guide.progress[0]?.status as OnboardingProgressStatus, guide.progress[0]?.seen),
         );
     }
 
@@ -155,6 +168,32 @@ export class OnboardingService {
                         note: s.note,
                     })),
                 },
+            },
+        });
+    }
+
+    async updateProgress(session: UserSession, domainId: string, guideId: string, data: UpdateOnboardingProgressData) {
+        await this.prisma.onboardingGuideProgress.upsert({
+            where: {
+                domainId_guideId_userId: {
+                    domainId,
+                    guideId,
+                    userId: session.userId,
+                },
+            },
+            create: {
+                guideId,
+                userId: session.userId,
+                domainId,
+                status: data.status,
+                seen: data.seen,
+            },
+            update: {
+                guideId,
+                userId: session.userId,
+                domainId,
+                status: data.status,
+                seen: data.seen,
             },
         });
     }

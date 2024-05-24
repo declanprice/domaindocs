@@ -3,7 +3,7 @@ import { ros } from './domain';
 import { softwareDevRole } from './roles';
 import { teamOrion } from './teams';
 import { deedSearchProject } from './projects';
-import { OnboardingGuideStepType } from '../../lib/src';
+import { OnboardingStepType } from '../../lib/src';
 
 export const onboarding = (): OnboardingGuide[] => {
     return [
@@ -38,7 +38,7 @@ export const onboardingSteps = (): OnboardingGuideStep[] => {
             guideId: '1',
             domainId: ros().domainId,
             name: 'Welcome',
-            type: OnboardingGuideStepType.NOTE,
+            type: OnboardingStepType.NOTE,
             note: 'i am a note',
             documentationId: null,
             fileId: null,
@@ -49,7 +49,7 @@ export const onboardingSteps = (): OnboardingGuideStep[] => {
             guideId: '1',
             domainId: ros().domainId,
             name: 'General Developer Setup',
-            type: OnboardingGuideStepType.DOCUMENTATION,
+            type: OnboardingStepType.DOCUMENTATION,
             note: null,
             documentationId: `${deedSearchProject().projectId}-file1`,
             fileId: null,

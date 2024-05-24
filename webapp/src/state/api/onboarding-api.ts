@@ -1,5 +1,5 @@
 import { apiClient } from './api-client';
-import { CreateEditOnboardingGuideData, DetailedOnboardingGuide } from '@domaindocs/lib';
+import { CreateEditOnboardingGuideData, DetailedOnboardingGuide, UpdateOnboardingProgressData } from '@domaindocs/lib';
 
 export const onboardingApi = (() => {
     const search = async (domainId: string): Promise<DetailedOnboardingGuide[]> => {
@@ -21,10 +21,19 @@ export const onboardingApi = (() => {
         await apiClient.post<void>(`/domains/${domainId}/onboarding`, data);
     };
 
+    const updateProgress = async (
+        domainId: string,
+        guideId: string,
+        data: UpdateOnboardingProgressData,
+    ): Promise<void> => {
+        await apiClient.post<void>(`/domains/${domainId}/onboarding/${guideId}/progress`, data);
+    };
+
     return {
         search,
         getRecommended,
         get,
         create,
+        updateProgress,
     };
 })();
