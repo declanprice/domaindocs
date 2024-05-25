@@ -6,6 +6,9 @@ import { workApi } from '../../state/api/workApi';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { Flex } from '@chakra-ui/react';
 import { WorkAreaPageToolbar } from './WorkAreaPageToolbar';
+import { BacklogEpicNavigator } from './components/backlog/BacklogEpicNavigator';
+import { BacklogBoardItems } from './components/backlog/BacklogBoardItems';
+import { BacklogItemsList } from './components/backlog/BacklogItemsList';
 
 export const WorkAreaBacklogPage = () => {
     const { domainId, areaId } = useParams() as WorkAreaPageParams;
@@ -21,7 +24,15 @@ export const WorkAreaBacklogPage = () => {
         <Flex direction="column" width={'100%'}>
             <WorkAreaPageToolbar domainId={domainId} area={board.area} />
 
-            <Flex direction="column" width={'100%'} overflowY={'auto'} gap={6} p={8}></Flex>
+            <Flex height={'100%'} width={'100%'}>
+                <BacklogEpicNavigator />
+
+                <Flex direction={'column'} p={6} width={'100%'} gap={8}>
+                    <BacklogBoardItems />
+
+                    <BacklogItemsList />
+                </Flex>
+            </Flex>
         </Flex>
     );
 };
