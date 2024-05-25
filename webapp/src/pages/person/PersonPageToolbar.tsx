@@ -1,7 +1,7 @@
 import { PageToolbar } from '../../components/page/PageToolbar';
 import { Flex, Link, Text } from '@chakra-ui/react';
 import { LiaProjectDiagramSolid } from 'react-icons/lia';
-import { Person } from '@domaindocs/lib';
+import { Person } from '@domaindocs/types';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlinePerson } from 'react-icons/md';
 

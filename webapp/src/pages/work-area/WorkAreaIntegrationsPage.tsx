@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { WorkAreaPageParams } from './WorkAreaPageParams';
 import { useQuery } from '@tanstack/react-query';
-import { DetailedWorkBoard } from '@domaindocs/lib';
+import { DetailedWorkBoard } from '@domaindocs/types';
 import { workApi } from '../../state/api/workApi';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { Flex } from '@chakra-ui/react';

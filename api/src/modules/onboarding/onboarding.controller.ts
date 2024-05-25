@@ -2,7 +2,7 @@ import { OnboardingService } from './onboarding.service';
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { CreateEditOnboardingGuideData, UpdateOnboardingProgressData } from '@domaindocs/lib';
+import { CreateEditOnboardingGuideData, UpdateOnboardingProgressData } from '@domaindocs/types';
 
 @Controller('domains/:domainId/onboarding')
 @UseGuards(AuthGuard)

@@ -10,7 +10,7 @@ import {
     OnboardingStep,
     OnboardingStepType,
     UpdateOnboardingProgressData,
-} from '@domaindocs/lib';
+} from '@domaindocs/types';
 import { v4 } from 'uuid';
 
 @Injectable()

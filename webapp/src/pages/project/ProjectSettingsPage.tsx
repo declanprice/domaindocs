@@ -3,7 +3,7 @@ import { FormTextInput } from '../../components/form/FormInput';
 import { useParams } from 'react-router-dom';
 import { ProjectPageParams } from './ProjectPageParams';
 import { useQuery } from '@tanstack/react-query';
-import { ProjectOverview } from '@domaindocs/lib';
+import { ProjectOverview } from '@domaindocs/types';
 import { projectsApi } from '../../state/api/projects-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import React from 'react';

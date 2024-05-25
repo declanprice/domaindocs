@@ -2,7 +2,7 @@ import { SkillsService } from './skills.service';
 import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { Skill, SearchSkillsParams, CreateSkillData } from '@domaindocs/lib';
+import { Skill, SearchSkillsParams, CreateSkillData } from '@domaindocs/types';
 
 @Controller('domains/:domainId/skills')
 @UseGuards(AuthGuard)

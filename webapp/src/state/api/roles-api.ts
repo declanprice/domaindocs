@@ -1,5 +1,5 @@
 import { apiClient } from './api-client';
-import { CreateRoleData, Role, SearchRolesParams } from '@domaindocs/lib';
+import { CreateRoleData, Role, SearchRolesParams } from '@domaindocs/types';
 
 export const rolesApi = (() => {
     const search = async (domainId: string, params: SearchRolesParams = {}): Promise<Role[]> => {

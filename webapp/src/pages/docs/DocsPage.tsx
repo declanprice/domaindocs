@@ -2,7 +2,7 @@ import { Flex } from '@chakra-ui/react';
 import { DocsPageToolbar } from './DocsPageToolbar';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
-import { Documentation } from '@domaindocs/lib';
+import { Documentation } from '@domaindocs/types';
 import { useQuery } from '@tanstack/react-query';
 import { documentationApi } from '../../state/api/documentation-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';

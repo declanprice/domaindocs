@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { TeamPageParams } from './TeamPageParams';
 import { useQuery } from '@tanstack/react-query';
-import { DetailedTeam } from '@domaindocs/lib';
+import { DetailedTeam } from '@domaindocs/types';
 import { teamsApi } from '../../state/api/teams-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';

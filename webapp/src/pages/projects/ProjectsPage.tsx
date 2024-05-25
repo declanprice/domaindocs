@@ -1,7 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { DetailedProject } from '@domaindocs/lib';
+import { DetailedProject } from '@domaindocs/types';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { projectsApi } from '../../state/api/projects-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';

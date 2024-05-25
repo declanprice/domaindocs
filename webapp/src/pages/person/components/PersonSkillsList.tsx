@@ -1,5 +1,5 @@
 import { Badge, Flex, Text, Wrap, WrapItem } from '@chakra-ui/react';
-import { PersonSkill } from '@domaindocs/lib';
+import { PersonSkill } from '@domaindocs/types';
 import { EditIconButton } from '../../../components/buttons/EditIconButton';
 
 type PersonSkillsListProps = {

@@ -1,5 +1,5 @@
 import { Table } from '../table/Table';
-import { DetailedFile, File } from '@domaindocs/lib';
+import { DetailedFile, File } from '@domaindocs/types';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
 type FileTableProps = {

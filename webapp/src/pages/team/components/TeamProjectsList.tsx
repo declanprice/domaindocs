@@ -1,6 +1,6 @@
 import { Flex, List, ListItem, Stack, Text } from '@chakra-ui/react';
 import { AddIconButton } from '../../../components/buttons/AddIconButton';
-import { TeamProject } from '@domaindocs/lib';
+import { TeamProject } from '@domaindocs/types';
 import { useNavigate } from 'react-router-dom';
 
 type TeamProjectsListProps = {

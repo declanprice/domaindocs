@@ -1,5 +1,9 @@
 import { apiClient } from './api-client';
-import { CreateEditOnboardingGuideData, DetailedOnboardingGuide, UpdateOnboardingProgressData } from '@domaindocs/lib';
+import {
+    CreateEditOnboardingGuideData,
+    DetailedOnboardingGuide,
+    UpdateOnboardingProgressData,
+} from '@domaindocs/types';
 
 export const onboardingApi = (() => {
     const search = async (domainId: string): Promise<DetailedOnboardingGuide[]> => {

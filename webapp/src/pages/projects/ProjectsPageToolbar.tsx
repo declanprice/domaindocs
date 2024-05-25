@@ -3,7 +3,7 @@ import { TbUsersGroup } from 'react-icons/tb';
 import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
-import { CreateProjectData } from '@domaindocs/lib';
+import { CreateProjectData } from '@domaindocs/types';
 import { queryClient } from '../../state/query-client';
 import { projectsApi } from '../../state/api/projects-api';
 import { CreateProjectDialog } from './components/CreateProjectDialog';

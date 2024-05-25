@@ -1,5 +1,5 @@
 import { apiClient } from './api-client';
-import { CreateSkillData, SearchSkillsParams, Skill } from '@domaindocs/lib';
+import { CreateSkillData, SearchSkillsParams, Skill } from '@domaindocs/types';
 
 export const skillsApi = (() => {
     const search = async (domainId: string, params: SearchSkillsParams): Promise<Skill[]> => {

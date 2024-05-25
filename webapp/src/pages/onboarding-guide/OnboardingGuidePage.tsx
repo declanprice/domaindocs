@@ -9,7 +9,7 @@ import {
     OnboardingStep,
     OnboardingStepType,
     UpdateOnboardingProgressData,
-} from '@domaindocs/lib';
+} from '@domaindocs/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { onboardingApi } from '../../state/api/onboarding-api';
 import { OnboardingGuidePageParams } from './OnboardingGuidePageParams';

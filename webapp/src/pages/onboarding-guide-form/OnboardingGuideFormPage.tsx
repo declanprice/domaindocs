@@ -4,7 +4,7 @@ import { Box, Button, Flex } from '@chakra-ui/react';
 import { OnboardingGuidePageParams } from '../onboarding-guide/OnboardingGuidePageParams';
 import { useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { CreateEditOnboardingGuideData, DetailedOnboardingGuide, DetailedTeam, Role } from '@domaindocs/lib';
+import { CreateEditOnboardingGuideData, DetailedOnboardingGuide, DetailedTeam, Role } from '@domaindocs/types';
 import { onboardingApi } from '../../state/api/onboarding-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { FormTextInput } from '../../components/form/FormInput';

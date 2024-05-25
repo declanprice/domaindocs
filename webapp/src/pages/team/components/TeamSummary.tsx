@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { Team } from '@domaindocs/lib';
+import { Team } from '@domaindocs/types';
 import { EditIconButton } from '../../../components/buttons/EditIconButton';
 
 type TeamSummaryProps = {

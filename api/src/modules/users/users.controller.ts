@@ -2,7 +2,7 @@ import { UsersService } from './users.service';
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { UserData, SetupUserData } from '@domaindocs/lib';
+import { UserData, SetupUserData } from '@domaindocs/types';
 
 @Controller('users')
 @UseGuards(AuthGuard)

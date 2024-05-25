@@ -1,5 +1,5 @@
 import { apiClient } from './api-client';
-import { DetailedFile, File, SearchFilesParams, SignedFileUrl } from '@domaindocs/lib';
+import { DetailedFile, File, SearchFilesParams, SignedFileUrl } from '@domaindocs/types';
 
 export const filesApi = (() => {
     const searchFiles = async (domainId: string, params: SearchFilesParams): Promise<DetailedFile[]> => {

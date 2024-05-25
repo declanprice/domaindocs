@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { HomePageToolbar } from './HomePageToolbar';
 import { useQuery } from '@tanstack/react-query';
-import { Documentation } from '@domaindocs/lib';
+import { Documentation } from '@domaindocs/types';
 import { documentationApi } from '../../state/api/documentation-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { DocumentationViewer } from '../../components/documentation/DocumentationViewer';

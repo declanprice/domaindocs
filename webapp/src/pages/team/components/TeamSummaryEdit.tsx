@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { Team, UpdateTeamSummaryData } from '@domaindocs/lib';
+import { Team, UpdateTeamSummaryData } from '@domaindocs/types';
 import { DefaultError, useMutation } from '@tanstack/react-query';
 import { teamsApi } from '../../../state/api/teams-api';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';

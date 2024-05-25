@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { DetailedPerson, UpdateTeamMembersData, TeamMember } from '@domaindocs/lib';
+import { DetailedPerson, UpdateTeamMembersData, TeamMember } from '@domaindocs/types';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { CheckIconButton } from '../../../components/buttons/CheckIconButton';
 import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';

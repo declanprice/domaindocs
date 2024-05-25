@@ -11,7 +11,7 @@ import {
     UpdatePersonContactDetailsData,
     UpdatePersonRolesData,
     UpdatePersonSkillsData,
-} from '@domaindocs/lib';
+} from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 
 @Injectable()

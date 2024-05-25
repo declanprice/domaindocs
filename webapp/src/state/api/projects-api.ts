@@ -6,7 +6,7 @@ import {
     SearchProjectsParams,
     UpdateProjectDescriptionData,
     AddProjectLinkData,
-} from '@domaindocs/lib';
+} from '@domaindocs/types';
 
 import { apiClient } from './api-client';
 

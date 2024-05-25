@@ -1,7 +1,7 @@
 import { Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { DefaultError, useMutation } from '@tanstack/react-query';
-import { PersonContact, UpdatePersonContactDetailsData } from '@domaindocs/lib';
+import { PersonContact, UpdatePersonContactDetailsData } from '@domaindocs/types';
 
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { CheckIconButton } from '../../../components/buttons/CheckIconButton';

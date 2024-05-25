@@ -5,7 +5,7 @@ import { DefaultError, useMutation } from '@tanstack/react-query';
 import { useAuthStore } from '../../state/stores/auth.store';
 import { domainsApi } from '../../state/api/domains-api';
 import { FormTextInput } from '../../components/form/FormInput';
-import { Domain, SetupDomainData } from '@domaindocs/lib';
+import { Domain, SetupDomainData } from '@domaindocs/types';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 export const DomainSetupPage = () => {

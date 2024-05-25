@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 
 import { Table } from '../../../components/table/Table';
-import { DetailedWorkArea } from '@domaindocs/lib';
+import { DetailedWorkArea } from '@domaindocs/types';
 import { PersonAvatar } from '../../../components/person/PersonAvatar';
 
 type WorkAreasTableProps = {

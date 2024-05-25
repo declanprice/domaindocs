@@ -1,4 +1,5 @@
-import { Project, ProjectOwnership } from '@domaindocs/lib';
+import { ProjectOwnership } from './project-ownership';
+import { Project } from './project';
 
 export class DetailedProject {
     constructor(

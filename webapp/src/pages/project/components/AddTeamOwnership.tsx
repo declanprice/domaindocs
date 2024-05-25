@@ -15,7 +15,7 @@ import {
 import { useState } from 'react';
 import { FormTextInput } from '../../../components/form/FormInput';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { AddProjectOwnershipData, DetailedTeam, ProjectOwnership, ProjectTeamOwnership, Role } from '@domaindocs/lib';
+import { AddProjectOwnershipData, DetailedTeam, ProjectOwnership, ProjectTeamOwnership, Role } from '@domaindocs/types';
 import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
 import { teamsApi } from '../../../state/api/teams-api';
 import { projectsApi } from '../../../state/api/projects-api';

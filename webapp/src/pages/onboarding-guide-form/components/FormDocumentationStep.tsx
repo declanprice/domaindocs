@@ -14,7 +14,7 @@ import { maxLength, minLength, object, string } from 'valibot';
 import { FormTextInput } from '../../../components/form/FormInput';
 import { FormTextArea } from '../../../components/form/FormTextArea';
 import { useQuery } from '@tanstack/react-query';
-import { Documentation, DocumentationType } from '@domaindocs/lib';
+import { Documentation, DocumentationType } from '@domaindocs/types';
 import { documentationApi } from '../../../state/api/documentation-api';
 import { LoadingContainer } from '../../../components/loading/LoadingContainer';
 import { DocumentationViewer } from '../../../components/documentation/DocumentationViewer';

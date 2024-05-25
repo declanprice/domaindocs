@@ -1,7 +1,7 @@
 import { Box, Divider, Flex, Heading, Stack, useDisclosure } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { ProjectOverview } from '@domaindocs/lib';
+import { ProjectOverview } from '@domaindocs/types';
 
 import { ProjectPageParams } from './ProjectPageParams';
 import { projectsApi } from '../../state/api/projects-api';

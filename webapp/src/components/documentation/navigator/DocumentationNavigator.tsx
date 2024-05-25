@@ -1,4 +1,4 @@
-import { Documentation } from '@domaindocs/lib';
+import { Documentation } from '@domaindocs/types';
 import { Flex, List } from '@chakra-ui/react';
 import { DocumentationFolder } from './DocumentationFolder';
 

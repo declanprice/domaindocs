@@ -1,4 +1,4 @@
-import { Documentation, DocumentationType } from '@domaindocs/lib';
+import { Documentation, DocumentationType } from '@domaindocs/types';
 import {
     Flex,
     IconButton,

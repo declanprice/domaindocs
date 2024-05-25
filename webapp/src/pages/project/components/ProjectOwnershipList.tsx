@@ -4,7 +4,7 @@ import {
     ProjectOwnership as ProjectOwnershipData,
     ProjectPersonOwnership,
     ProjectTeamOwnership,
-} from '@domaindocs/lib';
+} from '@domaindocs/types';
 import {
     Box,
     Flex,

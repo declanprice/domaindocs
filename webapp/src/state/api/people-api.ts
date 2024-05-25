@@ -5,7 +5,7 @@ import {
     UpdatePersonRolesData,
     UpdatePersonSkillsData,
     UpdatePersonContactDetailsData,
-} from '@domaindocs/lib';
+} from '@domaindocs/types';
 
 export const peopleApi = (() => {
     const search = async (domainId: string, data: SearchPeopleParams): Promise<DetailedPerson[]> => {

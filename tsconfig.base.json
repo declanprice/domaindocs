@@ -17,7 +17,7 @@
         "baseUrl": ".",
         "paths": {
             "@domaindocs/database": ["shared/database/src/index.ts"],
-            "@domaindocs/lib": ["shared/lib/src/index.ts"]
+            "@domaindocs/types": ["shared/types/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp"]

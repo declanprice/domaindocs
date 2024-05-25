@@ -5,7 +5,7 @@ import {
     WorkAreaPerson,
     WorkBoardColumn,
     WorkItem,
-} from '@domaindocs/lib';
+} from '@domaindocs/types';
 
 export const workApi = () => {
     const search = async (): Promise<DetailedWorkArea[]> => {
@@ -29,9 +29,13 @@ export const workApi = () => {
                 new WorkAreaPerson('3', 'Natasha', 'Leslie'),
             ],
             [
-                new WorkBoardColumn('1', 'Ready', [new WorkItem('1', 'Item 1')]),
-                new WorkBoardColumn('2', 'Doing', [new WorkItem('2', 'Item 2')]),
-                new WorkBoardColumn('3', 'Done', [new WorkItem('2', 'Item 3')]),
+                new WorkBoardColumn('1', 'Ready', [
+                    new WorkItem('1', 'Item 1'),
+                    new WorkItem('2', 'Item 2'),
+                    new WorkItem('3', 'Item 3'),
+                ]),
+                new WorkBoardColumn('2', 'Doing', [new WorkItem('4', 'Item 4')]),
+                new WorkBoardColumn('3', 'Done', [new WorkItem('5', 'Item 5')]),
             ],
         );
     };

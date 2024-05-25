@@ -1,7 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Documentation, ProjectOverview } from '@domaindocs/lib';
+import { Documentation, ProjectOverview } from '@domaindocs/types';
 
 import { ProjectPageParams } from './ProjectPageParams';
 import { projectsApi } from '../../state/api/projects-api';

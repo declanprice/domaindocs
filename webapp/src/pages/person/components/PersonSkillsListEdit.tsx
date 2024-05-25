@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
-import { CreateSkillData, DetailedPerson, PersonSkill, Skill } from '@domaindocs/lib';
+import { CreateSkillData, DetailedPerson, PersonSkill, Skill } from '@domaindocs/types';
 
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { CheckIconButton } from '../../../components/buttons/CheckIconButton';
@@ -10,7 +10,7 @@ import { LoadingContainer } from '../../../components/loading/LoadingContainer';
 import { skillsApi } from '../../../state/api/skills-api';
 import { queryClient } from '../../../state/query-client';
 import { peopleApi } from '../../../state/api/people-api';
-import { UpdatePersonSkillsData } from '../../../../../shared/lib/src/person/update-person-skills-data';
+import { UpdatePersonSkillsData } from '../../../../../shared/types/src/person/update-person-skills-data';
 
 type PersonSkillsListEditProps = {
     domainId: string;

@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Divider, Flex, Popover, PopoverContent, PopoverTri
 import { PiPlugsConnected } from 'react-icons/pi';
 import { IoChevronDown } from 'react-icons/io5';
 
-import { Domain } from '@domaindocs/lib';
+import { Domain } from '@domaindocs/types';
 import { CiSettings } from 'react-icons/ci';
 import { useNavigate } from 'react-router-dom';
 

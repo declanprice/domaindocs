@@ -5,7 +5,7 @@ import {
     DetailedTeam,
     SearchTeamParams,
     UpdateTeamSummaryData,
-} from '@domaindocs/lib';
+} from '@domaindocs/types';
 
 export const teamsApi = (() => {
     const search = async (domainId: string, dto: SearchTeamParams = {}): Promise<DetailedTeam[]> => {

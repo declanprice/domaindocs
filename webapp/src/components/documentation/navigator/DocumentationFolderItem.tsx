@@ -1,7 +1,7 @@
 import { Box, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, StyleProps, Text } from '@chakra-ui/react';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { useHover } from '@uidotdev/usehooks';
-import { Documentation, DocumentationType } from '@domaindocs/lib';
+import { Documentation, DocumentationType } from '@domaindocs/types';
 import { MdAttachFile, MdOutlineDeleteOutline } from 'react-icons/md';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 

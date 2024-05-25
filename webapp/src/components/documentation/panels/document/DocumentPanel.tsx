@@ -7,7 +7,7 @@ import { CharacterCount } from '@tiptap/extension-character-count';
 import { Highlight } from '@tiptap/extension-highlight';
 import './DocumentPanel.css';
 import { DocumentBubbleMenu } from './DocumentBubbleMenu';
-import { DetailedDocumentation } from '@domaindocs/lib';
+import { DetailedDocumentation } from '@domaindocs/types';
 import { DocumentToolbar } from './DocumentToolbar';
 import { DocumentTitle } from './DocumentTitle';
 import { DocumentDetails } from './DocumentDetails';

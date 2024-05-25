@@ -8,7 +8,7 @@ import {
     CreateTeamData,
     UpdateTeamSummaryData,
     UpdateTeamMembersData,
-} from '@domaindocs/lib';
+} from '@domaindocs/types';
 
 @Controller('domains/:domainId/teams')
 @UseGuards(AuthGuard)

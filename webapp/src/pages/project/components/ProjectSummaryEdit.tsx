@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { UpdateProjectDescriptionData } from '@domaindocs/lib';
+import { UpdateProjectDescriptionData } from '@domaindocs/types';
 import { DefaultError, useMutation } from '@tanstack/react-query';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { CheckIconButton } from '../../../components/buttons/CheckIconButton';

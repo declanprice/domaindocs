@@ -3,7 +3,7 @@ import { TeamPageToolbar } from './TeamPageToolbar';
 import { useParams } from 'react-router-dom';
 import { TeamPageParams } from './TeamPageParams';
 import { useQuery } from '@tanstack/react-query';
-import { DetailedTeam, Documentation } from '@domaindocs/lib';
+import { DetailedTeam, Documentation } from '@domaindocs/types';
 import { teamsApi } from '../../state/api/teams-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { documentationApi } from '../../state/api/documentation-api';

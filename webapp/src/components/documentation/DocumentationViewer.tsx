@@ -1,6 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { DocumentationNavigator } from './navigator/DocumentationNavigator';
-import { DetailedDocumentation, Documentation, DocumentationType } from '@domaindocs/lib';
+import { DetailedDocumentation, Documentation, DocumentationType } from '@domaindocs/types';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { documentationApi } from '../../state/api/documentation-api';

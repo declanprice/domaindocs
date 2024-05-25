@@ -9,7 +9,7 @@ import {
     UpdateProjectDescriptionData,
     AddProjectOwnershipData,
     AddProjectLinkData,
-} from '@domaindocs/lib';
+} from '@domaindocs/types';
 
 @Controller('domains/:domainId/projects')
 @UseGuards(AuthGuard)

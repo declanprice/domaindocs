@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { PageToolbar } from '../../components/page/PageToolbar';
 import { Flex, Link, Text } from '@chakra-ui/react';
 import { SiReacthookform } from 'react-icons/si';
-import { WorkArea } from '@domaindocs/lib';
+import { WorkArea } from '@domaindocs/types';
 import { CiViewColumn } from 'react-icons/ci';
 import { FaRegClipboard } from 'react-icons/fa';
 

@@ -3,7 +3,7 @@ import { ros } from './domain';
 import { softwareDevRole } from './roles';
 import { teamOrion } from './teams';
 import { deedSearchProject } from './projects';
-import { OnboardingStepType } from '../../lib/src';
+import { OnboardingStepType } from '../../types/src';
 
 export const onboarding = (): OnboardingGuide[] => {
     return [

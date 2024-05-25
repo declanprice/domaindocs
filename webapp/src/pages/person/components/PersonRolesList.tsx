@@ -1,5 +1,5 @@
 import { Badge, Flex, List, ListItem, Text } from '@chakra-ui/react';
-import { PersonRole } from '@domaindocs/lib';
+import { PersonRole } from '@domaindocs/types';
 import { EditIconButton } from '../../../components/buttons/EditIconButton';
 
 type PersonRolesListProps = {

@@ -7,8 +7,8 @@ import {
     DetailedPerson,
     UpdatePersonRolesData,
     UpdatePersonContactDetailsData,
-} from '@domaindocs/lib';
-import { UpdatePersonSkillsData } from '../../../../shared/lib/src/person/update-person-skills-data';
+} from '@domaindocs/types';
+import { UpdatePersonSkillsData } from '../../../../shared/types/src/person/update-person-skills-data';
 
 @Controller('domains/:domainId/people')
 @UseGuards(AuthGuard)

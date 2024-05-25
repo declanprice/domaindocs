@@ -1,16 +1,15 @@
-import { Box, Button, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex, Input, InputGroup, InputLeftElement, Text } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
-import { TableToolbar } from '../../components/table/TableToolbar';
 
-import { IoAddOutline } from 'react-icons/io5';
-import { DetailedWorkArea } from '@domaindocs/lib';
+import { DetailedWorkArea } from '@domaindocs/types';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { workApi } from '../../state/api/workApi';
 import { WorkAreasPageToolbar } from './WorkAreasPageToolbar';
-import { WorkAreasTable } from './components/WorkAreasTable';
-
+import { useForm } from 'react-hook-form';
+import { BiPlus, BiSearch } from 'react-icons/bi';
+import { FcStumbleupon } from 'react-icons/fc';
 export const WorkAreasPage = () => {
     const { domainId } = useParams() as DomainPageParams;
 
@@ -21,39 +20,54 @@ export const WorkAreasPage = () => {
         queryFn: () => workApi().search(),
     });
 
+    const searchForm = useForm({
+        values: {
+            name: '',
+        },
+    });
+
     if (!areas || isLoading) return <LoadingContainer />;
 
     return (
         <Flex direction="column" width={'100%'}>
             <WorkAreasPageToolbar />
 
-            <Box height={'100%'} width={'100%'} overflowY={'auto'}>
-                <Flex p={4} width={'100%'} direction={'column'}>
-                    <TableToolbar
-                        title={`Work Areas (${areas.length})`}
-                        actions={
-                            <Button
-                                fontSize={12}
-                                variant={'ghost'}
-                                size={'sm'}
-                                fontWeight={'regular'}
-                                leftIcon={<IoAddOutline />}
-                            >
-                                New Area
-                            </Button>
-                        }
-                        onSearch={() => {}}
-                        onFilterClick={() => {}}
-                    />
+            <Flex height={'100%'} width={'100%'} overflowY={'auto'} direction={'column'} p={4}>
+                <Flex alignItems={'center'}>
+                    <InputGroup size={'sm'} maxWidth={'300px'}>
+                        <InputLeftElement pointerEvents="none">
+                            <BiSearch color="gray.900" />
+                        </InputLeftElement>
+                        <Input variant={'filled'} placeholder="Search work areas" backgroundColor={'lightgray'} />
+                    </InputGroup>
 
-                    <WorkAreasTable
-                        areas={areas}
-                        onAreaClick={(area) => {
-                            navigate(`/${domainId}/work-areas/${area.area.id}`);
-                        }}
-                    />
+                    <Box ml={'auto'}>
+                        <Button size={'sm'} leftIcon={<BiPlus />} backgroundColor={'lightgray'}>
+                            Work Area
+                        </Button>
+                    </Box>
                 </Flex>
-            </Box>
+
+                <Flex mt={4}>
+                    {areas.map((area) => (
+                        <Button
+                            alignItems={'center'}
+                            rounded={4}
+                            backgroundColor={'lightgray'}
+                            width={'350px'}
+                            maxWidth={'350px'}
+                            gap={2}
+                            py={8}
+                            onClick={() => {
+                                navigate(`/${domainId}/work-areas/${area.area.id}`);
+                            }}
+                        >
+                            <FcStumbleupon fontSize={24} />
+                            <Text fontSize={14}>{area.area.name}</Text>
+                        </Button>
+                    ))}
+                </Flex>
+            </Flex>
         </Flex>
     );
 };

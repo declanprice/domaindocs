@@ -1,5 +1,5 @@
 import { Avatar, Flex, List, ListItem, Text } from '@chakra-ui/react';
-import { PersonTeam } from '@domaindocs/lib';
+import { PersonTeam } from '@domaindocs/types';
 import { AddIconButton } from '../../../components/buttons/AddIconButton';
 
 type PersonTeamsListProps = {

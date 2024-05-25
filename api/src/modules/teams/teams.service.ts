@@ -10,7 +10,7 @@ import {
     TeamProject,
     UpdateTeamSummaryData,
     UpdateTeamMembersData,
-} from '@domaindocs/lib';
+} from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 
 @Injectable()

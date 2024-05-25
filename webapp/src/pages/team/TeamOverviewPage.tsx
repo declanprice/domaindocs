@@ -1,7 +1,7 @@
 import { Divider, Flex, Heading, Stack } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { DetailedTeam } from '@domaindocs/lib';
+import { DetailedTeam } from '@domaindocs/types';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { teamsApi } from '../../state/api/teams-api';
 import { TeamPageToolbar } from './TeamPageToolbar';

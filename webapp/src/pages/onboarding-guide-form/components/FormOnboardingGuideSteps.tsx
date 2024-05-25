@@ -16,7 +16,7 @@ import {
     Text,
     useDisclosure,
 } from '@chakra-ui/react';
-import { OnboardingGuideStepData, OnboardingStepType } from '@domaindocs/lib';
+import { OnboardingGuideStepData, OnboardingStepType } from '@domaindocs/types';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { getFontSize } from '../../../util/getFontSize';
 import { useState } from 'react';

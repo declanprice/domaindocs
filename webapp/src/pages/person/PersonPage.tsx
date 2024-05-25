@@ -3,7 +3,7 @@ import { PersonRolesList } from './components/PersonRolesList';
 import { PersonTeamsList } from './components/PersonTeamsList';
 import { PersonContactDetails } from './components/PersonContactDetails';
 import { PersonPageToolbar } from './PersonPageToolbar';
-import { DetailedPerson } from '@domaindocs/lib';
+import { DetailedPerson } from '@domaindocs/types';
 import { useParams } from 'react-router-dom';
 import { PersonAvatar } from '../../components/person/PersonAvatar';
 import { PersonSkillsListEdit } from './components/PersonSkillsListEdit';

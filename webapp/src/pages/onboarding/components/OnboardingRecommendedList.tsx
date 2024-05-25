@@ -1,4 +1,4 @@
-import { DetailedOnboardingGuide, OnboardingProgressStatus } from '@domaindocs/lib';
+import { DetailedOnboardingGuide, OnboardingProgressStatus } from '@domaindocs/types';
 import { Button, Divider, Flex, List, ListItem, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 

@@ -1,5 +1,5 @@
 import { Flex, List, ListItem, Text } from '@chakra-ui/react';
-import { TeamMember } from '@domaindocs/lib';
+import { TeamMember } from '@domaindocs/types';
 import { PersonAvatar } from '../../../components/person/PersonAvatar';
 import { EditIconButton } from '../../../components/buttons/EditIconButton';
 

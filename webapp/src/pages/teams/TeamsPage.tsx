@@ -6,7 +6,7 @@ import { DomainPageParams } from '../../types/DomainPageParams';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { TableToolbar } from '../../components/table/TableToolbar';
 import { TeamsTable } from './components/TeamsTable';
-import { DetailedTeam } from '@domaindocs/lib';
+import { DetailedTeam } from '@domaindocs/types';
 import { TeamsPageToolbar } from './TeamsPageToolbar';
 
 export const TeamsPage = () => {

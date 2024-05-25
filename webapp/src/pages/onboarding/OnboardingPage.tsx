@@ -2,7 +2,7 @@ import { Box, Button, Flex, Stack } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { OnboardingPageToolbar } from './OnboardingPageToolbar';
-import { DetailedOnboardingGuide } from '@domaindocs/lib';
+import { DetailedOnboardingGuide } from '@domaindocs/types';
 import { useQuery } from '@tanstack/react-query';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { onboardingApi } from '../../state/api/onboarding-api';

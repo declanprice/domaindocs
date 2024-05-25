@@ -2,7 +2,7 @@ import { RolesService } from './roles.service';
 import { BadRequestException, Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { SearchRolesParams, Role, CreateSkillData, Skill, CreateRoleData } from '@domaindocs/lib';
+import { SearchRolesParams, Role, CreateSkillData, Skill, CreateRoleData } from '@domaindocs/types';
 
 @Controller('domains/:domainId/roles')
 @UseGuards(AuthGuard)

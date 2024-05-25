@@ -1,5 +1,5 @@
 import { Flex, SimpleGrid, Stack, Text } from '@chakra-ui/react';
-import { PersonContact } from '@domaindocs/lib';
+import { PersonContact } from '@domaindocs/types';
 import React from 'react';
 import { EditIconButton } from '../../../components/buttons/EditIconButton';
 

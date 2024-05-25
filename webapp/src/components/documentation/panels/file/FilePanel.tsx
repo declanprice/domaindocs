@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Image, Text } from '@chakra-ui/react';
-import { DetailedDocumentation, SignedFileUrl } from '@domaindocs/lib';
+import { DetailedDocumentation, SignedFileUrl } from '@domaindocs/types';
 import { useQuery } from '@tanstack/react-query';
 
 import { FileTitle } from './FileTitle';

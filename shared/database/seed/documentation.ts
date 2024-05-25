@@ -1,4 +1,4 @@
-import { DocumentationType } from '../../lib/src';
+import { DocumentationType } from '../../types/src';
 import { declanPerson } from './people';
 import { ros } from './domain';
 import { deedSearchProject } from './projects';

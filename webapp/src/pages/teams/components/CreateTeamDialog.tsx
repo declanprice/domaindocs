@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { FormTextInput } from '../../../components/form/FormInput';
-import { CreateTeamData } from '@domaindocs/lib';
+import { CreateTeamData } from '@domaindocs/types';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 export type CreateTeamDialogProps = {

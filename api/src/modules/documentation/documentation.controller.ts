@@ -2,7 +2,7 @@ import { DocumentationService } from './documentation.service';
 import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { SearchDocumentationParams, AddDocumentationData } from '@domaindocs/lib';
+import { SearchDocumentationParams, AddDocumentationData } from '@domaindocs/types';
 
 @Controller('domains/:domainId/documentation')
 @UseGuards(AuthGuard)

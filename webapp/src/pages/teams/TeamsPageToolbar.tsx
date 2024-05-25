@@ -7,7 +7,7 @@ import { teamsApi } from '../../state/api/teams-api';
 import { queryClient } from '../../state/query-client';
 import { CreateTeamDialog } from './components/CreateTeamDialog';
 import { PageToolbar } from '../../components/page/PageToolbar';
-import { CreateTeamData } from '@domaindocs/lib';
+import { CreateTeamData } from '@domaindocs/types';
 
 export const TeamsPageToolbar = () => {
     const { domainId } = useParams() as DomainPageParams;

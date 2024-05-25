@@ -1,5 +1,5 @@
 import { Table } from '../../../components/table/Table';
-import { DetailedTeam, TeamProject } from '@domaindocs/lib';
+import { DetailedTeam, TeamProject } from '@domaindocs/types';
 import {
     Link,
     Popover,

@@ -7,7 +7,7 @@ import { TableToolbar } from '../../components/table/TableToolbar';
 import { PeopleTable } from './components/PeopleTable';
 import { PeoplePageToolbar } from './PeoplePageToolbar';
 import { IoAddOutline } from 'react-icons/io5';
-import { DetailedPerson } from '@domaindocs/lib';
+import { DetailedPerson } from '@domaindocs/types';
 
 type PeoplePageParams = {
     domainId: string;

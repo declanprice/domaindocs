@@ -13,7 +13,7 @@ import {
     ProjectPersonOwnership,
     ProjectTeamOwnership,
     AddProjectLinkData,
-} from '@domaindocs/lib';
+} from '@domaindocs/types';
 import { v4 } from 'uuid';
 import { createSlug } from '../../util/create-slug';
 import { PrismaService } from '../../shared/prisma.service';

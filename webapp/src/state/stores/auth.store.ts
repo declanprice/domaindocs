@@ -5,7 +5,7 @@ import Passwordless from 'supertokens-web-js/recipe/passwordless';
 import { immer } from 'zustand/middleware/immer';
 import SuperTokens from 'supertokens-web-js';
 import { usersApi } from '../api/users-api';
-import { Domain, UserData } from '@domaindocs/lib';
+import { Domain, UserData } from '@domaindocs/types';
 
 SuperTokens.init({
     appInfo: {

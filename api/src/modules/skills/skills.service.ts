@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
-import { CreateSkillData, SearchSkillsParams, Skill } from '@domaindocs/lib';
+import { CreateSkillData, SearchSkillsParams, Skill } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 import { createSlug } from '../../util/create-slug';
 

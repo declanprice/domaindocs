@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
-import { CreateRoleData, PersonRole, Role, UpdatePersonRolesData } from '@domaindocs/lib';
+import { CreateRoleData, PersonRole, Role, UpdatePersonRolesData } from '@domaindocs/types';
 
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { CheckIconButton } from '../../../components/buttons/CheckIconButton';

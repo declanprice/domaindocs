@@ -1,0 +1,19 @@
+{
+    "name": "types",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "shared/types/src",
+    "projectType": "library",
+    "tags": [],
+    "targets": {
+        "build": {
+            "executor": "@nx/vite:build",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/shared/types",
+                "main": "shared/types/src/index.ts",
+                "tsConfig": "shared/types/tsconfig.json",
+                "assets": ["shared/types/*.md"]
+            }
+        }
+    }
+}

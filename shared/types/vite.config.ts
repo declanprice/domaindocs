@@ -5,7 +5,7 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
     root: __dirname,
-    cacheDir: '../../node_modules/.vite/lib',
+    cacheDir: '../../node_modules/.vite/types',
 
     plugins: [
         nxViteTsPaths(),
@@ -23,7 +23,7 @@ export default defineConfig({
     // Configuration for building your library.
     // See: https://vitejs.dev/guide/build.html#library-mode
     build: {
-        outDir: '../../dist/shared/lib',
+        outDir: '../../dist/shared/types',
         reportCompressedSize: true,
         commonjsOptions: {
             transformMixedEsModules: true,
@@ -31,7 +31,7 @@ export default defineConfig({
         lib: {
             // Could also be a dictionary or array of multiple entry points.
             entry: 'src/index.ts',
-            name: 'lib',
+            name: 'types',
             fileName: 'index',
             // Change this to the formats you want to support.
             // Don't forget to update your package.json as well.
@@ -53,7 +53,7 @@ export default defineConfig({
 
         reporters: ['default'],
         coverage: {
-            reportsDirectory: '../../coverage/shared/lib',
+            reportsDirectory: '../../coverage/shared/types',
             provider: 'v8',
         },
     },

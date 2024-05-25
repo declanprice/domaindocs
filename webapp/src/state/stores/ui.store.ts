@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { Domain } from '@domaindocs/lib';
+import { Domain } from '@domaindocs/types';
 
 type UIStoreState = {
     isFullNavBar: boolean;

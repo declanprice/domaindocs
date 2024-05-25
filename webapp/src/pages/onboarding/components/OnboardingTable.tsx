@@ -17,7 +17,7 @@ import {
     Tooltip,
 } from '@chakra-ui/react';
 import { Table } from '../../../components/table/Table';
-import { DetailedOnboardingGuide, DetailedPerson } from '@domaindocs/lib';
+import { DetailedOnboardingGuide, DetailedPerson } from '@domaindocs/types';
 import { PersonAvatar } from '../../../components/person/PersonAvatar';
 import { TeamAvatar } from '../../../components/team/TeamAvatar';
 

@@ -7,7 +7,7 @@ import {
     DocumentationType,
     SearchDocumentationParams,
     SignedFileUrl,
-} from '@domaindocs/lib';
+} from '@domaindocs/types';
 import { v4 } from 'uuid';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';

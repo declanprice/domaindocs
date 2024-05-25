@@ -14,7 +14,7 @@ import {
     Text,
     useDisclosure,
 } from '@chakra-ui/react';
-import { ProjectLink } from '@domaindocs/lib';
+import { ProjectLink } from '@domaindocs/types';
 
 import { AddIconButton } from '../../../components/buttons/AddIconButton';
 import { TbDots } from 'react-icons/tb';

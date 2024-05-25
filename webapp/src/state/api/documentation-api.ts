@@ -5,7 +5,7 @@ import {
     Documentation,
     SearchDocumentationParams,
     SignedFileUrl,
-} from '@domaindocs/lib';
+} from '@domaindocs/types';
 
 export const documentationApi = (() => {
     const search = async (domainId: string, params: SearchDocumentationParams): Promise<Documentation[]> => {

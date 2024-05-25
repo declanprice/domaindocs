@@ -1,6 +1,6 @@
 import { apiClient } from './api-client';
 
-import { Domain, SetupDomainData } from '@domaindocs/lib';
+import { Domain, SetupDomainData } from '@domaindocs/types';
 
 export const domainsApi = (() => {
     const setupDomain = async (data: SetupDomainData): Promise<Domain> => {

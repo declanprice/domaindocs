@@ -1,5 +1,5 @@
 import { apiClient } from './api-client';
-import { SetupUserData, UserData } from '@domaindocs/lib';
+import { SetupUserData, UserData } from '@domaindocs/types';
 
 export const usersApi = (() => {
     const setupUser = async (data: SetupUserData): Promise<UserData> => {

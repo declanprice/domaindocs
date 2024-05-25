@@ -1,5 +1,5 @@
 import { Table } from '../../../components/table/Table';
-import { DetailedProject, isPersonOwnership, isTeamOwnership, ProjectOwnership } from '@domaindocs/lib';
+import { DetailedProject, isPersonOwnership, isTeamOwnership, ProjectOwnership } from '@domaindocs/types';
 import {
     Link,
     ListItem,
