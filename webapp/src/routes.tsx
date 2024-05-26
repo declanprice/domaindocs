@@ -33,7 +33,7 @@ import { WorkAreaSettingsPage } from './pages/work-area/WorkAreaSettingsPage';
 import { FormsPage } from './pages/forms/FormsPage';
 import { FormsYourFormsPage } from './pages/forms/FormsYourFormsPage';
 import { FormsYourSubmissionsPage } from './pages/forms/FormsYourSubmissionsPage';
-import { FormSubmissionsPage } from './pages/form/FormSubmissionsPage';
+import { FormOverviewPage } from './pages/form/FormOverviewPage';
 import { FormFieldsPage } from './pages/form/FormFieldsPage';
 import { FormIntegrationsPage } from './pages/form/FormIntegrationsPage';
 import { FormSettingsPage } from './pages/form/FormSettingsPage';
@@ -225,11 +225,11 @@ export const routes = createBrowserRouter([
                                         children: [
                                             {
                                                 path: '',
-                                                element: <Navigate to={'submissions'} />,
+                                                element: <Navigate to={'overview'} />,
                                             },
                                             {
-                                                path: 'submissions',
-                                                element: <FormSubmissionsPage />,
+                                                path: 'overview',
+                                                element: <FormOverviewPage />,
                                             },
                                             {
                                                 path: 'fields',

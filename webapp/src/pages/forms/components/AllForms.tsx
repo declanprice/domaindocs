@@ -11,8 +11,17 @@ import {
     Text,
 } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 
-export const AllForms = () => {
+type AllFormsProps = {
+    domainId: string;
+};
+
+export const AllForms = (props: AllFormsProps) => {
+    const { domainId } = props;
+
+    const navigate = useNavigate();
+
     return (
         <Flex direction={'column'} gap={3}>
             <Flex>
@@ -36,6 +45,9 @@ export const AllForms = () => {
                     gap={2}
                     _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
                     width={'240px'}
+                    onClick={() => {
+                        navigate(`/${domainId}/forms/1`);
+                    }}
                 >
                     <Text fontSize={14}>Deed Search Bug</Text>
 
