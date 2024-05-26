@@ -3,33 +3,28 @@ import { Flex, List, Menu, MenuButton, MenuItem, MenuList, Text, useDisclosure }
 import { AddIconButton } from '../../../components/buttons/AddIconButton';
 import { DefaultError, useMutation } from '@tanstack/react-query';
 import { projectsApi } from '../../../state/api/projects-api';
-import { AddTeamOwnership } from './AddTeamOwnership';
-import { AddPersonOwnership } from './AddPersonOwnership';
 import React from 'react';
-import { TeamOwnershipItem } from '../../../components/ownership/TeamOwnershipItem';
 import { PersonOwnershipItem } from '../../../components/ownership/PersonOwnershipItem';
+import { TeamOwnershipItem } from '../../../components/ownership/TeamOwnershipItem';
 
-type ProjectOwnershipProps = {
+type FormOwnershipProps = {
     domainId: string;
-    projectId: string;
-    projectName: string;
     ownership: ProjectOwnershipData[];
     onAddTeamOwnership: () => void;
     onAddPersonOwnership: () => void;
     onRemoveOwnership: () => void;
 };
 
-export const ProjectOwnershipList = (props: ProjectOwnershipProps) => {
-    const { domainId, projectId, projectName, ownership, onAddTeamOwnership, onAddPersonOwnership, onRemoveOwnership } =
-        props;
+export const FormOwnership = (props: FormOwnershipProps) => {
+    const { domainId, ownership, onAddTeamOwnership, onAddPersonOwnership, onRemoveOwnership } = props;
 
     const addTeamOwnership = useDisclosure();
     const addPersonOwnership = useDisclosure();
 
     const { mutateAsync: removeOwnership } = useMutation<void, DefaultError, string>({
-        mutationKey: ['removeProjectOwnership', { domainId, projectId }],
+        mutationKey: ['removeOwnership', { domainId }],
         mutationFn: async (ownershipId: string) => {
-            return projectsApi.removeOwnership(domainId, projectId, ownershipId);
+            return projectsApi.removeOwnership(domainId, '1', ownershipId);
         },
     });
 
@@ -75,24 +70,6 @@ export const ProjectOwnershipList = (props: ProjectOwnershipProps) => {
                     }
                 })}
             </List>
-
-            <AddTeamOwnership
-                isOpen={addTeamOwnership.isOpen}
-                domainId={domainId}
-                projectId={projectId}
-                ownership={ownership}
-                onClose={addTeamOwnership.onClose}
-                onSubmit={onAddTeamOwnership}
-            />
-
-            <AddPersonOwnership
-                isOpen={addPersonOwnership.isOpen}
-                domainId={domainId}
-                projectId={projectId}
-                ownership={ownership}
-                onClose={addPersonOwnership.onClose}
-                onSubmit={onAddPersonOwnership}
-            />
         </Flex>
     );
 };

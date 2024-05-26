@@ -35,7 +35,7 @@ export const FormPageToolbar = (props: FormPageToolbarProps) => {
                     label: 'Overview',
                     isActive: location.pathname.includes(`/${domainId}/forms/1/overview`),
                     onClick: () => {
-                        navigate(`/${domainId}/projects/forms/1/overview`);
+                        navigate(`/${domainId}/forms/1/overview`);
                     },
                 },
                 {

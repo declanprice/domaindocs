@@ -1,8 +1,11 @@
-import { Flex, Heading, Stack } from '@chakra-ui/react';
+import { Divider, Flex, Heading, Stack } from '@chakra-ui/react';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { FormPageToolbar } from './FormPageToolbar';
 import { FormPageParams } from './FormPageParams';
+import { FormDescription } from './components/FormDescription';
+import { FormOwnership } from './components/FormOwnership';
+import { FormSubmissions } from './components/FormSubmissions';
 
 export const FormOverviewPage = () => {
     const { domainId, formId } = useParams() as FormPageParams;
@@ -17,6 +20,24 @@ export const FormOverviewPage = () => {
                         Deed Search Bug
                     </Heading>
                 </Stack>
+
+                <FormDescription />
+
+                <Divider />
+
+                <FormOwnership
+                    domainId={domainId}
+                    ownership={[
+                        { ownershipId: '1', teamId: '12', name: 'Team Orion', description: '', iconUri: undefined },
+                    ]}
+                    onAddTeamOwnership={() => {}}
+                    onAddPersonOwnership={() => {}}
+                    onRemoveOwnership={() => {}}
+                />
+
+                <Divider />
+
+                <FormSubmissions />
             </Flex>
         </Flex>
     );
