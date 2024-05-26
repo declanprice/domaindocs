@@ -10,6 +10,7 @@ import { WorkAreasPageToolbar } from './WorkAreasPageToolbar';
 import { useForm } from 'react-hook-form';
 import { BiPlus, BiSearch } from 'react-icons/bi';
 import { FcStumbleupon } from 'react-icons/fc';
+
 export const WorkAreasPage = () => {
     const { domainId } = useParams() as DomainPageParams;
 
@@ -54,8 +55,6 @@ export const WorkAreasPage = () => {
                             alignItems={'center'}
                             rounded={4}
                             backgroundColor={'lightgray'}
-                            width={'350px'}
-                            maxWidth={'350px'}
                             gap={2}
                             py={8}
                             onClick={() => {
