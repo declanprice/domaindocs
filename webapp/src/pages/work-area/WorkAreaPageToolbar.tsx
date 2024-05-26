@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { PageToolbar } from '../../components/page/PageToolbar';
 import { Flex, Link, Text } from '@chakra-ui/react';
-import { SiReacthookform } from 'react-icons/si';
 import { WorkArea } from '@domaindocs/types';
 import { CiViewColumn } from 'react-icons/ci';
-import { FaRegClipboard } from 'react-icons/fa';
+import { LiaThListSolid } from 'react-icons/lia';
+import { PiPlugsConnectedLight } from 'react-icons/pi';
+import { CiSettings } from 'react-icons/ci';
+import { MdWorkOutline } from 'react-icons/md';
 
 type WorkAreaPageToolbarProps = {
     domainId: string;
@@ -20,7 +22,7 @@ export const WorkAreaPageToolbar = (props: WorkAreaPageToolbarProps) => {
         <PageToolbar
             title={
                 <Flex alignItems={'center'}>
-                    <SiReacthookform color={'gray.900'} size={14} />
+                    <MdWorkOutline color={'gray.900'} size={14} />
                     <Text ml={2} fontSize={12}>
                         <Link
                             onClick={() => {
@@ -44,7 +46,7 @@ export const WorkAreaPageToolbar = (props: WorkAreaPageToolbarProps) => {
                 },
                 {
                     label: 'Backlog',
-                    icon: <FaRegClipboard color={'gray.100'} />,
+                    icon: <LiaThListSolid color={'gray.100'} />,
                     isActive: location.pathname.includes(`/${domainId}/work-areas/${area.id}/backlog`),
                     onClick: () => {
                         navigate(`/${domainId}/work-areas/${area.id}/backlog`);
@@ -52,7 +54,7 @@ export const WorkAreaPageToolbar = (props: WorkAreaPageToolbarProps) => {
                 },
                 {
                     label: 'Items',
-                    icon: <FaRegClipboard color={'gray.100'} />,
+                    icon: <MdWorkOutline color={'gray.100'} />,
                     isActive: location.pathname.includes(`/${domainId}/work-areas/${area.id}/items`),
                     onClick: () => {
                         navigate(`/${domainId}/work-areas/${area.id}/items`);
@@ -60,7 +62,7 @@ export const WorkAreaPageToolbar = (props: WorkAreaPageToolbarProps) => {
                 },
                 {
                     label: 'Integrations',
-                    icon: <FaRegClipboard color={'gray.100'} />,
+                    icon: <PiPlugsConnectedLight color={'gray.100'} />,
                     isActive: location.pathname.includes(`/${domainId}/work-areas/${area.id}/integrations`),
                     onClick: () => {
                         navigate(`/${domainId}/work-areas/${area.id}/integrations`);
@@ -68,7 +70,7 @@ export const WorkAreaPageToolbar = (props: WorkAreaPageToolbarProps) => {
                 },
                 {
                     label: 'Settings',
-                    icon: <FaRegClipboard color={'gray.100'} />,
+                    icon: <CiSettings color={'gray.100'} />,
                     isActive: location.pathname.includes(`/${domainId}/work-areas/${area.id}/settings`),
                     onClick: () => {
                         navigate(`/${domainId}/work-areas/${area.id}/settings`);

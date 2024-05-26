@@ -6,6 +6,7 @@ import { workApi } from '../../state/api/workApi';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { Flex } from '@chakra-ui/react';
 import { WorkAreaPageToolbar } from './WorkAreaPageToolbar';
+import { IntegrationRulesList } from '../../components/integrations/IntegrationRulesList';
 
 export const WorkAreaIntegrationsPage = () => {
     const { domainId, areaId } = useParams() as WorkAreaPageParams;
@@ -21,7 +22,9 @@ export const WorkAreaIntegrationsPage = () => {
         <Flex direction="column" width={'100%'}>
             <WorkAreaPageToolbar domainId={domainId} area={board.area} />
 
-            <Flex direction="column" width={'100%'} overflowY={'auto'} gap={6} p={8}></Flex>
+            <Flex direction="column" width={'100%'} p={6}>
+                <IntegrationRulesList />
+            </Flex>
         </Flex>
     );
 };

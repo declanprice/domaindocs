@@ -4,14 +4,14 @@ export const ItemsNavigator = () => {
     return (
         <Flex
             height={'100%'}
-            minWidth={'280px'}
+            minWidth={'250px'}
             borderRight={'1px solid'}
             borderColor={'border'}
             backgroundColor={'lightgray'}
-            p={4}
+            p={1}
         >
             <Flex direction={'column'} width={'100%'}>
-                <Flex>
+                <Flex p={2}>
                     <Text fontSize={14} color={'gray.900'} fontWeight={'bold'}>
                         Items
                     </Text>
@@ -26,13 +26,13 @@ export const ItemsNavigator = () => {
                                 cursor: 'pointer',
                             }}
                             rounded={4}
-                            minHeight={'80px'}
-                            height={'80px'}
-                            maxHeight={'80px'}
+                            minHeight={'60px'}
+                            height={'60px'}
+                            maxHeight={'60px'}
                             backgroundColor={'white'}
                         ></Box>
                     ))}
-                </Flex>{' '}
+                </Flex>
             </Flex>
         </Flex>
     );
