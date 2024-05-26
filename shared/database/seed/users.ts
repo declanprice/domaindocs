@@ -5,7 +5,7 @@ import { User } from '@prisma/client';
 
 export const declanUser = (): User => {
     return {
-        userId: linuxUser,
+        userId: macUser,
         firstName: 'Declan',
         lastName: 'Price',
         fullName: 'Declan Price',
