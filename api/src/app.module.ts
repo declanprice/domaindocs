@@ -10,6 +10,9 @@ import { DocumentationModule } from './modules/documentation/documentation.modul
 import { RolesModule } from './modules/roles/roles.module';
 import { SkillsModule } from './modules/skills/skills.module';
 import { OnboardingModule } from './modules/onboarding/onboarding.module';
+import { WorkAreasModule } from './modules/work-areas/work-areas.module';
+import { FormsModule } from './modules/forms/forms.module';
+import { IntegrationsModule } from './modules/integrations/integrations.module';
 
 @Module({
     imports: [
@@ -33,6 +36,9 @@ import { OnboardingModule } from './modules/onboarding/onboarding.module';
         RolesModule,
         SkillsModule,
         OnboardingModule,
+        WorkAreasModule,
+        FormsModule,
+        IntegrationsModule,
     ],
     controllers: [],
     providers: [],
