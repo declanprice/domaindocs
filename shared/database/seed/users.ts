@@ -1,11 +1,11 @@
-const linuxUser = '4b17b72b-5e8e-4ffe-a9f4-8ba3ea350e91';
+const linuxUser = 'd421ee8e-26c3-4398-8456-b9b372267d90';
 const macUser = 'e6ba44aa-bfa7-45c9-963e-ed867e422f9b';
 
 import { User } from '@prisma/client';
 
 export const declanUser = (): User => {
     return {
-        userId: macUser,
+        userId: linuxUser,
         firstName: 'Declan',
         lastName: 'Price',
         fullName: 'Declan Price',

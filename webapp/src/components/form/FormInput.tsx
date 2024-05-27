@@ -3,7 +3,7 @@ import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Input, FormCo
 import { Control, useController } from 'react-hook-form';
 import { getFontSize } from '../../util/getFontSize';
 
-type FormTextInputProps = {
+export type FormTextInputProps = {
     name: string;
     placeholder?: string;
     control: Control<any>;

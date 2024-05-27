@@ -4,16 +4,13 @@ import { SignInPage } from './pages/auth/sign-in/SignInPage';
 import { SignUpPage } from './pages/auth/sign-up/SignUpPage';
 import { VerifyMagicLinkPage } from './pages/auth/VerifyMagicLinkPage';
 import { MagicLinkSentPage } from './pages/auth/MagicLinkSentPage';
-import { UserSetupPage } from './pages/user-setup/UserSetupPage';
 import { RootLayout } from './layout/RootLayout';
-import { DomainSetupPage } from './pages/domain-setup/DomainSetupPage';
 import { PeoplePage } from './pages/people/PeoplePage';
 import { TeamsPage } from './pages/teams/TeamsPage';
 import { ProjectsPage } from './pages/projects/ProjectsPage';
 import { AuthGuard } from './components/guards/AuthGuard';
 import { UserSetupGuard } from './components/guards/UserSetupGuard';
 import { DomainGuard } from './components/guards/DomainGuard';
-import { NoAuthGuard } from './components/guards/NoAuthGuard';
 import { SomethingWentWrongErrorPage } from './components/errors/SomethingWentWrongErrorPage';
 import { PageNotFoundErrorPage } from './components/errors/PageNotFoundErrorPage';
 import { ProjectOverviewPage } from './pages/project/ProjectOverviewPage';
@@ -47,6 +44,9 @@ import { TeamSettingsPage } from './pages/team/TeamSettingsPage';
 import { OnboardingGuidePage } from './pages/onboarding-guide/OnboardingGuidePage';
 import { OnboardingGuideFormPage } from './pages/onboarding-guide-form/OnboardingGuideFormPage';
 import { ProjectSettingsPage } from './pages/project/ProjectSettingsPage';
+import { DomainSetupPage } from './pages/user-setup/DomainSetupPage';
+import { UserSetupPage } from './pages/user-setup/UserSetupPage';
+import { NoAuthGuard } from './components/guards/NoAuthGuard';
 
 export const routes = createBrowserRouter([
     {
@@ -296,21 +296,15 @@ export const routes = createBrowserRouter([
         ],
     },
     {
-        path: 'users-setup',
+        path: 'setup',
         element: <AuthGuard />,
         children: [
             {
-                path: '',
+                path: 'user',
                 element: <UserSetupPage />,
             },
-        ],
-    },
-    {
-        path: 'domains-setup',
-        element: <AuthGuard />,
-        children: [
             {
-                path: '',
+                path: 'domain',
                 element: <DomainSetupPage />,
             },
         ],

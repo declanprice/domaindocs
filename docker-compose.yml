@@ -17,7 +17,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ./scripts:/docker-entrypoint-initdb.d
+      - postgres:/data
 
 #  rabbitmq:
 #    image: rabbitmq:3.11-management-alpine
@@ -54,3 +54,51 @@ services:
       - POSTGRESQL_HOST=postgres
       - POSTGRESQL_PORT=5432
       - POSTGRESQL_DATABASE_NAME=supertokens
+
+#  opensearch: # This is also the hostname of the container within the Docker network (i.e. https://opensearch/)
+#    image: opensearchproject/opensearch:latest # Specifying the latest available image - modify if you want a specific version
+#    container_name: domaindocs_opensearch
+#    environment:
+#      - cluster.name=opensearch-cluster # Name the cluster
+#      - node.name=opensearch # Name the node that will run in this container
+#      - cluster.initial_cluster_manager_nodes=opensearch # Nodes eligible to serve as cluster manager
+#      - bootstrap.memory_lock=true # Disable JVM heap memory swapping
+#      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m" # Set min and max JVM heap sizes to at least 50% of system RAM
+#      - OPENSEARCH_INITIAL_ADMIN_PASSWORD="Password-123!"    # Sets the demo admin user password when using demo configuration, required for OpenSearch 2.12 and later
+#    ulimits:
+#      memlock:
+#        soft: -1 # Set memlock to unlimited (no soft or hard limit)
+#        hard: -1
+#      nofile:
+#        soft: 65536 # Maximum number of open files for the opensearch user - set to at least 65536
+#        hard: 65536
+#    volumes:
+#      - opensearch:/usr/share/opensearch/data # Creates volume called opensearch-data1 and mounts it to the container
+#    ports:
+#      - 9200:9200 # REST API
+#      - 9600:9600 # Performance Analyzer
+#
+#  opensearch-dashboards:
+#    image: opensearchproject/opensearch-dashboards:latest # Make sure the version of opensearch-dashboards matches the version of opensearch installed on other nodes
+#    container_name: domaindocs_opensearch-dashboards
+#    ports:
+#      - 5601:5601 # Map host port 5601 to container port 5601
+#    expose:
+#      - "5601" # Expose port 5601 for web access to OpenSearch Dashboards
+#    environment:
+#      OPENSEARCH_HOSTS: '["https://opensearch:9200"]' # Define the OpenSearch nodes that OpenSearch Dashboards will query
+#
+#  redis:
+#    image: redis:6.2-alpine
+#    container_name: domaindocs_redis
+#    restart: always
+#    ports:
+#      - '6379:6379'
+#    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+#    volumes:
+#      - redis:/data
+
+volumes:
+  postgres:
+  opensearch:
+  redis:

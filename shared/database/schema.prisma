@@ -52,8 +52,18 @@ model Domain {
   workBoardColumns WorkBoardColumn[]
   workBacklogs WorkBacklog[]
   workItems WorkItem[]
+  invites DomainInvite[]
 
   @@map("domain")
+}
+
+model DomainInvite {
+  email String @id @map("email")
+  domainId String @map("domain_id")
+
+  domain  Domain @relation(fields: [domainId], references: [domainId])
+
+  @@map("domain_invite")
 }
 
 model Person {
@@ -408,3 +418,6 @@ model WorkItem {
 
   @@map("work_item")
 }
+
+
+

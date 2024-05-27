@@ -8,38 +8,42 @@ import { EmailService } from '../shared/services/email.service';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @Inject(ConfigInjectionToken) private config: AuthModuleConfig,
-    private emailService: EmailService,
-  ) {
-    supertokens.init({
-      appInfo: config.appInfo,
-      supertokens: {
-        connectionURI: config.connectionURI,
-        apiKey: config.apiKey,
-      },
-      recipeList: [
-        Passwordless.init({
-          contactMethod: 'EMAIL',
-          flowType: 'MAGIC_LINK',
-          emailDelivery: {
-            override: (originalImplementation) => {
-              return {
-                ...originalImplementation,
-                sendEmail: async ({ email, urlWithLinkCode }) => {
-                  await this.emailService.sendMagicLink(email, urlWithLinkCode);
-                },
-              };
+    constructor(
+        @Inject(ConfigInjectionToken) private config: AuthModuleConfig,
+        private emailService: EmailService,
+    ) {
+        supertokens.init({
+            appInfo: config.appInfo,
+            supertokens: {
+                connectionURI: config.connectionURI,
+                apiKey: config.apiKey,
             },
-          },
-        }),
-        Session.init(),
-        Dashboard.init(),
-      ],
-    });
-  }
+            recipeList: [
+                Passwordless.init({
+                    contactMethod: 'EMAIL',
+                    flowType: 'MAGIC_LINK',
+                    emailDelivery: {
+                        override: (originalImplementation) => {
+                            return {
+                                ...originalImplementation,
+                                sendEmail: async ({ email, urlWithLinkCode }) => {
+                                    await this.emailService.sendMagicLink(email, urlWithLinkCode);
+                                },
+                            };
+                        },
+                    },
+                }),
+                Session.init(),
+                Dashboard.init(),
+            ],
+        });
+    }
 
-  async getUser(userId: string) {
-    return supertokens.getUser(userId);
-  }
+    async getUser(userId: string) {
+        return supertokens.getUser(userId);
+    }
+
+    async createMagicLink(email: string): Promise<string> {
+        return Passwordless.createMagicLink({ email, tenantId: 'public' });
+    }
 }

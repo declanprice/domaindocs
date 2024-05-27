@@ -1,14 +1,22 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useSearchParams } from 'react-router-dom';
 import { useAuthStore } from '../../state/stores/auth.store';
 
 export const UserSetupGuard = () => {
-  console.debug('Running: UserSetupGuard');
+    console.debug('Running: UserSetupGuard');
 
-  const user = useAuthStore((state) => state.user);
+    const [params] = useSearchParams();
 
-  if (!user) {
-    return <Navigate to={'/users-setup'} />;
-  }
+    const acceptInvite = params.get('acceptInvite');
 
-  return <Outlet context={'user-setup'} />;
+    const user = useAuthStore((state) => state.user);
+
+    if (!user) {
+        if (acceptInvite) {
+            return <Navigate to={`/setup/user?acceptInvite${acceptInvite}`} />;
+        }
+
+        return <Navigate to={'/setup/user'} />;
+    }
+
+    return <Outlet context={'setup'} />;
 };

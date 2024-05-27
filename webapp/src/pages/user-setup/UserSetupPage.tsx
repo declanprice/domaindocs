@@ -11,83 +11,73 @@ import { usersApi } from '../../state/api/users-api';
 import { FormTextInput } from '../../components/form/FormInput';
 
 export const UserSetupPage = () => {
-  const { setUser } = useAuthStore();
+    const { setUser } = useAuthStore();
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const toast = useToast();
+    const toast = useToast();
 
-  const { mutate, error, isPending } = useMutation({
-    mutationKey: ['setupUser'],
-    mutationFn: async (data: any) => {
-      const user = await usersApi.setupUser({
-        firstName: data.firstName,
-        lastName: data.lastName,
-      });
+    const { mutate, error, isPending } = useMutation({
+        mutationKey: ['setupUser'],
+        mutationFn: async (data: any) => {
+            const user = await usersApi.setupUser({
+                firstName: data.firstName,
+                lastName: data.lastName,
+            });
 
-      setUser(user);
+            setUser(user);
 
-      navigate('/domain-setup');
-    },
-  });
+            if (user.domains.length) {
+                navigate(`/${user.domains[0].domainId}/home/dashboard`);
+            } else {
+                navigate('/setup/domain');
+            }
+        },
+    });
 
-  useEffect(() => {
-    if (error) {
-      toast({
-        title: 'Something went wrong',
-        status: 'error',
-        position: 'top',
-        isClosable: true,
-      });
-    }
-  }, [error]);
+    useEffect(() => {
+        if (error) {
+            toast({
+                title: 'Something went wrong',
+                status: 'error',
+                position: 'top',
+                isClosable: true,
+            });
+        }
+    }, [error]);
 
-  const { handleSubmit, control } = useForm({
-    values: {
-      firstName: '',
-      lastName: '',
-    },
-    resolver: valibotResolver(
-      object({
-        firstName: string(),
-        lastName: string(),
-      }),
-    ),
-  });
+    const { handleSubmit, control } = useForm({
+        values: {
+            firstName: '',
+            lastName: '',
+        },
+        resolver: valibotResolver(
+            object({
+                firstName: string(),
+                lastName: string(),
+            }),
+        ),
+    });
 
-  return (
-    <Flex
-      minWidth={300}
-      height={'100%'}
-      width={'100%'}
-      justifyContent={'center'}
-      alignItems={'center'}
-    >
-      <form onSubmit={handleSubmit(mutate as any)}>
-        <Flex direction={'column'} alignItems={'end'} gap={6}>
-          <Heading>About You</Heading>
-          <FormTextInput
-            name={'firstName'}
-            control={control}
-            placeholder={'First Name'}
-          />
-          <FormTextInput
-            name={'lastName'}
-            control={control}
-            placeholder={'Last Name'}
-          />
-          <Button
-            isLoading={isPending}
-            size={'sm'}
-            width={'100%'}
-            type={'submit'}
-            color={'white'}
-            backgroundColor={'gray.700'}
-          >
-            Continue
-          </Button>
+    return (
+        <Flex minWidth={300} height={'100%'} width={'100%'} justifyContent={'center'} alignItems={'center'}>
+            <form onSubmit={handleSubmit(mutate as any)}>
+                <Flex direction={'column'} alignItems={'end'} gap={6}>
+                    <Heading>About You</Heading>
+                    <FormTextInput name={'firstName'} control={control} placeholder={'First Name'} />
+                    <FormTextInput name={'lastName'} control={control} placeholder={'Last Name'} />
+                    <Button
+                        isLoading={isPending}
+                        size={'sm'}
+                        width={'100%'}
+                        type={'submit'}
+                        color={'white'}
+                        backgroundColor={'gray.700'}
+                    >
+                        Continue
+                    </Button>
+                </Flex>
+            </form>
         </Flex>
-      </form>
-    </Flex>
-  );
+    );
 };

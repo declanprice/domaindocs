@@ -5,7 +5,7 @@ import Passwordless from 'supertokens-web-js/recipe/passwordless';
 import { immer } from 'zustand/middleware/immer';
 import SuperTokens from 'supertokens-web-js';
 import { usersApi } from '../api/users-api';
-import { Domain, UserData } from '@domaindocs/types';
+import { Domain, User } from '@domaindocs/types';
 
 SuperTokens.init({
     appInfo: {
@@ -18,9 +18,9 @@ SuperTokens.init({
 
 type AuthStoreState = {
     userId: string | null;
-    user: UserData | null;
+    user: User | null;
     setUserId: (userId: string) => void;
-    setUser: (user: UserData) => void;
+    setUser: (user: User) => void;
     setUserDomains: (domain: Domain) => void;
     signIn: (linkCode: string, preAuthSessionId: string) => Promise<void>;
     signOut: () => Promise<void>;
@@ -38,7 +38,7 @@ export const useAuthStore = create<AuthStoreState>()(
                         state.userId = userId;
                     });
                 },
-                setUser: (user: UserData) => {
+                setUser: (user: User) => {
                     set((state) => {
                         state.user = user;
                     });

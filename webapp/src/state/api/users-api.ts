@@ -1,14 +1,14 @@
 import { apiClient } from './api-client';
-import { SetupUserData, UserData } from '@domaindocs/types';
+import { SetupUserData, User } from '@domaindocs/types';
 
 export const usersApi = (() => {
-    const setupUser = async (data: SetupUserData): Promise<UserData> => {
-        const result = await apiClient.post<UserData>('/users/setup', data);
+    const setupUser = async (data: SetupUserData): Promise<User> => {
+        const result = await apiClient.post<User>('/users/setup', data);
         return result.data;
     };
 
-    const getAuthUser = async (): Promise<UserData | null> => {
-        const result = await apiClient.get<UserData | string>('/users/auth');
+    const getAuthUser = async (): Promise<User | null> => {
+        const result = await apiClient.get<User | string>('/users/auth');
         if (typeof result.data === 'string') return null;
         return result.data;
     };
