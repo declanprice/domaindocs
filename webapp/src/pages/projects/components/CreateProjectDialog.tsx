@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { CreateProjectData } from '@domaindocs/types';
-import { FormTextInput } from '../../../components/form/FormInput';
+import { FormTextInput } from '../../../components/form/FormTextInput';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 export type CreateProjectDialogProps = {

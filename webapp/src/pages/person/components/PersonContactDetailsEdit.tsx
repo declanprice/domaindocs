@@ -6,7 +6,7 @@ import { PersonContact, UpdatePersonContactDetailsData } from '@domaindocs/types
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { CheckIconButton } from '../../../components/buttons/CheckIconButton';
 import { peopleApi } from '../../../state/api/people-api';
-import { FormTextInput } from '../../../components/form/FormInput';
+import { FormTextInput } from '../../../components/form/FormTextInput';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 type PersonRolesListEditProps = {

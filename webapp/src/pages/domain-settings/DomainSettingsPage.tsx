@@ -1,50 +1,98 @@
 import { useForm } from 'react-hook-form';
 import {
     Avatar,
-    Badge,
     Box,
     Button,
     Flex,
-    IconButton,
     Input,
     InputGroup,
     InputLeftElement,
-    List,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuList,
     Text,
     useDisclosure,
+    useToast,
 } from '@chakra-ui/react';
-import { FormTextInput } from '../../components/form/FormInput';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
-import { useQuery } from '@tanstack/react-query';
+import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
 import { domainsApi } from '../../state/api/domains-api';
-import { DomainSettings } from '@domaindocs/types';
+import { DomainSettings, UpdateDomainNameData } from '@domaindocs/types';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { DomainPeopleList } from './components/DomainPeopleList';
 import { InvitePersonModal } from '../../components/person/InvitePersonModal';
-import { TbDots } from 'react-icons/tb';
 import { BiSearch } from 'react-icons/bi';
+import { FormTextInput } from '../../components/form/FormTextInput';
+import debounce from 'debounce';
+import { classValidatorResolver } from '@hookform/resolvers/class-validator';
+import { ConfirmDialog } from '../../components/dialogs/ConfirmDialog';
+import { Pagination } from '../../components/pagination/Pagination';
 
 export const DomainSettingsPage = () => {
     const { domainId } = useParams() as DomainPageParams;
 
-    const inviteModal = useDisclosure();
+    const toast = useToast();
+    const deleteModal = useDisclosure();
 
     const { data: domain, isLoading } = useQuery<DomainSettings>({
         queryKey: ['getDomain', { domainId }],
         queryFn: () => domainsApi.getSettings(domainId),
     });
 
-    const form = useForm({
-        values: {
-            name: domain?.domain.name,
-        },
+    const { mutateAsync: updateName } = useMutation<void, DefaultError, UpdateDomainNameData>({
+        mutationKey: ['updateDomainName', { domainId }],
+        mutationFn: (data) => domainsApi.updateName(domainId, data),
     });
+
+    const { mutateAsync: deleteDomain } = useMutation({
+        mutationKey: ['deleteDomain', { domainId }],
+        mutationFn: () => domainsApi.deleteDomain(domainId),
+    });
+
+    const inviteModal = useDisclosure();
+
+    const form = useForm<UpdateDomainNameData>({
+        values: {
+            domainName: domain?.domain.name || '',
+        },
+        resolver: classValidatorResolver(UpdateDomainNameData),
+    });
+
+    const onUpdateName = async (data: UpdateDomainNameData) => {
+        try {
+            if (domain?.domain.name !== data.domainName) {
+                await updateName(data);
+                toast({
+                    title: 'Success',
+                    colorScheme: 'green',
+                    position: 'top',
+                });
+            }
+        } catch (error) {
+            toast({
+                title: 'Something went wrong',
+                colorScheme: 'red',
+                position: 'top',
+            });
+        }
+    };
+
+    const onDeleteDomain = async () => {
+        try {
+            await deleteDomain();
+            toast({
+                title: 'Success',
+                colorScheme: 'green',
+                position: 'top',
+            });
+            window.location.reload();
+        } catch (error) {
+            toast({
+                title: 'Something went wrong',
+                colorScheme: 'red',
+                position: 'top',
+            });
+        }
+    };
 
     if (!domain || isLoading) return <LoadingContainer />;
 
@@ -59,7 +107,15 @@ export const DomainSettingsPage = () => {
                 <Flex direction={'column'} gap={4}>
                     <Avatar name={'Registers Of Scotland'} size={'lg'} rounded={4} />
 
-                    <FormTextInput name={'name'} control={form.control} label={'Domain name'} />
+                    <FormTextInput
+                        name={'domainName'}
+                        control={form.control}
+                        label={'Domain name'}
+                        debounce={500}
+                        onChange={debounce(() => {
+                            form.handleSubmit(onUpdateName)();
+                        }, 500)}
+                    />
                 </Flex>
             </Flex>
 
@@ -69,7 +125,7 @@ export const DomainSettingsPage = () => {
                     <Text fontSize={12}>Manage the people of your domain.</Text>
                 </Flex>
 
-                <Flex direction={'column'} width={'100%'} gap={2}>
+                <Flex direction={'column'} width={'100%'} gap={2} maxWidth={'500px'}>
                     <Flex gap={2}>
                         <InputGroup size={'xs'} maxWidth={'300px'}>
                             <InputLeftElement pointerEvents="none">
@@ -92,6 +148,10 @@ export const DomainSettingsPage = () => {
 
                     <DomainPeopleList people={domain.people} />
 
+                    <Flex justifyContent={'flex-end'}>
+                        <Pagination />
+                    </Flex>
+
                     <InvitePersonModal
                         domainId={domainId}
                         isOpen={inviteModal.isOpen}
@@ -110,10 +170,17 @@ export const DomainSettingsPage = () => {
                 </Flex>
 
                 <Flex direction={'column'}>
-                    <Button colorScheme={'red'} size={'xs'}>
+                    <Button colorScheme={'red'} size={'xs'} onClick={deleteModal.onOpen}>
                         Delete Domain
                     </Button>
                 </Flex>
+
+                <ConfirmDialog
+                    isOpen={deleteModal.isOpen}
+                    onConfirm={onDeleteDomain}
+                    onCancel={deleteModal.onClose}
+                    body={'This action is permanent, you will lose all data relating to this domain.'}
+                />
             </Flex>
         </Flex>
     );

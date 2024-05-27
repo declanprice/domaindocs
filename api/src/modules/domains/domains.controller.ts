@@ -1,8 +1,8 @@
 import { DomainsService } from './domains.service';
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { SendDomainInviteData, SetupDomainData } from '@domaindocs/types';
+import { SendDomainInviteData, SetupDomainData, UpdateDomainNameData } from '@domaindocs/types';
 
 @Controller('domains')
 @UseGuards(AuthGuard)
@@ -26,5 +26,19 @@ export class DomainsController {
         @Body() data: SendDomainInviteData,
     ) {
         return this.domainService.sendInvite(session, domainId, data);
+    }
+
+    @Post('/:domainId/name')
+    async updateName(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Body() data: UpdateDomainNameData,
+    ) {
+        return this.domainService.updateName(session, domainId, data);
+    }
+
+    @Delete('/:domainId')
+    async delete(@AuthSession() session: UserSession, @Param('domainId') domainId: string) {
+        return this.domainService.delete(session, domainId);
     }
 }

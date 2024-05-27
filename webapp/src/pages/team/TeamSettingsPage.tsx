@@ -6,7 +6,7 @@ import { teamsApi } from '../../state/api/teams-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import { TeamPageToolbar } from './TeamPageToolbar';
-import { FormTextInput } from '../../components/form/FormInput';
+import { FormTextInput } from '../../components/form/FormTextInput';
 import { useForm } from 'react-hook-form';
 
 export const TeamSettingsPage = () => {

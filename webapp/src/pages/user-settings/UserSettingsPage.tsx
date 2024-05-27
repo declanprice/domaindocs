@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { Avatar, Button, Flex, Text } from '@chakra-ui/react';
-import { FormTextInput } from '../../components/form/FormInput';
+import { FormTextInput } from '../../components/form/FormTextInput';
 import React from 'react';
 
 export const UserSettingsPage = () => {

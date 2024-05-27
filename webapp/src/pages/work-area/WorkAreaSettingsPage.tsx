@@ -7,7 +7,7 @@ import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { Avatar, Button, Flex, Text } from '@chakra-ui/react';
 import { WorkAreaPageToolbar } from './WorkAreaPageToolbar';
 import { useForm } from 'react-hook-form';
-import { FormTextInput } from '../../components/form/FormInput';
+import { FormTextInput } from '../../components/form/FormTextInput';
 import React from 'react';
 
 export const WorkAreaSettingsPage = () => {

@@ -1,5 +1,5 @@
 import { Button, Flex, Text } from '@chakra-ui/react';
-import { FormTextInput } from '../../components/form/FormInput';
+import { FormTextInput } from '../../components/form/FormTextInput';
 import { useParams } from 'react-router-dom';
 import { ProjectPageParams } from './ProjectPageParams';
 import { useQuery } from '@tanstack/react-query';

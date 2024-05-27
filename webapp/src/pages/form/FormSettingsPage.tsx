@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { Button, Flex, Text } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { FormTextInput } from '../../components/form/FormInput';
+import { FormTextInput } from '../../components/form/FormTextInput';
 import React from 'react';
 import { FormPageToolbar } from './FormPageToolbar';
 import { FormPageParams } from './FormPageParams';

@@ -9,7 +9,7 @@ import {
     ModalOverlay,
     useToast,
 } from '@chakra-ui/react';
-import { FormTextInput } from '../form/FormInput';
+import { FormTextInput } from '../form/FormTextInput';
 import { useForm } from 'react-hook-form';
 import { DefaultError, useMutation } from '@tanstack/react-query';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';

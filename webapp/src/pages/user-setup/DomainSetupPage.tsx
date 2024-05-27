@@ -1,24 +1,17 @@
 import { Button, Flex, Heading } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { DefaultError, useMutation } from '@tanstack/react-query';
-import { useAuthStore } from '../../state/stores/auth.store';
 import { domainsApi } from '../../state/api/domains-api';
-import { FormTextInput } from '../../components/form/FormInput';
+import { FormTextInput } from '../../components/form/FormTextInput';
 import { Domain, SetupDomainData } from '@domaindocs/types';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 export const DomainSetupPage = () => {
-    const navigate = useNavigate();
-
-    const setUserDomains = useAuthStore((state) => state.setUserDomains);
-
     const { mutate } = useMutation<Domain, DefaultError, SetupDomainData>({
         mutationKey: ['setupDomain'],
         mutationFn: domainsApi.setupDomain,
         onSuccess: (data) => {
-            setUserDomains(data);
-            navigate(`/${data.domainId}/home`);
+            window.location.href = '/';
         },
     });
 

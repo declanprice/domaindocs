@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 
 import { useState } from 'react';
-import { FormTextInput } from '../../../components/form/FormInput';
+import { FormTextInput } from '../../../components/form/FormTextInput';
 import { AddProjectOwnershipData, DetailedPerson, ProjectOwnership, ProjectPersonOwnership } from '@domaindocs/types';
 import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
 import { projectsApi } from '../../../state/api/projects-api';

@@ -8,7 +8,7 @@ import { useToast } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useAuthStore } from '../../state/stores/auth.store';
 import { usersApi } from '../../state/api/users-api';
-import { FormTextInput } from '../../components/form/FormInput';
+import { FormTextInput } from '../../components/form/FormTextInput';
 
 export const UserSetupPage = () => {
     const { setUser } = useAuthStore();

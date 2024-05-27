@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { maxLength, minLength, object, string } from 'valibot';
-import { FormTextInput } from '../../../components/form/FormInput';
+import { FormTextInput } from '../../../components/form/FormTextInput';
 import { FormTextArea } from '../../../components/form/FormTextArea';
 import { useQuery } from '@tanstack/react-query';
 import { Documentation, DocumentationType } from '@domaindocs/types';

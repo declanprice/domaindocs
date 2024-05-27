@@ -1,7 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import { createSlug } from '../../util/create-slug';
-import { Domain, DomainSettings, DomainSettingsPerson, SendDomainInviteData, SetupDomainData } from '@domaindocs/types';
+import {
+    Domain,
+    DomainSettings,
+    DomainSettingsPerson,
+    SendDomainInviteData,
+    SetupDomainData,
+    UpdateDomainNameData,
+} from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 import { EmailService } from '../../shared/services/email.service';
 import { AuthService } from '../../auth/auth.service';
@@ -119,5 +126,40 @@ export class DomainsService {
                     ),
             ),
         );
+    }
+
+    async updateName(session: UserSession, domainId: string, data: UpdateDomainNameData) {
+        await this.prisma.domain.update({
+            where: {
+                domainId,
+            },
+            data: {
+                name: data.domainName,
+            },
+        });
+    }
+
+    async delete(session: UserSession, domainId: string) {
+        await this.prisma.$transaction(async (tx) => {
+            await tx.onboardingGuideProgress.deleteMany({ where: { domainId } });
+            await tx.onboardingGuideStep.deleteMany({ where: { domainId } });
+            await tx.onboardingGuide.deleteMany({ where: { domainId } });
+            await tx.documentationFile.deleteMany({ where: { domainId } });
+            await tx.documentationDocument.deleteMany({ where: { domainId } });
+            await tx.documentation.deleteMany({ where: { domainId } });
+            await tx.projectLink.deleteMany({ where: { domainId } });
+            await tx.projectOwnership.deleteMany({ where: { domainId } });
+            await tx.project.deleteMany({ where: { domainId } });
+            await tx.teamMember.deleteMany({ where: { domainId } });
+            await tx.team.deleteMany({ where: { domainId } });
+            await tx.personContactDetails.deleteMany({ where: { domainId } });
+            await tx.personSkill.deleteMany({ where: { domainId } });
+            await tx.personRole.deleteMany({ where: { domainId } });
+            await tx.person.deleteMany({ where: { domainId } });
+            await tx.role.deleteMany({ where: { domainId } });
+            await tx.skill.deleteMany({ where: { domainId } });
+            await tx.domainInvite.deleteMany({ where: { domainId } });
+            await tx.domain.deleteMany();
+        });
     }
 }

@@ -7,7 +7,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { CreateEditOnboardingGuideData, DetailedOnboardingGuide, DetailedTeam, Role } from '@domaindocs/types';
 import { onboardingApi } from '../../state/api/onboarding-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
-import { FormTextInput } from '../../components/form/FormInput';
+import { FormTextInput } from '../../components/form/FormTextInput';
 import { useForm } from 'react-hook-form';
 import { FormSelectable } from '../../components/form/FormSelectable';
 import { teamsApi } from '../../state/api/teams-api';

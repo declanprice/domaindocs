@@ -25,7 +25,7 @@ export const DomainPeopleList = (props: DomainPeopleTableProps) => {
     return (
         <List spacing={2}>
             {people.map((data) => (
-                <ListItem>
+                <ListItem key={data.userId}>
                     <Flex
                         p={1}
                         rounded={4}

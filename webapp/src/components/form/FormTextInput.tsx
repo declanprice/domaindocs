@@ -1,5 +1,4 @@
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Input, FormControlProps } from '@chakra-ui/react';
-
 import { Control, useController } from 'react-hook-form';
 import { getFontSize } from '../../util/getFontSize';
 
@@ -11,6 +10,8 @@ export type FormTextInputProps = {
     helperText?: string;
     onChange?: (e: any) => void;
     onBlur?: () => void;
+    debounce?: number;
+    onDebounceValue?: () => void;
 } & Partial<FormControlProps>;
 
 export const FormTextInput = (props: FormTextInputProps) => {
@@ -19,29 +20,31 @@ export const FormTextInput = (props: FormTextInputProps) => {
         control: props.control,
     });
 
+    console.log('changed');
+
     return (
-        <FormControl isInvalid={fieldState.invalid} {...props}>
+        <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
             {props.label && <FormLabel fontSize={getFontSize(props.size)}>{props.label}</FormLabel>}
 
             <Input
-                autoComplete="off"
                 name={field.name}
                 value={field.value}
                 isDisabled={field.disabled}
-                disabled={field.disabled}
+                autoComplete="off"
                 ref={field.ref}
-                onChange={(e) => {
-                    field.onChange(e);
-                    if (props.onChange) {
-                        props.onChange(e);
-                    }
-                }}
                 onBlur={() => {
                     field.onBlur();
                     if (props.onBlur) {
                         props.onBlur();
                     }
                 }}
+                onChange={(e) => {
+                    field.onChange(e);
+                    if (props.onChange) {
+                        props.onChange(e);
+                    }
+                }}
+                disabled={field.disabled}
                 variant={'filled'}
                 placeholder={props.placeholder}
                 size={props.size || 'xs'}
