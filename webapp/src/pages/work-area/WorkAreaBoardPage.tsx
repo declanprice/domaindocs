@@ -29,7 +29,7 @@ export const WorkAreaBoardPage = () => {
                         <InputLeftElement pointerEvents="none">
                             <BiSearch color="gray.900" />
                         </InputLeftElement>
-                        <Input variant={'filled'} placeholder="Search board" backgroundColor={'lightgray'} />
+                        <Input variant={'filled'} placeholder="Search board" />
                     </InputGroup>
                 </Flex>
 

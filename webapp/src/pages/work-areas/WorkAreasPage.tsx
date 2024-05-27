@@ -39,11 +39,11 @@ export const WorkAreasPage = () => {
                         <InputLeftElement pointerEvents="none">
                             <BiSearch color="gray.900" />
                         </InputLeftElement>
-                        <Input variant={'filled'} placeholder="Search work areas" backgroundColor={'lightgray'} />
+                        <Input variant={'filled'} placeholder="Search work areas" />
                     </InputGroup>
 
                     <Box ml={'auto'}>
-                        <Button size={'sm'} leftIcon={<BiPlus />} backgroundColor={'lightgray'}>
+                        <Button size={'sm'} leftIcon={<BiPlus />}>
                             Work Area
                         </Button>
                     </Box>
@@ -54,9 +54,8 @@ export const WorkAreasPage = () => {
                         <Button
                             alignItems={'center'}
                             rounded={4}
-                            backgroundColor={'lightgray'}
                             gap={2}
-                            py={8}
+                            py={6}
                             onClick={() => {
                                 navigate(`/${domainId}/work-areas/${area.area.id}`);
                             }}

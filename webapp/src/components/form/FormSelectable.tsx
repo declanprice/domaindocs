@@ -26,7 +26,7 @@ export const FormSelectable = (props: FormSelectableProps) => {
     });
 
     return (
-        <FormControl isInvalid={fieldState.invalid} {...props}>
+        <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
             {props.label && (
                 <FormLabel mb={1} fontSize={getFontSize(props.size)}>
                     {props.label}

@@ -20,7 +20,7 @@ export const FormTextArea = (props: FormTextAreaProps) => {
     });
 
     return (
-        <FormControl isInvalid={fieldState.invalid} {...props}>
+        <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
             {props.label && <FormLabel fontSize={getFontSize(props.size)}>{props.label}</FormLabel>}
 
             <Textarea

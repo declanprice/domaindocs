@@ -20,13 +20,7 @@ export const FormSelect = (props: FormSelectProps) => {
     });
 
     return (
-        <FormControl
-            isInvalid={fieldState.invalid}
-            onBlur={props.onBlur}
-            onChange={props.onChange}
-            label={props.label}
-            placeholder={props.placeholder}
-        >
+        <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
             {props.label && (
                 <FormLabel fontSize={12} mb={1}>
                     {props.label}
