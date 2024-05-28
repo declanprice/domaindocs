@@ -46,10 +46,10 @@ export const FormPageToolbar = (props: FormPageToolbarProps) => {
                     },
                 },
                 {
-                    label: 'Integrations',
-                    isActive: location.pathname.includes(`/${domainId}/forms/1/integrations`),
+                    label: 'Automations',
+                    isActive: location.pathname.includes(`/${domainId}/forms/1/automations`),
                     onClick: () => {
-                        navigate(`/${domainId}/forms/1/integrations`);
+                        navigate(`/${domainId}/forms/1/automations`);
                     },
                 },
                 {

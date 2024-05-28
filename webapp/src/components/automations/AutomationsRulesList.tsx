@@ -3,7 +3,7 @@ import { IoSearchOutline } from 'react-icons/io5';
 import { CiFilter } from 'react-icons/ci';
 import { BiBook } from 'react-icons/bi';
 import { BiLogoMicrosoftTeams } from 'react-icons/bi';
-export const IntegrationRulesList = () => {
+export const AutomationsRulesList = () => {
     return (
         <Flex direction="column">
             <Flex

@@ -1,47 +1,24 @@
-import {
-    DetailedWorkArea,
-    DetailedWorkBoard,
-    WorkArea,
-    WorkAreaPerson,
-    WorkBoardColumn,
-    WorkItem,
-} from '@domaindocs/types';
+import { CreateWorkAreaData, DetailedWorkArea, DetailedWorkBoard } from '@domaindocs/types';
+import { apiClient } from './api-client';
 
 export const workApi = () => {
-    const search = async (): Promise<DetailedWorkArea[]> => {
-        return [
-            new DetailedWorkArea(
-                {
-                    id: '1',
-                    name: 'Team Orion - Work Area',
-                },
-                [new WorkAreaPerson('1', 'Declan', 'Price'), new WorkAreaPerson('2', 'Natasha', 'Leslie')],
-            ),
-        ];
+    const search = async (domainId: string): Promise<DetailedWorkArea[]> => {
+        const result = await apiClient.get<DetailedWorkArea[]>(`/domains/${domainId}/work-areas`);
+        return result.data;
     };
 
-    const getWorkBoard = async (): Promise<DetailedWorkBoard> => {
-        return new DetailedWorkBoard(
-            new WorkArea('1', 'Team Orion - Work Area'),
-            [
-                new WorkAreaPerson('1', 'Declan', 'Price'),
-                new WorkAreaPerson('2', 'Ben', 'Munroe'),
-                new WorkAreaPerson('3', 'Natasha', 'Leslie'),
-            ],
-            [
-                new WorkBoardColumn('1', 'Ready', [
-                    new WorkItem('1', 'Item 1'),
-                    new WorkItem('2', 'Item 2'),
-                    new WorkItem('3', 'Item 3'),
-                ]),
-                new WorkBoardColumn('2', 'Doing', [new WorkItem('4', 'Item 4')]),
-                new WorkBoardColumn('3', 'Done', [new WorkItem('5', 'Item 5')]),
-            ],
-        );
+    const create = async (domainId: string, data: CreateWorkAreaData) => {
+        await apiClient.post<void>(`/domains/${domainId}/work-areas`, data);
+    };
+
+    const getWorkBoard = async (domainId: string, areaId: string): Promise<DetailedWorkBoard> => {
+        const result = await apiClient.get<DetailedWorkBoard>(`/domains/${domainId}/work-areas/${areaId}/board`);
+        return result.data;
     };
 
     return {
         search,
+        create,
         getWorkBoard,
     };
 };

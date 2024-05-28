@@ -2,7 +2,7 @@ import { WorkAreaPerson } from './work-area-person';
 import { WorkArea } from './work-area';
 import { WorkItem } from './work-item';
 
-export class WorkBoardColumn {
+export class WorkBoardStatus {
     constructor(
         public id: string,
         public name: string,
@@ -14,6 +14,6 @@ export class DetailedWorkBoard {
     constructor(
         public area: WorkArea,
         public people: WorkAreaPerson[],
-        public columns: WorkBoardColumn[],
+        public statuses: WorkBoardStatus[],
     ) {}
 }

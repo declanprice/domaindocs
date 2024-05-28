@@ -61,11 +61,11 @@ export const WorkAreaPageToolbar = (props: WorkAreaPageToolbarProps) => {
                     },
                 },
                 {
-                    label: 'Integrations',
+                    label: 'Automations',
                     icon: <PiPlugsConnectedLight color={'gray.100'} />,
-                    isActive: location.pathname.includes(`/${domainId}/work-areas/${area.id}/integrations`),
+                    isActive: location.pathname.includes(`/${domainId}/work-areas/${area.id}/automations`),
                     onClick: () => {
-                        navigate(`/${domainId}/work-areas/${area.id}/integrations`);
+                        navigate(`/${domainId}/work-areas/${area.id}/automations`);
                     },
                 },
                 {

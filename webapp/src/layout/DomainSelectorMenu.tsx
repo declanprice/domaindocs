@@ -78,10 +78,10 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
                     />
 
                     <MenuButton
-                        label={'Integrations'}
+                        label={'Automations'}
                         icon={<PiPlugsConnected />}
                         onClick={() => {
-                            navigate(`/${value.domainId}/integrations`);
+                            navigate(`/${value.domainId}/automations`);
                         }}
                     />
 

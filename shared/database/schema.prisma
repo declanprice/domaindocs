@@ -25,6 +25,7 @@ model User {
   onboardingGuideProgress OnboardingGuideProgress[]
   workItems WorkItem[]
   workItemAssignees WorkItemAssigne[]
+  workAreaPeople WorkAreaPerson[]
 
   @@map("user")
 }
@@ -51,8 +52,8 @@ model Domain {
   onboardingGuideSteps OnboardingGuideStep[]
   onboardingGuideProgress OnboardingGuideProgress[]
   workAreas WorkArea[]
-  workBoards WorkBoard[]
-  workBoardColumns WorkBoardColumn[]
+  workAreaPeople WorkAreaPerson[]
+  workItemStatuses WorkItemStatus[]
   workItems WorkItem[]
   workItemAssignees WorkItemAssigne[]
   invites DomainInvite[]
@@ -85,6 +86,7 @@ model Person {
   onboardingGuideProgress OnboardingGuideProgress[]
   workItems WorkItem[]
   workItemAssignees WorkItemAssigne[]
+  workAreaPeople WorkAreaPerson[]
 
   @@id([userId, domainId])
   @@index([domainId])
@@ -374,49 +376,59 @@ model WorkArea {
   name String @map("name")
 
   domain  Domain @relation(fields: [domainId], references: [domainId])
-  workBoard WorkBoard @relation(fields: [workAreaId], references: [workAreaId])
+  people WorkAreaPerson[]
+  items WorkItem[]
+  itemStatuses WorkItemStatus[]
+
 
   @@map("work_area")
 }
 
-model WorkBoard {
-  boardId String @id @map("board_id")
-  workAreaId String @unique @map("work_area_id")
+model WorkAreaPerson {
+  workAreaId String @map("work_area_id")
   domainId String @map("domain_id")
+  userId String @map("user_id")
 
+  area    WorkArea @relation(fields: [workAreaId], references: [workAreaId])
   domain  Domain @relation(fields: [domainId], references: [domainId])
-  workArea WorkArea?
-  columns WorkBoardColumn[]
+  user    User @relation(fields: [userId], references: [userId])
+  person  Person @relation(fields: [domainId, userId], references: [domainId, userId])
 
-  @@map("work_board")
+  @@id([userId, workAreaId])
+  @@map("work_area_person")
 }
 
-model WorkBoardColumn {
-  columnId String @id @map("column_id")
-  boardId String  @map("board_id")
+
+model WorkItemStatus {
+  statusId String @id @map("status_id")
+  workAreaId String  @map("work_area_id")
   domainId String @map("domain_id")
   name String @map("name")
-  isToDoColumn Boolean @map("is_todo_column")
-  isDoneColumn Boolean @map("is_done_column")
+  isToDoStatus Boolean @map("is_todo_status")
+  isDoneStatus Boolean @map("is_done_status")
 
   domain  Domain @relation(fields: [domainId], references: [domainId])
-  board  WorkBoard @relation(fields: [boardId], references: [boardId])
+  area    WorkArea @relation(fields: [workAreaId], references: [workAreaId])
+  items   WorkItem[]
 
-  @@map("work_board_column")
+  @@map("work_area_status")
 }
 
 model WorkItem {
   itemId String @id @map("item_id")
-  boardId String  @map("board_id")
   workAreaId String @map("work_area_id")
   domainId String @map("domain_id")
   name String @map("name")
   description String @map("description")
   createdByUserId String @map("created_by_user_id")
   type String @map("type")
+  statusId String @map("status_id")
   parentId String? @map("parent_id")
 
+
   domain  Domain @relation(fields: [domainId], references: [domainId])
+  area    WorkArea @relation(fields: [workAreaId], references: [workAreaId])
+  status    WorkItemStatus @relation(fields: [statusId], references: [statusId])
   createdByUser  User @relation(fields: [createdByUserId], references: [userId])
   createdByPerson  Person @relation(fields: [createdByUserId, domainId], references: [userId, domainId])
   parent WorkItem? @relation("children", fields: [parentId], references: [itemId])

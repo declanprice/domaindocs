@@ -1,18 +1,32 @@
 import { WorkAreasService } from './work-areas.service';
-import { Body, Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
+import { CreateWorkAreaData } from '@domaindocs/types';
 
-@Controller('work-areas')
+@Controller('domains/:domainId/work-areas')
 @UseGuards(AuthGuard)
 export class WorkAreasController {
     constructor(readonly workAreaService: WorkAreasService) {}
 
     @Get('/')
-    async search(@AuthSession() session: UserSession) {}
+    async search(@AuthSession() session: UserSession, @Param('domainId') domainId: string) {
+        return this.workAreaService.search(session, domainId);
+    }
+
+    @Get('/:areaId/board')
+    async getBoard(@AuthSession() session: UserSession, @Param('domainId') domainId: string) {
+        return this.workAreaService.getBoard(session, domainId);
+    }
 
     @Post('/')
-    async create(@AuthSession() session: UserSession, @Body() data: any) {}
+    async create(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Body() data: CreateWorkAreaData,
+    ) {
+        return this.workAreaService.create(session, domainId, data);
+    }
 
     @Post('/:areaId')
     async createColumn(@AuthSession() session: UserSession, @Body() data: any) {}

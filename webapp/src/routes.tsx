@@ -25,17 +25,17 @@ import { WorkAreasPage } from './pages/work-areas/WorkAreasPage';
 import { WorkAreaBoardPage } from './pages/work-area/WorkAreaBoardPage';
 import { WorkAreaBacklogPage } from './pages/work-area/WorkAreaBacklogPage';
 import { WorkAreaItemsPage } from './pages/work-area/WorkAreaItemsPage';
-import { WorkAreaIntegrationsPage } from './pages/work-area/WorkAreaIntegrationsPage';
+import { WorkAreaAutomationsPage } from './pages/work-area/WorkAreaAutomationsPage';
 import { WorkAreaSettingsPage } from './pages/work-area/WorkAreaSettingsPage';
 import { FormsPage } from './pages/forms/FormsPage';
 import { FormsYourFormsPage } from './pages/forms/FormsYourFormsPage';
 import { FormsYourSubmissionsPage } from './pages/forms/FormsYourSubmissionsPage';
 import { FormOverviewPage } from './pages/form/FormOverviewPage';
 import { FormFieldsPage } from './pages/form/FormFieldsPage';
-import { FormIntegrationsPage } from './pages/form/FormIntegrationsPage';
+import { FormAutomationsPage } from './pages/form/FormAutomationsPage';
 import { FormSettingsPage } from './pages/form/FormSettingsPage';
-import { IntegrationsConnectionsPage } from './pages/integrations/IntegrationsConnectionsPage';
-import { IntegrationRulesPage } from './pages/integrations/IntegrationRulesPage';
+import { AutomationsConnectionsPage } from './pages/automations/AutomationsConnectionsPage';
+import { AutomationsRulesPage } from './pages/automations/AutomationsRulesPage';
 import { DomainSettingsPage } from './pages/domain-settings/DomainSettingsPage';
 import { HomeDocsPage } from './pages/home/HomeDocsPage';
 import { HomeNoticeBoardPage } from './pages/home/HomeNoticeBoardPage';
@@ -194,8 +194,8 @@ export const routes = createBrowserRouter([
                                                 element: <WorkAreaItemsPage />,
                                             },
                                             {
-                                                path: 'integrations',
-                                                element: <WorkAreaIntegrationsPage />,
+                                                path: 'automations',
+                                                element: <WorkAreaAutomationsPage />,
                                             },
                                             {
                                                 path: 'settings',
@@ -236,8 +236,8 @@ export const routes = createBrowserRouter([
                                                 element: <FormFieldsPage />,
                                             },
                                             {
-                                                path: 'integrations',
-                                                element: <FormIntegrationsPage />,
+                                                path: 'automations',
+                                                element: <FormAutomationsPage />,
                                             },
                                             {
                                                 path: 'settings',
@@ -270,7 +270,7 @@ export const routes = createBrowserRouter([
                                         element: <InboxPage />,
                                     },
                                     {
-                                        path: 'integrations',
+                                        path: 'automations',
                                         children: [
                                             {
                                                 path: '',
@@ -278,11 +278,11 @@ export const routes = createBrowserRouter([
                                             },
                                             {
                                                 path: 'connections',
-                                                element: <IntegrationsConnectionsPage />,
+                                                element: <AutomationsConnectionsPage />,
                                             },
                                             {
                                                 path: 'rules',
-                                                element: <IntegrationRulesPage />,
+                                                element: <AutomationsRulesPage />,
                                             },
                                         ],
                                     },

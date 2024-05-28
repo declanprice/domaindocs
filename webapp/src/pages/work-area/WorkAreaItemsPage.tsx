@@ -4,10 +4,14 @@ import { useQuery } from '@tanstack/react-query';
 import { DetailedWorkBoard } from '@domaindocs/types';
 import { workApi } from '../../state/api/workApi';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
-import { Flex } from '@chakra-ui/react';
+import { Flex, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { WorkAreaPageToolbar } from './WorkAreaPageToolbar';
 import { ItemsNavigator } from './components/items/ItemsNavigator';
 import { ItemPanel } from './components/items/ItemPanel';
+import { BiSearch } from 'react-icons/bi';
+import { BacklogEpicNavigator } from './components/backlog/BacklogEpicNavigator';
+import { BacklogBoardItems } from './components/backlog/BacklogBoardItems';
+import { BacklogItemsList } from './components/backlog/BacklogItemsList';
 
 export const WorkAreaItemsPage = () => {
     const { domainId, areaId } = useParams() as WorkAreaPageParams;
@@ -23,11 +27,22 @@ export const WorkAreaItemsPage = () => {
         <Flex direction="column" width={'100%'}>
             <WorkAreaPageToolbar domainId={domainId} area={board.area} />
 
-            <Flex height={'100%'} width={'100%'}>
-                <ItemsNavigator />
+            <Flex flex={1} direction={'column'} p={4} gap={4}>
+                <Flex alignItems={'center'} borderBottom={'1px'} borderColor={'border'} pb={4}>
+                    <InputGroup size={'sm'} maxWidth={'250px'}>
+                        <InputLeftElement pointerEvents="none">
+                            <BiSearch color="gray.900" />
+                        </InputLeftElement>
+                        <Input variant={'filled'} placeholder="Search all items" backgroundColor={'lightgray'} />
+                    </InputGroup>
+                </Flex>
 
-                <Flex width={'100%'}>
-                    <ItemPanel />
+                <Flex flex={1} gap={4}>
+                    <ItemsNavigator />
+
+                    <Flex direction={'column'} width={'100%'} gap={8}>
+                        <ItemPanel />
+                    </Flex>
                 </Flex>
             </Flex>
         </Flex>

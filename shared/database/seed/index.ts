@@ -8,11 +8,19 @@ import { softwareDevRole, teamLeadRole } from './roles';
 import { deedSearchProject, projectLinks, projectOwnership } from './projects';
 import { PrismaClient } from '@prisma/client';
 import { onboarding, onboardingSteps } from './onboarding';
+import { workAreaPeople, workAreas, workItems, workItemStatuses } from './work';
 
 const client = new PrismaClient();
 
 (async () => {
     /** CLEAR **/
+
+    await client.workItemAssigne.deleteMany();
+    await client.workItemAttachment.deleteMany();
+    await client.workItem.deleteMany();
+    await client.workItemStatus.deleteMany();
+    await client.workAreaPerson.deleteMany();
+    await client.workArea.deleteMany();
 
     await client.onboardingGuideProgress.deleteMany();
     await client.onboardingGuideStep.deleteMany();
@@ -72,5 +80,10 @@ const client = new PrismaClient();
 
     await client.onboardingGuide.createMany({ data: onboarding() });
     await client.onboardingGuideStep.createMany({ data: onboardingSteps() });
+
+    await client.workArea.createMany({ data: workAreas() });
+    await client.workAreaPerson.createMany({ data: workAreaPeople() });
+    await client.workItemStatus.createMany({ data: workItemStatuses() });
+    await client.workItem.createMany({ data: workItems() });
     process.exit(0);
 })();

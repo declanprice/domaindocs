@@ -2,14 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 
 export const BacklogEpicNavigator = () => {
     return (
-        <Flex
-            height={'100%'}
-            minWidth={'250px'}
-            borderRight={'1px solid'}
-            borderColor={'border'}
-            backgroundColor={'lightgray'}
-            p={1}
-        >
+        <Flex height={'100%'} minWidth={'250px'} backgroundColor={'lightgray'} p={1} rounded={4}>
             <Flex direction={'column'} width={'100%'}>
                 <Flex p={2}>
                     <Text fontSize={14} color={'gray.900'} fontWeight={'bold'}>

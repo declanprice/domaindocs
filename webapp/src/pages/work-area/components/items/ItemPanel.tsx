@@ -5,7 +5,7 @@ import { SiReacthookform } from 'react-icons/si';
 
 export const ItemPanel = () => {
     return (
-        <Flex direction="column" p={6} width={'100%'} gap={2}>
+        <Flex direction="column" gap={2}>
             <ItemHeading />
 
             <Divider />
