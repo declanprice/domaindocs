@@ -1,6 +1,14 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { WorkItem } from '@domaindocs/types';
 
-export const ItemsNavigator = () => {
+type ItemsNavigatorProps = {
+    items: WorkItem[];
+    onItemClick: (item: WorkItem) => void;
+};
+
+export const ItemsNavigator = (props: ItemsNavigatorProps) => {
+    const { items, onItemClick } = props;
+
     return (
         <Flex height={'100%'} minWidth={'250px'} rounded={4} backgroundColor={'lightgray'} p={1}>
             <Flex direction={'column'} width={'100%'}>
@@ -10,8 +18,12 @@ export const ItemsNavigator = () => {
                     </Text>
                 </Flex>
                 <Flex mt={4} direction={'column'} gap={2}>
-                    {[1, 2, 3].map(() => (
+                    {items.map((item) => (
                         <Box
+                            onClick={() => {
+                                onItemClick(item);
+                            }}
+                            key={item.id}
                             border={'1px solid'}
                             borderColor={'border'}
                             _hover={{

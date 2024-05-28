@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { WorkAreaPageParams } from './WorkAreaPageParams';
 import { useQuery } from '@tanstack/react-query';
-import { DetailedWorkArea, DetailedWorkItem, WorkItem } from '@domaindocs/types';
+import { DetailedWorkArea, WorkItem } from '@domaindocs/types';
 import { workApi } from '../../state/api/workApi';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { Box, Button, Flex, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
@@ -9,12 +9,10 @@ import { WorkAreaPageToolbar } from './WorkAreaPageToolbar';
 import { ItemsNavigator } from './components/items/ItemsNavigator';
 import { ItemPanel } from './components/items/ItemPanel';
 import { BiPlus, BiSearch } from 'react-icons/bi';
-import { useEffect, useState } from 'react';
+import { useActiveItem } from './hooks/useActiveItem';
 
 export const WorkAreaItemsPage = () => {
     const { domainId, areaId } = useParams() as WorkAreaPageParams;
-
-    const [activeItemId, setActiveItemId] = useState<string>();
 
     const { data: area, isLoading: isAreaLoading } = useQuery<DetailedWorkArea>({
         queryKey: ['getArea', { domainId, areaId }],
@@ -26,25 +24,7 @@ export const WorkAreaItemsPage = () => {
         queryFn: () => workApi().searchItems(domainId, areaId),
     });
 
-    const {
-        data: item,
-        isFetching: isItemFetching,
-        refetch: fetchItem,
-    } = useQuery<DetailedWorkItem>({
-        enabled: false,
-        queryKey: ['getItem', { domainId, areaId, itemId: activeItemId! }],
-        queryFn: () => workApi().getItem(domainId, areaId, activeItemId!),
-    });
-
-    useEffect(() => {
-        if (!activeItemId && items && items.length) {
-            setActiveItemId(items[0].id);
-        }
-    }, [items]);
-
-    useEffect(() => {
-        fetchItem().then();
-    }, [activeItemId]);
+    const { item, isItemFetching, setActiveItemId } = useActiveItem(items);
 
     if (!area || !items || isAreaLoading || isItemsLoading) return <LoadingContainer />;
 
@@ -69,14 +49,23 @@ export const WorkAreaItemsPage = () => {
                 </Flex>
 
                 <Flex flex={1} gap={4}>
-                    <ItemsNavigator />
+                    <ItemsNavigator
+                        items={items}
+                        onItemClick={(item) => {
+                            setActiveItemId(item.id);
+                        }}
+                    />
 
-                    {activeItemId && !item && isItemFetching ? (
+                    {isItemFetching ? (
                         <LoadingContainer />
                     ) : (
-                        <Flex direction={'column'} width={'100%'} gap={8}>
-                            <ItemPanel />
-                        </Flex>
+                        <>
+                            {item && (
+                                <Flex direction={'column'} width={'100%'} gap={8}>
+                                    <ItemPanel item={item} />
+                                </Flex>
+                            )}
+                        </>
                     )}
                 </Flex>
             </Flex>

@@ -8,7 +8,7 @@ import { softwareDevRole, teamLeadRole } from './roles';
 import { deedSearchProject, projectLinks, projectOwnership } from './projects';
 import { PrismaClient } from '@prisma/client';
 import { onboarding, onboardingSteps } from './onboarding';
-import { workAreaPeople, workAreas, workItems, workItemStatuses } from './work';
+import { workAreaPeople, workAreas, workItemAssignees, workItems, workItemStatuses } from './work';
 
 const client = new PrismaClient();
 
@@ -85,5 +85,6 @@ const client = new PrismaClient();
     await client.workAreaPerson.createMany({ data: workAreaPeople() });
     await client.workItemStatus.createMany({ data: workItemStatuses() });
     await client.workItem.createMany({ data: workItems() });
+    await client.workItemAssigne.createMany({ data: workItemAssignees() });
     process.exit(0);
 })();

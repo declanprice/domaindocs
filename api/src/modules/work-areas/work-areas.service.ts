@@ -5,7 +5,6 @@ import {
     DetailedWorkArea,
     DetailedWorkBoard,
     DetailedWorkItem,
-    SetupUserData,
     WorkArea,
     WorkAreaPerson,
     WorkBoardStatus,
@@ -124,12 +123,34 @@ export class WorkAreasService {
     }
 
     async getItem(session: UserSession, domainId: string, workAreaId: string, itemId: string) {
-        const results = await this.prisma.workItem.findUniqueOrThrow({
+        const result = await this.prisma.workItem.findUniqueOrThrow({
             where: {
                 itemId,
             },
+            include: {
+                createdByUser: true,
+                assignees: {
+                    include: {
+                        user: true,
+                    },
+                },
+            },
         });
 
-        return new DetailedWorkItem(results.itemId, results.name, results.type as WorkItemType, results.description);
+        return new DetailedWorkItem(
+            result.itemId,
+            result.name,
+            result.type as WorkItemType,
+            result.description,
+            new WorkAreaPerson(
+                result.createdByUser.userId,
+                result.createdByUser.firstName,
+                result.createdByUser.lastName,
+                result.createdByUser.iconUri,
+            ),
+            result.assignees.map(
+                (a) => new WorkAreaPerson(a.user.userId, a.user.firstName, a.user.lastName, a.user.iconUri),
+            ),
+        );
     }
 }

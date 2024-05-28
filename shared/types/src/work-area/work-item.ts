@@ -1,3 +1,5 @@
+import { WorkAreaPerson } from './work-area-person';
+
 export enum WorkItemType {
     EPIC = 'Epic',
     STORY = 'Story',
@@ -20,5 +22,7 @@ export class DetailedWorkItem {
         public name: string,
         public type: WorkItemType,
         public description: string,
+        public createdBy: WorkAreaPerson,
+        public assignees: WorkAreaPerson[],
     ) {}
 }
