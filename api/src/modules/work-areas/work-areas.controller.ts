@@ -14,11 +14,6 @@ export class WorkAreasController {
         return this.workAreaService.search(session, domainId);
     }
 
-    @Get('/:areaId/board')
-    async getBoard(@AuthSession() session: UserSession, @Param('domainId') domainId: string) {
-        return this.workAreaService.getBoard(session, domainId);
-    }
-
     @Post('/')
     async create(
         @AuthSession() session: UserSession,
@@ -28,24 +23,40 @@ export class WorkAreasController {
         return this.workAreaService.create(session, domainId, data);
     }
 
-    @Post('/:areaId')
-    async createColumn(@AuthSession() session: UserSession, @Body() data: any) {}
+    @Get('/:areaId')
+    async getArea(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('workAreaId') workAreaId: string,
+    ) {
+        return this.workAreaService.getArea(session, domainId, workAreaId);
+    }
 
-    @Post('/:areaId')
-    async createItem(@AuthSession() session: UserSession, @Body() data: any) {}
+    @Get('/:areaId/board')
+    async getBoard(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('workAreaId') workAreaId: string,
+    ) {
+        return this.workAreaService.getBoard(session, domainId, workAreaId);
+    }
 
-    @Post('/:areaId/:itemId/move')
-    async moveColumn(@AuthSession() session: UserSession, @Body() data: any) {}
+    @Get('/:areaId/items')
+    async searchItems(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('workAreaId') workAreaId: string,
+    ) {
+        return this.workAreaService.searchItems(session, domainId, workAreaId);
+    }
 
-    @Post('/:areaId/:itemId/description')
-    async updateItemDescription(@AuthSession() session: UserSession, @Body() data: any) {}
-
-    @Post('/:areaId/:itemId/assignees')
-    async updateAssignees(@AuthSession() session: UserSession, @Body() data: any) {}
-
-    @Post('/:areaId/:itemId/type')
-    async updateType(@AuthSession() session: UserSession, @Body() data: any) {}
-
-    @Delete('/:areaId/:itemId')
-    async deleteItem(@AuthSession() session: UserSession, @Body() data: any) {}
+    @Get('/:areaId/items/:itemId')
+    async getItem(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('workAreaId') workAreaId: string,
+        @Param('itemId') itemId: string,
+    ) {
+        return this.workAreaService.getItem(session, domainId, workAreaId, itemId);
+    }
 }

@@ -4,6 +4,7 @@ import {
     CreateWorkAreaData,
     DetailedWorkArea,
     DetailedWorkBoard,
+    DetailedWorkItem,
     SetupUserData,
     WorkArea,
     WorkAreaPerson,
@@ -43,10 +44,34 @@ export class WorkAreasService {
         );
     }
 
-    async getBoard(session: UserSession, domainId: string) {
+    async getArea(session: UserSession, domainId: string, workAreaId: string) {
         const result = await this.prisma.workArea.findFirstOrThrow({
             where: {
                 domainId,
+                workAreaId,
+            },
+            include: {
+                people: {
+                    include: {
+                        user: true,
+                    },
+                },
+            },
+        });
+
+        return new DetailedWorkArea(
+            new WorkArea(result.workAreaId, result.name),
+            result.people.map(
+                (p) => new WorkAreaPerson(p.user.userId, p.user.firstName, p.user.lastName, p.user.iconUri),
+            ),
+        );
+    }
+
+    async getBoard(session: UserSession, domainId: string, workAreaId: string) {
+        const result = await this.prisma.workArea.findFirstOrThrow({
+            where: {
+                domainId,
+                workAreaId,
             },
             include: {
                 people: {
@@ -86,5 +111,25 @@ export class WorkAreasService {
                 name: data.name,
             },
         });
+    }
+
+    async searchItems(session: UserSession, domainId: string, workAreaId: string) {
+        const results = await this.prisma.workItem.findMany({
+            where: {
+                workAreaId,
+            },
+        });
+
+        return results.map((i) => new WorkItem(i.itemId, i.name, i.type as WorkItemType));
+    }
+
+    async getItem(session: UserSession, domainId: string, workAreaId: string, itemId: string) {
+        const results = await this.prisma.workItem.findUniqueOrThrow({
+            where: {
+                itemId,
+            },
+        });
+
+        return new DetailedWorkItem(results.itemId, results.name, results.type as WorkItemType, results.description);
     }
 }
