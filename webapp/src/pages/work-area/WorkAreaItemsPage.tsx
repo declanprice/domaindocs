@@ -6,8 +6,8 @@ import { workApi } from '../../state/api/workApi';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { Box, Button, Flex, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { WorkAreaPageToolbar } from './WorkAreaPageToolbar';
-import { ItemsNavigator } from './components/items/ItemsNavigator';
-import { ItemPanel } from './components/items/ItemPanel';
+import { ItemsNavigator } from './components/item/ItemsNavigator';
+import { ItemPanel } from './components/item/panel/ItemPanel';
 import { BiPlus, BiSearch } from 'react-icons/bi';
 import { useActiveItem } from './hooks/useActiveItem';
 

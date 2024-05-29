@@ -1,18 +1,18 @@
 import { Box, Button, Flex, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import { ParentWorkItem, UpdateItemParentData, WorkItem, WorkItemType } from '@domaindocs/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { workApi } from '../../../../state/api/workApi';
 import { BiEdit } from 'react-icons/bi';
-import { LoadingContainer } from '../../../../components/loading/LoadingContainer';
-import { ItemTypeIcon } from './ItemTypeIcon';
+import { workApi } from '../../../../../state/api/workApi';
+import { ItemTypeIcon } from '../ItemTypeIcon';
+import { LoadingContainer } from '../../../../../components/loading/LoadingContainer';
 
-type ChangeItemParentMenuProps = {
+type ItemParentMenuProps = {
     domainId: string;
     areaId: string;
     item: WorkItem;
 };
 
-export const ChangeItemParentMenu = (props: ChangeItemParentMenuProps) => {
+export const ItemParentMenu = (props: ItemParentMenuProps) => {
     const { domainId, areaId, item } = props;
 
     const { data: parents, refetch: fetchParents } = useQuery({

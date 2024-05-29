@@ -1,16 +1,16 @@
 import { Button, Flex, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import { UpdateItemTypeData, WorkItem, WorkItemType } from '@domaindocs/types';
-import { ItemTypeIcon } from './ItemTypeIcon';
 import { useMutation } from '@tanstack/react-query';
-import { workApi } from '../../../../state/api/workApi';
+import { workApi } from '../../../../../state/api/workApi';
+import { ItemTypeIcon } from '../ItemTypeIcon';
 
-type ChangeItemTypeMenuProps = {
+type ItemTypeMenuProps = {
     domainId: string;
     areaId: string;
     item: WorkItem;
 };
 
-export const ChangeItemTypeMenu = (props: ChangeItemTypeMenuProps) => {
+export const ItemTypeMenu = (props: ItemTypeMenuProps) => {
     const { domainId, areaId, item } = props;
 
     const { mutateAsync, isPending } = useMutation<void, any, UpdateItemTypeData>({

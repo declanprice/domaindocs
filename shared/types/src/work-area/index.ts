@@ -6,3 +6,5 @@ export * from './create-work-area-data';
 export * from './update-item-parent-data';
 export * from './update-item-type-data';
 export * from './update-item-assignees-data';
+export * from './update-item-reported-by-data';
+export * from './update-item-reported-by-data';

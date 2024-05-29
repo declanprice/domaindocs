@@ -85,7 +85,7 @@ export const workItems = (): WorkItem[] => {
             type: WorkItemType.STORY,
             description: 'story description',
             parentId: null,
-            createdByUserId: declanUser().userId,
+            reportedByUserId: declanUser().userId,
         },
         {
             areaId,
@@ -96,7 +96,7 @@ export const workItems = (): WorkItem[] => {
             type: WorkItemType.STORY,
             description: 'story description',
             parentId: null,
-            createdByUserId: declanUser().userId,
+            reportedByUserId: declanUser().userId,
         },
     ];
 };

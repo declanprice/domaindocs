@@ -11,8 +11,8 @@ import {
     Text,
 } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { workApi } from '../../../../state/api/workApi';
-import { LoadingContainer } from '../../../../components/loading/LoadingContainer';
+import { workApi } from '../../../../../state/api/workApi';
+import { LoadingContainer } from '../../../../../components/loading/LoadingContainer';
 
 type ItemAssigneesProps = {
     domainId: string;
@@ -105,7 +105,7 @@ export const ItemAssignees = (props: ItemAssigneesProps) => {
                     <LoadingContainer />
                 ) : (
                     <MenuOptionGroup
-                        title="People"
+                        title="Select assignees"
                         type="checkbox"
                         value={item.assignees.map((a) => a.userId)}
                         onChange={async (userIds) => {

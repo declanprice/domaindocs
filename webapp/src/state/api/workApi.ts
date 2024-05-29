@@ -6,6 +6,7 @@ import {
     ParentWorkItem,
     UpdateItemAssigneesData,
     UpdateItemParentData,
+    UpdateItemReportedByData,
     UpdateItemTypeData,
     WorkAreaPerson,
     WorkItem,
@@ -14,6 +15,7 @@ import {
 import { apiClient } from './api-client';
 import { queryClient } from '../query-client';
 import { produce } from 'immer';
+import { UpdateItemDescriptionData } from '../../../../shared/types/src/work-area/update-item-description-data';
 
 export const workApi = () => {
     const search = async (domainId: string): Promise<DetailedWorkArea[]> => {
@@ -60,6 +62,20 @@ export const workApi = () => {
         return result.data;
     };
 
+    const updateReportedBy = async (
+        domainId: string,
+        areaId: string,
+        itemId: string,
+        data: UpdateItemReportedByData,
+    ) => {
+        const { data: item } = await apiClient.post<DetailedWorkItem>(
+            `/domains/${domainId}/work-areas/${areaId}/items/${itemId}/reported-by`,
+            data,
+        );
+
+        updateLocalItem(domainId, areaId, itemId, item);
+    };
+
     const updateItemAssignees = async (
         domainId: string,
         areaId: string,
@@ -92,6 +108,20 @@ export const workApi = () => {
         updateLocalItem(domainId, areaId, itemId, item);
     };
 
+    const updateItemDescription = async (
+        domainId: string,
+        areaId: string,
+        itemId: string,
+        data: UpdateItemDescriptionData,
+    ) => {
+        const { data: item } = await apiClient.post<DetailedWorkItem>(
+            `/domains/${domainId}/work-areas/${areaId}/items/${itemId}/description`,
+            data,
+        );
+
+        updateLocalItem(domainId, areaId, itemId, item);
+    };
+
     const updateLocalItem = (domainId: string, areaId: string, itemId: string, item: DetailedWorkItem) => {
         queryClient.setQueryData(['getItem', { itemId }], item);
 
@@ -117,5 +147,7 @@ export const workApi = () => {
         updateItemParent,
         updateItemType,
         updateItemAssignees,
+        updateReportedBy,
+        updateItemDescription,
     };
 };

@@ -14,10 +14,12 @@ import {
     UpdateItemTypeData,
     ParentWorkItem,
     UpdateItemAssigneesData,
+    UpdateItemReportedByData,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 import { v4 } from 'uuid';
 import { a } from 'vitest/dist/suite-ynYMzeLu';
+import { UpdateItemDescriptionData } from '../../../../shared/types/src/work-area/update-item-description-data';
 
 @Injectable()
 export class WorkAreasService {
@@ -200,7 +202,7 @@ export class WorkAreasService {
                 itemId,
             },
             include: {
-                createdByUser: true,
+                reportedByUser: true,
                 assignees: {
                     include: {
                         user: true,
@@ -216,10 +218,10 @@ export class WorkAreasService {
             result.type as WorkItemType,
             result.description,
             new WorkAreaPerson(
-                result.createdByUser.userId,
-                result.createdByUser.firstName,
-                result.createdByUser.lastName,
-                result.createdByUser.iconUri,
+                result.reportedByUser.userId,
+                result.reportedByUser.firstName,
+                result.reportedByUser.lastName,
+                result.reportedByUser.iconUri,
             ),
             result.assignees.map(
                 (a) => new WorkAreaPerson(a.user.userId, a.user.firstName, a.user.lastName, a.user.iconUri),
@@ -334,6 +336,25 @@ export class WorkAreasService {
         return this.getItem(session, domainId, areaId, itemId);
     }
 
+    async updateReportedBy(
+        session: UserSession,
+        domainId: string,
+        areaId: string,
+        itemId: string,
+        data: UpdateItemReportedByData,
+    ) {
+        await this.prisma.workItem.update({
+            where: {
+                itemId,
+            },
+            data: {
+                reportedByUserId: data.userId,
+            },
+        });
+
+        return this.getItem(session, domainId, areaId, itemId);
+    }
+
     async updateAssignees(
         session: UserSession,
         domainId: string,
@@ -357,6 +378,25 @@ export class WorkAreasService {
                     },
                 });
             }
+        });
+
+        return this.getItem(session, domainId, areaId, itemId);
+    }
+
+    async updateDescription(
+        session: UserSession,
+        domainId: string,
+        areaId: string,
+        itemId: string,
+        data: UpdateItemDescriptionData,
+    ) {
+        await this.prisma.workItem.update({
+            where: {
+                itemId,
+            },
+            data: {
+                description: data.description,
+            },
         });
 
         return this.getItem(session, domainId, areaId, itemId);

@@ -1,7 +1,7 @@
 import { Box, Flex, List, ListItem, Text } from '@chakra-ui/react';
 import { WorkItem } from '@domaindocs/types';
 import { ItemTypeIcon } from './ItemTypeIcon';
-import { ItemAssignees } from './ItemAssignees';
+import { ItemAssignees } from './panel/ItemAssignees';
 
 type ItemsNavigatorProps = {
     domainId: string;

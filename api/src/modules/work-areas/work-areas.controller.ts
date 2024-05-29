@@ -6,8 +6,10 @@ import {
     CreateWorkAreaData,
     UpdateItemAssigneesData,
     UpdateItemParentData,
+    UpdateItemReportedByData,
     UpdateItemTypeData,
 } from '@domaindocs/types';
+import { UpdateItemDescriptionData } from '../../../../shared/types/src/work-area/update-item-description-data';
 
 @Controller('domains/:domainId/work-areas')
 @UseGuards(AuthGuard)
@@ -84,6 +86,17 @@ export class WorkAreasController {
         return this.workAreaService.getAvailableParents(session, domainId, areaId, itemId);
     }
 
+    @Post('/:areaId/items/:itemId/reported-by')
+    async updateReportedBy(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('areaId') areaId: string,
+        @Param('itemId') itemId: string,
+        @Body() data: UpdateItemReportedByData,
+    ) {
+        return this.workAreaService.updateReportedBy(session, domainId, areaId, itemId, data);
+    }
+
     @Post('/:areaId/items/:itemId/assignees')
     async updateAssignees(
         @AuthSession() session: UserSession,
@@ -115,5 +128,16 @@ export class WorkAreasController {
         @Body() data: UpdateItemTypeData,
     ) {
         return this.workAreaService.updateType(session, domainId, areaId, itemId, data);
+    }
+
+    @Post('/:areaId/items/:itemId/description')
+    async updateDescription(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('areaId') areaId: string,
+        @Param('itemId') itemId: string,
+        @Body() data: UpdateItemDescriptionData,
+    ) {
+        return this.workAreaService.updateDescription(session, domainId, areaId, itemId, data);
     }
 }

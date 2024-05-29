@@ -32,7 +32,7 @@ export class DetailedWorkItem {
         public name: string,
         public type: WorkItemType,
         public description: string,
-        public createdBy: WorkAreaPerson,
+        public reportedBy: WorkAreaPerson,
         public assignees: WorkAreaPerson[],
         public parent: ParentWorkItem | null,
     ) {}
