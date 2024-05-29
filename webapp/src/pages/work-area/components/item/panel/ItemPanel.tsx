@@ -68,11 +68,7 @@ export const ItemPanel = (props: ItemPanelProps) => {
 
             <Divider />
 
-            <Flex direction={'column'} gap={2} py={2}>
-                <Text fontSize={16}>Description</Text>
-
-                <ItemDescription domainId={domainId} areaId={areaId} item={item} />
-            </Flex>
+            <ItemDescription domainId={domainId} areaId={areaId} item={item} />
         </Flex>
     );
 };

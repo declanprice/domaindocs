@@ -1,12 +1,16 @@
 import { DetailedWorkItem } from '@domaindocs/types';
 import { useEditable } from '../../../../../hooks/useEditable';
 import { FormTextArea } from '../../../../../components/form/FormTextArea';
-import { Button, ButtonGroup, Flex, Stack, Text, useToast } from '@chakra-ui/react';
+import { Button, ButtonGroup, CheckboxIcon, Flex, Stack, Text, useToast } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { UpdateItemDescriptionData } from '../../../../../../../shared/types/src/work-area/update-item-description-data';
 import { workApi } from '../../../../../state/api/workApi';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
+import { EditIconButton } from '../../../../../components/buttons/EditIconButton';
+import React from 'react';
+import { CloseIconButton } from '../../../../../components/buttons/CloseIconButton';
+import { CheckIconButton } from '../../../../../components/buttons/CheckIconButton';
 
 type ItemDescriptionProps = {
     domainId: string;
@@ -33,22 +37,18 @@ export const ItemDescription = (props: ItemDescriptionProps) => {
 
     if (editing.isEditing) {
         return (
-            <Stack spacing={2}>
-                <FormTextArea name={'description'} control={form.control} />
+            <Flex direction={'column'} gap={2} py={2}>
+                <Flex>
+                    <Text fontSize={16}>Description</Text>
 
-                <ButtonGroup ml={'auto'}>
-                    <Button
-                        size={'sm'}
-                        colorScheme={'red'}
+                    <CloseIconButton
+                        marginLeft={'auto'}
                         onClick={() => {
                             form.reset();
                             editing.onClose();
                         }}
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        size={'sm'}
+                    />
+                    <CheckIconButton
                         isLoading={form.formState.isSubmitting}
                         onClick={() => {
                             form.handleSubmit(async (data) => {
@@ -56,23 +56,31 @@ export const ItemDescription = (props: ItemDescriptionProps) => {
                                 editing.onClose();
                             })();
                         }}
-                    >
-                        Save
-                    </Button>
-                </ButtonGroup>
-            </Stack>
+                    />
+                </Flex>
+
+                <FormTextArea name={'description'} control={form.control} />
+            </Flex>
         );
     }
 
     return (
-        <Flex
-            flex={1}
-            _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
-            rounded={4}
-            p={1}
-            onClick={editing.onEdit}
-        >
-            <Text fontSize={12}>{item.description}</Text>
+        <Flex direction={'column'} gap={2} py={2}>
+            <Flex>
+                <Text fontSize={16}>Description</Text>
+
+                <EditIconButton marginLeft={'auto'} onClick={editing.onEdit} />
+            </Flex>
+
+            <Flex
+                flex={1}
+                _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
+                rounded={4}
+                p={1}
+                onClick={editing.onEdit}
+            >
+                <Text fontSize={12}>{item.description}</Text>
+            </Flex>
         </Flex>
     );
 };
