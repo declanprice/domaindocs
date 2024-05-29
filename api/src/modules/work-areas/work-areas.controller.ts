@@ -1,8 +1,9 @@
 import { WorkAreasService } from './work-areas.service';
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import {
+    AddItemAttachmentData,
     CreateWorkAreaData,
     UpdateItemAssigneesData,
     UpdateItemParentData,
@@ -139,5 +140,27 @@ export class WorkAreasController {
         @Body() data: UpdateItemDescriptionData,
     ) {
         return this.workAreaService.updateDescription(session, domainId, areaId, itemId, data);
+    }
+
+    @Post('/:areaId/items/:itemId/attachments')
+    async addAttachment(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('areaId') areaId: string,
+        @Param('itemId') itemId: string,
+        @Body() data: AddItemAttachmentData,
+    ) {
+        return this.workAreaService.addAttachment(session, domainId, areaId, itemId, data);
+    }
+
+    @Delete('/:areaId/items/:itemId/attachments/:fileId')
+    async removeAttachment(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('areaId') areaId: string,
+        @Param('itemId') itemId: string,
+        @Param('fileId') fileId: string,
+    ) {
+        return this.workAreaService.removeAttachment(session, domainId, areaId, itemId, fileId);
     }
 }

@@ -8,3 +8,4 @@ export * from './update-item-type-data';
 export * from './update-item-assignees-data';
 export * from './update-item-reported-by-data';
 export * from './update-item-reported-by-data';
+export * from './add-item-attachment-data';

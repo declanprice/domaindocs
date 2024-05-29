@@ -98,19 +98,13 @@ export const documentation = (): Documentation[] => {
 export const documentationFiles = (): DocumentationFile[] => [
     {
         documentationId: `${deedSearchProject().projectId}-file1`,
-        key: `${ros().domainId}/${deedSearchProject().projectId}/file1.jpg`,
-        type: 'jpg',
-        name: 'file1.jpg',
+        fileId: 'file1',
         domainId: ros().domainId,
-        isUploaded: false,
     },
     {
         documentationId: `${deedSearchProject().projectId}-file2`,
-        key: `${ros().domainId}/${deedSearchProject().projectId}/file2.jpg`,
-        type: 'jpg',
-        name: 'file2.jpg',
+        fileId: 'file2',
         domainId: ros().domainId,
-        isUploaded: false,
     },
 ];
 

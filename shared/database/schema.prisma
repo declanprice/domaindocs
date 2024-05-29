@@ -56,8 +56,9 @@ model Domain {
   workItemStatuses WorkItemStatus[]
   workItems WorkItem[]
   workItemAssignees WorkItemAssigne[]
+  workItemAttachments WorkItemAttachment[]
   invites DomainInvite[]
-
+  files File[]
 
   @@map("domain")
 }
@@ -274,12 +275,10 @@ model DocumentationFile {
   documentationId String @id @map("documentation_id")
   domainId String @map("domain_id")
   domain   Domain @relation(fields: [domainId], references: [domainId])
-  key String? @map("key")
-  name String? @map("name")
-  type String? @map("type")
-  isUploaded Boolean @map("is_uploaded") @default(false)
+  fileId String? @map("file_id")
 
   documentation Documentation @relation(fields: [documentationId], references: [documentationId])
+  file File? @relation(fields: [fileId], references: [fileId])
 
   @@index(domainId)
   @@map("documentation_file")
@@ -454,11 +453,31 @@ model WorkItemAssigne {
 }
 
 model WorkItemAttachment {
-  attachmentId String @id @map("attachment_id")
   itemId String @map("item_id")
+  fileId String @map("file_id")
+  domainId String @map("domain_id")
 
+  domain  Domain @relation(fields: [domainId], references: [domainId])
   item  WorkItem @relation(fields: [itemId], references: [itemId])
+  file  File @relation(fields: [fileId], references: [fileId])
 
+  @@id([itemId, fileId])
   @@map("work_item_attachment")
 }
 
+model File {
+  fileId String @id @map("file_id")
+  domainId String @map("domain_id")
+  name String @map("name")
+  type String @map("type")
+  bucket String @map("bucket")
+  key String @map("key")
+  isUploaded Boolean @default(false) @map("is_uploaded")
+  createdDate DateTime @default(now()) @map("created_date")
+
+  domain  Domain @relation(fields: [domainId], references: [domainId])
+  documentationFiles DocumentationFile[]
+  itemAttachments WorkItemAttachment[]
+
+  @@map("file")
+}

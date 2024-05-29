@@ -1,19 +1,22 @@
 import { apiClient } from './api-client';
-import { DetailedFile, File, SearchFilesParams, SignedFileUrl } from '@domaindocs/types';
+import { FileWithSignedUrl, GenerateFileSignedUrlData } from '@domaindocs/types';
 
 export const filesApi = (() => {
-    const searchFiles = async (domainId: string, params: SearchFilesParams): Promise<DetailedFile[]> => {
-        const result = await apiClient.get<DetailedFile[]>(`/domains/${domainId}/files`, { params });
+    const generateUploadUrl = async (domainId: string, data: GenerateFileSignedUrlData): Promise<FileWithSignedUrl> => {
+        const result = await apiClient.post<FileWithSignedUrl>(`/domains/${domainId}/files`, data);
         return result.data;
     };
 
-    const getSignedUrl = async (domainId: string, fileId: string): Promise<SignedFileUrl> => {
-        const result = await apiClient.get<SignedFileUrl>(`/domains/${domainId}/files/${fileId}/signed-url`);
-        return result.data;
+    const uploadFile = async (file: FileWithSignedUrl, data: File) => {
+        await apiClient.put(file.url, data, {
+            headers: {
+                'Content-Type': file.type,
+            },
+        });
     };
 
     return {
-        searchFiles,
-        getSignedUrl,
+        generateUploadUrl,
+        uploadFile,
     };
 })();

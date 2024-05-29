@@ -15,6 +15,8 @@ import {
     ParentWorkItem,
     UpdateItemAssigneesData,
     UpdateItemReportedByData,
+    AddItemAttachmentData,
+    WorkItemAttachment,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 import { v4 } from 'uuid';
@@ -209,6 +211,11 @@ export class WorkAreasService {
                     },
                 },
                 parent: true,
+                attachments: {
+                    include: {
+                        file: true,
+                    },
+                },
             },
         });
 
@@ -229,6 +236,7 @@ export class WorkAreasService {
             result.parent
                 ? new ParentWorkItem(result.parent.parentId, result.parent.name, result.parent.type as WorkItemType)
                 : null,
+            result.attachments.map((a) => new WorkItemAttachment(a.file.fileId, a.file.name, a.file.type)),
         );
     }
 
@@ -396,6 +404,37 @@ export class WorkAreasService {
             },
             data: {
                 description: data.description,
+            },
+        });
+
+        return this.getItem(session, domainId, areaId, itemId);
+    }
+
+    async addAttachment(
+        session: UserSession,
+        domainId: string,
+        areaId: string,
+        itemId: string,
+        data: AddItemAttachmentData,
+    ) {
+        await this.prisma.workItemAttachment.createMany({
+            data: {
+                fileId: data.fileId,
+                itemId,
+                domainId,
+            },
+        });
+
+        return this.getItem(session, domainId, areaId, itemId);
+    }
+
+    async removeAttachment(session: UserSession, domainId: string, areaId: string, itemId: string, fileId: string) {
+        await this.prisma.workItemAttachment.delete({
+            where: {
+                itemId_fileId: {
+                    fileId,
+                    itemId,
+                },
             },
         });
 

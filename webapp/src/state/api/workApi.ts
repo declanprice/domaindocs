@@ -1,4 +1,5 @@
 import {
+    AddItemAttachmentData,
     CreateWorkAreaData,
     DetailedWorkArea,
     DetailedWorkBoard,
@@ -122,6 +123,23 @@ export const workApi = () => {
         updateLocalItem(domainId, areaId, itemId, item);
     };
 
+    const addItemAttachment = async (domainId: string, areaId: string, itemId: string, data: AddItemAttachmentData) => {
+        const { data: item } = await apiClient.post<DetailedWorkItem>(
+            `/domains/${domainId}/work-areas/${areaId}/items/${itemId}/attachments`,
+            data,
+        );
+
+        updateLocalItem(domainId, areaId, itemId, item);
+    };
+
+    const removeAttachment = async (domainId: string, areaId: string, itemId: string, fileId: string) => {
+        const { data: item } = await apiClient.delete<DetailedWorkItem>(
+            `/domains/${domainId}/work-areas/${areaId}/items/${itemId}/attachments/${fileId}`,
+        );
+
+        updateLocalItem(domainId, areaId, itemId, item);
+    };
+
     const updateLocalItem = (domainId: string, areaId: string, itemId: string, item: DetailedWorkItem) => {
         queryClient.setQueryData(['getItem', { itemId }], item);
 
@@ -149,5 +167,7 @@ export const workApi = () => {
         updateItemAssignees,
         updateReportedBy,
         updateItemDescription,
+        addItemAttachment,
+        removeAttachment,
     };
 };

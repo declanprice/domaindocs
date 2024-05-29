@@ -8,7 +8,8 @@ import { softwareDevRole, teamLeadRole } from './roles';
 import { deedSearchProject, projectLinks, projectOwnership } from './projects';
 import { PrismaClient } from '@prisma/client';
 import { onboarding, onboardingSteps } from './onboarding';
-import { workAreaPeople, workAreas, workItemAssignees, workItems, workItemStatuses } from './work';
+import { workAreaPeople, workAreas, workItemAssignees, workItemAttachments, workItems, workItemStatuses } from './work';
+import { files } from './files';
 
 const client = new PrismaClient();
 
@@ -45,6 +46,7 @@ const client = new PrismaClient();
     await client.role.deleteMany();
     await client.skill.deleteMany();
 
+    await client.file.deleteMany();
     await client.domain.deleteMany();
     await client.user.deleteMany();
 
@@ -53,6 +55,8 @@ const client = new PrismaClient();
     await client.user.createMany({ data: [declanUser(), benUser(), natashaUser()] });
 
     await client.domain.create({ data: ros() });
+
+    await client.file.createMany({ data: files() });
 
     await client.skill.createMany({ data: [uiDevSkill(), apiDevSkill(), devOpsSkill()] });
 
@@ -86,5 +90,6 @@ const client = new PrismaClient();
     await client.workItemStatus.createMany({ data: workItemStatuses() });
     await client.workItem.createMany({ data: workItems() });
     await client.workItemAssigne.createMany({ data: workItemAssignees() });
+    await client.workItemAttachment.createMany({ data: workItemAttachments() });
     process.exit(0);
 })();

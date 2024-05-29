@@ -13,6 +13,7 @@ import { OnboardingModule } from './modules/onboarding/onboarding.module';
 import { WorkAreasModule } from './modules/work-areas/work-areas.module';
 import { FormsModule } from './modules/forms/forms.module';
 import { IntegrationsModule } from './modules/integrations/integrations.module';
+import { FilesModule } from './modules/files/files.module';
 
 @Module({
     imports: [
@@ -39,6 +40,7 @@ import { IntegrationsModule } from './modules/integrations/integrations.module';
         WorkAreasModule,
         FormsModule,
         IntegrationsModule,
+        FilesModule,
     ],
     controllers: [],
     providers: [],

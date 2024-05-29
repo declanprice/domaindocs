@@ -6,6 +6,8 @@ import { ItemAssignees } from './ItemAssignees';
 import { ItemReportedBy } from './ItemReportedBy';
 import { ItemDescription } from './ItemDescription';
 import { ItemTypeMenu } from './ItemTypeMenu';
+import { UploadFile } from '../../../../../components/file/UploadFile';
+import { ItemAttachmentButton, ItemAttachments } from './ItemAttachments';
 
 type ItemPanelProps = {
     item: DetailedWorkItem;
@@ -30,15 +32,7 @@ export const ItemPanel = (props: ItemPanelProps) => {
 
                     <Divider orientation={'vertical'} height={'20px'} />
 
-                    <Button
-                        alignItems={'center'}
-                        size={'sm'}
-                        leftIcon={<MdOutlineAttachFile />}
-                        variant={'ghost'}
-                        fontWeight={'normal'}
-                    >
-                        Attach
-                    </Button>
+                    <ItemAttachmentButton domainId={domainId} areaId={areaId} item={item} />
                 </Flex>
             </Flex>
 
@@ -69,6 +63,10 @@ export const ItemPanel = (props: ItemPanelProps) => {
             <Divider />
 
             <ItemDescription domainId={domainId} areaId={areaId} item={item} />
+
+            <Divider />
+
+            <ItemAttachments domainId={domainId} areaId={areaId} item={item} />
         </Flex>
     );
 };

@@ -26,6 +26,14 @@ export class WorkItem {
     ) {}
 }
 
+export class WorkItemAttachment {
+    constructor(
+        public fileId: string,
+        public name: string,
+        public type: string,
+    ) {}
+}
+
 export class DetailedWorkItem {
     constructor(
         public id: string,
@@ -35,5 +43,6 @@ export class DetailedWorkItem {
         public reportedBy: WorkAreaPerson,
         public assignees: WorkAreaPerson[],
         public parent: ParentWorkItem | null,
+        public attachments: WorkItemAttachment[],
     ) {}
 }

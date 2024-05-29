@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import {
     AddDocumentationData,
@@ -6,11 +6,9 @@ import {
     Documentation,
     DocumentationType,
     SearchDocumentationParams,
-    SignedFileUrl,
 } from '@domaindocs/types';
 import { v4 } from 'uuid';
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { S3Client } from '@aws-sdk/client-s3';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../shared/prisma.service';
 
@@ -184,26 +182,5 @@ export class DocumentationService {
                 documentationId,
             },
         });
-    }
-
-    async getDocumentationFileSignedUrl(session: UserSession, domainId: string, documentationId: string) {
-        const result = await this.prisma.documentationFile.findFirst({
-            where: {
-                documentationId,
-            },
-        });
-
-        if (!result?.key) {
-            return new SignedFileUrl(null);
-        }
-
-        const getObject = new GetObjectCommand({
-            Bucket: this.PRIVATE_BUCKET_NAME,
-            Key: result.key,
-        });
-
-        const signedUrl = await getSignedUrl(this.s3, getObject, { expiresIn: 3600 });
-
-        return new SignedFileUrl(signedUrl);
     }
 }

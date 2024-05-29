@@ -43,7 +43,6 @@ export class DocumentationFile {
 export class DocumentationDocument {
     constructor(
         public documentationId: string,
-
         public name: string,
         public data: string | undefined,
     ) {}

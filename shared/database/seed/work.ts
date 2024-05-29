@@ -1,4 +1,11 @@
-import { WorkArea, WorkAreaPerson, WorkItemStatus, WorkItem, WorkItemAssigne } from '@prisma/client';
+import {
+    WorkArea,
+    WorkAreaPerson,
+    WorkItemStatus,
+    WorkItem,
+    WorkItemAssigne,
+    WorkItemAttachment,
+} from '@prisma/client';
 import { ros } from './domain';
 import { benUser, declanUser, natashaUser } from './users';
 import { WorkItemType } from '../../types/src';
@@ -112,6 +119,16 @@ export const workItemAssignees = (): WorkItemAssigne[] => {
             domainId: ros().domainId,
             userId: benUser().userId,
             itemId: 'item1',
+        },
+    ];
+};
+
+export const workItemAttachments = (): WorkItemAttachment[] => {
+    return [
+        {
+            fileId: 'file3',
+            itemId: 'item1',
+            domainId: ros().domainId,
         },
     ];
 };
