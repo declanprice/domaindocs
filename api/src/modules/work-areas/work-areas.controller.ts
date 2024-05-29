@@ -4,6 +4,7 @@ import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import {
     AddItemAttachmentData,
+    AddItemData,
     CreateWorkAreaData,
     UpdateItemAssigneesData,
     UpdateItemParentData,
@@ -65,6 +66,16 @@ export class WorkAreasController {
         @Param('areaId') areaId: string,
     ) {
         return this.workAreaService.searchItems(session, domainId, areaId);
+    }
+
+    @Post('/:areaId/items')
+    async addItem(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('areaId') areaId: string,
+        @Body() data: AddItemData,
+    ) {
+        return this.workAreaService.addItem(session, domainId, areaId, data);
     }
 
     @Get('/:areaId/items/:itemId')

@@ -17,6 +17,7 @@ import {
     UpdateItemReportedByData,
     AddItemAttachmentData,
     WorkItemAttachment,
+    AddItemData,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 import { v4 } from 'uuid';
@@ -238,6 +239,30 @@ export class WorkAreasService {
                 : null,
             result.attachments.map((a) => new WorkItemAttachment(a.file.fileId, a.file.name, a.file.type)),
         );
+    }
+
+    async addItem(session: UserSession, domainId: string, areaId: string, data: AddItemData) {
+        const status = await this.prisma.workItemStatus.findFirstOrThrow({
+            where: {
+                areaId,
+                isToDoStatus: true,
+            },
+        });
+
+        const item = await this.prisma.workItem.create({
+            data: {
+                itemId: v4(),
+                areaId,
+                domainId,
+                name: data.name,
+                type: data.type,
+                description: data.description,
+                reportedByUserId: session.userId,
+                statusId: status.statusId,
+            },
+        });
+
+        return this.getItem(session, domainId, areaId, item.itemId);
     }
 
     async getAvailableParents(session: UserSession, domainId: string, areaId: string, itemId: string) {

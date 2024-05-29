@@ -50,7 +50,15 @@ export const ItemParentMenu = (props: ItemParentMenuProps) => {
         return (
             <>
                 {parents.map((p) => (
-                    <MenuItem onClick={() => {}}>
+                    <MenuItem
+                        onClick={async () => {
+                            if (p.id !== item.parent?.id) {
+                                await updateParent({
+                                    itemId: p.id,
+                                });
+                            }
+                        }}
+                    >
                         <ItemTypeIcon type={p.type} />
                         <Text ml={2}>{p.name}</Text>
                     </MenuItem>
@@ -74,7 +82,7 @@ export const ItemParentMenu = (props: ItemParentMenuProps) => {
                 }}
             >
                 <Flex alignItems={'center'}>
-                    <BiEdit />
+                    {item.parent ? <ItemTypeIcon type={item.parent.type} /> : <BiEdit />}
                     <Text ml={2}>{renderButtonText()}</Text>
                 </Flex>
             </MenuButton>

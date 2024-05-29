@@ -1,13 +1,11 @@
-import { Button, Divider, Flex, Text } from '@chakra-ui/react';
-import { DetailedWorkItem } from '@domaindocs/types';
-import { MdOutlineAttachFile } from 'react-icons/md';
-import { ItemParentMenu } from './ItemParentMenu';
+import { Divider, Flex, Text } from '@chakra-ui/react';
+import { DetailedWorkItem, WorkItemType } from '@domaindocs/types';
 import { ItemAssignees } from './ItemAssignees';
 import { ItemReportedBy } from './ItemReportedBy';
 import { ItemDescription } from './ItemDescription';
 import { ItemTypeMenu } from './ItemTypeMenu';
-import { UploadFile } from '../../../../../components/file/UploadFile';
 import { ItemAttachmentButton, ItemAttachments } from './ItemAttachments';
+import { ItemParentMenu } from './ItemParentMenu';
 
 type ItemPanelProps = {
     item: DetailedWorkItem;
@@ -24,9 +22,13 @@ export const ItemPanel = (props: ItemPanelProps) => {
                 <Text fontSize={24}>{item.name}</Text>
 
                 <Flex gap={2} alignItems={'center'}>
-                    <ItemParentMenu domainId={domainId} areaId={areaId} item={item} />
+                    {item.type !== WorkItemType.EPIC && (
+                        <>
+                            <ItemParentMenu domainId={domainId} areaId={areaId} item={item} />
 
-                    <Divider orientation={'vertical'} height={'20px'} />
+                            <Divider orientation={'vertical'} height={'20px'} />
+                        </>
+                    )}
 
                     <ItemTypeMenu domainId={domainId} areaId={areaId} item={item} />
 

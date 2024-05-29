@@ -10,6 +10,7 @@ import { ItemsNavigator } from './components/item/ItemsNavigator';
 import { ItemPanel } from './components/item/panel/ItemPanel';
 import { BiPlus, BiSearch } from 'react-icons/bi';
 import { useActiveItem } from './hooks/useActiveItem';
+import { AddItemModalButton } from './components/item/AddItemModal';
 
 export const WorkAreaItemsPage = () => {
     const { domainId, areaId } = useParams() as WorkAreaPageParams;
@@ -46,9 +47,13 @@ export const WorkAreaItemsPage = () => {
                     </InputGroup>
 
                     <Box ml={'auto'}>
-                        <Button size={'sm'} leftIcon={<BiPlus />} backgroundColor={'lightgray'}>
-                            Create Item
-                        </Button>
+                        <AddItemModalButton
+                            domainId={domainId}
+                            areaId={areaId}
+                            onItemAdded={(item) => {
+                                setActiveItemId(item.id);
+                            }}
+                        />
                     </Box>
                 </Flex>
 
