@@ -3,18 +3,18 @@ import { ros } from './domain';
 import { benUser, declanUser, natashaUser } from './users';
 import { WorkItemType } from '../../types/src';
 
-const workAreaId = 'workarea1';
+const areaId = 'workarea1';
 
 export const workAreas = (): WorkArea[] => {
     return [
         {
             domainId: ros().domainId,
-            workAreaId,
+            areaId,
             name: 'Team Orion',
         },
         {
             domainId: ros().domainId,
-            workAreaId: 'workarea2',
+            areaId: 'workarea2',
             name: 'Team Keplar',
         },
     ];
@@ -25,22 +25,22 @@ export const workAreaPeople = (): WorkAreaPerson[] => {
         {
             userId: declanUser().userId,
             domainId: ros().domainId,
-            workAreaId,
+            areaId,
         },
         {
             userId: benUser().userId,
             domainId: ros().domainId,
-            workAreaId,
+            areaId,
         },
         {
             userId: natashaUser().userId,
             domainId: ros().domainId,
-            workAreaId,
+            areaId,
         },
         {
             userId: declanUser().userId,
             domainId: ros().domainId,
-            workAreaId: 'workarea2',
+            areaId: 'workarea2',
         },
     ];
 };
@@ -52,7 +52,7 @@ export const workItemStatuses = (): WorkItemStatus[] => {
             name: 'To Do',
             isToDoStatus: true,
             isDoneStatus: false,
-            workAreaId,
+            areaId,
             domainId: ros().domainId,
         },
         {
@@ -60,7 +60,7 @@ export const workItemStatuses = (): WorkItemStatus[] => {
             name: 'Doing',
             isToDoStatus: false,
             isDoneStatus: false,
-            workAreaId,
+            areaId,
             domainId: ros().domainId,
         },
         {
@@ -68,7 +68,7 @@ export const workItemStatuses = (): WorkItemStatus[] => {
             name: 'Done',
             isToDoStatus: false,
             isDoneStatus: true,
-            workAreaId,
+            areaId,
             domainId: ros().domainId,
         },
     ];
@@ -77,7 +77,7 @@ export const workItemStatuses = (): WorkItemStatus[] => {
 export const workItems = (): WorkItem[] => {
     return [
         {
-            workAreaId,
+            areaId,
             domainId: ros().domainId,
             statusId: 'todo',
             itemId: 'item1',
@@ -88,7 +88,7 @@ export const workItems = (): WorkItem[] => {
             createdByUserId: declanUser().userId,
         },
         {
-            workAreaId,
+            areaId,
             domainId: ros().domainId,
             statusId: 'todo',
             itemId: 'item2',

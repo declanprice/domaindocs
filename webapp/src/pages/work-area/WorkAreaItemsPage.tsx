@@ -19,12 +19,16 @@ export const WorkAreaItemsPage = () => {
         queryFn: () => workApi().get(domainId, areaId),
     });
 
-    const { data: items, isLoading: isItemsLoading } = useQuery<WorkItem[]>({
+    const {
+        data: items,
+        isLoading: isItemsLoading,
+        refetch: fetchItems,
+    } = useQuery<WorkItem[]>({
         queryKey: ['searchItems', { domainId, areaId }],
         queryFn: () => workApi().searchItems(domainId, areaId),
     });
 
-    const { item, isItemFetching, setActiveItemId } = useActiveItem(items);
+    const { item, isItemFetching, setActiveItemId, fetchItem } = useActiveItem(items);
 
     if (!area || !items || isAreaLoading || isItemsLoading) return <LoadingContainer />;
 
@@ -50,7 +54,10 @@ export const WorkAreaItemsPage = () => {
 
                 <Flex flex={1} gap={4}>
                     <ItemsNavigator
+                        domainId={domainId}
+                        areaId={areaId}
                         items={items}
+                        activeItemId={item?.id}
                         onItemClick={(item) => {
                             setActiveItemId(item.id);
                         }}
@@ -62,7 +69,7 @@ export const WorkAreaItemsPage = () => {
                         <>
                             {item && (
                                 <Flex direction={'column'} width={'100%'} gap={8}>
-                                    <ItemPanel item={item} />
+                                    <ItemPanel domainId={domainId} areaId={areaId} item={item} />
                                 </Flex>
                             )}
                         </>

@@ -18,7 +18,7 @@ export const useActiveItem = (items?: WorkItem[]) => {
         refetch: fetchItem,
     } = useQuery<DetailedWorkItem>({
         enabled: false,
-        queryKey: ['getItem', { domainId, areaId, itemId: activeItemId! }],
+        queryKey: ['getItem', { itemId: activeItemId! }],
         queryFn: () => workApi().getItem(domainId, areaId, activeItemId!),
     });
 
@@ -42,5 +42,6 @@ export const useActiveItem = (items?: WorkItem[]) => {
         item,
         isItemFetching,
         setActiveItemId,
+        fetchItem,
     };
 };

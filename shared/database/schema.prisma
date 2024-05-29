@@ -371,7 +371,7 @@ model OnboardingGuideProgress {
 
 
 model WorkArea {
-  workAreaId String @id @map("work_area_id")
+  areaId String @id @map("area_id")
   domainId String @map("domain_id")
   name String @map("name")
 
@@ -385,30 +385,30 @@ model WorkArea {
 }
 
 model WorkAreaPerson {
-  workAreaId String @map("work_area_id")
+  areaId String @map("area_id")
   domainId String @map("domain_id")
   userId String @map("user_id")
 
-  area    WorkArea @relation(fields: [workAreaId], references: [workAreaId])
+  area    WorkArea @relation(fields: [areaId], references: [areaId])
   domain  Domain @relation(fields: [domainId], references: [domainId])
   user    User @relation(fields: [userId], references: [userId])
   person  Person @relation(fields: [domainId, userId], references: [domainId, userId])
 
-  @@id([userId, workAreaId])
+  @@id([userId, areaId])
   @@map("work_area_person")
 }
 
 
 model WorkItemStatus {
   statusId String @id @map("status_id")
-  workAreaId String  @map("work_area_id")
+  areaId String  @map("area_id")
   domainId String @map("domain_id")
   name String @map("name")
   isToDoStatus Boolean @map("is_todo_status")
   isDoneStatus Boolean @map("is_done_status")
 
   domain  Domain @relation(fields: [domainId], references: [domainId])
-  area    WorkArea @relation(fields: [workAreaId], references: [workAreaId])
+  area    WorkArea @relation(fields: [areaId], references: [areaId])
   items   WorkItem[]
 
   @@map("work_area_status")
@@ -416,7 +416,7 @@ model WorkItemStatus {
 
 model WorkItem {
   itemId String @id @map("item_id")
-  workAreaId String @map("work_area_id")
+  areaId String @map("area_id")
   domainId String @map("domain_id")
   name String @map("name")
   description String @map("description")
@@ -427,7 +427,7 @@ model WorkItem {
 
 
   domain  Domain @relation(fields: [domainId], references: [domainId])
-  area    WorkArea @relation(fields: [workAreaId], references: [workAreaId])
+  area    WorkArea @relation(fields: [areaId], references: [areaId])
   status    WorkItemStatus @relation(fields: [statusId], references: [statusId])
   createdByUser  User @relation(fields: [createdByUserId], references: [userId])
   createdByPerson  Person @relation(fields: [createdByUserId, domainId], references: [userId, domainId])

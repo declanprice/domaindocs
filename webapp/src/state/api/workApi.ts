@@ -1,9 +1,28 @@
-import { CreateWorkAreaData, DetailedWorkArea, DetailedWorkBoard, DetailedWorkItem, WorkItem } from '@domaindocs/types';
+import {
+    CreateWorkAreaData,
+    DetailedWorkArea,
+    DetailedWorkBoard,
+    DetailedWorkItem,
+    ParentWorkItem,
+    UpdateItemAssigneesData,
+    UpdateItemParentData,
+    UpdateItemTypeData,
+    WorkAreaPerson,
+    WorkItem,
+} from '@domaindocs/types';
+
 import { apiClient } from './api-client';
+import { queryClient } from '../query-client';
+import { produce } from 'immer';
 
 export const workApi = () => {
     const search = async (domainId: string): Promise<DetailedWorkArea[]> => {
         const result = await apiClient.get<DetailedWorkArea[]>(`/domains/${domainId}/work-areas`);
+        return result.data;
+    };
+
+    const searchAreaPeople = async (domainId: string, areaId: string): Promise<WorkAreaPerson[]> => {
+        const result = await apiClient.get<WorkAreaPerson[]>(`/domains/${domainId}/work-areas/${areaId}/people`);
         return result.data;
     };
 
@@ -33,12 +52,70 @@ export const workApi = () => {
         return result.data;
     };
 
+    const getAvailableParents = async (domainId: string, areaId: string, itemId: string): Promise<ParentWorkItem[]> => {
+        const result = await apiClient.get<ParentWorkItem[]>(
+            `/domains/${domainId}/work-areas/${areaId}/items/${itemId}/available-parents`,
+        );
+
+        return result.data;
+    };
+
+    const updateItemAssignees = async (
+        domainId: string,
+        areaId: string,
+        itemId: string,
+        data: UpdateItemAssigneesData,
+    ) => {
+        const { data: item } = await apiClient.post<DetailedWorkItem>(
+            `/domains/${domainId}/work-areas/${areaId}/items/${itemId}/assignees`,
+            data,
+        );
+
+        updateLocalItem(domainId, areaId, itemId, item);
+    };
+
+    const updateItemParent = async (domainId: string, areaId: string, itemId: string, data: UpdateItemParentData) => {
+        const { data: item } = await apiClient.post<DetailedWorkItem>(
+            `/domains/${domainId}/work-areas/${areaId}/items/${itemId}/parent`,
+            data,
+        );
+
+        updateLocalItem(domainId, areaId, itemId, item);
+    };
+
+    const updateItemType = async (domainId: string, areaId: string, itemId: string, data: UpdateItemTypeData) => {
+        const { data: item } = await apiClient.post<DetailedWorkItem>(
+            `/domains/${domainId}/work-areas/${areaId}/items/${itemId}/type`,
+            data,
+        );
+
+        updateLocalItem(domainId, areaId, itemId, item);
+    };
+
+    const updateLocalItem = (domainId: string, areaId: string, itemId: string, item: DetailedWorkItem) => {
+        queryClient.setQueryData(['getItem', { itemId }], item);
+
+        queryClient.setQueryData(['searchItems', { domainId, areaId }], (state) => {
+            return produce(state, (items: DetailedWorkItem[]) => {
+                const index = items.findIndex((i) => i.id === itemId);
+                console.log(index);
+                items[index] = item;
+                return items;
+            });
+        });
+    };
+
     return {
         search,
+        searchAreaPeople,
         create,
         get,
         getWorkBoard,
         searchItems,
         getItem,
+        getAvailableParents,
+        updateItemParent,
+        updateItemType,
+        updateItemAssignees,
     };
 };

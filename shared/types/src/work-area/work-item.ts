@@ -8,11 +8,21 @@ export enum WorkItemType {
     SUB_TASK = 'Subtask',
 }
 
+export class ParentWorkItem {
+    constructor(
+        public id: string,
+        public name: string,
+        public type: WorkItemType,
+    ) {}
+}
+
 export class WorkItem {
     constructor(
         public id: string,
         public name: string,
         public type: WorkItemType,
+        public assignees: WorkAreaPerson[],
+        public parent: ParentWorkItem | null,
     ) {}
 }
 
@@ -24,5 +34,6 @@ export class DetailedWorkItem {
         public description: string,
         public createdBy: WorkAreaPerson,
         public assignees: WorkAreaPerson[],
+        public parent: ParentWorkItem | null,
     ) {}
 }
