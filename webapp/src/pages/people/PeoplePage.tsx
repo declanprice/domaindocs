@@ -1,13 +1,11 @@
-import { Box, Button, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { peopleApi } from '../../state/api/people-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
-import { TableToolbar } from '../../components/table/TableToolbar';
-import { PeopleTable } from './components/PeopleTable';
-import { PeoplePageToolbar } from './PeoplePageToolbar';
-import { IoAddOutline } from 'react-icons/io5';
 import { DetailedPerson } from '@domaindocs/types';
+import { CiSearch } from 'react-icons/ci';
+import { PeopleTable } from './components/PeopleTable';
 
 type PeoplePageParams = {
     domainId: string;
@@ -26,36 +24,46 @@ export const PeoplePage = () => {
     if (!people || isLoading) return <LoadingContainer />;
 
     return (
-        <Flex direction="column" width={'100%'}>
-            <PeoplePageToolbar />
+        <Flex direction="column" p={4} width={'100%'} gap={4}>
+            <Flex alignItems={'center'}>
+                <Heading variant={'h2'} fontSize={18} fontWeight={400}>
+                    People
+                </Heading>
 
-            <Box height={'100%'} width={'100%'} overflowY={'auto'}>
-                <Flex p={4} width={'100%'} direction={'column'}>
-                    <TableToolbar
-                        title={`People (${people.length})`}
-                        actions={
-                            <Button
-                                fontSize={12}
-                                variant={'ghost'}
-                                size={'sm'}
-                                fontWeight={'regular'}
-                                leftIcon={<IoAddOutline />}
-                            >
-                                Invite
-                            </Button>
-                        }
-                        onSearch={() => {}}
-                        onFilterClick={() => {}}
-                    />
+                <Button ml={'auto'} size={'sm'} fontWeight={400}>
+                    Invite People
+                </Button>
+            </Flex>
 
-                    <PeopleTable
-                        people={people}
-                        onPersonClick={(person) => {
-                            navigate(`/${domainId}/people/${person.person.userId}`);
-                        }}
-                    />
-                </Flex>
-            </Box>
+            <Text fontWeight={300} fontSize={14}>
+                Search for people across your domain.
+            </Text>
+
+            <Flex alignItems={'center'} gap={2} mt={4}>
+                <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
+                    <CiSearch />
+                    <Text ml={2}>Search people</Text>
+                </Button>
+
+                <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
+                    <Text ml={2}>Subdomain</Text>
+                </Button>
+
+                <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
+                    <Text ml={2}>Skills</Text>
+                </Button>
+
+                <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
+                    <Text ml={2}>Roles</Text>
+                </Button>
+            </Flex>
+
+            <PeopleTable
+                people={people}
+                onPersonClick={(person) => {
+                    navigate(`/${domainId}/people/${person.person.userId}`);
+                }}
+            />
         </Flex>
     );
 };

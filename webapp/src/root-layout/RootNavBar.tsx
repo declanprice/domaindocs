@@ -86,8 +86,8 @@ export const RootNavBar = () => {
 
                 <NavButton
                     icon={<HiOutlineTicket color={'gray.900'} size={18} />}
-                    label={'Help Desk'}
-                    to={`/${activeDomain.domainId}/forms`}
+                    label={'Ticket Desk'}
+                    to={`/${activeDomain.domainId}/ticket-desk`}
                     rightIcon={<GoChevronRight />}
                 />
 

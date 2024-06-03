@@ -28,12 +28,10 @@ export const HeadingToolbar = () => {
             <DomainSelectorMenu value={activeDomain} options={domains} onSelect={setActiveDomain} />
 
             <Flex alignItems={'center'} gap={4} ml={'auto'}>
-                <Button width={'250px'} size={'sm'} variant={'outline'}>
+                <Button width={'250px'} size={'sm'} variant={'outline'} color={'gray.900'} fontWeight={'300'}>
                     <Flex alignItems={'center'}>
-                        <CiSearch color={'gray.900'} />
-                        <Text ml={2} color={'gray.900'} fontWeight={'300'}>
-                            search {activeDomain.name.toLowerCase()}
-                        </Text>
+                        <CiSearch />
+                        <Text ml={2}>search {activeDomain.name.toLowerCase()}</Text>
                     </Flex>
                 </Button>
 

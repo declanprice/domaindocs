@@ -26,20 +26,17 @@ export const Table = (props: TableProps<any>) => {
 
     return (
         <TableContainer>
-            <ChakraTable size="md" {...props}>
+            <ChakraTable size={'sm'} {...props}>
                 <Thead>
                     <Tr>
                         {fields.map(({ label }) => (
                             <Th
                                 py={2}
                                 key={label}
-                                fontSize={12}
-                                fontWeight={'normal'}
+                                fontWeight={'400'}
                                 color={'gray.900'}
                                 textTransform={'none'}
                                 letterSpacing={'normal'}
-                                borderTop={'1px solid'}
-                                borderColor={'gray.100'}
                             >
                                 {label}
                             </Th>

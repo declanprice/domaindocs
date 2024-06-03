@@ -1,7 +1,5 @@
 import { Avatar, Button, Divider, Flex, Stack, Text } from '@chakra-ui/react';
-import { MdDomain } from 'react-icons/md';
-import { IoPersonOutline } from 'react-icons/io5';
-import { HiOutlineDocumentText, HiOutlineInformationCircle, HiOutlineTicket } from 'react-icons/hi';
+import { HiOutlineDocumentText } from 'react-icons/hi';
 import { useUiStore } from '../../state/stores/ui.store';
 import { NavButton } from '../../components/nav-button/NavButton';
 import { useAuthStore } from '../../state/stores/auth.store';
@@ -10,6 +8,7 @@ import { LuListMinus, LuSettings } from 'react-icons/lu';
 import { LuNetwork } from 'react-icons/lu';
 import { PiPlugsConnected } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
+
 export const DomainNavBar = () => {
     const { isFullNavBar, closeNavBar, openNavBar } = useUiStore();
     const domains = useAuthStore((state) => state.user?.domains);

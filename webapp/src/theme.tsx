@@ -1,4 +1,4 @@
-import { extendTheme } from '@chakra-ui/react'
+import { extendTheme } from '@chakra-ui/react';
 
 export const theme = extendTheme({
     fonts: {
@@ -10,4 +10,4 @@ export const theme = extendTheme({
         border: '#E8E8E8',
         hover: '#F1F0F0',
     },
-})
+});
