@@ -19,7 +19,7 @@ import { DocsPage } from './pages/docs/DocsPage';
 import { OnboardingPage } from './pages/onboarding-centre/OnboardingPage';
 import { TeamOverviewPage } from './pages/team/TeamOverviewPage';
 import { UserSettingsPage } from './pages/user-settings/UserSettingsPage';
-import { PersonPage } from './pages/person/PersonPage';
+import { PersonOverviewPage } from './pages/person/PersonOverviewPage';
 import { WorkAreasPage } from './pages/work-areas/WorkAreasPage';
 import { WorkAreaBoardPage } from './pages/work-area/WorkAreaBoardPage';
 import { WorkAreaBacklogPage } from './pages/work-area/WorkAreaBacklogPage';
@@ -48,6 +48,8 @@ import { DomainIntegrationsPage } from './pages/domain/DomainIntegrationsPage';
 import { DomainSubdomainsPage } from './pages/domain/DomainSubdomainsPage';
 import { DomainNavBar } from './pages/domain/DomainNavBar';
 import { DashboardPage } from './pages/dashboard/DashboardPage';
+import { PersonPageNavBar } from './pages/person/PersonPageNavBar';
+import { PersonWorkPage } from './pages/person/PersonWorkPage';
 
 export const routes = createBrowserRouter([
     {
@@ -121,11 +123,19 @@ export const routes = createBrowserRouter([
                                     },
                                     {
                                         path: 'people/:userId',
-                                        element: <RootLayout navbar={<RootNavBar />} />,
+                                        element: <RootLayout navbar={<PersonPageNavBar />} />,
                                         children: [
                                             {
                                                 path: '',
-                                                element: <PersonPage />,
+                                                element: <Navigate to={'overview'} />,
+                                            },
+                                            {
+                                                path: 'overview',
+                                                element: <PersonOverviewPage />,
+                                            },
+                                            {
+                                                path: 'work',
+                                                element: <PersonWorkPage />,
                                             },
                                         ],
                                     },
