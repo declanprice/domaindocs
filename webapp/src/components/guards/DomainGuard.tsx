@@ -15,7 +15,7 @@ export const DomainGuard = () => {
 
     if (!domainId) {
         const firstAvailableDomain = domains[0];
-        return <Navigate to={`/${firstAvailableDomain.domainId}/home`} />;
+        return <Navigate to={`/${firstAvailableDomain.domainId}/domain`} />;
     }
 
     const activeDomain = domains.find((d) => d.domainId === domainId);

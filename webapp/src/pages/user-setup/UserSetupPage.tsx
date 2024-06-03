@@ -28,7 +28,7 @@ export const UserSetupPage = () => {
             setUser(user);
 
             if (user.domains.length) {
-                navigate(`/${user.domains[0].domainId}/home/dashboard`);
+                navigate(`/${user.domains[0].domainId}/domain/overview`);
             } else {
                 navigate('/setup/domain');
             }
