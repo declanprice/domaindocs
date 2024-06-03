@@ -42,7 +42,7 @@ export const PeopleTable = (props: PeopleTableProps) => {
                                 lastName={data.person.lastName}
                                 iconUri={data.person.iconUri}
                                 roles={data.roles}
-                                extraSmall
+                                small
                             />
                         </Box>
                     ),

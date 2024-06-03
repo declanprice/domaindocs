@@ -43,11 +43,12 @@ export const Table = (props: TableProps<any>) => {
                         ))}
                     </Tr>
                 </Thead>
-                <Tbody>
+                <Tbody borderBottom={'1px solid'} borderColor={'border'}>
                     {data.map((_, index) => (
-                        <Tr key={v4()}>
+                        <Tr key={v4()} _hover={{ backgroundColor: 'gray.100' }}>
                             {fields.map((f) => (
                                 <Td
+                                    borderBottom={'none'}
                                     key={v4()}
                                     fontSize={12}
                                     fontWeight={'regular'}
