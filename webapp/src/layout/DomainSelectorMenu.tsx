@@ -1,20 +1,18 @@
+import { Domain } from '@domaindocs/types';
 import { Avatar, Box, Button, Divider, Flex, Popover, PopoverContent, PopoverTrigger, Text } from '@chakra-ui/react';
 import { PiPlugsConnected } from 'react-icons/pi';
 import { IoChevronDown } from 'react-icons/io5';
-
-import { Domain } from '@domaindocs/types';
 import { CiSettings } from 'react-icons/ci';
 import { useNavigate } from 'react-router-dom';
 
 type DomainSelectorMenuProps = {
-    iconOnly: boolean;
     value: Domain;
     options: Domain[];
     onSelect: (domain: Domain) => void;
 };
 
 export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
-    const { value, options, onSelect, iconOnly } = props;
+    const { value, options, onSelect } = props;
 
     const navigate = useNavigate();
 
@@ -30,11 +28,10 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
                 size={'sm'}
                 variant={'ghost'}
                 onClick={onClick}
-                fontWeight={'regular'}
             >
                 {icon}
 
-                <Text fontSize={12} color={'gray.900'}>
+                <Text fontSize={12} color={'gray.900'} fontWeight={'400'}>
                     {label}
                 </Text>
             </Button>
@@ -44,21 +41,17 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
     return (
         <Popover>
             <PopoverTrigger>
-                <Button rounded={0} width={'100%'} aria-label={'domain selector button'} variant={'ghost'}>
+                <Button size={'md'} aria-label={'domain selector button'} variant={'ghost'}>
                     <Flex width={'100%'} gap={2} alignItems="center">
-                        <Avatar name={value.name} size={'xs'} rounded={'lg'} backgroundColor={'gray.200'}></Avatar>
+                        <Avatar name={value.name} size={'sm'} rounded={'lg'} />
 
-                        {!iconOnly && (
-                            <>
-                                <Text color={'gray.900'} fontSize={12}>
-                                    {value.name}
-                                </Text>
+                        <Text color={'gray.900'} fontSize={12} fontWeight={'400'}>
+                            {value.name}
+                        </Text>
 
-                                <Box marginLeft={'auto'}>
-                                    <IoChevronDown color={'gray.900'} size={12} />
-                                </Box>
-                            </>
-                        )}
+                        <Box marginLeft={'auto'}>
+                            <IoChevronDown color={'gray.900'} size={12} />
+                        </Box>
                     </Flex>
                 </Button>
             </PopoverTrigger>
@@ -86,6 +79,7 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
                     />
 
                     <Divider />
+
                     <Text mt={2} ml={2} fontSize={'xs'}>
                         Switch Domains
                     </Text>
@@ -98,14 +92,9 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
                             variant={'ghost'}
                         >
                             <Flex width={'100%'} gap={2} alignItems="center">
-                                <Avatar
-                                    name={option.name}
-                                    size={'xs'}
-                                    rounded={'lg'}
-                                    backgroundColor={'gray.200'}
-                                ></Avatar>
+                                <Avatar name={option.name} size={'xs'} rounded={'lg'}></Avatar>
 
-                                <Text color={'gray.900'} fontSize={12}>
+                                <Text color={'gray.900'} fontSize={12} fontWeight={'400'}>
                                     {option.name}
                                 </Text>
                             </Flex>

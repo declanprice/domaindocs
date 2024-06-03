@@ -1,37 +1,46 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
-import { FcDocument } from 'react-icons/fc';
+import { Box, Button, Flex, IconButton, Text } from '@chakra-ui/react';
 import { CiSearch } from 'react-icons/ci';
 import { UserMenu } from './UserMenu';
+import { DomainSelectorMenu } from './DomainSelectorMenu';
+import { useUiStore } from '../state/stores/ui.store';
+import { useAuthStore } from '../state/stores/auth.store';
+import { LuInbox } from 'react-icons/lu';
+import { IoHelpCircle } from 'react-icons/io5';
+import { IoIosHelpCircleOutline } from 'react-icons/io';
+import { LuHelpCircle } from 'react-icons/lu';
 export const HeadingToolbar = () => {
+    const domains = useAuthStore((state) => state.user?.domains);
+
+    const { activeDomain, setActiveDomain } = useUiStore();
+
+    if (!domains || !activeDomain) return 'active domains not set.';
+
     return (
-        <Flex backgroundColor={'gray.800'} alignItems={'center'} height={'40px'} minHeight={'40px'} px={4}>
-            <Box mr={4}>
-                <FcDocument size={18} />
-            </Box>
+        <Flex
+            backgroundColor={'white'}
+            borderBottom={'1px solid'}
+            borderColor={'border'}
+            alignItems={'center'}
+            height={'50px'}
+            minHeight={'50px'}
+            px={2}
+        >
+            <DomainSelectorMenu value={activeDomain} options={domains} onSelect={setActiveDomain} />
 
-            <Button
-                color={'gray.100'}
-                size={'xs'}
-                width={'250px'}
-                fontWeight={'light'}
-                backgroundColor={'gray.700'}
-                overflow={'hidden'}
-                mx={4}
-                sx={{
-                    _hover: {
-                        backgroundColor: 'gray.500',
-                    },
-                }}
-            >
-                <Flex alignItems={'center'}>
-                    <CiSearch color={'gray.700'} />
-                    <Text ml={2}>Search..</Text>
-                </Flex>
-            </Button>
+            <Flex alignItems={'center'} gap={4} ml={'auto'}>
+                <Button width={'250px'} size={'sm'} variant={'outline'}>
+                    <Flex alignItems={'center'}>
+                        <CiSearch color={'gray.900'} />
+                        <Text ml={2} color={'gray.900'} fontWeight={'300'}>
+                            search {activeDomain.name.toLowerCase()}
+                        </Text>
+                    </Flex>
+                </Button>
 
-            <Box flex={1}></Box>
+                <IconButton variant={'ghost'} size={'sm'} aria-label={'inbox-button'} icon={<LuInbox />} />
 
-            <Flex alignItems={'center'} gap={4}>
+                <IconButton variant={'ghost'} size={'sm'} aria-label={'help-button'} icon={<LuHelpCircle />} />
+
                 <UserMenu />
             </Flex>
         </Flex>

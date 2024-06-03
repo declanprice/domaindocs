@@ -17,10 +17,13 @@ import { DomainPageParams } from '../types/DomainPageParams';
 
 export const UserMenu = () => {
     const { signOut } = useAuthStore();
+    const user = useAuthStore().user;
 
     const { domainId } = useParams() as DomainPageParams;
 
     const navigate = useNavigate();
+
+    if (!user) return null;
 
     const UserMenuButton = (props: { icon: any; label: string; onClick?: () => void }) => {
         const { icon, label, onClick } = props;
@@ -50,11 +53,8 @@ export const UserMenu = () => {
             <PopoverTrigger>
                 <IconButton
                     aria-label={'notification'}
-                    size={'xs'}
                     variant={'ghost'}
-                    _hover={{ backgroundColor: 'gray.700' }}
-                    _active={{ backgroundColor: 'gray.700' }}
-                    icon={<Avatar height={4} width={4} name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />}
+                    icon={<Avatar size={'sm'} name={`${user.firstName} ${user.lastName}`} />}
                 />
             </PopoverTrigger>
 

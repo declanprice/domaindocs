@@ -3,8 +3,8 @@ import {
     AddDocumentationData,
     DetailedDocumentation,
     Documentation,
+    FileWithSignedUrl,
     SearchDocumentationParams,
-    SignedFileUrl,
 } from '@domaindocs/types';
 
 export const documentationApi = (() => {
@@ -32,8 +32,8 @@ export const documentationApi = (() => {
         await apiClient.delete<Documentation>(`/domains/${domainId}/documentation/${documentationId}`);
     };
 
-    const getDocumentationSignedUrl = async (domainId: string, documentationId: string): Promise<SignedFileUrl> => {
-        const result = await apiClient.get<SignedFileUrl>(
+    const getDocumentationSignedUrl = async (domainId: string, documentationId: string): Promise<FileWithSignedUrl> => {
+        const result = await apiClient.get<FileWithSignedUrl>(
             `/domains/${domainId}/documentation/${documentationId}/signed-url`,
         );
 
