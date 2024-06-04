@@ -42,16 +42,18 @@ export const PersonRoles = (props: PersonRolesProps) => {
 
     const roles = person.roles.sort((r) => (r.isPrimary ? 0 : 1));
 
+    const ref = useRef();
+
     return (
         <Flex backgroundColor={'lightgray'} p={2} rounded={4} gap={3} direction={'column'}>
-            <Flex alignItems={'center'}>
+            <Flex ref={ref} alignItems={'center'}>
                 <Flex alignItems={'center'} backgroundColor={'teal.400'} rounded={6} p={2}>
                     <GrWorkshop color={'white'} />
                 </Flex>
 
                 <Text ml={4}>Roles</Text>
 
-                <PersonRoleForm domainId={domainId} userId={person.person.userId}>
+                <PersonRoleForm domainId={domainId} userId={person.person.userId} containerRef={ref}>
                     <AddIconButton size={'xs'} ml={'auto'} />
                 </PersonRoleForm>
             </Flex>
@@ -108,7 +110,7 @@ export const PersonRoleListItem = (props: PersonRoleListItemProps) => {
                 </Stack>
 
                 <ButtonGroup display={'none'} _groupHover={{ display: 'flex' }} spacing={1} ml={'auto'}>
-                    <PersonRoleForm domainId={domainId} userId={userId} role={role}>
+                    <PersonRoleForm domainId={domainId} userId={userId} role={role} containerRef={ref}>
                         <EditIconButton size={'xs'} onClick={editPopover.onOpen} />
                     </PersonRoleForm>
 
@@ -130,10 +132,11 @@ type PersonRoleFormProps = {
     domainId: string;
     userId: string;
     role?: PersonRole;
+    containerRef: RefObject<any>;
 } & PropsWithChildren;
 
 export const PersonRoleForm = (props: PersonRoleFormProps) => {
-    const { domainId, userId, role } = props;
+    const { domainId, userId, role, containerRef } = props;
 
     const menu = useDisclosure();
 
@@ -191,7 +194,7 @@ export const PersonRoleForm = (props: PersonRoleFormProps) => {
         <Popover isOpen={menu.isOpen} onOpen={menu.onOpen} onClose={close}>
             <PopoverTrigger>{props.children}</PopoverTrigger>
 
-            <Portal>
+            <Portal containerRef={containerRef}>
                 <PopoverContent mr={2} backgroundColor={'lightgray'}>
                     <form onSubmit={form.handleSubmit(submit)}>
                         <PopoverBody>
