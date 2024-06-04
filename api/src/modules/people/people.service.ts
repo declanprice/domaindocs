@@ -12,8 +12,10 @@ import {
     SearchPeopleParams,
     UpdatePersonContactDetailsData,
     UpdatePersonSkillsData,
+    EditPersonSkillData,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
+import { v4 } from 'uuid';
 
 @Injectable()
 export class PeopleService {
@@ -114,46 +116,39 @@ export class PeopleService {
         );
     }
 
-    async updateSkills(
+    async createSkill(
         session: UserSession,
         domainId: string,
         userId: string,
-        data: UpdatePersonSkillsData,
-    ): Promise<void> {
-        await this.prisma.$transaction(async (tx) => {
-            for (const skillId of data.skillIds) {
-                await tx.personSkill.upsert({
-                    where: {
-                        userId_skillId: {
-                            userId,
-                            skillId,
-                        },
-                    },
-                    create: {
-                        skillId,
-                        userId,
-                        domainId,
-                    },
-                    update: {
-                        skillId,
-                        userId,
-                        domainId,
-                    },
-                });
-            }
-
-            await tx.personSkill.deleteMany({
-                where: {
-                    userId,
-                    domainId,
-                    skillId: {
-                        not: {
-                            in: data.skillIds,
-                        },
-                    },
-                },
-            });
+        data: EditPersonSkillData,
+    ): Promise<DetailedPerson> {
+        await this.prisma.personSkill.create({
+            data: {
+                domainId,
+                userId,
+                skillId: data.skillId,
+            },
         });
+
+        return this.getPerson(session, domainId, userId);
+    }
+
+    async deleteSkill(
+        session: UserSession,
+        domainId: string,
+        userId: string,
+        skillId: string,
+    ): Promise<DetailedPerson> {
+        await this.prisma.personSkill.delete({
+            where: {
+                userId_skillId: {
+                    userId,
+                    skillId,
+                },
+            },
+        });
+
+        return this.getPerson(session, domainId, userId);
     }
 
     async createRole(

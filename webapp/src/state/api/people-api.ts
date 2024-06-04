@@ -6,6 +6,7 @@ import {
     UpdatePersonSkillsData,
     UpdatePersonContactDetailsData,
     EditPersonRoleData,
+    EditPersonSkillData,
 } from '@domaindocs/types';
 
 import { queryClient } from '../query-client';
@@ -24,8 +25,16 @@ export const peopleApi = (() => {
         return result.data;
     };
 
-    const updateSkills = async (domainId: string, userId: string, data: UpdatePersonSkillsData): Promise<void> => {
-        await apiClient.post<DetailedPerson>(`/domains/${domainId}/people/${userId}/skills`, data);
+    const createSkill = async (domainId: string, userId: string, data: EditPersonSkillData): Promise<void> => {
+        const result = await apiClient.post<DetailedPerson>(`/domains/${domainId}/people/${userId}/skills`, data);
+        updateLocalPerson(domainId, userId, result.data);
+    };
+
+    const deleteSkill = async (domainId: string, userId: string, skillId: string): Promise<void> => {
+        const result = await apiClient.delete<DetailedPerson>(
+            `/domains/${domainId}/people/${userId}/skills/${skillId}`,
+        );
+        updateLocalPerson(domainId, userId, result.data);
     };
 
     const createRole = async (domainId: string, userId: string, data: EditPersonRoleData): Promise<void> => {
@@ -66,7 +75,8 @@ export const peopleApi = (() => {
     return {
         search,
         get,
-        updateSkills,
+        createSkill,
+        deleteSkill,
         createRole,
         updateRole,
         deleteRole,

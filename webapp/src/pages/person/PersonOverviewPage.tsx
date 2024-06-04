@@ -1,38 +1,15 @@
-import {
-    Avatar,
-    Box,
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    Divider,
-    Flex,
-    Stack,
-    Text,
-    Wrap,
-    WrapItem,
-} from '@chakra-ui/react';
-import { PersonRolesList } from './components/PersonRolesList';
-import { PersonTeamsList } from './components/PersonTeamsList';
-import { PersonContactDetails } from './components/PersonContactDetails';
+import { Avatar, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Stack, Text } from '@chakra-ui/react';
 import { DetailedPerson } from '@domaindocs/types';
 import { useNavigate, useParams } from 'react-router-dom';
-import { PersonAvatar } from '../../components/person/PersonAvatar';
-import { PersonSkillsListEdit } from './components/PersonSkillsListEdit';
 import { PersonPageParams } from './PersonPageParams';
 import { useQuery } from '@tanstack/react-query';
 import { peopleApi } from '../../state/api/people-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
-import { useEditable } from '../../hooks/useEditable';
-import { PersonSkillsList } from './components/PersonSkillsList';
-import { PersonRolesListEdit } from './components/PersonRolesListEdit';
-import { PersonContactDetailsEdit } from './components/PersonContactDetailsEdit';
-import { IoInformation } from 'react-icons/io5';
-import { GrWorkshop } from 'react-icons/gr';
-import { GiSkills } from 'react-icons/gi';
 import { GoPeople } from 'react-icons/go';
-import { MdConnectWithoutContact, MdEmail, MdOutlineEmail, MdOutlinePhone } from 'react-icons/md';
+import { MdConnectWithoutContact, MdOutlineEmail, MdOutlinePhone } from 'react-icons/md';
 import { PersonDetails } from './components/PersonDetails';
 import { PersonRoles } from './components/PersonRoles';
+import { PersonSkills } from './components/PersonSkills';
 
 export const PersonOverviewPage = () => {
     const { domainId, userId } = useParams() as PersonPageParams;
@@ -112,42 +89,7 @@ export const PersonOverviewPage = () => {
 
                 <PersonRoles domainId={domainId} person={person} />
 
-                <Flex backgroundColor={'lightgray'} p={2} rounded={4} gap={3} direction={'column'}>
-                    <Flex alignItems={'center'} gap={4}>
-                        <Flex alignItems={'center'} backgroundColor={'blue.400'} rounded={6} p={2}>
-                            <GiSkills color={'white'} />
-                        </Flex>
-
-                        <Text>Skills</Text>
-                    </Flex>
-
-                    <Wrap>
-                        <WrapItem fontSize={12} fontWeight={300}>
-                            Node.js
-                        </WrapItem>
-                        <WrapItem fontSize={12} fontWeight={300}>
-                            AWS
-                        </WrapItem>
-                        <WrapItem fontSize={12} fontWeight={300}>
-                            Typescript
-                        </WrapItem>
-                        <WrapItem fontSize={12} fontWeight={300}>
-                            React
-                        </WrapItem>
-                        <WrapItem fontSize={12} fontWeight={300}>
-                            Angular
-                        </WrapItem>
-                        <WrapItem fontSize={12} fontWeight={300}>
-                            Nest.js
-                        </WrapItem>
-                        <WrapItem fontSize={12} fontWeight={300}>
-                            Nest.js
-                        </WrapItem>
-                        <WrapItem fontSize={12} fontWeight={300}>
-                            Nest.js
-                        </WrapItem>
-                    </Wrap>
-                </Flex>
+                <PersonSkills domainId={domainId} person={person} />
 
                 <Flex backgroundColor={'lightgray'} p={2} rounded={4} gap={3} direction={'column'}>
                     <Flex alignItems={'center'} gap={4}>

@@ -130,8 +130,6 @@ type PersonRoleFormProps = {
 export const PersonRoleForm = (props: PersonRoleFormProps) => {
     const { domainId, userId, role } = props;
 
-    console.log(role);
-
     const menu = useDisclosure();
 
     const { data: allRoles, isLoading } = useQuery<Role[]>({

@@ -8,6 +8,7 @@ import {
     UpdatePersonContactDetailsData,
     UpdatePersonSkillsData,
     EditPersonRoleData,
+    EditPersonSkillData,
 } from '@domaindocs/types';
 
 @Controller('domains/:domainId/people')
@@ -33,14 +34,24 @@ export class PeopleController {
         return this.peopleService.getPerson(session, domainId, userId);
     }
 
-    @Put(':userId/skills')
-    async updateSkills(
+    @Post(':userId/skills')
+    async createSkill(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('userId') userId: string,
-        @Body() data: UpdatePersonSkillsData,
-    ): Promise<void> {
-        return this.peopleService.updateSkills(session, domainId, userId, data);
+        @Body() data: EditPersonSkillData,
+    ): Promise<DetailedPerson> {
+        return this.peopleService.createSkill(session, domainId, userId, data);
+    }
+
+    @Delete(':userId/skills/:skillId')
+    async deleteSkill(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('userId') userId: string,
+        @Param('skillId') skillId: string,
+    ): Promise<DetailedPerson> {
+        return this.peopleService.deleteSkill(session, domainId, userId, skillId);
     }
 
     @Post(':userId/roles')

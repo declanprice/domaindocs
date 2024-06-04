@@ -1,5 +1,5 @@
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText, FormControlProps, Text } from '@chakra-ui/react';
-import { CreatableSelect } from 'chakra-react-select';
+import { CreatableProps, CreatableSelect } from 'chakra-react-select';
 import { Control, useController } from 'react-hook-form';
 import { getFontSize } from '../../util/getFontSize';
 
@@ -14,6 +14,7 @@ type FormCreatableSelectProps = {
     onBlur?: () => void;
     onCreateOption?: (value: string) => void;
     isMulti?: boolean;
+    selectProps?: CreatableProps<any, any, any>;
 } & Partial<FormControlProps>;
 
 export const FormCreatableSelectable = (props: FormCreatableSelectProps) => {
@@ -55,9 +56,11 @@ export const FormCreatableSelectable = (props: FormCreatableSelectProps) => {
                 size="sm"
                 placeholder={props.placeholder}
                 options={props.options}
+                {...props.selectProps}
             />
 
             {props.helperText && <FormHelperText fontSize={12}>{props.helperText}</FormHelperText>}
+
             {fieldState.error && <FormErrorMessage fontSize={12}>{fieldState.error.message}</FormErrorMessage>}
         </FormControl>
     );
