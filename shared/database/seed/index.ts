@@ -1,6 +1,6 @@
 import { benUser, declanUser, natashaUser } from './users';
 import { ros } from './domain';
-import { benPerson, declanPerson, natashaPerson, personContactDetails, personRoles, personSkills } from './people';
+import { benPerson, declanPerson, natashaPerson, personContacts, personRoles, personSkills } from './people';
 import { teamKeplar, teamMembers, teamOrion } from './teams';
 import { documentation, documentationDocuments, documentationFiles } from './documentation';
 import { apiDevSkill, devOpsSkill, uiDevSkill } from './skills';
@@ -38,7 +38,7 @@ const client = new PrismaClient();
     await client.teamMember.deleteMany();
     await client.team.deleteMany();
 
-    await client.personContactDetails.deleteMany();
+    await client.personContactLink.deleteMany();
     await client.personSkill.deleteMany();
     await client.personRole.deleteMany();
     await client.person.deleteMany();
@@ -68,7 +68,7 @@ const client = new PrismaClient();
 
     await client.personRole.createMany({ data: personRoles() });
 
-    await client.personContactDetails.createMany({ data: personContactDetails() });
+    await client.personContactLink.createMany({ data: personContacts() });
 
     await client.team.createMany({ data: [teamOrion(), teamKeplar()] });
 

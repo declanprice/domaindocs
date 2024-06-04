@@ -152,7 +152,7 @@ export class DomainsService {
             await tx.project.deleteMany({ where: { domainId } });
             await tx.teamMember.deleteMany({ where: { domainId } });
             await tx.team.deleteMany({ where: { domainId } });
-            await tx.personContactDetails.deleteMany({ where: { domainId } });
+            await tx.personContactLink.deleteMany({ where: { domainId } });
             await tx.personSkill.deleteMany({ where: { domainId } });
             await tx.personRole.deleteMany({ where: { domainId } });
             await tx.person.deleteMany({ where: { domainId } });

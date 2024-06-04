@@ -31,6 +31,8 @@ import { GrWorkshop } from 'react-icons/gr';
 import { GiSkills } from 'react-icons/gi';
 import { GoPeople } from 'react-icons/go';
 import { MdConnectWithoutContact, MdEmail, MdOutlineEmail, MdOutlinePhone } from 'react-icons/md';
+import { PersonDetails } from './components/PersonDetails';
+import { PersonRoles } from './components/PersonRoles';
 
 export const PersonOverviewPage = () => {
     const { domainId, userId } = useParams() as PersonPageParams;
@@ -106,65 +108,9 @@ export const PersonOverviewPage = () => {
             </Flex>
 
             <Flex direction={'column'} width={'350px'} p={4} gap={4}>
-                <Flex backgroundColor={'lightgray'} p={2} rounded={4} gap={3} direction={'column'}>
-                    <Flex alignItems={'center'} gap={4}>
-                        <Flex alignItems={'center'} backgroundColor={'pink.400'} rounded={6} p={2}>
-                            <IoInformation color={'white'} />
-                        </Flex>
+                <PersonDetails person={person} />
 
-                        <Text>Information</Text>
-                    </Flex>
-
-                    <Stack spacing={0}>
-                        <Text fontSize={12} fontWeight={300}>
-                            Subdomain
-                        </Text>
-
-                        <Text fontSize={12} fontWeight={400}>
-                            Supporting
-                        </Text>
-                    </Stack>
-
-                    <Stack spacing={0}>
-                        <Text fontSize={12} fontWeight={300}>
-                            Date joined
-                        </Text>
-
-                        <Text fontSize={12} fontWeight={400}>
-                            13th May 2023
-                        </Text>
-                    </Stack>
-                </Flex>
-
-                <Flex backgroundColor={'lightgray'} p={2} rounded={4} gap={3} direction={'column'}>
-                    <Flex alignItems={'center'} gap={4}>
-                        <Flex alignItems={'center'} backgroundColor={'teal.400'} rounded={6} p={2}>
-                            <GrWorkshop color={'white'} />
-                        </Flex>
-
-                        <Text>Roles</Text>
-                    </Flex>
-
-                    <Stack spacing={0}>
-                        <Text fontSize={12} fontWeight={300}>
-                            Primary
-                        </Text>
-
-                        <Text fontSize={12} fontWeight={400}>
-                            Team Leader
-                        </Text>
-                    </Stack>
-
-                    <Stack spacing={0}>
-                        <Text fontSize={12} fontWeight={300}>
-                            Secondary
-                        </Text>
-
-                        <Text fontSize={12} fontWeight={400}>
-                            Software Developer
-                        </Text>
-                    </Stack>
-                </Flex>
+                <PersonRoles domainId={domainId} person={person} />
 
                 <Flex backgroundColor={'lightgray'} p={2} rounded={4} gap={3} direction={'column'}>
                     <Flex alignItems={'center'} gap={4}>

@@ -1,19 +1,18 @@
-import { FormControl, FormLabel, FormErrorMessage, FormHelperText, FormControlProps, Select } from '@chakra-ui/react';
-
+import { FormControl, FormLabel, FormErrorMessage, FormHelperText, FormControlProps, Checkbox } from '@chakra-ui/react';
 import { Control, useController } from 'react-hook-form';
+import { getFontSize } from '../../util/getFontSize';
 
-type FormSelectProps = {
+type FormCheckboxProps = {
     name: string;
     placeholder?: string;
     control: Control<any>;
     label?: string;
     helperText?: string;
-    options: { value: string; label: string }[];
     onChange?: (e: any) => void;
     onBlur?: () => void;
 } & Partial<FormControlProps>;
 
-export const FormSelect = (props: FormSelectProps) => {
+export const FormCheckbox = (props: FormCheckboxProps) => {
     const { field, fieldState } = useController({
         name: props.name,
         control: props.control,
@@ -22,17 +21,16 @@ export const FormSelect = (props: FormSelectProps) => {
     return (
         <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
             {props.label && (
-                <FormLabel fontSize={12} mb={1} fontWeight={400}>
+                <FormLabel mb={1} fontSize={getFontSize(props.size)} fontWeight={400}>
                     {props.label}
                 </FormLabel>
             )}
 
-            <Select
-                autoComplete="off"
+            <Checkbox
                 name={field.name}
                 value={field.value}
+                isChecked={field.value === true}
                 isDisabled={field.disabled}
-                disabled={field.disabled}
                 ref={field.ref}
                 onChange={(e) => {
                     field.onChange(e);
@@ -46,20 +44,15 @@ export const FormSelect = (props: FormSelectProps) => {
                         props.onBlur();
                     }
                 }}
-                variant={'filled'}
+                size={'md'}
                 placeholder={props.placeholder}
-                size={props.size || 'sm'}
-            >
-                {props.options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                        {option.label}
-                    </option>
-                ))}
-            </Select>
+            />
 
-            {props.helperText && <FormHelperText fontSize={12}>{props.helperText}</FormHelperText>}
+            {props.helperText && <FormHelperText fontSize={getFontSize(props.size)}>{props.helperText}</FormHelperText>}
 
-            {fieldState.error && <FormErrorMessage fontSize={12}>{fieldState.error.message}</FormErrorMessage>}
+            {fieldState.error && (
+                <FormErrorMessage fontSize={getFontSize(props.size)}>{fieldState.error.message}</FormErrorMessage>
+            )}
         </FormControl>
     );
 };

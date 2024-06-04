@@ -6,7 +6,7 @@ import { Control, useController } from 'react-hook-form';
 import { SelectComponentsConfig } from 'react-select/dist/declarations/src/components';
 import { getFontSize } from '../../util/getFontSize';
 
-type FormSelectableProps = {
+type FormCheckboxSelectProps = {
     name: string;
     placeholder?: string;
     control: Control<any>;
@@ -19,7 +19,7 @@ type FormSelectableProps = {
     components?: SelectComponentsConfig<any, any, any>;
 } & Partial<FormControlProps>;
 
-export const FormSelectable = (props: FormSelectableProps) => {
+export const FormCheckboxSelect = (props: FormCheckboxSelectProps) => {
     const { field, fieldState } = useController({
         name: props.name,
         control: props.control,
@@ -28,7 +28,7 @@ export const FormSelectable = (props: FormSelectableProps) => {
     return (
         <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
             {props.label && (
-                <FormLabel mb={1} fontSize={getFontSize(props.size)}>
+                <FormLabel mb={1} fontSize={getFontSize(props.size)} fontWeight={400}>
                     {props.label}
                 </FormLabel>
             )}

@@ -24,7 +24,11 @@ export const FormTextInput = (props: FormTextInputProps) => {
 
     return (
         <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
-            {props.label && <FormLabel fontSize={getFontSize(props.size)}>{props.label}</FormLabel>}
+            {props.label && (
+                <FormLabel fontSize={getFontSize(props.size)} fontWeight={400}>
+                    {props.label}
+                </FormLabel>
+            )}
 
             <Input
                 name={field.name}
@@ -47,7 +51,7 @@ export const FormTextInput = (props: FormTextInputProps) => {
                 disabled={field.disabled}
                 variant={'filled'}
                 placeholder={props.placeholder}
-                size={props.size || 'xs'}
+                size={props.size || 'sm'}
                 fontSize={getFontSize(props.size)}
             />
 

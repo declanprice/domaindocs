@@ -1,14 +1,14 @@
 import { PeopleService } from './people.service';
-import { Body, Controller, Get, Param, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import {
     SearchPeopleParams,
     DetailedPerson,
-    UpdatePersonRolesData,
     UpdatePersonContactDetailsData,
+    UpdatePersonSkillsData,
+    EditPersonRoleData,
 } from '@domaindocs/types';
-import { UpdatePersonSkillsData } from '../../../../shared/types/src/person/update-person-skills-data';
 
 @Controller('domains/:domainId/people')
 @UseGuards(AuthGuard)
@@ -43,14 +43,35 @@ export class PeopleController {
         return this.peopleService.updateSkills(session, domainId, userId, data);
     }
 
-    @Put(':userId/roles')
-    async updateRoles(
+    @Post(':userId/roles')
+    async createRole(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('userId') userId: string,
-        @Body() data: UpdatePersonRolesData,
-    ): Promise<void> {
-        return this.peopleService.updateRoles(session, domainId, userId, data);
+        @Body() data: EditPersonRoleData,
+    ): Promise<DetailedPerson> {
+        return this.peopleService.createRole(session, domainId, userId, data);
+    }
+
+    @Post(':userId/roles/:roleId')
+    async updateRole(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('userId') userId: string,
+        @Param('roleId') roleId: string,
+        @Body() data: EditPersonRoleData,
+    ): Promise<DetailedPerson> {
+        return this.peopleService.updateRole(session, domainId, userId, roleId, data);
+    }
+
+    @Delete(':userId/roles/:roleId')
+    async deleteRole(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('userId') userId: string,
+        @Param('roleId') roleId: string,
+    ): Promise<DetailedPerson> {
+        return this.peopleService.deleteRole(session, domainId, userId, roleId);
     }
 
     @Put(':userId/contact')

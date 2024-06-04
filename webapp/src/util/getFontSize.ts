@@ -7,6 +7,6 @@ export const getFontSize = (size?: any) => {
         case 'md':
             return 16;
         default:
-            return 12;
+            return 14;
     }
 };

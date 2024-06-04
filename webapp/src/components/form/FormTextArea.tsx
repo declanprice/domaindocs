@@ -21,7 +21,11 @@ export const FormTextArea = (props: FormTextAreaProps) => {
 
     return (
         <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
-            {props.label && <FormLabel fontSize={getFontSize(props.size)}>{props.label}</FormLabel>}
+            {props.label && (
+                <FormLabel fontSize={getFontSize(props.size)} fontWeight={400}>
+                    {props.label}
+                </FormLabel>
+            )}
 
             <Textarea
                 name={field.name}
@@ -44,7 +48,7 @@ export const FormTextArea = (props: FormTextAreaProps) => {
                 }}
                 variant={'filled'}
                 placeholder={props.placeholder}
-                size={props.size}
+                size={props.size || 'sm'}
             />
 
             {props.helperText && <FormHelperText fontSize={getFontSize(props.size)}>{props.helperText}</FormHelperText>}

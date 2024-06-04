@@ -17,15 +17,22 @@ export class PersonRole {
     constructor(
         public roleId: string,
         public roleName: string,
+        public isPrimary: boolean,
     ) {}
+}
+
+export enum PersonContactType {
+    EMAIL = 'Email',
+    MOBILE = 'Mobile',
+    LINK = 'Link',
 }
 
 export class PersonContact {
     constructor(
-        public personalMobile: string | null,
-        public personalEmail: string | null,
-        public workEmail: string | null,
-        public workMobile: string | null,
+        public linkId: string,
+        public type: PersonContactType,
+        public description: string,
+        public href: string | null,
     ) {}
 }
 
@@ -34,6 +41,8 @@ export class Person {
         public userId: string,
         public firstName: string,
         public lastName: string,
+        public aboutMe: string,
+        public dateJoined: string,
         public iconUri?: string,
     ) {}
 }
@@ -41,7 +50,7 @@ export class Person {
 export class DetailedPerson {
     constructor(
         public person: Person,
-        public contact: PersonContact | null,
+        public contacts: PersonContact[],
         public skills: PersonSkill[],
         public teams: PersonTeam[],
         public roles: PersonRole[],

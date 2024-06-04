@@ -42,7 +42,11 @@ export const FormMenuSelect = (props: FormMenuSelectProps) => {
 
     return (
         <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
-            {props.label && <FormLabel fontSize={getFontSize(props.size)}>{props.label}</FormLabel>}
+            {props.label && (
+                <FormLabel fontSize={getFontSize(props.size)} fontWeight={400}>
+                    {props.label}
+                </FormLabel>
+            )}
 
             <Menu>
                 <MenuButton type={'button'}>{renderMenuButton()}</MenuButton>

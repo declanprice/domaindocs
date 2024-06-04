@@ -16,7 +16,7 @@ model User {
   iconUri String? @map("icon_uri") @default("https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745")
 
   people Person[]
-  peopleContactDetails PersonContactDetails[]
+  peopleContactLinks PersonContactLink[]
   teamMembers TeamMember[]
   projectOwnership ProjectOwnership[]
   skills PersonSkill[]
@@ -37,7 +37,7 @@ model Domain {
   skills Skill[]
   roles Role[]
   people Person[]
-  peopleContactDetails PersonContactDetails[]
+  peopleContactLinks PersonContactLink[]
   peopleSkills PersonSkill[]
   peopleRoles PersonRole[]
   teams Team[]
@@ -75,10 +75,12 @@ model DomainInvite {
 model Person {
   userId String @map("user_id")
   domainId String @map("domain_id")
-  contactDetails PersonContactDetails?
+  aboutMe String @map("about_me") @default("")
+  dateJoined DateTime @map("date_joined") @default(now())
 
   domain Domain @relation(fields: [domainId], references: [domainId])
   user User @relation(fields: [userId], references: [userId])
+  contactLinks PersonContactLink[]
   skills PersonSkill[]
   roles PersonRole[]
   teamMembers TeamMember[]
@@ -99,6 +101,7 @@ model PersonRole {
   userId String @map("user_id")
   roleId String @map("role_id")
   domainId String @map("domain_id")
+  isPrimary Boolean @map("is_primary")
 
   domain Domain @relation(fields: [domainId], references: [domainId])
   user User @relation(fields: [userId], references: [userId])
@@ -130,13 +133,14 @@ model PersonSkill {
   @@map("person_skill")
 }
 
-model PersonContactDetails {
+model PersonContactLink {
+  linkId String @map("link_id")
   userId String @map("user_id")
   domainId String @map("domain_id")
-  workMobile String @map("work_mobile")
-  workEmail String @map("work_email")
-  personalMobile String @map("personal_mobile")
-  personalEmail String @map("personal_email")
+  type String @map("type")
+  href String? @map("href")
+  description String @map("description")
+
 
   domain Domain @relation(fields: [domainId], references: [domainId])
   person Person @relation(fields: [userId, domainId], references: [userId, domainId])
@@ -144,7 +148,7 @@ model PersonContactDetails {
 
   @@id([userId, domainId])
   @@index([domainId])
-  @@map("person_contact_details")
+  @@map("person_contact_link")
 }
 
 model Team {

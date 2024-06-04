@@ -1,15 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import {
+    EditPersonRoleData,
     DetailedPerson,
     Person,
     PersonContact,
+    PersonContactType,
     PersonRole,
     PersonSkill,
     PersonTeam,
     SearchPeopleParams,
     UpdatePersonContactDetailsData,
-    UpdatePersonRolesData,
     UpdatePersonSkillsData,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
@@ -43,23 +44,27 @@ export class PeopleService {
                         team: true,
                     },
                 },
-                contactDetails: true,
+                contactLinks: true,
             },
         });
 
         return results.map(
             (p) =>
                 new DetailedPerson(
-                    new Person(p.user.userId, p.user.firstName, p.user.lastName, p.user.iconUri),
-                    new PersonContact(
-                        p.contactDetails.personalMobile,
-                        p.contactDetails.personalEmail,
-                        p.contactDetails.workEmail,
-                        p.contactDetails.workMobile,
+                    new Person(
+                        p.user.userId,
+                        p.user.firstName,
+                        p.user.lastName,
+                        p.aboutMe,
+                        p.dateJoined.toISOString(),
+                        p.user.iconUri,
+                    ),
+                    p.contactLinks.map(
+                        (l) => new PersonContact(l.linkId, l.type as PersonContactType, l.description, l.href),
                     ),
                     p.skills.map((s) => new PersonSkill(s.skill.skillId, s.skill.name)),
                     p.teamMembers.map((t) => new PersonTeam(t.team.teamId, t.team.name, t.team.iconUri)),
-                    p.roles.map((r) => new PersonRole(r.role.roleId, r.role.name)),
+                    p.roles.map((r) => new PersonRole(r.role.roleId, r.role.name, r.isPrimary)),
                 ),
         );
     }
@@ -87,21 +92,25 @@ export class PeopleService {
                         team: true,
                     },
                 },
-                contactDetails: true,
+                contactLinks: true,
             },
         });
 
         return new DetailedPerson(
-            new Person(result.user.userId, result.user.firstName, result.user.lastName, result.user.iconUri),
-            new PersonContact(
-                result.contactDetails.personalMobile,
-                result.contactDetails.personalEmail,
-                result.contactDetails.workEmail,
-                result.contactDetails.workMobile,
+            new Person(
+                result.user.userId,
+                result.user.firstName,
+                result.user.lastName,
+                result.aboutMe,
+                result.dateJoined.toISOString(),
+                result.user.iconUri,
+            ),
+            result.contactLinks.map(
+                (l) => new PersonContact(l.linkId, l.type as PersonContactType, l.description, l.href),
             ),
             result.skills.map((s) => new PersonSkill(s.skill.skillId, s.skill.name)),
             result.teamMembers.map((t) => new PersonTeam(t.team.teamId, t.team.name, t.team.iconUri)),
-            result.roles.map((r) => new PersonRole(r.role.roleId, r.role.name)),
+            result.roles.map((r) => new PersonRole(r.role.roleId, r.role.name, r.isPrimary)),
         );
     }
 
@@ -147,46 +156,122 @@ export class PeopleService {
         });
     }
 
-    async updateRoles(
+    async createRole(
         session: UserSession,
         domainId: string,
         userId: string,
-        data: UpdatePersonRolesData,
-    ): Promise<void> {
+        data: EditPersonRoleData,
+    ): Promise<DetailedPerson> {
         await this.prisma.$transaction(async (tx) => {
-            for (const roleId of data.roleIds) {
-                await tx.personRole.upsert({
+            if (data.isPrimary) {
+                await tx.personRole.updateMany({
                     where: {
-                        userId_roleId: {
-                            userId,
-                            roleId,
-                        },
-                    },
-                    create: {
-                        roleId,
-                        userId,
                         domainId,
-                    },
-                    update: {
-                        roleId,
                         userId,
-                        domainId,
+                        isPrimary: true,
+                    },
+                    data: {
+                        isPrimary: false,
                     },
                 });
             }
 
-            await tx.personRole.deleteMany({
-                where: {
-                    userId,
+            await tx.personRole.create({
+                data: {
                     domainId,
-                    roleId: {
-                        not: {
-                            in: data.roleIds,
-                        },
-                    },
+                    userId,
+                    roleId: data.roleId,
+                    isPrimary: data.isPrimary,
                 },
             });
         });
+
+        return this.getPerson(session, domainId, userId);
+    }
+
+    async updateRole(
+        session: UserSession,
+        domainId: string,
+        userId: string,
+        roleId: string,
+        data: EditPersonRoleData,
+    ): Promise<DetailedPerson> {
+        await this.prisma.$transaction(async (tx) => {
+            if (data.isPrimary) {
+                await tx.personRole.updateMany({
+                    where: {
+                        domainId,
+                        userId,
+                        isPrimary: true,
+                    },
+                    data: {
+                        isPrimary: false,
+                    },
+                });
+            }
+
+            await tx.personRole.update({
+                where: {
+                    userId_roleId: {
+                        userId,
+                        roleId,
+                    },
+                },
+                data: {
+                    roleId: data.roleId,
+                    isPrimary: data.isPrimary,
+                },
+            });
+        });
+
+        return this.getPerson(session, domainId, userId);
+    }
+
+    async deleteRole(session: UserSession, domainId: string, userId: string, roleId: string): Promise<DetailedPerson> {
+        const role = await this.prisma.personRole.findUniqueOrThrow({
+            where: {
+                userId_roleId: {
+                    userId,
+                    roleId,
+                },
+            },
+        });
+
+        await this.prisma.$transaction(async (tx) => {
+            await tx.personRole.delete({
+                where: {
+                    userId_roleId: {
+                        userId,
+                        roleId,
+                    },
+                },
+            });
+
+            if (role.isPrimary) {
+                const firstAvailableRole = await tx.personRole.findFirst({
+                    where: {
+                        userId,
+                        domainId,
+                    },
+                });
+
+                if (firstAvailableRole) {
+                    await tx.personRole.update({
+                        where: {
+                            userId_roleId: {
+                                roleId: firstAvailableRole.roleId,
+                                userId: firstAvailableRole.userId,
+                            },
+                        },
+                        data: {
+                            isPrimary: true,
+                        },
+                    });
+                }
+            }
+        });
+
+        return this.getPerson(session, domainId, userId);
     }
 
     async updateContactDetails(
@@ -195,29 +280,29 @@ export class PeopleService {
         userId: string,
         data: UpdatePersonContactDetailsData,
     ): Promise<void> {
-        await this.prisma.personContactDetails.upsert({
-            where: {
-                userId_domainId: {
-                    domainId,
-                    userId,
-                },
-            },
-            create: {
-                domainId,
-                userId,
-                workMobile: data.workMobile,
-                workEmail: data.workEmail,
-                personalEmail: data.personalEmail,
-                personalMobile: data.personalMobile,
-            },
-            update: {
-                domainId,
-                userId,
-                workMobile: data.workMobile,
-                workEmail: data.workEmail,
-                personalEmail: data.personalEmail,
-                personalMobile: data.personalMobile,
-            },
-        });
+        // await this.prisma.personContactDetails.upsert({
+        //     where: {
+        //         userId_domainId: {
+        //             domainId,
+        //             userId,
+        //         },
+        //     },
+        //     create: {
+        //         domainId,
+        //         userId,
+        //         workMobile: data.workMobile,
+        //         workEmail: data.workEmail,
+        //         personalEmail: data.personalEmail,
+        //         personalMobile: data.personalMobile,
+        //     },
+        //     update: {
+        //         domainId,
+        //         userId,
+        //         workMobile: data.workMobile,
+        //         workEmail: data.workEmail,
+        //         personalEmail: data.personalEmail,
+        //         personalMobile: data.personalMobile,
+        //     },
+        // });
     }
 }
