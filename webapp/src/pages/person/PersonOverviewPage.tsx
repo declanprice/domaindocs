@@ -5,20 +5,16 @@ import { PersonPageParams } from './PersonPageParams';
 import { useQuery } from '@tanstack/react-query';
 import { peopleApi } from '../../state/api/people-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
-import { GoPeople } from 'react-icons/go';
-import { MdConnectWithoutContact, MdOutlineEmail, MdOutlinePhone } from 'react-icons/md';
 import { PersonDetails } from './components/PersonDetails';
 import { PersonRoles } from './components/PersonRoles';
 import { PersonSkills } from './components/PersonSkills';
+import { PersonTeams } from './components/PersonTeams';
+import { PersonContacts } from './components/PersonContacts';
 
 export const PersonOverviewPage = () => {
     const { domainId, userId } = useParams() as PersonPageParams;
 
     const navigate = useNavigate();
-
-    // const skillsEdit = useEditable();
-    // const contactEdit = useEditable();
-    // const rolesEdit = useEditable();
 
     const {
         data: person,
@@ -91,107 +87,10 @@ export const PersonOverviewPage = () => {
 
                 <PersonSkills domainId={domainId} person={person} />
 
-                <Flex backgroundColor={'lightgray'} p={2} rounded={4} gap={3} direction={'column'}>
-                    <Flex alignItems={'center'} gap={4}>
-                        <Flex alignItems={'center'} backgroundColor={'yellow.400'} rounded={6} p={2}>
-                            <MdConnectWithoutContact color={'white'} />
-                        </Flex>
+                <PersonContacts domainId={domainId} userId={userId} contacts={person.contacts} />
 
-                        <Text>Contact</Text>
-                    </Flex>
-
-                    <Stack spacing={3} pl={1}>
-                        <Flex alignItems={'center'} gap={2}>
-                            <MdOutlineEmail fontSize={18} color={'gray.900'} />
-                            <Text fontSize={12} fontWeight={300}>
-                                declanprice1@gmail.com
-                            </Text>
-                        </Flex>
-
-                        <Flex alignItems={'center'} gap={2}>
-                            <MdOutlinePhone fontSize={18} color={'gray.900'} />
-                            <Text fontSize={12} fontWeight={300}>
-                                0756489541
-                            </Text>
-                        </Flex>
-                    </Stack>
-                </Flex>
-
-                <Flex backgroundColor={'lightgray'} p={2} rounded={4} gap={3} direction={'column'}>
-                    <Flex alignItems={'center'} gap={4}>
-                        <Flex alignItems={'center'} backgroundColor={'purple.400'} rounded={6} p={2}>
-                            <GoPeople color={'white'} />
-                        </Flex>
-
-                        <Text>Teams</Text>
-                    </Flex>
-
-                    <Stack spacing={2}>
-                        <Text fontSize={12} fontWeight={300}>
-                            Team Orion
-                        </Text>
-
-                        <Text fontSize={12} fontWeight={300}>
-                            Team Keplar
-                        </Text>
-                    </Stack>
-                </Flex>
+                <PersonTeams domainId={domainId} userId={person.person.userId} teams={person.teams} />
             </Flex>
-            {/*<Flex direction="column" width={'100%'} overflowY={'auto'} gap={6} p={8}>*/}
-            {/*    <PersonAvatar*/}
-            {/*        firstName={person.person.firstName}*/}
-            {/*        lastName={person.person.lastName}*/}
-            {/*        iconUri={person.person.iconUri}*/}
-            {/*        roles={person.roles}*/}
-            {/*    />*/}
-            {/*    <Divider />*/}
-            {/*    {rolesEdit.isEditing ? (*/}
-            {/*        <PersonRolesListEdit*/}
-            {/*            domainId={domainId}*/}
-            {/*            userId={userId}*/}
-            {/*            roles={person.roles}*/}
-            {/*            onSubmit={() => {*/}
-            {/*                refetch();*/}
-            {/*                rolesEdit.onClose();*/}
-            {/*            }}*/}
-            {/*            onCancel={rolesEdit.onClose}*/}
-            {/*        />*/}
-            {/*    ) : (*/}
-            {/*        <PersonRolesList roles={person.roles} onEdit={rolesEdit.onEdit} />*/}
-            {/*    )}*/}
-            {/*    <Divider />*/}
-            {/*    <PersonTeamsList teams={person.teams} />*/}
-            {/*    <Divider />*/}
-            {/*    {contactEdit.isEditing ? (*/}
-            {/*        <PersonContactDetailsEdit*/}
-            {/*            domainId={domainId}*/}
-            {/*            userId={userId}*/}
-            {/*            contact={person.contact}*/}
-            {/*            onSubmit={() => {*/}
-            {/*                refetch();*/}
-            {/*                contactEdit.onClose();*/}
-            {/*            }}*/}
-            {/*            onCancel={contactEdit.onClose}*/}
-            {/*        />*/}
-            {/*    ) : (*/}
-            {/*        <PersonContactDetails contact={person.contact} onEdit={contactEdit.onEdit} />*/}
-            {/*    )}*/}
-            {/*    <Divider />*/}
-            {/*    {skillsEdit.isEditing ? (*/}
-            {/*        <PersonSkillsListEdit*/}
-            {/*            domainId={domainId}*/}
-            {/*            userId={userId}*/}
-            {/*            skills={person.skills}*/}
-            {/*            onSubmit={() => {*/}
-            {/*                refetch();*/}
-            {/*                skillsEdit.onClose();*/}
-            {/*            }}*/}
-            {/*            onCancel={skillsEdit.onClose}*/}
-            {/*        />*/}
-            {/*    ) : (*/}
-            {/*        <PersonSkillsList skills={person.skills} onEdit={skillsEdit.onEdit} />*/}
-            {/*    )}*/}
-            {/*</Flex>*/}
         </Flex>
     );
 };

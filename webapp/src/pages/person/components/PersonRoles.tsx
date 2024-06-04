@@ -1,7 +1,9 @@
 import { EditPersonRoleData, CreateRoleData, DetailedPerson, PersonRole, Role } from '@domaindocs/types';
 import {
+    Box,
     Button,
     ButtonGroup,
+    Card,
     Flex,
     List,
     ListItem,
@@ -10,16 +12,16 @@ import {
     PopoverContent,
     PopoverFooter,
     PopoverTrigger,
+    Portal,
     Stack,
     Text,
     useDisclosure,
 } from '@chakra-ui/react';
 import { GrWorkshop } from 'react-icons/gr';
 import { AddIconButton } from '../../../components/buttons/AddIconButton';
-import { EditIconButton } from '../../../components/buttons/EditIconButton';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { useHover } from '@uidotdev/usehooks';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, Ref, RefObject, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormCheckbox } from '../../../components/form/FormCheckbox';
 import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
@@ -29,6 +31,7 @@ import { queryClient } from '../../../state/query-client';
 import { peopleApi } from '../../../state/api/people-api';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { ConfirmDialog } from '../../../components/dialogs/ConfirmDialog';
+import { EditIconButton } from '../../../components/buttons/EditIconButton';
 
 type PersonRolesProps = {
     domainId: string;
@@ -40,18 +43,20 @@ export const PersonRoles = (props: PersonRolesProps) => {
 
     const roles = person.roles.sort((r) => (r.isPrimary ? 0 : 1));
 
+    const addRoleMenu = useDisclosure();
+
+    const addRoleRef = useRef(null);
+
     return (
         <Flex backgroundColor={'lightgray'} p={2} rounded={4} gap={3} direction={'column'}>
-            <Flex alignItems={'center'}>
+            <Flex alignItems={'center'} ref={addRoleRef}>
                 <Flex alignItems={'center'} backgroundColor={'teal.400'} rounded={6} p={2}>
                     <GrWorkshop color={'white'} />
                 </Flex>
 
                 <Text ml={4}>Roles</Text>
 
-                <PersonRoleForm domainId={domainId} userId={person.person.userId}>
-                    <AddIconButton size={'xs'} ml={'auto'} />
-                </PersonRoleForm>
+                <AddIconButton size={'xs'} ml={'auto'} onClick={addRoleMenu.onOpen} />
             </Flex>
 
             <List spacing={2}>
@@ -59,6 +64,14 @@ export const PersonRoles = (props: PersonRolesProps) => {
                     <PersonRoleListItem domainId={domainId} userId={person.person.userId} role={role} />
                 ))}
             </List>
+
+            <PersonRoleForm
+                domainId={domainId}
+                userId={person.person.userId}
+                isOpen={addRoleMenu.isOpen}
+                onClose={addRoleMenu.onClose}
+                containerRef={addRoleRef}
+            />
         </Flex>
     );
 };
@@ -74,14 +87,16 @@ export const PersonRoleListItem = (props: PersonRoleListItemProps) => {
 
     const deleteDialog = useDisclosure();
 
+    const editPopover = useDisclosure();
+
+    const ref = useRef(null);
+
     const { mutateAsync: deletePersonRole } = useMutation<void, DefaultError>({
         mutationKey: ['deletePersonRole', { domainId, userId, roleId: role.roleId }],
         mutationFn: async () => {
             return peopleApi.deleteRole(domainId, userId, role.roleId);
         },
     });
-
-    const [ref, isHovering] = useHover();
 
     return (
         <ListItem
@@ -90,6 +105,7 @@ export const PersonRoleListItem = (props: PersonRoleListItemProps) => {
             p={1}
             _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
             rounded={6}
+            data-group
         >
             <Flex alignItems={'center'}>
                 <Stack spacing={0}>
@@ -102,10 +118,8 @@ export const PersonRoleListItem = (props: PersonRoleListItemProps) => {
                     </Text>
                 </Stack>
 
-                <ButtonGroup hidden={!isHovering} spacing={1} ml={'auto'}>
-                    <PersonRoleForm domainId={domainId} userId={userId} role={role}>
-                        <EditIconButton size={'xs'} />
-                    </PersonRoleForm>
+                <ButtonGroup display={'none'} _groupHover={{ display: 'flex' }} spacing={1} ml={'auto'}>
+                    <EditIconButton size={'xs'} onClick={editPopover.onOpen} />
 
                     <CloseIconButton size={'xs'} onClick={deleteDialog.onOpen} />
                 </ButtonGroup>
@@ -117,6 +131,15 @@ export const PersonRoleListItem = (props: PersonRoleListItemProps) => {
                 onConfirm={deletePersonRole}
                 onCancel={deleteDialog.onClose}
             />
+
+            <PersonRoleForm
+                domainId={domainId}
+                userId={userId}
+                role={role}
+                isOpen={editPopover.isOpen}
+                onClose={editPopover.onClose}
+                containerRef={ref}
+            />
         </ListItem>
     );
 };
@@ -124,13 +147,14 @@ export const PersonRoleListItem = (props: PersonRoleListItemProps) => {
 type PersonRoleFormProps = {
     domainId: string;
     userId: string;
+    isOpen: boolean;
+    onClose: () => void;
+    containerRef: RefObject<any>;
     role?: PersonRole;
 } & PropsWithChildren;
 
 export const PersonRoleForm = (props: PersonRoleFormProps) => {
-    const { domainId, userId, role } = props;
-
-    const menu = useDisclosure();
+    const { domainId, userId, role, isOpen, containerRef, onClose } = props;
 
     const { data: allRoles, isLoading } = useQuery<Role[]>({
         queryKey: ['searchRoles', { domainId }],
@@ -167,7 +191,7 @@ export const PersonRoleForm = (props: PersonRoleFormProps) => {
     });
 
     const close = () => {
-        menu.onClose();
+        onClose();
         form.reset();
     };
 
@@ -182,61 +206,52 @@ export const PersonRoleForm = (props: PersonRoleFormProps) => {
 
     if (!allRoles || isLoading) return null;
 
+    if (!isOpen) return false;
+
     return (
-        <Popover isOpen={menu.isOpen} onOpen={menu.onOpen} onClose={close}>
-            <PopoverTrigger>{props.children}</PopoverTrigger>
+        <Portal containerRef={containerRef}>
+            <Card position={'absolute'} width={'300px'} py={2} px={3} mr={2} backgroundColor={'lightgray'}>
+                <form onSubmit={form.handleSubmit(submit)}>
+                    <Stack spacing={4}>
+                        <FormCreatableSelectable
+                            label={'Role'}
+                            name={'roleId'}
+                            control={form.control}
+                            options={allRoles.map((s) => ({
+                                label: s.name,
+                                value: s.roleId,
+                            }))}
+                            isMulti={false}
+                            onCreateOption={async (name) => {
+                                const role = await createRole({
+                                    name,
+                                });
 
-            <form onSubmit={form.handleSubmit(submit)}>
-                <PopoverContent mr={2} backgroundColor={'lightgray'}>
-                    <PopoverBody p={4}>
-                        <Stack spacing={4}>
-                            <FormCreatableSelectable
-                                label={'Role'}
-                                name={'roleId'}
-                                control={form.control}
-                                options={allRoles.map((s) => ({
-                                    label: s.name,
-                                    value: s.roleId,
-                                }))}
-                                isMulti={false}
-                                onCreateOption={async (name) => {
-                                    const role = await createRole({
-                                        name,
-                                    });
+                                form.setValue('roleId', role.roleId);
 
-                                    form.setValue('roleId', role.roleId);
+                                queryClient.setQueryData(['searchRoles', { domainId }], [...allRoles, role]);
+                            }}
+                        />
 
-                                    queryClient.setQueryData(['searchRoles', { domainId }], [...allRoles, role]);
-                                }}
-                            />
+                        <FormCheckbox label={'Is Primary Role'} name={'isPrimary'} control={form.control} />
+                    </Stack>
 
-                            <FormCheckbox label={'Is Primary Role'} name={'isPrimary'} control={form.control} />
-                        </Stack>
-                    </PopoverBody>
+                    <ButtonGroup width={'100%'} justifyContent={'flex-end'}>
+                        <Button size={'sm'} variant={'red'} onClick={close} isDisabled={form.formState.isSubmitting}>
+                            Cancel
+                        </Button>
 
-                    <PopoverFooter>
-                        <ButtonGroup width={'100%'} justifyContent={'flex-end'}>
-                            <Button
-                                size={'sm'}
-                                variant={'red'}
-                                onClick={close}
-                                isDisabled={form.formState.isSubmitting}
-                            >
-                                Cancel
-                            </Button>
-
-                            <Button
-                                size={'sm'}
-                                colorScheme={'blue'}
-                                type={'submit'}
-                                isLoading={form.formState.isSubmitting}
-                            >
-                                {role ? 'Save' : 'Add'}
-                            </Button>
-                        </ButtonGroup>
-                    </PopoverFooter>
-                </PopoverContent>
-            </form>
-        </Popover>
+                        <Button
+                            size={'sm'}
+                            colorScheme={'blue'}
+                            type={'submit'}
+                            isLoading={form.formState.isSubmitting}
+                        >
+                            {role ? 'Save' : 'Add'}
+                        </Button>
+                    </ButtonGroup>
+                </form>
+            </Card>
+        </Portal>
     );
 };
