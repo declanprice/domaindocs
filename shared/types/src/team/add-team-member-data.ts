@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class UpdateTeamSummaryData {
+export class AddTeamMemberData {
     @IsString()
-    description: string;
+    userId: string;
 }

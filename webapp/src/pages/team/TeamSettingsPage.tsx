@@ -4,8 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { DetailedTeam } from '@domaindocs/types';
 import { teamsApi } from '../../state/api/teams-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
-import { Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
-import { TeamPageToolbar } from './TeamPageToolbar';
+import { Button, Flex, Text } from '@chakra-ui/react';
 import { FormTextInput } from '../../components/form/FormTextInput';
 import { useForm } from 'react-hook-form';
 
@@ -27,8 +26,6 @@ export const TeamSettingsPage = () => {
 
     return (
         <Flex direction="column" width={'100%'}>
-            <TeamPageToolbar teamName={team.team.name} domainId={domainId} teamId={teamId} />
-
             <Flex gap={4} width={'100%'} direction={'column'} overflowY={'auto'}>
                 <Flex borderBottom={'1px solid'} borderColor={'border'} pb={30} px={4} pt={6}>
                     <Flex width={'280px'} minWidth={'250px'} gap={4} direction={'column'} mr={20}>

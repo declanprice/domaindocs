@@ -1,17 +1,8 @@
 import { Table } from '../../../components/table/Table';
 import { DetailedTeam, TeamProject } from '@domaindocs/types';
-import {
-    Link,
-    Popover,
-    PopoverBody,
-    PopoverCloseButton,
-    PopoverContent,
-    PopoverTrigger,
-    Stack,
-    Text,
-} from '@chakra-ui/react';
-import { TeamAvatar } from '../../../components/team/TeamAvatar';
-import { PersonAvatar } from '../../../components/person/PersonAvatar';
+import { Avatar, AvatarGroup, Box, Flex, IconButton, Text } from '@chakra-ui/react';
+import { GoPeople } from 'react-icons/go';
+import { TbDots } from 'react-icons/tb';
 
 type TeamTableProps = {
     teams: DetailedTeam[];
@@ -28,44 +19,36 @@ export const TeamsTable = (props: TeamTableProps) => {
             fields={[
                 {
                     label: 'Team',
+                    columnWidth: '20%',
                     render: (data: DetailedTeam) => {
-                        return <TeamAvatar name={data.team.name} nameLink={true} iconUri={data.team.iconUri} small />;
+                        return (
+                            <Flex alignItems="center">
+                                <Flex alignItems={'center'} backgroundColor={'purple.400'} rounded={6} p={2}>
+                                    <GoPeople color={'white'} />
+                                </Flex>
+
+                                <Text ml={2}>{data.team.name}</Text>
+                            </Flex>
+                        );
                     },
                     onClick: (row) => {
                         onTeamClick(row);
                     },
                 },
                 {
-                    label: 'Members',
+                    label: 'Description',
+                    columnWidth: '500px',
                     render: (data: DetailedTeam) => {
-                        if (!data.members.length) {
-                            return <Text>No Members</Text>;
-                        }
-
                         return (
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Text _hover={{ textDecoration: 'underline' }} cursor={'pointer'}>
-                                        {data.members.length} Members
-                                    </Text>
-                                </PopoverTrigger>
-                                <PopoverContent backgroundColor={'lightgray'}>
-                                    <PopoverCloseButton />
-                                    <PopoverBody>
-                                        <Stack spacing={2}>
-                                            {data.members.map((m) => (
-                                                <PersonAvatar
-                                                    firstName={m.firstName}
-                                                    lastName={m.lastName}
-                                                    iconUri={m.iconUri}
-                                                    roles={m.roles}
-                                                    small
-                                                />
-                                            ))}
-                                        </Stack>
-                                    </PopoverBody>
-                                </PopoverContent>
-                            </Popover>
+                            <Text
+                                mr={6}
+                                fontSize={12}
+                                textOverflow={'ellipsis'}
+                                overflow={'hidden'}
+                                whiteSpace={'nowrap'}
+                            >
+                                {data.team.description}
+                            </Text>
                         );
                     },
                     onClick: (row) => {
@@ -73,53 +56,38 @@ export const TeamsTable = (props: TeamTableProps) => {
                     },
                 },
                 {
-                    label: 'Projects',
+                    label: 'Members',
                     render: (data: DetailedTeam) => {
-                        if (!data.projects.length) {
-                            return <Text>No Projects</Text>;
-                        }
-
-                        if (data.projects.length === 1) {
-                            const project = data.projects[0];
-                            return (
-                                <Link
-                                    onClick={() => {
-                                        if (props.onProjectClick) {
-                                            props.onProjectClick(project);
-                                        }
-                                    }}
-                                >
-                                    {project.projectName}
-                                </Link>
-                            );
-                        }
-
                         return (
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Text _hover={{ textDecoration: 'underline' }} cursor={'pointer'}>
-                                        {data.projects.length} Projects
-                                    </Text>
-                                </PopoverTrigger>
-                                <PopoverContent backgroundColor={'lightgray'}>
-                                    <PopoverCloseButton />
-                                    <PopoverBody>
-                                        <Stack spacing={2}>
-                                            {data.projects.map((p) => (
-                                                <Link
-                                                    onClick={() => {
-                                                        if (props.onProjectClick) {
-                                                            props.onProjectClick(p);
-                                                        }
-                                                    }}
-                                                >
-                                                    {p.projectName}
-                                                </Link>
-                                            ))}
-                                        </Stack>
-                                    </PopoverBody>
-                                </PopoverContent>
-                            </Popover>
+                            <AvatarGroup>
+                                {data.members.map((member) => (
+                                    <Avatar
+                                        name={`${member.firstName} ${member.lastName}`}
+                                        src={member.iconUri}
+                                        size={'xs'}
+                                    />
+                                ))}
+                            </AvatarGroup>
+                        );
+                    },
+                    onClick: (row) => {
+                        console.log('clicked row', row);
+                    },
+                },
+                {
+                    headerAlign: 'end',
+                    label: 'Actions',
+                    render: (data: DetailedTeam) => {
+                        return (
+                            <Flex>
+                                <IconButton
+                                    ml={'auto'}
+                                    aria-label={'teams-menu'}
+                                    variant={'ghost'}
+                                    icon={<TbDots />}
+                                    size={'sm'}
+                                />
+                            </Flex>
                         );
                     },
                     onClick: (row) => {

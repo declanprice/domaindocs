@@ -50,6 +50,8 @@ import { DomainNavBar } from './pages/domain/DomainNavBar';
 import { DashboardPage } from './pages/dashboard/DashboardPage';
 import { PersonPageNavBar } from './pages/person/PersonPageNavBar';
 import { PersonWorkPage } from './pages/person/PersonWorkPage';
+import { TeamPageNavBar } from './pages/team/TeamPageNavBar';
+import { TeamWorkPage } from './pages/team/TeamWorkPage';
 
 export const routes = createBrowserRouter([
     {
@@ -151,7 +153,7 @@ export const routes = createBrowserRouter([
                                     },
                                     {
                                         path: 'teams/:teamId',
-                                        element: <RootLayout navbar={<RootNavBar />} />,
+                                        element: <RootLayout navbar={<TeamPageNavBar />} />,
                                         children: [
                                             {
                                                 path: '',
@@ -164,6 +166,10 @@ export const routes = createBrowserRouter([
                                             {
                                                 path: 'docs',
                                                 element: <TeamDocsPage />,
+                                            },
+                                            {
+                                                path: 'work',
+                                                element: <TeamWorkPage />,
                                             },
                                             {
                                                 path: 'settings',

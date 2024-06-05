@@ -10,12 +10,15 @@ import {
 } from '@chakra-ui/react';
 
 import { v4 } from 'uuid';
+import * as CSS from 'csstype';
 
 type TableProps<Data> = {
     data: Data[];
     size?: string;
     fields: {
         label: string;
+        headerAlign?: 'left' | 'center' | 'end' | 'right' | 'start';
+        columnWidth?: string;
         render: (data: Data) => any;
         onClick: (data: Data) => void;
     }[];
@@ -29,7 +32,7 @@ export const Table = (props: TableProps<any>) => {
             <ChakraTable size={'sm'} {...props}>
                 <Thead>
                     <Tr>
-                        {fields.map(({ label }) => (
+                        {fields.map(({ label, headerAlign }) => (
                             <Th
                                 py={2}
                                 key={label}
@@ -37,6 +40,7 @@ export const Table = (props: TableProps<any>) => {
                                 color={'gray.900'}
                                 textTransform={'none'}
                                 letterSpacing={'normal'}
+                                textAlign={headerAlign || 'start'}
                             >
                                 {label}
                             </Th>
@@ -48,6 +52,8 @@ export const Table = (props: TableProps<any>) => {
                         <Tr key={v4()} _hover={{ backgroundColor: 'gray.100' }}>
                             {fields.map((f) => (
                                 <Td
+                                    width={f?.columnWidth}
+                                    maxWidth={f?.columnWidth}
                                     borderBottom={'none'}
                                     key={v4()}
                                     fontSize={12}

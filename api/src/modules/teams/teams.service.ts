@@ -7,9 +7,13 @@ import {
     SearchTeamParams,
     Team,
     TeamMember,
-    TeamProject,
-    UpdateTeamSummaryData,
-    UpdateTeamMembersData,
+    EditTeamDescriptionData,
+    AddTeamMemberData,
+    PersonContact,
+    PersonContactType,
+    TeamContactType,
+    TeamContact,
+    TeamLink,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 
@@ -37,18 +41,15 @@ export class TeamsService {
                         },
                     },
                 },
-                projectOwnership: {
-                    include: {
-                        project: true,
-                    },
-                },
+                contacts: true,
+                links: true,
             },
         });
 
         return results.map(
             (t) =>
                 new DetailedTeam(
-                    new Team(t.teamId, t.name, t.description, t.iconUri),
+                    new Team(t.teamId, t.name, t.description, t.dateFormed.toISOString(), t.iconUri),
                     t.members.map(
                         (p) =>
                             new TeamMember(
@@ -62,7 +63,10 @@ export class TeamsService {
                                 })),
                             ),
                     ),
-                    t.projectOwnership.map((p) => new TeamProject(p.projectId, p.project.name)),
+                    t.contacts.map(
+                        (c) => new TeamContact(c.contactId, c.type as TeamContactType, c.description, c.href),
+                    ),
+                    t.links.map((link) => new TeamLink(link.linkId, link.href, link.description)),
                 ),
         );
     }
@@ -97,16 +101,13 @@ export class TeamsService {
                         },
                     },
                 },
-                projectOwnership: {
-                    include: {
-                        project: true,
-                    },
-                },
+                contacts: true,
+                links: true,
             },
         });
 
         return new DetailedTeam(
-            new Team(result.teamId, result.name, result.description, result.iconUri),
+            new Team(result.teamId, result.name, result.description, result.dateFormed.toISOString(), result.iconUri),
             result.members.map(
                 (m) =>
                     new TeamMember(
@@ -120,11 +121,12 @@ export class TeamsService {
                         })),
                     ),
             ),
-            result.projectOwnership.map((p) => new TeamProject(p.projectId, p.project.name)),
+            result.contacts.map((c) => new TeamContact(c.contactId, c.type as TeamContactType, c.description, c.href)),
+            result.links.map((link) => new TeamLink(link.linkId, link.href, link.description)),
         );
     }
 
-    async updateSummary(session: UserSession, domainId: string, teamId: string, data: UpdateTeamSummaryData) {
+    async updateDescription(session: UserSession, domainId: string, teamId: string, data: EditTeamDescriptionData) {
         await this.prisma.team.update({
             where: {
                 teamId,
@@ -133,40 +135,32 @@ export class TeamsService {
                 description: data.description,
             },
         });
+
+        return this.getTeam(session, domainId, teamId);
     }
 
-    async updateMembers(session: UserSession, domainId: string, teamId: string, data: UpdateTeamMembersData) {
-        await this.prisma.$transaction(async (tx) => {
-            for (const userId of data.userIds) {
-                await tx.teamMember.upsert({
-                    where: {
-                        teamId_userId: {
-                            teamId,
-                            userId,
-                        },
-                    },
-                    create: {
-                        domainId,
-                        userId,
-                        teamId,
-                    },
-                    update: {
-                        domainId,
-                        userId,
-                        teamId,
-                    },
-                });
-            }
-
-            await tx.teamMember.deleteMany({
-                where: {
-                    domainId,
-                    teamId,
-                    userId: {
-                        not: { in: data.userIds },
-                    },
-                },
-            });
+    async addMember(session: UserSession, domainId: string, teamId: string, data: AddTeamMemberData) {
+        await this.prisma.teamMember.create({
+            data: {
+                domainId,
+                teamId,
+                userId: data.userId,
+            },
         });
+
+        return this.getTeam(session, domainId, teamId);
+    }
+
+    async removeMember(session: UserSession, domainId: string, teamId: string, userId: string) {
+        await this.prisma.teamMember.delete({
+            where: {
+                teamId_userId: {
+                    teamId,
+                    userId,
+                },
+            },
+        });
+
+        return this.getTeam(session, domainId, teamId);
     }
 }

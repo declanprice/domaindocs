@@ -1,13 +1,13 @@
 import { TeamsService } from './teams.service';
-import { BadRequestException, Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import {
     DetailedTeam,
     SearchTeamParams,
     CreateTeamData,
-    UpdateTeamSummaryData,
-    UpdateTeamMembersData,
+    EditTeamDescriptionData,
+    AddTeamMemberData,
 } from '@domaindocs/types';
 
 @Controller('domains/:domainId/teams')
@@ -46,23 +46,33 @@ export class TeamsController {
         return this.teamsService.getTeam(session, domainId, teamId);
     }
 
-    @Post(':teamId/summary')
-    async updateSummary(
+    @Post(':teamId/description')
+    async updateDescription(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('teamId') teamId: string,
-        @Body() data: UpdateTeamSummaryData,
+        @Body() data: EditTeamDescriptionData,
     ) {
-        return this.teamsService.updateSummary(session, domainId, teamId, data);
+        return this.teamsService.updateDescription(session, domainId, teamId, data);
     }
 
     @Post(':teamId/members')
-    async updateMembers(
+    async addMember(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('teamId') teamId: string,
-        @Body() data: UpdateTeamMembersData,
+        @Body() data: AddTeamMemberData,
     ) {
-        return this.teamsService.updateMembers(session, domainId, teamId, data);
+        return this.teamsService.addMember(session, domainId, teamId, data);
+    }
+
+    @Delete(':teamId/members/:userId')
+    async removeMember(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('teamId') teamId: string,
+        @Param('userId') userId: string,
+    ) {
+        return this.teamsService.removeMember(session, domainId, teamId, userId);
     }
 }

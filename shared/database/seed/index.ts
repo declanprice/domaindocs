@@ -1,7 +1,7 @@
 import { benUser, declanUser, natashaUser } from './users';
 import { ros } from './domain';
 import { benPerson, declanPerson, natashaPerson, personContacts, personRoles, personSkills } from './people';
-import { teamKeplar, teamMembers, teamOrion } from './teams';
+import { teamContacts, teamKeplar, teamLinks, teamMembers, teamOrion } from './teams';
 import { documentation, documentationDocuments, documentationFiles } from './documentation';
 import { apiDevSkill, devOpsSkill, uiDevSkill } from './skills';
 import { softwareDevRole, teamLeadRole } from './roles';
@@ -35,6 +35,8 @@ const client = new PrismaClient();
     await client.projectOwnership.deleteMany();
     await client.project.deleteMany();
 
+    await client.teamLink.deleteMany();
+    await client.teamContact.deleteMany();
     await client.teamMember.deleteMany();
     await client.team.deleteMany();
 
@@ -71,8 +73,9 @@ const client = new PrismaClient();
     await client.personContact.createMany({ data: personContacts() });
 
     await client.team.createMany({ data: [teamOrion(), teamKeplar()] });
-
     await client.teamMember.createMany({ data: teamMembers() });
+    await client.teamLink.createMany({ data: teamLinks() });
+    await client.teamContact.createMany({ data: teamContacts() });
 
     await client.project.createMany({ data: deedSearchProject() });
     await client.projectLink.createMany({ data: projectLinks() });

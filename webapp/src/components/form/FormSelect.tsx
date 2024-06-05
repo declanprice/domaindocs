@@ -13,6 +13,7 @@ type FormSelectProps = {
     label?: string;
     helperText?: string;
     options: { value: string; label: string }[];
+    isLoading?: boolean;
     onChange?: (e: any) => void;
     onBlur?: () => void;
     isMulti?: boolean;
@@ -35,15 +36,17 @@ export const FormSelect = (props: FormSelectProps) => {
 
             <Select
                 name={field.name}
-                value={field.value}
+                value={props.options.find((option) => option.value === field.value)}
                 isDisabled={field.disabled}
                 ref={field.ref}
                 onChange={(e) => {
-                    field.onChange(e);
+                    const value = Array.isArray(e) ? e.map((o) => o.value) : e?.value;
+
+                    field.onChange(value);
+
                     if (props.onChange) {
-                        props.onChange(e);
+                        props.onChange(value);
                     }
-                    console.log('change', e);
                 }}
                 onBlur={() => {
                     field.onBlur();
@@ -53,6 +56,7 @@ export const FormSelect = (props: FormSelectProps) => {
                 }}
                 isMulti={props.isMulti !== undefined ? props.isMulti : true}
                 size={'sm'}
+                isLoading={props.isLoading}
                 placeholder={props.placeholder}
                 options={props.options}
                 components={props.components}

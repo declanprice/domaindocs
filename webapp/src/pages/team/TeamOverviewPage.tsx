@@ -1,80 +1,88 @@
-import { Divider, Flex, Heading, Stack } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Text } from '@chakra-ui/react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { DetailedTeam } from '@domaindocs/types';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { teamsApi } from '../../state/api/teams-api';
-import { TeamPageToolbar } from './TeamPageToolbar';
 import { TeamPageParams } from './TeamPageParams';
-import { TeamSummary } from './components/TeamSummary';
-import { TeamMembersList } from './components/TeamMembersList';
-import { TeamProjectsList } from './components/TeamProjectsList';
-import { TeamAvatar } from '../../components/team/TeamAvatar';
 import React from 'react';
-import { useEditable } from '../../hooks/useEditable';
-import { TeamSummaryEdit } from './components/TeamSummaryEdit';
-import { TeamMembersListEdit } from './components/TeamMembersListEdit';
+import { GoPeople } from 'react-icons/go';
+import { TeamDetails } from './components/TeamDetails';
+import { TeamDescription } from './components/TeamDescription';
+import { TeamContacts } from './components/TeamContacts';
+import { TeamLinks } from './components/TeamLinks';
+import { TeamMembers } from './components/TeamMembers';
 
 export const TeamOverviewPage = () => {
     const { domainId, teamId } = useParams() as TeamPageParams;
 
-    const {
-        data: team,
-        isLoading,
-        refetch,
-    } = useQuery<DetailedTeam>({
+    const navigate = useNavigate();
+
+    const { data: team, isLoading } = useQuery<DetailedTeam>({
         queryKey: ['getTeam', { domainId, teamId }],
         queryFn: () => teamsApi.get(domainId, teamId),
     });
 
-    const editSummary = useEditable();
-    const editMembers = useEditable();
-
     if (!team || isLoading) return <LoadingContainer />;
 
     return (
-        <Flex direction="column" width={'100%'}>
-            <TeamPageToolbar teamName={team.team.name} domainId={domainId} teamId={teamId} />
-
-            <Flex direction="column" width={'100%'} overflowY={'auto'} gap={6} p={8}>
-                <Stack spacing={4}>
-                    <TeamAvatar name={team.team.name} iconUri={team.team.iconUri} />
-
-                    {editSummary.isEditing ? (
-                        <TeamSummaryEdit
-                            domainId={domainId}
-                            team={team.team}
-                            onSubmit={async () => {
-                                await refetch();
-                                editSummary.onClose();
+        <Flex width={'100%'}>
+            <Flex direction="column" gap={4} flex={1} p={8}>
+                <Breadcrumb>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink
+                            href={`/${domainId}/people`}
+                            fontSize={14}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                navigate(`/${domainId}/teams`);
                             }}
-                            onCancel={editSummary.onClose}
-                        />
-                    ) : (
-                        <TeamSummary team={team.team} onEdit={editSummary.onEdit} />
-                    )}
-                </Stack>
+                        >
+                            Teams
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
 
-                <Divider />
+                    <BreadcrumbItem fontSize={14}>
+                        <BreadcrumbLink
+                            href={`/${domainId}/teams/${team.team.teamId}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                            }}
+                        >
+                            {team.team.name}
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                </Breadcrumb>
 
-                {editMembers.isEditing ? (
-                    <TeamMembersListEdit
-                        domainId={domainId}
-                        teamId={team.team.teamId}
-                        members={team.members}
-                        onSubmit={async () => {
-                            await refetch();
-                            editMembers.onClose();
-                        }}
-                        onCancel={editMembers.onClose}
-                    />
-                ) : (
-                    <TeamMembersList members={team.members} onEdit={editMembers.onEdit} />
-                )}
+                <Flex
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    backgroundColor={'purple.400'}
+                    width={'50px'}
+                    height="50px"
+                    rounded={6}
+                    p={2}
+                >
+                    <GoPeople color={'white'} />
+                </Flex>
 
-                <Divider />
+                <Text fontSize={18} fontWeight={500}>
+                    {team.team.name}
+                </Text>
 
-                <TeamProjectsList domainId={domainId} projects={team.projects} />
+                <Box mt={2}>
+                    <TeamDescription domainId={domainId} team={team} />
+                </Box>
+            </Flex>
+
+            <Flex direction={'column'} width={'350px'} p={4} gap={4}>
+                <TeamDetails team={team} />
+
+                <TeamMembers domainId={domainId} teamId={team.team.teamId} members={team.members} />
+
+                <TeamContacts domainId={domainId} teamId={team.team.teamId} contacts={team.contacts} />
+
+                <TeamLinks domainId={domainId} teamId={team.team.teamId} links={team.links} />
             </Flex>
         </Flex>
     );

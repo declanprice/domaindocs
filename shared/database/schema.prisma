@@ -42,6 +42,8 @@ model Domain {
   peopleRoles PersonRole[]
   teams Team[]
   teamMembers TeamMember[]
+  teamContacts TeamContact[]
+  teamLinks TeamLink[]
   projects Project[]
   projectLinks ProjectLink[]
   projectOwnerships ProjectOwnership[]
@@ -156,10 +158,13 @@ model Team {
   name     String  @map("name")
   description String @map("description") @default("")
   iconUri  String? @map("icon_uri") @default("https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745")
+  dateFormed DateTime @map("date_formed") @default(now())
+
 
   domain   Domain  @relation(fields: [domainId], references: [domainId])
-
   members TeamMember[]
+  contacts TeamContact[]
+  links TeamLink[]
   projectOwnership ProjectOwnership[]
   documentation Documentation[]
 
@@ -182,6 +187,38 @@ model TeamMember {
   @@index([userId])
   @@index([teamId])
   @@map("team_member")
+}
+
+
+model TeamContact {
+  contactId String @id @map("contact_id")
+  teamId String @map("team_id")
+  domainId String @map("domain_id")
+  type String @map("type")
+  href String? @map("href")
+  description String @map("description")
+
+  domain Domain @relation(fields: [domainId], references: [domainId])
+  team Team @relation(fields: [teamId], references: [teamId])
+
+  @@index([domainId])
+  @@index([teamId])
+  @@map("team_contact")
+}
+
+model TeamLink {
+  linkId String @id @map("link_id")
+  teamId String @map("team_id")
+  domainId String @map("domain_id")
+  href String @map("href")
+  description String @map("description")
+
+  team   Team @relation(fields: [teamId], references: [teamId])
+  domain Domain @relation(fields: [domainId], references: [domainId])
+
+  @@index([domainId])
+  @@index([teamId])
+  @@map("team_link")
 }
 
 model Project {

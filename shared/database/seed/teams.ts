@@ -1,6 +1,8 @@
 import { ros } from './domain';
 import { benUser, declanUser, natashaUser } from './users';
-import { Team, TeamMember } from '@prisma/client';
+import { Team, TeamContact, TeamLink, TeamMember } from '@prisma/client';
+import { v4 } from 'uuid';
+import { TeamContactType } from '../../types/src';
 
 export const teamOrion = (): Team => {
     return {
@@ -8,6 +10,7 @@ export const teamOrion = (): Team => {
         domainId: ros().domainId,
         iconUri: null,
         name: 'Team Orion',
+        dateFormed: new Date(),
         description:
             'Team orion is responsible for the development and maintenance of Deed Search, LR Archive, DocMan & more.',
     };
@@ -18,6 +21,7 @@ export const teamKeplar = (): Team => {
         teamId: 'keplar',
         domainId: ros().domainId,
         iconUri: null,
+        dateFormed: new Date(),
         name: 'Team Keplar',
         description: '',
     };
@@ -49,6 +53,47 @@ export const teamMembers = (): TeamMember[] => {
             teamId: teamKeplar().teamId,
             userId: natashaUser().userId,
             domainId: ros().domainId,
+        },
+    ];
+};
+
+export const teamContacts = (): TeamContact[] => {
+    return [
+        {
+            contactId: v4(),
+            teamId: teamOrion().teamId,
+            domainId: ros().domainId,
+            type: TeamContactType.EMAIL,
+            description: 'declanprice1@gmail.com',
+            href: null,
+        },
+        {
+            contactId: v4(),
+            teamId: teamOrion().teamId,
+            domainId: ros().domainId,
+            type: TeamContactType.MOBILE,
+            description: '0732564895',
+            href: null,
+        },
+        {
+            contactId: v4(),
+            teamId: teamOrion().teamId,
+            domainId: ros().domainId,
+            type: TeamContactType.LINK,
+            href: 'https://google.com',
+            description: 'Google',
+        },
+    ];
+};
+
+export const teamLinks = (): TeamLink[] => {
+    return [
+        {
+            linkId: v4(),
+            teamId: teamOrion().teamId,
+            domainId: ros().domainId,
+            href: 'https://google.com',
+            description: 'Google',
         },
     ];
 };

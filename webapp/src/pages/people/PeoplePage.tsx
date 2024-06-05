@@ -46,15 +46,11 @@ export const PeoplePage = () => {
                 </Button>
 
                 <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
-                    <Text ml={2}>Subdomain</Text>
+                    <Text ml={2}>Roles</Text>
                 </Button>
 
                 <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
                     <Text ml={2}>Skills</Text>
-                </Button>
-
-                <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
-                    <Text ml={2}>Roles</Text>
                 </Button>
             </Flex>
 

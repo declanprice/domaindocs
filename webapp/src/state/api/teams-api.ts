@@ -1,11 +1,14 @@
 import { apiClient } from './api-client';
 import {
-    UpdateTeamMembersData,
+    AddTeamMemberData,
     CreateTeamData,
     DetailedTeam,
     SearchTeamParams,
-    UpdateTeamSummaryData,
+    EditTeamDescriptionData,
+    EditTeamContactData,
+    EditTeamLinkData,
 } from '@domaindocs/types';
+import { queryClient } from '../query-client';
 
 export const teamsApi = (() => {
     const search = async (domainId: string, dto: SearchTeamParams = {}): Promise<DetailedTeam[]> => {
@@ -26,19 +29,86 @@ export const teamsApi = (() => {
         return result.data;
     };
 
-    const updateSummary = async (domainId: string, teamId: string, data: UpdateTeamSummaryData): Promise<void> => {
-        await apiClient.post(`/domains/${domainId}/teams/${teamId}/summary`, data);
+    const updateDescription = async (
+        domainId: string,
+        teamId: string,
+        data: EditTeamDescriptionData,
+    ): Promise<void> => {
+        const result = await apiClient.post<DetailedTeam>(`/domains/${domainId}/teams/${teamId}/description`, data);
+        updateLocalTeam(domainId, teamId, result.data);
     };
 
-    const updateMembers = async (domainId: string, teamId: string, data: UpdateTeamMembersData): Promise<void> => {
-        await apiClient.post(`/domains/${domainId}/teams/${teamId}/members`, data);
+    const addMember = async (domainId: string, teamId: string, data: AddTeamMemberData): Promise<void> => {
+        const result = await apiClient.post<DetailedTeam>(`/domains/${domainId}/teams/${teamId}/members`, data);
+        updateLocalTeam(domainId, teamId, result.data);
+    };
+
+    const removeMember = async (domainId: string, teamId: string, userId: string): Promise<void> => {
+        const result = await apiClient.delete<DetailedTeam>(`/domains/${domainId}/teams/${teamId}/members/${userId}`);
+        updateLocalTeam(domainId, teamId, result.data);
+    };
+
+    const createContact = async (domainId: string, teamId: string, data: EditTeamContactData): Promise<void> => {
+        const result = await apiClient.post<DetailedTeam>(`/domains/${domainId}/teams/${teamId}/contacts`, data);
+        updateLocalTeam(domainId, teamId, result.data);
+    };
+
+    const updateContact = async (
+        domainId: string,
+        teamId: string,
+        contactId: string,
+        data: EditTeamContactData,
+    ): Promise<void> => {
+        const result = await apiClient.post<DetailedTeam>(
+            `/domains/${domainId}/teams/${teamId}/contacts/${contactId}`,
+            data,
+        );
+        updateLocalTeam(domainId, teamId, result.data);
+    };
+
+    const deleteContact = async (domainId: string, teamId: string, contactId: string): Promise<void> => {
+        const result = await apiClient.delete<DetailedTeam>(
+            `/domains/${domainId}/teams/${teamId}/contacts/${contactId}`,
+        );
+        updateLocalTeam(domainId, teamId, result.data);
+    };
+
+    const createLink = async (domainId: string, teamId: string, data: EditTeamLinkData): Promise<void> => {
+        const result = await apiClient.post<DetailedTeam>(`/domains/${domainId}/teams/${teamId}/links`, data);
+        updateLocalTeam(domainId, teamId, result.data);
+    };
+
+    const updateLink = async (
+        domainId: string,
+        teamId: string,
+        linkId: string,
+        data: EditTeamLinkData,
+    ): Promise<void> => {
+        const result = await apiClient.post<DetailedTeam>(`/domains/${domainId}/teams/${teamId}/links/${linkId}`, data);
+        updateLocalTeam(domainId, teamId, result.data);
+    };
+
+    const deleteLink = async (domainId: string, teamId: string, linkId: string): Promise<void> => {
+        const result = await apiClient.delete<DetailedTeam>(`/domains/${domainId}/teams/${teamId}/links/${linkId}`);
+        updateLocalTeam(domainId, teamId, result.data);
+    };
+
+    const updateLocalTeam = (domainId: string, teamId: string, team: DetailedTeam) => {
+        queryClient.setQueryData(['getTeam', { domainId, teamId }], team);
     };
 
     return {
         search,
         create,
         get,
-        updateSummary,
-        updateMembers,
+        updateDescription,
+        addMember,
+        removeMember,
+        createContact,
+        updateContact,
+        deleteContact,
+        createLink,
+        updateLink,
+        deleteLink,
     };
 })();

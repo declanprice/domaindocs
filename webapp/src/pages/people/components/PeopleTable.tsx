@@ -1,20 +1,12 @@
 import {
-    Avatar,
-    Badge,
     Box,
-    Button,
     Popover,
-    PopoverArrow,
     PopoverBody,
     PopoverCloseButton,
     PopoverContent,
-    PopoverHeader,
     PopoverTrigger,
     Stack,
-    Tag,
-    TagLabel,
     Text,
-    Tooltip,
 } from '@chakra-ui/react';
 import { Table } from '../../../components/table/Table';
 import { DetailedPerson } from '@domaindocs/types';

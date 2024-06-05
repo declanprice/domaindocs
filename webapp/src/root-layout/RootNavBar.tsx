@@ -74,7 +74,7 @@ export const RootNavBar = () => {
 
                 <NavButton
                     icon={<HiOutlineDocumentText color={'gray.900'} size={18} />}
-                    label={'Documentation'}
+                    label={'Docs'}
                     to={`/${activeDomain.domainId}/docs/relevant`}
                 />
 

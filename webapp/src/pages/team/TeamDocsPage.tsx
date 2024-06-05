@@ -1,5 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
-import { TeamPageToolbar } from './TeamPageToolbar';
+import { Flex } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { TeamPageParams } from './TeamPageParams';
 import { useQuery } from '@tanstack/react-query';
@@ -30,8 +29,6 @@ export const TeamDocsPage = () => {
 
     return (
         <Flex direction="column" width={'100%'}>
-            <TeamPageToolbar teamName={team.team.name} domainId={domainId} teamId={teamId} />
-
             <DocumentationViewer
                 documentation={documentation}
                 domainId={domainId}
