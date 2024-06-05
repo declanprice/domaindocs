@@ -5,10 +5,9 @@ import { AuthSession, UserSession } from '../../auth/auth-session';
 import {
     SearchPeopleParams,
     DetailedPerson,
-    UpdatePersonContactDetailsData,
-    UpdatePersonSkillsData,
     EditPersonRoleData,
     EditPersonSkillData,
+    EditPersonContactData,
 } from '@domaindocs/types';
 
 @Controller('domains/:domainId/people')
@@ -85,13 +84,34 @@ export class PeopleController {
         return this.peopleService.deleteRole(session, domainId, userId, roleId);
     }
 
-    @Put(':userId/contact')
-    async updateContactDetails(
+    @Post(':userId/contacts')
+    async createContact(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('userId') userId: string,
-        @Body() data: UpdatePersonContactDetailsData,
-    ): Promise<void> {
-        return this.peopleService.updateContactDetails(session, domainId, userId, data);
+        @Body() data: EditPersonContactData,
+    ): Promise<DetailedPerson> {
+        return this.peopleService.createContact(session, domainId, userId, data);
+    }
+
+    @Post(':userId/contacts/:contactId')
+    async updateContact(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('userId') userId: string,
+        @Param('contactId') contactId: string,
+        @Body() data: EditPersonContactData,
+    ): Promise<DetailedPerson> {
+        return this.peopleService.updateContact(session, domainId, userId, contactId, data);
+    }
+
+    @Delete(':userId/contacts/:contactId')
+    async deleteContact(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('userId') userId: string,
+        @Param('contactId') contactId: string,
+    ): Promise<DetailedPerson> {
+        return this.peopleService.deleteContact(session, domainId, userId, contactId);
     }
 }

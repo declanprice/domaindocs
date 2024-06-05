@@ -3,10 +3,9 @@ import { apiClient } from './api-client';
 import {
     DetailedPerson,
     SearchPeopleParams,
-    UpdatePersonSkillsData,
-    UpdatePersonContactDetailsData,
     EditPersonRoleData,
     EditPersonSkillData,
+    EditPersonContactData,
 } from '@domaindocs/types';
 
 import { queryClient } from '../query-client';
@@ -60,12 +59,29 @@ export const peopleApi = (() => {
         updateLocalPerson(domainId, userId, result.data);
     };
 
-    const updateContactDetails = async (
+    const createContact = async (domainId: string, userId: string, data: EditPersonContactData): Promise<void> => {
+        const result = await apiClient.post<DetailedPerson>(`/domains/${domainId}/people/${userId}/contacts`, data);
+        updateLocalPerson(domainId, userId, result.data);
+    };
+
+    const updateContact = async (
         domainId: string,
         userId: string,
-        data: UpdatePersonContactDetailsData,
+        contactId: string,
+        data: EditPersonContactData,
     ): Promise<void> => {
-        await apiClient.put<void>(`/domains/${domainId}/people/${userId}/contact`, data);
+        const result = await apiClient.post<DetailedPerson>(
+            `/domains/${domainId}/people/${userId}/contacts/${contactId}`,
+            data,
+        );
+        updateLocalPerson(domainId, userId, result.data);
+    };
+
+    const deleteContact = async (domainId: string, userId: string, contactId: string): Promise<void> => {
+        const result = await apiClient.delete<DetailedPerson>(
+            `/domains/${domainId}/people/${userId}/contacts/${contactId}`,
+        );
+        updateLocalPerson(domainId, userId, result.data);
     };
 
     const updateLocalPerson = (domainId: string, userId: string, person: DetailedPerson) => {
@@ -80,6 +96,8 @@ export const peopleApi = (() => {
         createRole,
         updateRole,
         deleteRole,
-        updateContactDetails,
+        createContact,
+        updateContact,
+        deleteContact,
     };
 })();

@@ -20,12 +20,12 @@ import {
 import { GrWorkshop } from 'react-icons/gr';
 import { AddIconButton } from '../../../components/buttons/AddIconButton';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
-import { PropsWithChildren, Ref, RefObject, useRef } from 'react';
+import { PropsWithChildren, RefObject, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormCheckbox } from '../../../components/form/FormCheckbox';
 import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
 import { rolesApi } from '../../../state/api/roles-api';
-import { FormCreatableSelectable } from '../../../components/form/FormCreatableSelectable';
+import { FormCreateSelect } from '../../../components/form/FormCreateSelect';
 import { queryClient } from '../../../state/query-client';
 import { peopleApi } from '../../../state/api/people-api';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
@@ -42,7 +42,7 @@ export const PersonRoles = (props: PersonRolesProps) => {
 
     const roles = person.roles.sort((r) => (r.isPrimary ? 0 : 1));
 
-    const ref = useRef();
+    const ref = useRef(null);
 
     return (
         <Flex backgroundColor={'lightgray'} p={2} rounded={4} gap={3} direction={'column'}>
@@ -199,7 +199,7 @@ export const PersonRoleForm = (props: PersonRoleFormProps) => {
                     <form onSubmit={form.handleSubmit(submit)}>
                         <PopoverBody>
                             <Stack spacing={4}>
-                                <FormCreatableSelectable
+                                <FormCreateSelect
                                     label={'Role'}
                                     name={'roleId'}
                                     control={form.control}

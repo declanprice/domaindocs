@@ -19,7 +19,7 @@ import { AddProjectOwnershipData, DetailedTeam, ProjectOwnership, ProjectTeamOwn
 import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
 import { teamsApi } from '../../../state/api/teams-api';
 import { projectsApi } from '../../../state/api/projects-api';
-import { FormSelectable } from '../../../components/form/FormSelectable';
+import { FormSelect } from '../../../components/form/FormSelect';
 import { LoadingContainer } from '../../../components/loading/LoadingContainer';
 import { chakraComponents } from 'chakra-react-select';
 import { TeamAvatar } from '../../../components/team/TeamAvatar';
@@ -96,7 +96,7 @@ export const AddTeamOwnership = (props: AddTeamOwnershipProps) => {
                     <ModalHeader>Add Team Ownership</ModalHeader>
                     <ModalBody>
                         <Stack gap={4}>
-                            <FormSelectable
+                            <FormSelect
                                 name={'teamId'}
                                 control={control}
                                 isMulti={false}

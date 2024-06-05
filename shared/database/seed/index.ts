@@ -38,7 +38,7 @@ const client = new PrismaClient();
     await client.teamMember.deleteMany();
     await client.team.deleteMany();
 
-    await client.personContactLink.deleteMany();
+    await client.personContact.deleteMany();
     await client.personSkill.deleteMany();
     await client.personRole.deleteMany();
     await client.person.deleteMany();
@@ -68,7 +68,7 @@ const client = new PrismaClient();
 
     await client.personRole.createMany({ data: personRoles() });
 
-    await client.personContactLink.createMany({ data: personContacts() });
+    await client.personContact.createMany({ data: personContacts() });
 
     await client.team.createMany({ data: [teamOrion(), teamKeplar()] });
 

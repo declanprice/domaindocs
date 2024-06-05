@@ -39,7 +39,7 @@ import { useForm } from 'react-hook-form';
 import { FormCheckbox } from '../../../components/form/FormCheckbox';
 import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
 import { rolesApi } from '../../../state/api/roles-api';
-import { FormCreatableSelectable } from '../../../components/form/FormCreatableSelectable';
+import { FormCreateSelect } from '../../../components/form/FormCreateSelect';
 import { queryClient } from '../../../state/query-client';
 import { peopleApi } from '../../../state/api/people-api';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
@@ -182,7 +182,7 @@ export const EditPersonSkillForm = (props: EditPersonSkillFormProps) => {
                 <PopoverContent mr={2} backgroundColor={'lightgray'}>
                     <PopoverBody p={4}>
                         <Stack spacing={4}>
-                            <FormCreatableSelectable
+                            <FormCreateSelect
                                 label={'Skill'}
                                 name={'skillId'}
                                 control={form.control}

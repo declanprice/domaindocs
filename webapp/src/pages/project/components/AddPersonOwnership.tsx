@@ -17,7 +17,7 @@ import { FormTextInput } from '../../../components/form/FormTextInput';
 import { AddProjectOwnershipData, DetailedPerson, ProjectOwnership, ProjectPersonOwnership } from '@domaindocs/types';
 import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
 import { projectsApi } from '../../../state/api/projects-api';
-import { FormSelectable } from '../../../components/form/FormSelectable';
+import { FormSelect } from '../../../components/form/FormSelect';
 import { LoadingContainer } from '../../../components/loading/LoadingContainer';
 import { peopleApi } from '../../../state/api/people-api';
 import { chakraComponents } from 'chakra-react-select';
@@ -95,7 +95,7 @@ export const AddPersonOwnership = (props: AddPersonOwnershipProps) => {
                     <ModalHeader>Add Person Ownership</ModalHeader>
                     <ModalBody>
                         <Stack gap={4}>
-                            <FormSelectable
+                            <FormSelect
                                 name={'userId'}
                                 control={control}
                                 isMulti={false}

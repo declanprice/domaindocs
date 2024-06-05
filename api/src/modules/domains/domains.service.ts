@@ -140,26 +140,26 @@ export class DomainsService {
     }
 
     async delete(session: UserSession, domainId: string) {
-        await this.prisma.$transaction(async (tx) => {
-            await tx.onboardingGuideProgress.deleteMany({ where: { domainId } });
-            await tx.onboardingGuideStep.deleteMany({ where: { domainId } });
-            await tx.onboardingGuide.deleteMany({ where: { domainId } });
-            await tx.documentationFile.deleteMany({ where: { domainId } });
-            await tx.documentationDocument.deleteMany({ where: { domainId } });
-            await tx.documentation.deleteMany({ where: { domainId } });
-            await tx.projectLink.deleteMany({ where: { domainId } });
-            await tx.projectOwnership.deleteMany({ where: { domainId } });
-            await tx.project.deleteMany({ where: { domainId } });
-            await tx.teamMember.deleteMany({ where: { domainId } });
-            await tx.team.deleteMany({ where: { domainId } });
-            await tx.personContactLink.deleteMany({ where: { domainId } });
-            await tx.personSkill.deleteMany({ where: { domainId } });
-            await tx.personRole.deleteMany({ where: { domainId } });
-            await tx.person.deleteMany({ where: { domainId } });
-            await tx.role.deleteMany({ where: { domainId } });
-            await tx.skill.deleteMany({ where: { domainId } });
-            await tx.domainInvite.deleteMany({ where: { domainId } });
-            await tx.domain.deleteMany();
-        });
+        // await this.prisma.$transaction(async (tx) => {
+        //     await tx.onboardingGuideProgress.deleteMany({ where: { domainId } });
+        //     await tx.onboardingGuideStep.deleteMany({ where: { domainId } });
+        //     await tx.onboardingGuide.deleteMany({ where: { domainId } });
+        //     await tx.documentationFile.deleteMany({ where: { domainId } });
+        //     await tx.documentationDocument.deleteMany({ where: { domainId } });
+        //     await tx.documentation.deleteMany({ where: { domainId } });
+        //     await tx.projectLink.deleteMany({ where: { domainId } });
+        //     await tx.projectOwnership.deleteMany({ where: { domainId } });
+        //     await tx.project.deleteMany({ where: { domainId } });
+        //     await tx.teamMember.deleteMany({ where: { domainId } });
+        //     await tx.team.deleteMany({ where: { domainId } });
+        //     await tx.personContact.deleteMany({ where: { domainId } });
+        //     await tx.personSkill.deleteMany({ where: { domainId } });
+        //     await tx.personRole.deleteMany({ where: { domainId } });
+        //     await tx.person.deleteMany({ where: { domainId } });
+        //     await tx.role.deleteMany({ where: { domainId } });
+        //     await tx.skill.deleteMany({ where: { domainId } });
+        //     await tx.domainInvite.deleteMany({ where: { domainId } });
+        //     await tx.domain.deleteMany();
+        // });
     }
 }

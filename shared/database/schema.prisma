@@ -16,7 +16,7 @@ model User {
   iconUri String? @map("icon_uri") @default("https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745")
 
   people Person[]
-  peopleContactLinks PersonContactLink[]
+  peopleContacts PersonContact[]
   teamMembers TeamMember[]
   projectOwnership ProjectOwnership[]
   skills PersonSkill[]
@@ -37,7 +37,7 @@ model Domain {
   skills Skill[]
   roles Role[]
   people Person[]
-  peopleContactLinks PersonContactLink[]
+  peopleContacts PersonContact[]
   peopleSkills PersonSkill[]
   peopleRoles PersonRole[]
   teams Team[]
@@ -80,7 +80,7 @@ model Person {
 
   domain Domain @relation(fields: [domainId], references: [domainId])
   user User @relation(fields: [userId], references: [userId])
-  contactLinks PersonContactLink[]
+  contacts PersonContact[]
   skills PersonSkill[]
   roles PersonRole[]
   teamMembers TeamMember[]
@@ -133,8 +133,8 @@ model PersonSkill {
   @@map("person_skill")
 }
 
-model PersonContactLink {
-  linkId String @map("link_id")
+model PersonContact {
+  contactId String @id @map("contact_id")
   userId String @map("user_id")
   domainId String @map("domain_id")
   type String @map("type")
@@ -146,9 +146,8 @@ model PersonContactLink {
   person Person @relation(fields: [userId, domainId], references: [userId, domainId])
   user User @relation(fields: [userId], references: [userId])
 
-  @@id([userId, domainId])
   @@index([domainId])
-  @@map("person_contact_link")
+  @@map("person_contact")
 }
 
 model Team {

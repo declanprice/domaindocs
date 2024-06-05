@@ -9,7 +9,7 @@ import { onboardingApi } from '../../state/api/onboarding-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { FormTextInput } from '../../components/form/FormTextInput';
 import { useForm } from 'react-hook-form';
-import { FormSelectable } from '../../components/form/FormSelectable';
+import { FormSelect } from '../../components/form/FormSelect';
 import { teamsApi } from '../../state/api/teams-api';
 import { rolesApi } from '../../state/api/roles-api';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
@@ -98,7 +98,7 @@ export const OnboardingGuideFormPage = () => {
                         placeholder={'Software Developer - Guide'}
                     />
 
-                    <FormSelectable
+                    <FormSelect
                         name={'teamIds'}
                         label={'For Teams'}
                         size={'xs'}
@@ -109,7 +109,7 @@ export const OnboardingGuideFormPage = () => {
                         }))}
                     />
 
-                    <FormSelectable
+                    <FormSelect
                         name={'roleIds'}
                         label={'For Roles'}
                         size={'xs'}

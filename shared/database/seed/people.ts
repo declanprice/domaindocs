@@ -3,7 +3,7 @@ import { ros } from './domain';
 import { softwareDevRole, teamLeadRole } from './roles';
 import { apiDevSkill, devOpsSkill, uiDevSkill } from './skills';
 
-import { Person, PersonContactLink, PersonRole, PersonSkill } from '@prisma/client';
+import { Person, PersonContact, PersonRole, PersonSkill } from '@prisma/client';
 import { PersonContactType } from '../../types/src';
 import { v4 } from 'uuid';
 
@@ -34,10 +34,10 @@ export const natashaPerson = (): Person => {
     };
 };
 
-export const personContacts = (): PersonContactLink[] => {
+export const personContacts = (): PersonContact[] => {
     return [
         {
-            linkId: v4(),
+            contactId: v4(),
             userId: declanUser().userId,
             domainId: ros().domainId,
             type: PersonContactType.EMAIL,
@@ -45,7 +45,7 @@ export const personContacts = (): PersonContactLink[] => {
             href: null,
         },
         {
-            linkId: v4(),
+            contactId: v4(),
             userId: benUser().userId,
             domainId: ros().domainId,
             type: PersonContactType.MOBILE,
@@ -53,7 +53,7 @@ export const personContacts = (): PersonContactLink[] => {
             href: null,
         },
         {
-            linkId: v4(),
+            contactId: v4(),
             userId: natashaUser().userId,
             domainId: ros().domainId,
             type: PersonContactType.LINK,

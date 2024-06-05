@@ -1,4 +1,4 @@
-import { Flex, Stack, Text } from '@chakra-ui/react';
+import { Flex, Link, List, ListItem, Text } from '@chakra-ui/react';
 import { PersonTeam } from '@domaindocs/types';
 import { GoPeople } from 'react-icons/go';
 
@@ -21,15 +21,25 @@ export const PersonTeams = (props: PersonTeamsProps) => {
                 <Text>Teams</Text>
             </Flex>
 
-            <Stack spacing={2}>
-                <Text fontSize={12} fontWeight={300}>
-                    Team Orion
-                </Text>
-
-                <Text fontSize={12} fontWeight={300}>
-                    Team Keplar
-                </Text>
-            </Stack>
+            <List>
+                {teams.map((team) => (
+                    <ListItem
+                        key={team.teamId}
+                        p={1}
+                        _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
+                        rounded={6}
+                        px={1}
+                        gap={2}
+                        alignItems={'center'}
+                        height={'30px'}
+                        display={'flex'}
+                    >
+                        <Link href={`/${domainId}/teams/${team.teamId}/overview`} fontSize={12}>
+                            {team.teamName}
+                        </Link>
+                    </ListItem>
+                ))}
+            </List>
         </Flex>
     );
 };

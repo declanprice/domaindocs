@@ -10,9 +10,8 @@ import {
     PersonSkill,
     PersonTeam,
     SearchPeopleParams,
-    UpdatePersonContactDetailsData,
-    UpdatePersonSkillsData,
     EditPersonSkillData,
+    EditPersonContactData,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 import { v4 } from 'uuid';
@@ -46,7 +45,7 @@ export class PeopleService {
                         team: true,
                     },
                 },
-                contactLinks: true,
+                contacts: true,
             },
         });
 
@@ -61,8 +60,8 @@ export class PeopleService {
                         p.dateJoined.toISOString(),
                         p.user.iconUri,
                     ),
-                    p.contactLinks.map(
-                        (l) => new PersonContact(l.linkId, l.type as PersonContactType, l.description, l.href),
+                    p.contacts.map(
+                        (c) => new PersonContact(c.contactId, c.type as PersonContactType, c.description, c.href),
                     ),
                     p.skills.map((s) => new PersonSkill(s.skill.skillId, s.skill.name)),
                     p.teamMembers.map((t) => new PersonTeam(t.team.teamId, t.team.name, t.team.iconUri)),
@@ -94,7 +93,7 @@ export class PeopleService {
                         team: true,
                     },
                 },
-                contactLinks: true,
+                contacts: true,
             },
         });
 
@@ -107,8 +106,8 @@ export class PeopleService {
                 result.dateJoined.toISOString(),
                 result.user.iconUri,
             ),
-            result.contactLinks.map(
-                (l) => new PersonContact(l.linkId, l.type as PersonContactType, l.description, l.href),
+            result.contacts.map(
+                (c) => new PersonContact(c.contactId, c.type as PersonContactType, c.description, c.href),
             ),
             result.skills.map((s) => new PersonSkill(s.skill.skillId, s.skill.name)),
             result.teamMembers.map((t) => new PersonTeam(t.team.teamId, t.team.name, t.team.iconUri)),
@@ -269,35 +268,59 @@ export class PeopleService {
         return this.getPerson(session, domainId, userId);
     }
 
-    async updateContactDetails(
+    async createContact(
         session: UserSession,
         domainId: string,
         userId: string,
-        data: UpdatePersonContactDetailsData,
-    ): Promise<void> {
-        // await this.prisma.personContactDetails.upsert({
-        //     where: {
-        //         userId_domainId: {
-        //             domainId,
-        //             userId,
-        //         },
-        //     },
-        //     create: {
-        //         domainId,
-        //         userId,
-        //         workMobile: data.workMobile,
-        //         workEmail: data.workEmail,
-        //         personalEmail: data.personalEmail,
-        //         personalMobile: data.personalMobile,
-        //     },
-        //     update: {
-        //         domainId,
-        //         userId,
-        //         workMobile: data.workMobile,
-        //         workEmail: data.workEmail,
-        //         personalEmail: data.personalEmail,
-        //         personalMobile: data.personalMobile,
-        //     },
-        // });
+        data: EditPersonContactData,
+    ): Promise<DetailedPerson> {
+        await this.prisma.personContact.create({
+            data: {
+                domainId,
+                userId,
+                contactId: v4(),
+                description: data.description,
+                href: data.href,
+                type: data.type,
+            },
+        });
+
+        return this.getPerson(session, domainId, userId);
+    }
+
+    async updateContact(
+        session: UserSession,
+        domainId: string,
+        userId: string,
+        contactId: string,
+        data: EditPersonContactData,
+    ): Promise<DetailedPerson> {
+        await this.prisma.personContact.update({
+            where: {
+                contactId,
+            },
+            data: {
+                description: data.description,
+                href: data.href,
+                type: data.type,
+            },
+        });
+
+        return this.getPerson(session, domainId, userId);
+    }
+
+    async deleteContact(
+        session: UserSession,
+        domainId: string,
+        userId: string,
+        contactId: string,
+    ): Promise<DetailedPerson> {
+        await this.prisma.personContact.delete({
+            where: {
+                contactId,
+            },
+        });
+
+        return this.getPerson(session, domainId, userId);
     }
 }

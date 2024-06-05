@@ -6,7 +6,7 @@ import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
 import { peopleApi } from '../../../state/api/people-api';
 import { useForm } from 'react-hook-form';
 import { LoadingContainer } from '../../../components/loading/LoadingContainer';
-import { FormSelectable } from '../../../components/form/FormSelectable';
+import { FormSelect } from '../../../components/form/FormSelect';
 import { teamsApi } from '../../../state/api/teams-api';
 import { PersonAvatar } from '../../../components/person/PersonAvatar';
 import { chakraComponents } from 'chakra-react-select';
@@ -65,7 +65,7 @@ export const TeamMembersListEdit = (props: TeamMembersListEditProps) => {
                 />
             </Flex>
 
-            <FormSelectable
+            <FormSelect
                 name={'members'}
                 control={control}
                 options={allPeople.map((s) => ({

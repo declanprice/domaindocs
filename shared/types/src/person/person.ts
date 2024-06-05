@@ -29,10 +29,10 @@ export enum PersonContactType {
 
 export class PersonContact {
     constructor(
-        public linkId: string,
+        public contactId: string,
         public type: PersonContactType,
         public description: string,
-        public href: string | null,
+        public href?: string,
     ) {}
 }
 
