@@ -3,10 +3,12 @@ import {
     Flex,
     IconButton,
     List,
+    ListItem,
     Menu,
     MenuButton,
     MenuItem,
     MenuList,
+    Stack,
     styled,
     StyleProps,
     Text,
@@ -19,6 +21,8 @@ import { FaRegFolderClosed } from 'react-icons/fa6';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { MdAttachFile, MdOutlineDeleteOutline } from 'react-icons/md';
+import { GoPeople } from 'react-icons/go';
+import { BiNetworkChart } from 'react-icons/bi';
 
 export type DocumentationFolderProps = {
     documentation: Documentation;
@@ -30,6 +34,7 @@ export type DocumentationFolderProps = {
     onRemoveDocumentation?: (documentation: Documentation) => any;
     onDocumentationClick?: (documentation: Documentation) => any;
     readonly?: boolean;
+    renderFolder?: (documentation: Documentation, onOpen: () => any) => any;
 } & StyleProps;
 
 export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
@@ -49,40 +54,128 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
 
     const [ref, hovering] = useHover();
 
-    return (
-        <Flex direction="column" {...props}>
+    const renderFolder = () => {
+        if (documentation.type === DocumentationType.DOMAIN_ROOT_FOLDER) {
+            return (
+                <Flex
+                    width={'100%'}
+                    gap={2}
+                    alignItems="center"
+                    onClick={() => {
+                        setIsFolderOpen(!isFolderOpen);
+                    }}
+                >
+                    <Flex alignItems={'center'} backgroundColor={'blue.700'} rounded={6} p={1}>
+                        <BiNetworkChart color={'white'} />
+                    </Flex>
+
+                    <Stack spacing={0}>
+                        <Text color={'gray.900'} fontSize={12} fontWeight={'400'}>
+                            {documentation.name}
+                        </Text>
+
+                        <Text color={'gray.900'} fontSize={10} fontWeight={'300'}>
+                            Domain
+                        </Text>
+                    </Stack>
+                </Flex>
+            );
+        }
+
+        if (documentation.type === DocumentationType.TEAM_ROOT_FOLDER) {
+            return (
+                <Flex
+                    width={'100%'}
+                    gap={2}
+                    alignItems="center"
+                    onClick={() => {
+                        setIsFolderOpen(!isFolderOpen);
+                    }}
+                >
+                    <Flex alignItems={'center'} backgroundColor={'purple.400'} rounded={6} p={1}>
+                        <GoPeople color={'white'} />
+                    </Flex>
+
+                    <Stack spacing={0}>
+                        <Text color={'gray.900'} fontSize={12} fontWeight={'400'}>
+                            {documentation.name}
+                        </Text>
+
+                        <Text color={'gray.900'} fontSize={10} fontWeight={'300'}>
+                            Team
+                        </Text>
+                    </Stack>
+                </Flex>
+            );
+        }
+
+        if (documentation.type === DocumentationType.PROJECT_ROOT_FOLDER) {
+            return (
+                <Flex
+                    width={'100%'}
+                    gap={2}
+                    alignItems="center"
+                    onClick={() => {
+                        setIsFolderOpen(!isFolderOpen);
+                    }}
+                >
+                    <Flex alignItems={'center'} backgroundColor={'teal.400'} rounded={6} p={1}>
+                        <BiNetworkChart color={'white'} />
+                    </Flex>
+
+                    <Stack spacing={0}>
+                        <Text color={'gray.900'} fontSize={12} fontWeight={'400'}>
+                            {documentation.name}
+                        </Text>
+
+                        <Text color={'gray.900'} fontSize={10} fontWeight={'300'}>
+                            Component
+                        </Text>
+                    </Stack>
+                </Flex>
+            );
+        }
+
+        return (
             <Flex
-                alignItems="center"
-                ref={ref}
+                width={'100%'}
+                ref={folderRef}
+                onClick={() => {
+                    setIsFolderOpen(!isFolderOpen);
+                }}
+                alignItems={'center'}
                 gap={2}
-                p={2}
-                _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
-                position={'relative'}
             >
                 <IconButton
                     aria-label={'toggle-folder'}
                     icon={isFolderOpen ? <FaRegFolderOpen /> : <FaRegFolderClosed />}
                     variant={'ghost'}
-                    ref={folderRef}
-                    ml={props?.parentFolderRef ? `${props.parentFolderRef.current.offsetLeft + 4}px` : undefined}
-                    onClick={() => {
-                        setIsFolderOpen(!isFolderOpen);
-                    }}
+                    ml={props?.parentFolderRef ? `${props.parentFolderRef?.current?.offsetLeft + 2}px` : undefined}
                     size={'xs'}
                 />
 
-                <Flex
-                    width="100%"
-                    direction={'column'}
-                    onClick={() => {
-                        setIsFolderOpen(!isFolderOpen);
-                    }}
-                >
+                <Flex width="100%" direction={'column'}>
                     <Text fontSize={12}>{documentation.name}</Text>
                 </Flex>
+            </Flex>
+        );
+    };
+
+    return (
+        <ListItem display={'flex'} flexDirection="column" {...props}>
+            <Flex
+                alignItems="center"
+                ref={ref}
+                gap={2}
+                p={2}
+                rounded={6}
+                _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
+                position={'relative'}
+            >
+                {renderFolder()}
 
                 {props.readonly !== true && (
-                    <Flex mr={2} gap={1} hidden={!hovering}>
+                    <Flex gap={1} hidden={!hovering}>
                         <Menu>
                             <MenuButton>
                                 <IconButton
@@ -175,7 +268,7 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
             </Flex>
 
             {isFolderOpen && (
-                <List width={'100%'} height={'100%'}>
+                <List width={'100%'} height={'100%'} spacing={1}>
                     {documentation?.documentation?.map((doc) => {
                         if (doc.type == DocumentationType.FOLDER) {
                             return (
@@ -206,6 +299,6 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                     })}
                 </List>
             )}
-        </Flex>
+        </ListItem>
     );
 });

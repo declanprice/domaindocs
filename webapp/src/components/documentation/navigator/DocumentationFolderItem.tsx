@@ -1,4 +1,15 @@
-import { Box, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, StyleProps, Text } from '@chakra-ui/react';
+import {
+    Box,
+    Flex,
+    IconButton,
+    ListItem,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    StyleProps,
+    Text,
+} from '@chakra-ui/react';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { useHover } from '@uidotdev/usehooks';
 import { Documentation, DocumentationType } from '@domaindocs/types';
@@ -20,12 +31,13 @@ export const DocumentationFolderItem = (props: DocumentationFolderItemProps) => 
     const [ref, hovering] = useHover();
 
     return (
-        <Flex
-            {...props}
+        <ListItem
+            display={'flex'}
             alignItems="center"
             gap={2}
             p={3}
             ref={ref}
+            rounded={6}
             backgroundColor={
                 documentation.documentationId == activeDocumentation?.documentationId ? 'gray.100' : undefined
             }
@@ -36,6 +48,7 @@ export const DocumentationFolderItem = (props: DocumentationFolderItemProps) => 
                     onDocumentationClick(documentation);
                 }
             }}
+            {...props}
         >
             <Box ml={`${props?.parentFolderRef?.current?.offsetLeft + 4}px`}>
                 {documentation.type === DocumentationType.FILE && <MdAttachFile />}
@@ -79,6 +92,6 @@ export const DocumentationFolderItem = (props: DocumentationFolderItemProps) => 
                     </Flex>
                 )}
             </Flex>
-        </Flex>
+        </ListItem>
     );
 };

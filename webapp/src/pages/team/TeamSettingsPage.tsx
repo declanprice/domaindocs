@@ -25,7 +25,7 @@ export const TeamSettingsPage = () => {
     if (!team || isLoading) return <LoadingContainer />;
 
     return (
-        <Flex direction="column" width={'100%'}>
+        <Flex direction="column" width={'100%'} p={4}>
             <Flex gap={4} width={'100%'} direction={'column'} overflowY={'auto'}>
                 <Flex borderBottom={'1px solid'} borderColor={'border'} pb={30} px={4} pt={6}>
                     <Flex width={'280px'} minWidth={'250px'} gap={4} direction={'column'} mr={20}>

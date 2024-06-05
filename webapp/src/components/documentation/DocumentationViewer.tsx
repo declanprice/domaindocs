@@ -60,7 +60,7 @@ export const DocumentationViewer = (props: DocumentationViewerProps) => {
     };
 
     return (
-        <Flex height={'100%'} width={'100%'}>
+        <Flex height={'100%'} width={'100%'} gap={2}>
             <DocumentationNavigator
                 documentation={documentation}
                 activeDocumentation={activeDocumentation}

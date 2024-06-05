@@ -1,6 +1,7 @@
 import { Documentation } from '@domaindocs/types';
-import { Flex, List } from '@chakra-ui/react';
+import { Flex, List, Stack, Text } from '@chakra-ui/react';
 import { DocumentationFolder } from './DocumentationFolder';
+import { GoPeople } from 'react-icons/go';
 
 type DocsNavigatorProps = {
     documentation: Documentation[];
@@ -26,14 +27,8 @@ export const DocumentationNavigator = (props: DocsNavigatorProps) => {
     } = props;
 
     return (
-        <Flex
-            height={'100%'}
-            minWidth={'220px'}
-            borderRight={'1px solid'}
-            borderColor={'border'}
-            backgroundColor={'lightgray'}
-        >
-            <List width={'100%'} height={'100%'}>
+        <Flex height={'100%'} minWidth={'250px'} rounded={6} backgroundColor={'lightgray'}>
+            <List width={'100%'} height={'100%'} p={2} spacing={1}>
                 {documentation.map((doc) => (
                     <DocumentationFolder
                         readonly={readonly}

@@ -8,7 +8,7 @@ import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 
 export const DocumentToolbar = () => {
     return (
-        <Flex height={'50px'} borderBottom={'1px solid'} borderColor={'border'} alignItems={'center'} p={2} gap={2}>
+        <Flex height={'50px'} rounded={6} backgroundColor={'lightgray'} alignItems={'center'} p={2} gap={2}>
             <Button leftIcon={<IoMdAdd />} variant={'ghost'} size={'sm'} fontWeight={'normal'} fontSize={12}>
                 Add
             </Button>

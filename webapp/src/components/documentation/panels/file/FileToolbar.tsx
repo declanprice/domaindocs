@@ -5,7 +5,7 @@ import { PiUploadSimpleThin } from 'react-icons/pi';
 
 export const FileToolbar = () => {
     return (
-        <Flex height={'50px'} borderBottom={'1px solid'} borderColor={'border'} alignItems={'center'} p={2} gap={2}>
+        <Flex height={'50px'} rounded={6} backgroundColor={'lightgray'} alignItems={'center'} p={2} gap={2}>
             <Button
                 leftIcon={<PiUploadSimpleThin size={18} color={'gray.900'} />}
                 variant={'ghost'}
