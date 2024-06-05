@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { FormPageToolbar } from './FormPageToolbar';
 import { FormPageParams } from './FormPageParams';
 import { FormDescription } from './components/FormDescription';
-import { FormOwnership } from './components/FormOwnership';
 import { FormSubmissions } from './components/FormSubmissions';
 
 export const FormOverviewPage = () => {
@@ -21,23 +20,23 @@ export const FormOverviewPage = () => {
                     </Heading>
                 </Stack>
 
-                <FormDescription />
+                {/*<FormDescription />*/}
 
-                <Divider />
+                {/*<Divider />*/}
 
-                <FormOwnership
-                    domainId={domainId}
-                    ownership={[
-                        { ownershipId: '1', teamId: '12', name: 'Team Orion', description: '', iconUri: undefined },
-                    ]}
-                    onAddTeamOwnership={() => {}}
-                    onAddPersonOwnership={() => {}}
-                    onRemoveOwnership={() => {}}
-                />
+                {/*<FormOwnership*/}
+                {/*    domainId={domainId}*/}
+                {/*    ownership={[*/}
+                {/*        { ownershipId: '1', teamId: '12', name: 'Team Orion', description: '', iconUri: undefined },*/}
+                {/*    ]}*/}
+                {/*    onAddTeamOwnership={() => {}}*/}
+                {/*    onAddPersonOwnership={() => {}}*/}
+                {/*    onRemoveOwnership={() => {}}*/}
+                {/*/>*/}
 
-                <Divider />
+                {/*<Divider />*/}
 
-                <FormSubmissions />
+                {/*<FormSubmissions />*/}
             </Flex>
         </Flex>
     );

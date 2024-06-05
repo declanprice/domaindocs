@@ -97,7 +97,7 @@ export const AddWorkAreaModal = (props: AddWorkAreaModalProps) => {
                                 type={'submit'}
                                 isLoading={form.formState.isSubmitting}
                             >
-                                Create Project
+                                Create Work Area
                             </Button>
                         </ButtonGroup>
                     </ModalFooter>

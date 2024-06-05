@@ -1,13 +1,12 @@
 import { Table } from '../../../components/table/Table';
-import { DetailedTeam, TeamProject } from '@domaindocs/types';
-import { Avatar, AvatarGroup, Box, Flex, IconButton, Text } from '@chakra-ui/react';
+import { DetailedTeam } from '@domaindocs/types';
+import { Avatar, AvatarGroup, Flex, IconButton, Link, Text } from '@chakra-ui/react';
 import { GoPeople } from 'react-icons/go';
 import { TbDots } from 'react-icons/tb';
 
 type TeamTableProps = {
     teams: DetailedTeam[];
     onTeamClick: (team: DetailedTeam) => void;
-    onProjectClick?: (project: TeamProject) => void;
 };
 
 export const TeamsTable = (props: TeamTableProps) => {
@@ -27,7 +26,7 @@ export const TeamsTable = (props: TeamTableProps) => {
                                     <GoPeople color={'white'} />
                                 </Flex>
 
-                                <Text ml={2}>{data.team.name}</Text>
+                                <Link ml={2}>{data.team.name}</Link>
                             </Flex>
                         );
                     },

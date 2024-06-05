@@ -2,8 +2,8 @@ import { OnboardingGuide, OnboardingGuideStep } from '@prisma/client';
 import { ros } from './domain';
 import { softwareDevRole } from './roles';
 import { teamOrion } from './teams';
-import { deedSearchProject } from './projects';
 import { OnboardingStepType } from '../../types/src';
+import { deedSearchComponent } from './components';
 
 export const onboarding = (): OnboardingGuide[] => {
     return [
@@ -51,7 +51,7 @@ export const onboardingSteps = (): OnboardingGuideStep[] => {
             name: 'General Developer Setup',
             type: OnboardingStepType.DOCUMENTATION,
             note: null,
-            documentationId: `${deedSearchProject().projectId}-file1`,
+            documentationId: `${deedSearchComponent().componentId}-file1`,
             fileId: null,
             videoId: null,
         },

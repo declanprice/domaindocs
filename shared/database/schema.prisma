@@ -18,7 +18,6 @@ model User {
   people Person[]
   peopleContacts PersonContact[]
   teamMembers TeamMember[]
-  projectOwnership ProjectOwnership[]
   skills PersonSkill[]
   roles PersonRole[]
   createdDocumentation Documentation[]
@@ -34,8 +33,10 @@ model Domain {
   domainId String @id @map("domain_id")
   name String @map("name")
 
+  subdomains Subdomain[]
   skills Skill[]
   roles Role[]
+  labels Label[]
   people Person[]
   peopleContacts PersonContact[]
   peopleSkills PersonSkill[]
@@ -44,9 +45,11 @@ model Domain {
   teamMembers TeamMember[]
   teamContacts TeamContact[]
   teamLinks TeamLink[]
-  projects Project[]
-  projectLinks ProjectLink[]
-  projectOwnerships ProjectOwnership[]
+  teamLabels TeamLabel[]
+  components Component[]
+  comopnentContacts ComponentContact[]
+  componentLinks ComponentLink[]
+  componentLabels ComponentLabel[]
   documentation Documentation[]
   documentationDocuments DocumentationDocument[]
   documentationFiles DocumentationFile[]
@@ -63,6 +66,17 @@ model Domain {
   files File[]
 
   @@map("domain")
+}
+
+model Subdomain {
+  subdomainId String @id @map("subdomain_id")
+  domainId String @map("domain_id")
+  name String @map("name")
+
+  domain Domain @relation(fields: [domainId], references: [domainId])
+  components Component[]
+
+  @@map("subdomain")
 }
 
 model DomainInvite {
@@ -86,7 +100,6 @@ model Person {
   skills PersonSkill[]
   roles PersonRole[]
   teamMembers TeamMember[]
-  projectOwnership ProjectOwnership[]
   createdDocumentation Documentation[]
   onboardingGuideProgress OnboardingGuideProgress[]
   workItems WorkItem[]
@@ -165,7 +178,8 @@ model Team {
   members TeamMember[]
   contacts TeamContact[]
   links TeamLink[]
-  projectOwnership ProjectOwnership[]
+  labels TeamLabel[]
+  components Component[]
   documentation Documentation[]
 
   @@index([domainId])
@@ -221,63 +235,96 @@ model TeamLink {
   @@map("team_link")
 }
 
-model Project {
-  projectId String @id @map("project_id")
+model TeamLabel {
+  labelId String @map("link_id")
+  teamId String @map("team_id")
+  domainId String @map("domain_id")
+
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+  team     Team   @relation(fields: [teamId], references: [teamId])
+  label    Label  @relation(fields: [labelId], references: [labelId])
+
+  @@id([labelId, teamId])
+  @@index([labelId])
+  @@index([teamId])
+  @@index([domainId])
+  @@map("team_label")
+}
+
+model Component {
+  componentId String @id @map("component_id")
   domainId String @map("domain_id")
   name String @map("name")
   description String @map("description") @default("")
+  type String @map("type")
+  ownerTeamId String? @map("owner_team_id")
+  subdomainId String? @map("subdomain_id")
 
-  domain   Domain @relation(fields: [domainId], references: [domainId])
-  links ProjectLink[]
-  ownership ProjectOwnership[]
+  domain     Domain @relation(fields: [domainId], references: [domainId])
+  subdomain  Subdomain? @relation(fields: [subdomainId], references: [subdomainId])
+  ownerTeam  Team? @relation(fields: [ownerTeamId], references: [teamId])
+
+  contacts ComponentContact[]
+  links ComponentLink[]
+  labels ComponentLabel[]
   documentation Documentation[]
 
   @@index(domainId)
-  @@map("project")
+  @@map("component")
 }
 
-model ProjectLink {
-  linkId String @id @map("link_id")
-  projectId String @map("project_id")
+model ComponentContact {
+  contactId String @id @map("contact_id")
+  componentId String @map("component_id")
   domainId String @map("domain_id")
-  title String
-  subTitle String
-  href String
-  iconUri String @default("https://cdn1.vectorstock.com/i/1000x1000/25/25/resources-allocation-icon-on-white-vector-27442525.jpg")
+  type String @map("type")
+  href String? @map("href")
+  description String @map("description")
 
-  project   Project @relation(fields: [projectId], references: [projectId])
-  domain   Domain @relation(fields: [domainId], references: [domainId])
+  domain Domain @relation(fields: [domainId], references: [domainId])
+  component Component @relation(fields: [componentId], references: [componentId])
 
   @@index([domainId])
-  @@index([projectId])
-  @@map("project_link")
+  @@index([componentId])
+  @@map("component_contact")
 }
 
-model ProjectOwnership {
-  ownershipId String @id @map("ownership_id")
-  projectId String @map("project_id")
+model ComponentLink {
+  linkId String @id @map("link_id")
+  componentId String @map("component_id")
   domainId String @map("domain_id")
-  teamId String? @map("team_id")
-  userId String? @map("user_id")
-  description String @default("Full Ownership")
+  href String @map("href")
+  description String @map("description")
 
-  team     Team? @relation(fields: [teamId], references: [teamId])
-  user     User? @relation(fields: [userId], references: [userId])
-  person   Person? @relation(fields: [userId, domainId], references: [userId, domainId])
   domain   Domain @relation(fields: [domainId], references: [domainId])
-  project  Project @relation(fields: [projectId], references: [projectId])
+  component Component @relation(fields: [componentId], references: [componentId])
 
-  @@index(projectId)
-  @@index(domainId)
-  @@index(teamId)
-  @@index(userId)
-  @@map("project_ownership")
+  @@index([domainId])
+  @@index([componentId])
+  @@map("component_link")
 }
+
+model ComponentLabel {
+  labelId String @map("link_id")
+  componentId String @map("component_id")
+  domainId String @map("domain_id")
+
+  domain   Domain @relation(fields: [domainId], references: [domainId])
+  component Component @relation(fields: [componentId], references: [componentId])
+  label Label @relation(fields: [labelId], references: [labelId])
+
+  @@id([labelId, componentId])
+  @@index([labelId])
+  @@index([componentId])
+  @@index([domainId])
+  @@map("component_label")
+}
+
 
 model Documentation {
   documentationId String @id @map("documentation_id")
   domainId String @map("domain_id")
-  projectId String? @map("project_id")
+  componentId String? @map("component_id")
   teamId String? @map("team_id")
   type String @map("type")
   createdAt DateTime @map("created_at")
@@ -287,7 +334,7 @@ model Documentation {
   createdByUserId String @map("created_by_user_id")
 
   domain   Domain @relation(fields: [domainId], references: [domainId])
-  project   Project? @relation(fields: [projectId], references: [projectId])
+  component  Component? @relation(fields: [componentId], references: [componentId])
   team Team? @relation(fields: [teamId], references: [teamId])
   parent Documentation? @relation("children", fields: [parentId], references: [documentationId])
   children Documentation[] @relation("children")
@@ -520,4 +567,19 @@ model File {
   itemAttachments WorkItemAttachment[]
 
   @@map("file")
+}
+
+model Label {
+  labelId String @id @map("label_id")
+  domainId String @map("domain_id")
+
+  name String @map("name")
+  type String @map("type")
+
+  domain  Domain @relation(fields: [domainId], references: [domainId])
+  componentLabels ComponentLabel[]
+  teamLabels TeamLabel[]
+
+  @@unique([type, name])
+  @@map("label")
 }

@@ -1,6 +1,6 @@
 export enum DocumentationType {
     DOMAIN_ROOT_FOLDER = 'Domain Folder',
-    PROJECT_ROOT_FOLDER = 'Project Folder',
+    COMPONENT_ROOT_FOLDER = 'Component Folder',
     TEAM_ROOT_FOLDER = 'Team Folder',
     FOLDER = 'Folder',
     FILE = 'File',

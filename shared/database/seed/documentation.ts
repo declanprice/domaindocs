@@ -1,10 +1,10 @@
 import { DocumentationType } from '../../types/src';
 import { declanPerson } from './people';
 import { ros } from './domain';
-import { deedSearchProject } from './projects';
 import { teamOrion } from './teams';
 
 import { Documentation, DocumentationDocument, DocumentationFile } from '@prisma/client';
+import { deedSearchComponent } from './components';
 
 export const documentation = (): Documentation[] => {
     return [
@@ -17,7 +17,7 @@ export const documentation = (): Documentation[] => {
             updatedAt: new Date(),
             createdByUserId: declanPerson().userId,
             parentId: null,
-            projectId: null,
+            componentId: null,
             teamId: null,
         },
         {
@@ -30,14 +30,14 @@ export const documentation = (): Documentation[] => {
             updatedAt: new Date(),
             createdByUserId: declanPerson().userId,
             parentId: null,
-            projectId: null,
+            componentId: null,
         },
         {
             domainId: ros().domainId,
-            projectId: deedSearchProject().projectId,
-            documentationId: deedSearchProject().projectId,
+            componentId: deedSearchComponent().componentId,
+            documentationId: deedSearchComponent().componentId,
             name: null,
-            type: DocumentationType.PROJECT_ROOT_FOLDER,
+            type: DocumentationType.COMPONENT_ROOT_FOLDER,
             createdAt: new Date(),
             updatedAt: new Date(),
             createdByUserId: declanPerson().userId,
@@ -46,50 +46,50 @@ export const documentation = (): Documentation[] => {
         },
         {
             domainId: ros().domainId,
-            documentationId: `${deedSearchProject().projectId}-file1`,
+            documentationId: `${deedSearchComponent().componentId}-file1`,
             name: 'File 1',
             type: DocumentationType.FILE,
             createdAt: new Date(),
             updatedAt: new Date(),
             createdByUserId: declanPerson().userId,
-            parentId: deedSearchProject().projectId,
-            projectId: null,
+            parentId: deedSearchComponent().componentId,
+            componentId: null,
             teamId: null,
         },
         {
             domainId: ros().domainId,
-            documentationId: `${deedSearchProject().projectId}-file2`,
+            documentationId: `${deedSearchComponent().componentId}-file2`,
             name: 'File 2',
             type: DocumentationType.FILE,
             createdAt: new Date(),
             updatedAt: new Date(),
             createdByUserId: declanPerson().userId,
-            parentId: deedSearchProject().projectId,
-            projectId: null,
+            parentId: deedSearchComponent().componentId,
+            componentId: null,
             teamId: null,
         },
         {
             domainId: ros().domainId,
-            documentationId: `${deedSearchProject().projectId}-folder1`,
+            documentationId: `${deedSearchComponent().componentId}-folder1`,
             name: 'Folder 1',
             type: DocumentationType.FOLDER,
             createdAt: new Date(),
             updatedAt: new Date(),
             createdByUserId: declanPerson().userId,
-            parentId: deedSearchProject().projectId,
-            projectId: null,
+            parentId: deedSearchComponent().componentId,
+            componentId: null,
             teamId: null,
         },
         {
             domainId: ros().domainId,
-            documentationId: `${deedSearchProject().projectId}-doc1`,
+            documentationId: `${deedSearchComponent().componentId}-doc1`,
             name: 'Architecture Plan',
             type: DocumentationType.FILE,
             createdAt: new Date(),
             updatedAt: new Date(),
             createdByUserId: declanPerson().userId,
-            parentId: `${deedSearchProject().projectId}-folder1`,
-            projectId: null,
+            parentId: `${deedSearchComponent().componentId}-folder1`,
+            componentId: null,
             teamId: null,
         },
     ];
@@ -97,12 +97,12 @@ export const documentation = (): Documentation[] => {
 
 export const documentationFiles = (): DocumentationFile[] => [
     {
-        documentationId: `${deedSearchProject().projectId}-file1`,
+        documentationId: `${deedSearchComponent().componentId}-file1`,
         fileId: 'file1',
         domainId: ros().domainId,
     },
     {
-        documentationId: `${deedSearchProject().projectId}-file2`,
+        documentationId: `${deedSearchComponent().componentId}-file2`,
         fileId: 'file2',
         domainId: ros().domainId,
     },
@@ -111,7 +111,7 @@ export const documentationFiles = (): DocumentationFile[] => [
 export const documentationDocuments = (): DocumentationDocument[] => {
     return [
         {
-            documentationId: `${deedSearchProject().projectId}-doc1`,
+            documentationId: `${deedSearchComponent().componentId}-doc1`,
             domainId: ros().domainId,
             data: null,
         },

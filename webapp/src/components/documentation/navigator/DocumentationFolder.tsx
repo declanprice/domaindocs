@@ -109,7 +109,7 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
             );
         }
 
-        if (documentation.type === DocumentationType.PROJECT_ROOT_FOLDER) {
+        if (documentation.type === DocumentationType.COMPONENT_ROOT_FOLDER) {
             return (
                 <Flex
                     width={'100%'}

@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { Documentation } from '@domaindocs/types';
@@ -31,7 +31,7 @@ export const DocsPage = () => {
     if (!documentation || isDocumentationLoading) return <LoadingContainer />;
 
     return (
-        <Flex width={'100%'} p={4} direction="column" gap={2}>
+        <Flex width={'100%'} p={4} direction="column" gap={4}>
             <Flex alignItems={'center'} gap={2}>
                 <Box maxWidth={'250px'}>
                     <FormTextInput

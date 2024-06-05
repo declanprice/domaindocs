@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
 export * from './person';
-export * from './project';
+export * from './component';
 export * from './domain';
 export * from './team';
 export * from './user';

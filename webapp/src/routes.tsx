@@ -7,14 +7,14 @@ import { MagicLinkSentPage } from './pages/auth/MagicLinkSentPage';
 import { RootLayout } from './root-layout/RootLayout';
 import { PeoplePage } from './pages/people/PeoplePage';
 import { TeamsPage } from './pages/teams/TeamsPage';
-import { ProjectsPage } from './pages/projects/ProjectsPage';
+import { ComponentsPage } from './pages/components/ComponentsPage';
 import { AuthGuard } from './components/guards/AuthGuard';
 import { UserSetupGuard } from './components/guards/UserSetupGuard';
 import { DomainGuard } from './components/guards/DomainGuard';
 import { SomethingWentWrongErrorPage } from './components/errors/SomethingWentWrongErrorPage';
 import { PageNotFoundErrorPage } from './components/errors/PageNotFoundErrorPage';
-import { ProjectOverviewPage } from './pages/project/ProjectOverviewPage';
-import { ProjectDocsPage } from './pages/project/ProjectDocsPage';
+import { ComponentOverviewPage } from './pages/component/ComponentOverviewPage';
+import { ComponentDocsPage } from './pages/component/ComponentDocsPage';
 import { DocsPage } from './pages/docs/DocsPage';
 import { OnboardingPage } from './pages/onboarding-centre/OnboardingPage';
 import { TeamOverviewPage } from './pages/team/TeamOverviewPage';
@@ -38,7 +38,7 @@ import { TeamDocsPage } from './pages/team/TeamDocsPage';
 import { TeamSettingsPage } from './pages/team/TeamSettingsPage';
 import { OnboardingGuidePage } from './pages/onboarding-guide/OnboardingGuidePage';
 import { OnboardingGuideFormPage } from './pages/onboarding-guide-form/OnboardingGuideFormPage';
-import { ProjectSettingsPage } from './pages/project/ProjectSettingsPage';
+import { ComponentSettingsPage } from './pages/component/ComponentSettingsPage';
 import { DomainSetupPage } from './pages/user-setup/DomainSetupPage';
 import { UserSetupPage } from './pages/user-setup/UserSetupPage';
 import { NoAuthGuard } from './components/guards/NoAuthGuard';
@@ -52,6 +52,10 @@ import { PersonPageNavBar } from './pages/person/PersonPageNavBar';
 import { PersonWorkPage } from './pages/person/PersonWorkPage';
 import { TeamPageNavBar } from './pages/team/TeamPageNavBar';
 import { TeamWorkPage } from './pages/team/TeamWorkPage';
+import { ComponentPageNavBar } from './pages/component/ComponentPageNavBar';
+import { ComponentWorkPage } from './pages/component/ComponentWorkPage';
+import { ComponentAnnouncementsPage } from './pages/component/ComponentAnnouncementsPage';
+import { ComponentDependenciesPage } from './pages/component/ComponentDependenciesPage';
 
 export const routes = createBrowserRouter([
     {
@@ -178,18 +182,18 @@ export const routes = createBrowserRouter([
                                         ],
                                     },
                                     {
-                                        path: 'projects',
+                                        path: 'components',
                                         element: <RootLayout navbar={<RootNavBar />} />,
                                         children: [
                                             {
                                                 path: '',
-                                                element: <ProjectsPage />,
+                                                element: <ComponentsPage />,
                                             },
                                         ],
                                     },
                                     {
-                                        path: 'projects/:projectId',
-                                        element: <RootLayout navbar={<RootNavBar />} />,
+                                        path: 'components/:componentId',
+                                        element: <RootLayout navbar={<ComponentPageNavBar />} />,
                                         children: [
                                             {
                                                 path: '',
@@ -197,15 +201,27 @@ export const routes = createBrowserRouter([
                                             },
                                             {
                                                 path: 'overview',
-                                                element: <ProjectOverviewPage />,
+                                                element: <ComponentOverviewPage />,
                                             },
                                             {
                                                 path: 'docs',
-                                                element: <ProjectDocsPage />,
+                                                element: <ComponentDocsPage />,
+                                            },
+                                            {
+                                                path: 'work',
+                                                element: <ComponentWorkPage />,
+                                            },
+                                            {
+                                                path: 'deps',
+                                                element: <ComponentDependenciesPage />,
+                                            },
+                                            {
+                                                path: 'announcements',
+                                                element: <ComponentAnnouncementsPage />,
                                             },
                                             {
                                                 path: 'settings',
-                                                element: <ProjectSettingsPage />,
+                                                element: <ComponentSettingsPage />,
                                             },
                                         ],
                                     },

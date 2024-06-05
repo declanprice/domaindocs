@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
 import { DomainsModule } from './modules/domains/domains.module';
 import { TeamsModule } from './modules/teams/teams.module';
-import { ProjectsModule } from './modules/projects/projects.module';
+import { ComponentsModule } from './modules/components/components.module';
 import { PeopleModule } from './modules/people/people.module';
 import { DocumentationModule } from './modules/documentation/documentation.module';
 import { RolesModule } from './modules/roles/roles.module';
@@ -32,7 +32,7 @@ import { FilesModule } from './modules/files/files.module';
         PeopleModule,
         DomainsModule,
         TeamsModule,
-        ProjectsModule,
+        ComponentsModule,
         DocumentationModule,
         RolesModule,
         SkillsModule,

@@ -5,11 +5,11 @@ import { teamContacts, teamKeplar, teamLinks, teamMembers, teamOrion } from './t
 import { documentation, documentationDocuments, documentationFiles } from './documentation';
 import { apiDevSkill, devOpsSkill, uiDevSkill } from './skills';
 import { softwareDevRole, teamLeadRole } from './roles';
-import { deedSearchProject, projectLinks, projectOwnership } from './projects';
 import { PrismaClient } from '@prisma/client';
 import { onboarding, onboardingSteps } from './onboarding';
 import { workAreaPeople, workAreas, workItemAssignees, workItemAttachments, workItems, workItemStatuses } from './work';
 import { files } from './files';
+import { componentContacts, componentLinks, deedSearchComponent } from './components';
 
 const client = new PrismaClient();
 
@@ -31,9 +31,10 @@ const client = new PrismaClient();
     await client.documentationDocument.deleteMany();
     await client.documentation.deleteMany();
 
-    await client.projectLink.deleteMany();
-    await client.projectOwnership.deleteMany();
-    await client.project.deleteMany();
+    await client.componentLabel.deleteMany();
+    await client.componentContact.deleteMany();
+    await client.componentLink.deleteMany();
+    await client.component.deleteMany();
 
     await client.teamLink.deleteMany();
     await client.teamContact.deleteMany();
@@ -77,9 +78,9 @@ const client = new PrismaClient();
     await client.teamLink.createMany({ data: teamLinks() });
     await client.teamContact.createMany({ data: teamContacts() });
 
-    await client.project.createMany({ data: deedSearchProject() });
-    await client.projectLink.createMany({ data: projectLinks() });
-    await client.projectOwnership.createMany({ data: projectOwnership() });
+    await client.component.createMany({ data: deedSearchComponent() });
+    await client.componentLink.createMany({ data: componentLinks() });
+    await client.componentContact.createMany({ data: componentContacts() });
 
     await client.documentation.createMany({ data: documentation() });
     await client.documentationDocument.createMany({ data: documentationDocuments() });

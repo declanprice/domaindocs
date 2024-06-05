@@ -11,5 +11,5 @@ export class SearchDocumentationParams {
 
     @IsString()
     @IsOptional()
-    projectId?: string;
+    componentId?: string;
 }

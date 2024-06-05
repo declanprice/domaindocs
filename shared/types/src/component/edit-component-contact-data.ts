@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString, ValidateIf } from 'class-validator';
-import { TeamContactType } from './team';
+import { TeamContactType } from '../team';
 
-export class EditTeamContactData {
+export class EditComponentContactData {
     @IsString()
     @IsNotEmpty()
     type: TeamContactType;

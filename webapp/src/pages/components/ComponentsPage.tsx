@@ -1,23 +1,24 @@
 import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { teamsApi } from '../../state/api/teams-api';
 import { DomainPageParams } from '../../types/DomainPageParams';
+import { componentsApi } from '../../state/api/components-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
-import { TeamsTable } from './components/TeamsTable';
-import { DetailedTeam } from '@domaindocs/types';
-import { CiSearch } from 'react-icons/ci';
+import { ComponentTable } from './components/ComponentTable';
+import { SearchComponent } from '@domaindocs/types';
 import { FormTextInput } from '../../components/form/FormTextInput';
+import { CiSearch } from 'react-icons/ci';
+import { PeopleTable } from '../people/components/PeopleTable';
 import { useForm } from 'react-hook-form';
 
-export const TeamsPage = () => {
+export const ComponentsPage = () => {
     const { domainId } = useParams() as DomainPageParams;
 
     const navigate = useNavigate();
 
-    const { data: teams, isLoading } = useQuery<DetailedTeam[]>({
-        queryKey: ['searchTeams', { domainId }],
-        queryFn: () => teamsApi.search(domainId, {}),
+    const { data: components, isLoading } = useQuery<SearchComponent[]>({
+        queryKey: ['searchComponents', { domainId }],
+        queryFn: () => componentsApi.searchComponents(domainId, {}),
     });
 
     const form = useForm({
@@ -26,22 +27,22 @@ export const TeamsPage = () => {
         },
     });
 
-    if (!teams || isLoading) return <LoadingContainer />;
+    if (!components || isLoading) return <LoadingContainer />;
 
     return (
         <Flex direction="column" p={4} width={'100%'} gap={4}>
             <Flex alignItems={'center'}>
                 <Heading variant={'h2'} fontSize={18} fontWeight={400}>
-                    Teams
+                    Components
                 </Heading>
 
                 <Button ml={'auto'} size={'sm'} fontWeight={400}>
-                    Create Team
+                    Create Component
                 </Button>
             </Flex>
 
             <Text fontWeight={300} fontSize={14}>
-                Search for teams across your domain.
+                Search for components across your domain.
             </Text>
 
             <Flex alignItems={'center'} gap={2} mt={4}>
@@ -49,20 +50,33 @@ export const TeamsPage = () => {
                     <FormTextInput
                         name={'name'}
                         control={form.control}
-                        placeholder={'Search teams'}
+                        placeholder={'Search components'}
                         leftElement={<CiSearch />}
                     />
                 </Box>
+
+                <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
+                    <Text>Type</Text>
+                </Button>
+
+                <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
+                    <Text>Owner Team</Text>
+                </Button>
+
+                <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
+                    <Text>Subdomain</Text>
+                </Button>
 
                 <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
                     <Text>Labels</Text>
                 </Button>
             </Flex>
 
-            <TeamsTable
-                teams={teams}
-                onTeamClick={(team) => {
-                    navigate(`/${domainId}/teams/${team.team.teamId}`);
+            <ComponentTable
+                domainId={domainId}
+                components={components}
+                onComponentClick={(component: SearchComponent) => {
+                    navigate(`/${domainId}/components/${component.component.componentId}`);
                 }}
             />
         </Flex>

@@ -31,7 +31,7 @@ export class DocumentationService {
                     type: DocumentationType.DOMAIN_ROOT_FOLDER,
                 },
                 {
-                    type: DocumentationType.PROJECT_ROOT_FOLDER,
+                    type: DocumentationType.COMPONENT_ROOT_FOLDER,
                 },
                 {
                     type: DocumentationType.TEAM_ROOT_FOLDER,
@@ -46,10 +46,10 @@ export class DocumentationService {
             };
         }
 
-        if (params.projectId) {
+        if (params.componentId) {
             where = {
-                projectId: params.projectId,
-                type: DocumentationType.PROJECT_ROOT_FOLDER,
+                componentId: params.componentId,
+                type: DocumentationType.COMPONENT_ROOT_FOLDER,
             };
         }
 
@@ -64,7 +64,7 @@ export class DocumentationService {
             where,
             include: {
                 domain: true,
-                project: true,
+                component: true,
                 team: true,
                 children: {
                     include: {
@@ -81,8 +81,8 @@ export class DocumentationService {
                 rootName = d.domain.name;
             }
 
-            if (d.project) {
-                rootName = d.project.name;
+            if (d.component) {
+                rootName = d.component.name;
             }
 
             if (d.team) {

@@ -68,7 +68,7 @@ export const RootNavBar = () => {
                 <NavButton
                     icon={<LuComponent color={'gray.900'} size={18} />}
                     label={'Components'}
-                    to={`/${activeDomain.domainId}/projects`}
+                    to={`/${activeDomain.domainId}/components`}
                 />
 
                 <NavButton
