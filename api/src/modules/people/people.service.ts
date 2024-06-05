@@ -15,6 +15,7 @@ import {
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 import { v4 } from 'uuid';
+import { EditPersonAboutMeData } from '../../../../shared/types/src/person/edit-person-about-me-data';
 
 @Injectable()
 export class PeopleService {
@@ -318,6 +319,27 @@ export class PeopleService {
         await this.prisma.personContact.delete({
             where: {
                 contactId,
+            },
+        });
+
+        return this.getPerson(session, domainId, userId);
+    }
+
+    async updateAboutMe(
+        session: UserSession,
+        domainId: string,
+        userId: string,
+        data: EditPersonAboutMeData,
+    ): Promise<DetailedPerson> {
+        await this.prisma.person.update({
+            where: {
+                userId_domainId: {
+                    domainId,
+                    userId,
+                },
+            },
+            data: {
+                aboutMe: data.aboutMe,
             },
         });
 

@@ -1,4 +1,4 @@
-import { Avatar, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Stack, Text } from '@chakra-ui/react';
+import { Avatar, Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Stack, Text } from '@chakra-ui/react';
 import { DetailedPerson } from '@domaindocs/types';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PersonPageParams } from './PersonPageParams';
@@ -10,6 +10,7 @@ import { PersonRoles } from './components/PersonRoles';
 import { PersonSkills } from './components/PersonSkills';
 import { PersonTeams } from './components/PersonTeams';
 import { PersonContacts } from './components/PersonContacts';
+import { PersonAboutMe } from './components/PersonAboutMe';
 
 export const PersonOverviewPage = () => {
     const { domainId, userId } = useParams() as PersonPageParams;
@@ -66,18 +67,9 @@ export const PersonOverviewPage = () => {
                     {person.person.firstName} {person.person.lastName}
                 </Text>
 
-                <Stack mt={4} spacing={2}>
-                    <Text fontSize={14}>About Me</Text>
-
-                    <Text fontSize={12}>
-                        I am a passionate web developer who loves building web applications using AWS services and
-                        JavaScript technologies.
-                    </Text>
-                </Stack>
-
-                <Stack mt={4} spacing={2}>
-                    <Text fontSize={14}>Declan's Components</Text>
-                </Stack>
+                <Box mt={2}>
+                    <PersonAboutMe domainId={domainId} person={person} />
+                </Box>
             </Flex>
 
             <Flex direction={'column'} width={'350px'} p={4} gap={4}>

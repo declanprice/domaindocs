@@ -9,6 +9,7 @@ import {
 } from '@domaindocs/types';
 
 import { queryClient } from '../query-client';
+import { EditPersonAboutMeData } from '../../../../shared/types/src/person/edit-person-about-me-data';
 
 export const peopleApi = (() => {
     const search = async (domainId: string, data: SearchPeopleParams): Promise<DetailedPerson[]> => {
@@ -84,6 +85,11 @@ export const peopleApi = (() => {
         updateLocalPerson(domainId, userId, result.data);
     };
 
+    const updateAboutMe = async (domainId: string, userId: string, data: EditPersonAboutMeData): Promise<void> => {
+        const result = await apiClient.post<DetailedPerson>(`/domains/${domainId}/people/${userId}/about-me`, data);
+        updateLocalPerson(domainId, userId, result.data);
+    };
+
     const updateLocalPerson = (domainId: string, userId: string, person: DetailedPerson) => {
         queryClient.setQueryData(['getPerson', { domainId, userId }], person);
     };
@@ -99,5 +105,6 @@ export const peopleApi = (() => {
         createContact,
         updateContact,
         deleteContact,
+        updateAboutMe,
     };
 })();

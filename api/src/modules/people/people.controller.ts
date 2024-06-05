@@ -9,6 +9,7 @@ import {
     EditPersonSkillData,
     EditPersonContactData,
 } from '@domaindocs/types';
+import { EditPersonAboutMeData } from '../../../../shared/types/src/person/edit-person-about-me-data';
 
 @Controller('domains/:domainId/people')
 @UseGuards(AuthGuard)
@@ -113,5 +114,15 @@ export class PeopleController {
         @Param('contactId') contactId: string,
     ): Promise<DetailedPerson> {
         return this.peopleService.deleteContact(session, domainId, userId, contactId);
+    }
+
+    @Post(':userId/about-me')
+    async updateAboutMe(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('userId') userId: string,
+        @Body() data: EditPersonAboutMeData,
+    ): Promise<DetailedPerson> {
+        return this.peopleService.updateAboutMe(session, domainId, userId, data);
     }
 }
