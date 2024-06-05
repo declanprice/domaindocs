@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { MdOutlineManageHistory, MdOutlineWorkOutline } from 'react-icons/md';
+import { MdOutlineWorkOutline } from 'react-icons/md';
 import { IoPersonOutline } from 'react-icons/io5';
 import { GoChevronRight, GoPeople } from 'react-icons/go';
 import { useAuthStore } from '../state/stores/auth.store';
@@ -7,7 +7,6 @@ import { useUiStore } from '../state/stores/ui.store';
 import { LuComponent } from 'react-icons/lu';
 import { HiOutlineDocumentText, HiOutlineInformationCircle, HiOutlineTicket } from 'react-icons/hi';
 import { NavButton } from '../components/nav-button/NavButton';
-import { LiaNetworkWiredSolid } from 'react-icons/lia';
 import { TiHomeOutline } from 'react-icons/ti';
 import { GiGraduateCap } from 'react-icons/gi';
 import { BiNetworkChart } from 'react-icons/bi';

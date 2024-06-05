@@ -10,4 +10,35 @@ export const theme = extendTheme({
         border: '#E8E8E8',
         hover: '#F1F0F0',
     },
+    components: {
+        Text: {
+            baseStyle: {
+                fontWeight: '300',
+                fontSize: 12,
+            },
+        },
+        Button: {
+            variants: {
+                solid: {
+                    backgroundColor: 'lightgray',
+                },
+            },
+            defaultProps: {
+                size: 'sm',
+            },
+        },
+        Input: {
+            variants: {
+                filled: {
+                    field: {
+                        backgroundColor: 'lightgray',
+                    },
+                },
+            },
+            defaultProps: {
+                size: 'sm',
+                variant: 'filled',
+            },
+        },
+    },
 });

@@ -1,4 +1,14 @@
-import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Input, FormControlProps } from '@chakra-ui/react';
+import {
+    FormControl,
+    FormLabel,
+    FormErrorMessage,
+    FormHelperText,
+    Input,
+    FormControlProps,
+    InputGroup,
+    InputLeftElement,
+    Flex,
+} from '@chakra-ui/react';
 import { Control, useController } from 'react-hook-form';
 import { getFontSize } from '../../util/getFontSize';
 
@@ -12,6 +22,7 @@ export type FormTextInputProps = {
     onBlur?: () => void;
     debounce?: number;
     onDebounceValue?: () => void;
+    leftElement?: any;
 } & Partial<FormControlProps>;
 
 export const FormTextInput = (props: FormTextInputProps) => {
@@ -19,8 +30,6 @@ export const FormTextInput = (props: FormTextInputProps) => {
         name: props.name,
         control: props.control,
     });
-
-    console.log('changed');
 
     return (
         <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
@@ -30,30 +39,32 @@ export const FormTextInput = (props: FormTextInputProps) => {
                 </FormLabel>
             )}
 
-            <Input
-                name={field.name}
-                value={field.value}
-                isDisabled={field.disabled}
-                autoComplete="off"
-                ref={field.ref}
-                onBlur={() => {
-                    field.onBlur();
-                    if (props.onBlur) {
-                        props.onBlur();
-                    }
-                }}
-                onChange={(e) => {
-                    field.onChange(e);
-                    if (props.onChange) {
-                        props.onChange(e);
-                    }
-                }}
-                disabled={field.disabled}
-                variant={'filled'}
-                placeholder={props.placeholder}
-                size={props.size || 'sm'}
-                fontSize={getFontSize(props.size)}
-            />
+            <InputGroup size={props.size || 'sm'}>
+                {props.leftElement && <InputLeftElement>{props.leftElement}</InputLeftElement>}
+
+                <Input
+                    name={field.name}
+                    value={field.value}
+                    isDisabled={field.disabled}
+                    autoComplete="off"
+                    ref={field.ref}
+                    onBlur={() => {
+                        field.onBlur();
+                        if (props.onBlur) {
+                            props.onBlur();
+                        }
+                    }}
+                    onChange={(e) => {
+                        field.onChange(e);
+                        if (props.onChange) {
+                            props.onChange(e);
+                        }
+                    }}
+                    disabled={field.disabled}
+                    placeholder={props.placeholder}
+                    fontSize={getFontSize(props.size)}
+                />
+            </InputGroup>
 
             {props.helperText && <FormHelperText fontSize={getFontSize(props.size)}>{props.helperText}</FormHelperText>}
 

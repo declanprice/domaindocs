@@ -179,6 +179,7 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                         <Menu>
                             <MenuButton>
                                 <IconButton
+                                    variant={'ghost'}
                                     colorScheme={'gray'}
                                     size={'xs'}
                                     aria-label={'folder-menu'}

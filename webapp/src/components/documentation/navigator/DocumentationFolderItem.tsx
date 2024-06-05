@@ -64,6 +64,7 @@ export const DocumentationFolderItem = (props: DocumentationFolderItemProps) => 
                             <MenuButton>
                                 <IconButton
                                     colorScheme={'gray'}
+                                    variant={'ghost'}
                                     size={'xs'}
                                     aria-label={'folder-menu'}
                                     icon={<HiOutlineDotsHorizontal />}

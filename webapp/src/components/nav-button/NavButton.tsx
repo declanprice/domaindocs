@@ -29,6 +29,7 @@ export const NavButton = (props: NavButtonProps) => {
             fontWeight={'regular'}
             justifyContent={'flex-start'}
             isActive={isActive}
+            size={'md'}
             rightIcon={rightIcon}
             _active={{
                 backgroundColor: 'gray.100',
