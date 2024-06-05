@@ -43,6 +43,7 @@ export class Person {
         public lastName: string,
         public aboutMe: string,
         public dateJoined: string,
+        public email: string,
         public iconUri?: string,
     ) {}
 }
@@ -53,6 +54,14 @@ export class DetailedPerson {
         public contacts: PersonContact[],
         public skills: PersonSkill[],
         public teams: PersonTeam[],
+        public roles: PersonRole[],
+    ) {}
+}
+
+export class SearchPerson {
+    constructor(
+        public person: Person,
+        public skills: PersonSkill[],
         public roles: PersonRole[],
     ) {}
 }

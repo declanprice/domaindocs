@@ -15,6 +15,7 @@ export const theme = extendTheme({
             baseStyle: {
                 fontWeight: '300',
                 fontSize: 12,
+                color: 'gray.900',
             },
         },
         Button: {
@@ -33,6 +34,17 @@ export const theme = extendTheme({
                     field: {
                         backgroundColor: 'lightgray',
                     },
+                },
+            },
+            defaultProps: {
+                size: 'sm',
+                variant: 'filled',
+            },
+        },
+        Textarea: {
+            variants: {
+                filled: {
+                    backgroundColor: 'lightgray',
                 },
             },
             defaultProps: {

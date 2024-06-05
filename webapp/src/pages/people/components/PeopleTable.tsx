@@ -1,5 +1,8 @@
 import {
+    Avatar,
     Box,
+    Flex,
+    IconButton,
     Popover,
     PopoverBody,
     PopoverCloseButton,
@@ -9,13 +12,13 @@ import {
     Text,
 } from '@chakra-ui/react';
 import { Table } from '../../../components/table/Table';
-import { DetailedPerson } from '@domaindocs/types';
+import { DetailedTeam, SearchPerson } from '@domaindocs/types';
 import { PersonAvatar } from '../../../components/person/PersonAvatar';
-import { TeamAvatar } from '../../../components/team/TeamAvatar';
+import { TbDots } from 'react-icons/tb';
 
 type PeopleTableProps = {
-    people: DetailedPerson[];
-    onPersonClick: (person: DetailedPerson) => void;
+    people: SearchPerson[];
+    onPersonClick: (person: SearchPerson) => void;
 };
 
 export const PeopleTable = (props: PeopleTableProps) => {
@@ -27,59 +30,42 @@ export const PeopleTable = (props: PeopleTableProps) => {
             fields={[
                 {
                     label: 'Person',
-                    render: (data: DetailedPerson) => (
-                        <Box cursor="pointer">
-                            <PersonAvatar
-                                firstName={data.person.firstName}
-                                lastName={data.person.lastName}
-                                iconUri={data.person.iconUri}
-                                roles={data.roles}
-                                small
+                    render: (data: SearchPerson) => (
+                        <Flex alignItems="center" gap={2}>
+                            <Avatar
+                                size={'xs'}
+                                name={`${data.person.firstName} ${data.person.lastName}`}
+                                src={data.person.iconUri}
                             />
-                        </Box>
+
+                            <Text>
+                                {data.person.firstName} {data.person.lastName}
+                            </Text>
+                        </Flex>
                     ),
                     onClick: (row) => {
                         onPersonClick(row);
                     },
                 },
                 {
-                    label: 'Teams',
-                    render: (data: DetailedPerson) => {
-                        const teams = data.teams;
+                    label: 'Email',
+                    render: (data: SearchPerson) => {
+                        return <Text>{data.person.email}</Text>;
+                    },
+                    onClick: (row) => {
+                        console.log('clicked row', row);
+                    },
+                },
+                {
+                    label: 'Primary Role',
+                    render: (data: SearchPerson) => {
+                        const role = data.roles.find((r) => r.isPrimary);
 
-                        if (!teams.length) {
-                            return <Text>None</Text>;
+                        if (!role) {
+                            return <Text>No Role</Text>;
                         }
 
-                        if (teams.length === 1) {
-                            const team = teams[0];
-                            return <TeamAvatar small name={team.teamName} iconUri={team.teamIconUri} />;
-                        }
-
-                        return (
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Text _hover={{ textDecoration: 'underline' }} cursor={'pointer'}>
-                                        {teams.length} Teams
-                                    </Text>
-                                </PopoverTrigger>
-                                <PopoverContent backgroundColor={'lightgray'}>
-                                    <PopoverCloseButton />
-                                    <PopoverBody>
-                                        <Stack spacing={2}>
-                                            {teams.map((t) => (
-                                                <TeamAvatar
-                                                    key={t.teamId}
-                                                    small
-                                                    name={t.teamName}
-                                                    iconUri={t.teamIconUri}
-                                                />
-                                            ))}
-                                        </Stack>
-                                    </PopoverBody>
-                                </PopoverContent>
-                            </Popover>
-                        );
+                        return <Text fontSize={12}>{role.roleName}</Text>;
                     },
                     onClick: (row) => {
                         console.log('clicked row', row);
@@ -87,23 +73,18 @@ export const PeopleTable = (props: PeopleTableProps) => {
                 },
                 {
                     label: 'Skills',
-                    render: (data: DetailedPerson) => {
+                    render: (data: SearchPerson) => {
                         const skills = data.skills;
 
                         if (!skills.length) {
                             return <Text>None</Text>;
                         }
 
-                        if (skills.length === 1) {
-                            const skill = skills[0];
-                            return <Text fontSize={12}>{skill.skillName}</Text>;
-                        }
-
                         return (
                             <Popover>
                                 <PopoverTrigger>
                                     <Text _hover={{ textDecoration: 'underline' }} cursor={'pointer'}>
-                                        {skills.length} Skills
+                                        {skills.length} {`${skills.length > 1 ? 'Skills' : 'Skill'}`}
                                     </Text>
                                 </PopoverTrigger>
                                 <PopoverContent backgroundColor={'lightgray'}>
@@ -119,6 +100,26 @@ export const PeopleTable = (props: PeopleTableProps) => {
                                     </PopoverBody>
                                 </PopoverContent>
                             </Popover>
+                        );
+                    },
+                    onClick: (row) => {
+                        console.log('clicked row', row);
+                    },
+                },
+                {
+                    headerAlign: 'end',
+                    label: 'Actions',
+                    render: (data: SearchPerson) => {
+                        return (
+                            <Flex>
+                                <IconButton
+                                    ml={'auto'}
+                                    aria-label={'teams-menu'}
+                                    variant={'ghost'}
+                                    icon={<TbDots />}
+                                    size={'sm'}
+                                />
+                            </Flex>
                         );
                     },
                     onClick: (row) => {

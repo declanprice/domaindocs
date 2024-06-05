@@ -6,13 +6,14 @@ import {
     EditPersonRoleData,
     EditPersonSkillData,
     EditPersonContactData,
+    SearchPerson,
 } from '@domaindocs/types';
 
 import { queryClient } from '../query-client';
 import { EditPersonAboutMeData } from '../../../../shared/types/src/person/edit-person-about-me-data';
 
 export const peopleApi = (() => {
-    const search = async (domainId: string, data: SearchPeopleParams): Promise<DetailedPerson[]> => {
+    const search = async (domainId: string, data: SearchPeopleParams): Promise<SearchPerson[]> => {
         const result = await apiClient.get<DetailedPerson[]>(`/domains/${domainId}/people`, {
             params: data,
         });

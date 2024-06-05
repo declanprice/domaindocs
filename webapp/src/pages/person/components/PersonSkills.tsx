@@ -179,7 +179,7 @@ export const EditPersonSkillForm = (props: EditPersonSkillFormProps) => {
             <PopoverTrigger>{props.children}</PopoverTrigger>
 
             <form onSubmit={form.handleSubmit(submit)}>
-                <PopoverContent mr={2} backgroundColor={'lightgray'}>
+                <PopoverContent mr={2} backgroundColor={'white'}>
                     <PopoverBody p={4}>
                         <Stack spacing={4}>
                             <FormCreateSelect

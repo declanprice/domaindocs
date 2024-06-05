@@ -76,8 +76,8 @@ export const TeamDescriptionForm = (props: TeamDescriptionFormProps) => {
             <Flex alignItems={'center'} direction={'column'} gap={1}>
                 <FormTextArea name={'description'} control={form.control} />
                 <ButtonGroup ml={'auto'}>
-                    <CloseIconButton onClick={close} isDisabled={form.formState.isSubmitting} />
-                    <CheckIconButton type={'submit'} isLoading={form.formState.isSubmitting} />
+                    <CloseIconButton variant={'solid'} onClick={close} isDisabled={form.formState.isSubmitting} />
+                    <CheckIconButton variant={'solid'} type={'submit'} isLoading={form.formState.isSubmitting} />
                 </ButtonGroup>
             </Flex>
         </form>

@@ -12,6 +12,7 @@ import {
     SearchPeopleParams,
     EditPersonSkillData,
     EditPersonContactData,
+    SearchPerson,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 import { v4 } from 'uuid';
@@ -21,7 +22,7 @@ import { EditPersonAboutMeData } from '../../../../shared/types/src/person/edit-
 export class PeopleService {
     constructor(private prisma: PrismaService) {}
 
-    async searchPeople(session: UserSession, domainId: string, params: SearchPeopleParams): Promise<DetailedPerson[]> {
+    async searchPeople(session: UserSession, domainId: string, params: SearchPeopleParams): Promise<SearchPerson[]> {
         const results = await this.prisma.person.findMany({
             where: {
                 domainId: domainId,
@@ -41,31 +42,22 @@ export class PeopleService {
                         role: true,
                     },
                 },
-                teamMembers: {
-                    include: {
-                        team: true,
-                    },
-                },
-                contacts: true,
             },
         });
 
         return results.map(
             (p) =>
-                new DetailedPerson(
+                new SearchPerson(
                     new Person(
                         p.user.userId,
                         p.user.firstName,
                         p.user.lastName,
                         p.aboutMe,
                         p.dateJoined.toISOString(),
+                        p.user.email,
                         p.user.iconUri,
                     ),
-                    p.contacts.map(
-                        (c) => new PersonContact(c.contactId, c.type as PersonContactType, c.description, c.href),
-                    ),
                     p.skills.map((s) => new PersonSkill(s.skill.skillId, s.skill.name)),
-                    p.teamMembers.map((t) => new PersonTeam(t.team.teamId, t.team.name, t.team.iconUri)),
                     p.roles.map((r) => new PersonRole(r.role.roleId, r.role.name, r.isPrimary)),
                 ),
         );
@@ -105,6 +97,7 @@ export class PeopleService {
                 result.user.lastName,
                 result.aboutMe,
                 result.dateJoined.toISOString(),
+                result.user.email,
                 result.user.iconUri,
             ),
             result.contacts.map(

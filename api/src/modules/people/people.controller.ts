@@ -8,6 +8,7 @@ import {
     EditPersonRoleData,
     EditPersonSkillData,
     EditPersonContactData,
+    SearchPerson,
 } from '@domaindocs/types';
 import { EditPersonAboutMeData } from '../../../../shared/types/src/person/edit-person-about-me-data';
 
@@ -21,7 +22,7 @@ export class PeopleController {
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Query() dto: SearchPeopleParams,
-    ): Promise<DetailedPerson[]> {
+    ): Promise<SearchPerson[]> {
         return this.peopleService.searchPeople(session, domainId, dto);
     }
 

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { peopleApi } from '../../state/api/people-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
-import { DetailedPerson } from '@domaindocs/types';
+import { SearchPerson } from '@domaindocs/types';
 import { CiSearch } from 'react-icons/ci';
 import { PeopleTable } from './components/PeopleTable';
 
@@ -16,7 +16,7 @@ export const PeoplePage = () => {
 
     const navigate = useNavigate();
 
-    const { data: people, isLoading } = useQuery<DetailedPerson[]>({
+    const { data: people, isLoading } = useQuery<SearchPerson[]>({
         queryKey: ['searchPeople', { domainId }],
         queryFn: () => peopleApi.search(domainId, {}),
     });

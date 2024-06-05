@@ -195,7 +195,7 @@ export const PersonRoleForm = (props: PersonRoleFormProps) => {
             <PopoverTrigger>{props.children}</PopoverTrigger>
 
             <Portal containerRef={containerRef}>
-                <PopoverContent mr={2} backgroundColor={'lightgray'}>
+                <PopoverContent mr={2} backgroundColor={'white'}>
                     <form onSubmit={form.handleSubmit(submit)}>
                         <PopoverBody>
                             <Stack spacing={4}>
