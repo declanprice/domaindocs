@@ -48,6 +48,7 @@ export const FormTextInput = (props: FormTextInputProps) => {
                     isDisabled={field.disabled}
                     autoComplete="off"
                     ref={field.ref}
+                    rounded={6}
                     onBlur={() => {
                         field.onBlur();
                         if (props.onBlur) {
@@ -63,6 +64,12 @@ export const FormTextInput = (props: FormTextInputProps) => {
                     disabled={field.disabled}
                     placeholder={props.placeholder}
                     fontSize={getFontSize(props.size)}
+                    _placeholder={{
+                        fontWeight: '300',
+                        color: 'gray.900',
+                        opacity: 100,
+                        fontSize: getFontSize(props.size),
+                    }}
                 />
             </InputGroup>
 

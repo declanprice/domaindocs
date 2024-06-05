@@ -6,6 +6,8 @@ import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { SearchPerson } from '@domaindocs/types';
 import { CiSearch } from 'react-icons/ci';
 import { PeopleTable } from './components/PeopleTable';
+import { FormTextInput } from '../../components/form/FormTextInput';
+import { useForm } from 'react-hook-form';
 
 type PeoplePageParams = {
     domainId: string;
@@ -19,6 +21,12 @@ export const PeoplePage = () => {
     const { data: people, isLoading } = useQuery<SearchPerson[]>({
         queryKey: ['searchPeople', { domainId }],
         queryFn: () => peopleApi.search(domainId, {}),
+    });
+
+    const form = useForm({
+        values: {
+            name: '',
+        },
     });
 
     if (!people || isLoading) return <LoadingContainer />;
@@ -40,17 +48,21 @@ export const PeoplePage = () => {
             </Text>
 
             <Flex alignItems={'center'} gap={2} mt={4}>
+                <Box maxWidth={'180px'}>
+                    <FormTextInput
+                        name={'name'}
+                        control={form.control}
+                        placeholder={'Search people'}
+                        leftElement={<CiSearch />}
+                    />
+                </Box>
+
                 <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
-                    <CiSearch />
-                    <Text ml={2}>Search people</Text>
+                    <Text>Roles</Text>
                 </Button>
 
                 <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
-                    <Text ml={2}>Roles</Text>
-                </Button>
-
-                <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
-                    <Text ml={2}>Skills</Text>
+                    <Text>Skills</Text>
                 </Button>
             </Flex>
 
