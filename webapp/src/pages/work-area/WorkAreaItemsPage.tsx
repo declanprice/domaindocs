@@ -67,12 +67,24 @@ export const WorkAreaItemsPage = () => {
 
                 <BreadcrumbItem fontSize={14}>
                     <BreadcrumbLink
-                        href={`/${domainId}/work-areas/${areaId}`}
+                        href={`/${domainId}/work-areas/${areaId}/board`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/${domainId}/work-areas/${areaId}/board`);
+                        }}
+                    >
+                        {area.area.name}'s Board
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbItem fontSize={14}>
+                    <BreadcrumbLink
+                        href={`/${domainId}/work-areas/${areaId}/items`}
                         onClick={(e) => {
                             e.preventDefault();
                         }}
                     >
-                        {area.area.name}
+                        Items
                     </BreadcrumbLink>
                 </BreadcrumbItem>
             </Breadcrumb>

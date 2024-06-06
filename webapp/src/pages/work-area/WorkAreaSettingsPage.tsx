@@ -47,9 +47,10 @@ export const WorkAreaSettingsPage = () => {
                         href={`/${domainId}/work-areas/${areaId}/board`}
                         onClick={(e) => {
                             e.preventDefault();
+                            navigate(`/${domainId}/work-areas/${areaId}/board`);
                         }}
                     >
-                        {board.area.name}
+                        {board.area.name}'s Board
                     </BreadcrumbLink>
                 </BreadcrumbItem>
 
@@ -69,7 +70,7 @@ export const WorkAreaSettingsPage = () => {
                 {board.area.name}'s Settings
             </Text>
 
-            <Flex borderBottom={'1px solid'} borderColor={'border'} pb={30}>
+            <Flex mt={4} borderBottom={'1px solid'} borderColor={'border'} pb={30}>
                 <Flex width={'280px'} minWidth={'250px'} gap={4} direction={'column'} mr={20}>
                     <Text fontSize={16}>Details</Text>
                     <Text fontSize={12}>Simple work area details</Text>

@@ -56,12 +56,24 @@ export const WorkAreaBacklogPage = () => {
 
                 <BreadcrumbItem fontSize={14}>
                     <BreadcrumbLink
-                        href={`/${domainId}/work-areas/${areaId}`}
+                        href={`/${domainId}/work-areas/${areaId}/board`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/${domainId}/work-areas/${areaId}/board`);
+                        }}
+                    >
+                        {board.area.name}'s Board
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbItem fontSize={14}>
+                    <BreadcrumbLink
+                        href={`/${domainId}/work-areas/${areaId}/backlog`}
                         onClick={(e) => {
                             e.preventDefault();
                         }}
                     >
-                        {board.area.name}
+                        Backlog
                     </BreadcrumbLink>
                 </BreadcrumbItem>
             </Breadcrumb>

@@ -40,12 +40,23 @@ export const WorkAreaIntegrationsPage = () => {
 
                 <BreadcrumbItem fontSize={14}>
                     <BreadcrumbLink
-                        href={`/${domainId}/work-areas/${areaId}`}
+                        href={`/${domainId}/work-areas/${areaId}/board`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/${domainId}/work-areas/${areaId}/board`);
+                        }}
+                    >
+                        {board.area.name}'s Board
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbItem fontSize={14}>
+                    <BreadcrumbLink
+                        href={`/${domainId}/work-areas/${areaId}/integrations`}
                         onClick={(e) => {
                             e.preventDefault();
                         }}
                     >
-                        {board.area.name}
+                        Integrations
                     </BreadcrumbLink>
                 </BreadcrumbItem>
             </Breadcrumb>
