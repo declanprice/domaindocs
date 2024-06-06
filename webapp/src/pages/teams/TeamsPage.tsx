@@ -54,7 +54,7 @@ export const TeamsPage = () => {
                     />
                 </Box>
 
-                <Button size={'sm'} color={'gray.900'} fontWeight={'300'}>
+                <Button>
                     <Text>Labels</Text>
                 </Button>
             </Flex>

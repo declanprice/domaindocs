@@ -16,7 +16,6 @@ import { PageNotFoundErrorPage } from './components/errors/PageNotFoundErrorPage
 import { ComponentOverviewPage } from './pages/component/ComponentOverviewPage';
 import { ComponentDocsPage } from './pages/component/ComponentDocsPage';
 import { DocsPage } from './pages/docs/DocsPage';
-import { OnboardingPage } from './pages/onboarding-centre/OnboardingPage';
 import { TeamOverviewPage } from './pages/team/TeamOverviewPage';
 import { UserSettingsPage } from './pages/user-settings/UserSettingsPage';
 import { PersonOverviewPage } from './pages/person/PersonOverviewPage';
@@ -24,20 +23,19 @@ import { WorkAreasPage } from './pages/work-areas/WorkAreasPage';
 import { WorkAreaBoardPage } from './pages/work-area/WorkAreaBoardPage';
 import { WorkAreaBacklogPage } from './pages/work-area/WorkAreaBacklogPage';
 import { WorkAreaItemsPage } from './pages/work-area/WorkAreaItemsPage';
-import { WorkAreaAutomationsPage } from './pages/work-area/WorkAreaAutomationsPage';
+import { WorkAreaIntegrationsPage } from './pages/work-area/WorkAreaIntegrationsPage';
 import { WorkAreaSettingsPage } from './pages/work-area/WorkAreaSettingsPage';
-import { FormsPage } from './pages/ticket-centre/FormsPage';
-import { FormsYourFormsPage } from './pages/ticket-centre/FormsYourFormsPage';
-import { FormsYourSubmissionsPage } from './pages/ticket-centre/FormsYourSubmissionsPage';
-import { FormOverviewPage } from './pages/ticket/FormOverviewPage';
-import { FormFieldsPage } from './pages/ticket/FormFieldsPage';
-import { FormAutomationsPage } from './pages/ticket/FormAutomationsPage';
-import { FormSettingsPage } from './pages/ticket/FormSettingsPage';
+import { TicketDeskDashboardPage } from './pages/ticket-desk/TicketDeskDashboardPage';
+import { TicketDeskBrowsePage } from './pages/ticket-desk/TicketDeskBrowsePage';
+import { TicketDeskYourSubmissionsPage } from './pages/ticket-desk/TicketDeskYourSubmissionsPage';
+import { TicketOverviewPage } from './pages/ticket/TicketOverviewPage';
+import { TicketFieldsPage } from './pages/ticket/TicketFieldsPage';
+import { TicketIntegrationsPage } from './pages/ticket/TicketIntegrationsPage';
+import { TicketSettingsPage } from './pages/ticket/TicketSettingsPage';
 import { DomainDocumentationPage } from './pages/domain/DomainDocumentationPage';
 import { TeamDocsPage } from './pages/team/TeamDocsPage';
 import { TeamSettingsPage } from './pages/team/TeamSettingsPage';
 import { OnboardingGuidePage } from './pages/onboarding-guide/OnboardingGuidePage';
-import { OnboardingGuideFormPage } from './pages/onboarding-guide-form/OnboardingGuideFormPage';
 import { ComponentSettingsPage } from './pages/component/ComponentSettingsPage';
 import { DomainSetupPage } from './pages/user-setup/DomainSetupPage';
 import { UserSetupPage } from './pages/user-setup/UserSetupPage';
@@ -56,6 +54,17 @@ import { ComponentPageNavBar } from './pages/component/ComponentPageNavBar';
 import { ComponentWorkPage } from './pages/component/ComponentWorkPage';
 import { ComponentAnnouncementsPage } from './pages/component/ComponentAnnouncementsPage';
 import { ComponentDependenciesPage } from './pages/component/ComponentDependenciesPage';
+import { TicketDeskPageNavBar } from './pages/ticket-desk/TicketDeskPageNavBar';
+import { TicketPageNavBar } from './pages/ticket/TicketPageNavBar';
+import { TicketSubmissionPage } from './pages/ticket-submission/TicketSubmissionPage';
+import { TicketSubmissionPageNavBar } from './pages/ticket-submission/TicketSubmissionPageNavBar';
+import { OnboardingCentreDashboardPage } from './pages/onboarding-centre/OnboardingCentreDashboardPage';
+import { OnboardingCentrePageNavBar } from './pages/onboarding-centre/OnboardingCentrePageNavBar';
+import { OnboardingCentreBrowsePage } from './pages/onboarding-centre/OnboardingCentreBrowsePage';
+import { OnboardingGuidePageNavBar } from './pages/onboarding-guide/OnboardingGuidePageNavBar';
+import { OnboardingGuideStepsPage } from './pages/onboarding-guide/OnboardingGuideStepsPage';
+import { OnboardingGuideSettingsPage } from './pages/onboarding-guide/OnboardingGuideSettingsPage';
+import { WorkAreaPageNavBar } from './pages/work-area/WorkAreaPageNavBar';
 
 export const routes = createBrowserRouter([
     {
@@ -256,7 +265,7 @@ export const routes = createBrowserRouter([
                                     },
                                     {
                                         path: 'work-areas/:areaId',
-                                        element: <RootLayout navbar={<RootNavBar />} />,
+                                        element: <RootLayout navbar={<WorkAreaPageNavBar />} />,
                                         children: [
                                             {
                                                 path: '',
@@ -275,8 +284,8 @@ export const routes = createBrowserRouter([
                                                 element: <WorkAreaItemsPage />,
                                             },
                                             {
-                                                path: 'automations',
-                                                element: <WorkAreaAutomationsPage />,
+                                                path: 'integrations',
+                                                element: <WorkAreaIntegrationsPage />,
                                             },
                                             {
                                                 path: 'settings',
@@ -285,26 +294,30 @@ export const routes = createBrowserRouter([
                                         ],
                                     },
                                     {
-                                        path: 'help-desk',
-                                        element: <RootLayout navbar={<RootNavBar />} />,
+                                        path: 'ticket-desk',
+                                        element: <RootLayout navbar={<TicketDeskPageNavBar />} />,
                                         children: [
                                             {
                                                 path: '',
-                                                element: <FormsPage />,
+                                                element: <Navigate to={'dashboard'} />,
                                             },
                                             {
-                                                path: 'your-submissions',
-                                                element: <FormsYourSubmissionsPage />,
+                                                path: 'dashboard',
+                                                element: <TicketDeskDashboardPage />,
                                             },
                                             {
-                                                path: 'your-forms',
-                                                element: <FormsYourFormsPage />,
+                                                path: 'browse',
+                                                element: <TicketDeskBrowsePage />,
+                                            },
+                                            {
+                                                path: 'submissions',
+                                                element: <TicketDeskYourSubmissionsPage />,
                                             },
                                         ],
                                     },
                                     {
-                                        path: 'help-desk/:formId',
-                                        element: <RootLayout navbar={<RootNavBar />} />,
+                                        path: 'ticket-desk/:ticketId',
+                                        element: <RootLayout navbar={<TicketPageNavBar />} />,
                                         children: [
                                             {
                                                 path: '',
@@ -312,53 +325,85 @@ export const routes = createBrowserRouter([
                                             },
                                             {
                                                 path: 'overview',
-                                                element: <FormOverviewPage />,
+                                                element: <TicketOverviewPage />,
                                             },
                                             {
                                                 path: 'fields',
-                                                element: <FormFieldsPage />,
+                                                element: <TicketFieldsPage />,
                                             },
                                             {
-                                                path: 'automations',
-                                                element: <FormAutomationsPage />,
+                                                path: 'integrations',
+                                                element: <TicketIntegrationsPage />,
                                             },
                                             {
                                                 path: 'settings',
-                                                element: <FormSettingsPage />,
+                                                element: <TicketSettingsPage />,
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        path: 'ticket-desk/:ticketId/submissions/:submissionId',
+                                        element: <RootLayout navbar={<TicketSubmissionPageNavBar />} />,
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <Navigate to={'submission'} />,
+                                            },
+                                            {
+                                                path: 'submission',
+                                                element: <TicketSubmissionPage />,
                                             },
                                         ],
                                     },
                                     {
                                         path: 'onboarding-centre',
-                                        element: <RootLayout navbar={<RootNavBar />} />,
+                                        element: <RootLayout navbar={<OnboardingCentrePageNavBar />} />,
                                         children: [
                                             {
-                                                path: 'dashboard',
-                                                element: <OnboardingPage />,
+                                                path: '',
+                                                element: <Navigate to={'dashboard'} />,
                                             },
                                             {
-                                                path: 'new-guide',
-                                                element: <OnboardingGuideFormPage />,
+                                                path: 'dashboard',
+                                                element: <OnboardingCentreDashboardPage />,
+                                            },
+                                            {
+                                                path: 'browse',
+                                                element: <OnboardingCentreBrowsePage />,
                                             },
                                         ],
                                     },
                                     {
                                         path: 'onboarding-centre/:guideId',
-                                        element: <RootLayout navbar={<RootNavBar />} />,
+                                        element: <RootLayout navbar={<OnboardingGuidePageNavBar />} />,
                                         children: [
                                             {
                                                 path: '',
+                                                element: <Navigate to={'guide'} />,
+                                            },
+                                            {
+                                                path: 'guide',
                                                 element: <OnboardingGuidePage />,
                                             },
                                             {
-                                                path: 'edit-guide',
-                                                element: <OnboardingGuideFormPage />,
+                                                path: 'steps',
+                                                element: <OnboardingGuideStepsPage />,
+                                            },
+                                            {
+                                                path: 'settings',
+                                                element: <OnboardingGuideSettingsPage />,
                                             },
                                         ],
                                     },
                                     {
                                         path: 'user-settings',
-                                        element: <UserSettingsPage />,
+                                        element: <RootLayout navbar={<RootNavBar />} />,
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <UserSettingsPage />,
+                                            },
+                                        ],
                                     },
                                 ],
                             },

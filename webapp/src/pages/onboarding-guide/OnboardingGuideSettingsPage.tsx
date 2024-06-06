@@ -3,11 +3,10 @@ import { Button, Flex, Text } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { FormTextInput } from '../../components/form/FormTextInput';
 import React from 'react';
-import { FormPageToolbar } from './FormPageToolbar';
-import { FormPageParams } from './FormPageParams';
+import { OnboardingGuidePageParams } from './OnboardingGuidePageParams';
 
-export const FormSettingsPage = () => {
-    const { domainId, formId } = useParams() as FormPageParams;
+export const OnboardingGuideSettingsPage = () => {
+    const { domainId, guideId } = useParams() as OnboardingGuidePageParams;
 
     const form = useForm({
         values: {
@@ -16,10 +15,8 @@ export const FormSettingsPage = () => {
     });
 
     return (
-        <Flex gap={4} width={'100%'} direction={'column'} overflowY={'auto'}>
-            <FormPageToolbar domainId={domainId} formId={formId} />
-
-            <Flex borderBottom={'1px solid'} borderColor={'border'} pb={30} px={4}>
+        <Flex p={8} gap={4} width={'100%'} direction={'column'} overflowY={'auto'}>
+            <Flex borderBottom={'1px solid'} borderColor={'border'} pb={30}>
                 <Flex width={'280px'} minWidth={'250px'} gap={4} direction={'column'} mr={20}>
                     <Text fontSize={16}>Details</Text>
                     <Text fontSize={12}>Simple form details</Text>
@@ -32,7 +29,7 @@ export const FormSettingsPage = () => {
                 </Flex>
             </Flex>
 
-            <Flex borderBottom={'1px solid'} borderColor={'border'} pb={35} px={4} pt={6}>
+            <Flex borderBottom={'1px solid'} borderColor={'border'} pb={35} pt={6}>
                 <Flex width={'280px'} minWidth={'250px'} gap={4} direction={'column'} mr={20}>
                     <Text fontSize={16}>Danger Area</Text>
                     <Text fontSize={12}>

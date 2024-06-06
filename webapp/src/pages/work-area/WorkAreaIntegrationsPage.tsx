@@ -4,37 +4,21 @@ import { useQuery } from '@tanstack/react-query';
 import { DetailedWorkBoard } from '@domaindocs/types';
 import { workApi } from '../../state/api/workApi';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
-import {
-    Box,
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    Button,
-    Flex,
-    Input,
-    InputGroup,
-    InputLeftElement,
-    Text,
-} from '@chakra-ui/react';
-import { BacklogEpicNavigator } from './components/backlog/BacklogEpicNavigator';
-import { BacklogBoardItems } from './components/backlog/BacklogBoardItems';
-import { BacklogItemsList } from './components/backlog/BacklogItemsList';
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Flex, Text } from '@chakra-ui/react';
 import { FormTextInput } from '../../components/form/FormTextInput';
 import { CiSearch } from 'react-icons/ci';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-export const WorkAreaBacklogPage = () => {
+export const WorkAreaIntegrationsPage = () => {
     const { domainId, areaId } = useParams() as WorkAreaPageParams;
-
     const navigate = useNavigate();
+    const searchForm = useForm();
 
     const { data: board, isLoading: isBoardLoading } = useQuery<DetailedWorkBoard>({
         queryKey: ['getWorkBoard', { domainId, areaId }],
         queryFn: () => workApi().getWorkBoard(domainId, areaId),
     });
-
-    const searchForm = useForm();
 
     if (!board || isBoardLoading) return <LoadingContainer />;
 
@@ -67,7 +51,7 @@ export const WorkAreaBacklogPage = () => {
             </Breadcrumb>
 
             <Text fontSize={18} fontWeight={500}>
-                {board.area.name}'s Backlog
+                {board.area.name}'s Integrations
             </Text>
 
             <Flex alignItems={'center'} gap={2}>
@@ -75,32 +59,14 @@ export const WorkAreaBacklogPage = () => {
                     <FormTextInput
                         name={'name'}
                         control={searchForm.control}
-                        placeholder={'Search board'}
+                        placeholder={'Search rules'}
                         leftElement={<CiSearch />}
                     />
                 </Box>
-
-                <Button>
-                    <Text>Status</Text>
-                </Button>
-
-                <Button>
-                    <Text>Assignees</Text>
-                </Button>
-
-                <Button>
-                    <Text>Component</Text>
-                </Button>
             </Flex>
 
-            <Flex flex={1} gap={4}>
-                <BacklogEpicNavigator />
-
-                <Flex direction={'column'} width={'100%'} gap={8}>
-                    <BacklogBoardItems />
-
-                    <BacklogItemsList />
-                </Flex>
+            <Flex direction="column" width={'100%'}>
+                integrations
             </Flex>
         </Flex>
     );

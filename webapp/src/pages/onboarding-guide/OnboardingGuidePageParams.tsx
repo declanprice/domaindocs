@@ -1,4 +1,4 @@
 export type OnboardingGuidePageParams = {
-    domainId: string;
     guideId: string;
+    domainId: string;
 };

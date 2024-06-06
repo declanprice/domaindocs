@@ -1,11 +1,11 @@
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Text } from '@chakra-ui/react';
-import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { OnboardingGuidePageParams } from './OnboardingGuidePageParams';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Text } from '@chakra-ui/react';
+import React from 'react';
 import { HiOutlineTicket } from 'react-icons/hi';
 import { GiGraduateCap } from 'react-icons/gi';
 
-export const OnboardingGuidePage = () => {
+export const OnboardingGuideStepsPage = () => {
     const { domainId, guideId } = useParams() as OnboardingGuidePageParams;
 
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ export const OnboardingGuidePage = () => {
                                 navigate(`/${domainId}/onboarding-centre`);
                             }}
                         >
-                            Ticket Centre
+                            Onboarding Centre
                         </BreadcrumbLink>
                     </BreadcrumbItem>
 
@@ -34,23 +34,29 @@ export const OnboardingGuidePage = () => {
                                 e.preventDefault();
                             }}
                         >
-                            Ticket name
+                            Guide name
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+
+                    <BreadcrumbItem fontSize={14}>
+                        <BreadcrumbLink
+                            href={`/${domainId}/onboarding-centre/${guideId}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                            }}
+                        >
+                            Fields
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                 </Breadcrumb>
-
                 <Flex alignItems={'center'} backgroundColor={'purple.400'} rounded={6} p={2}>
                     <GiGraduateCap color={'white'} />
                 </Flex>
-
                 <Text fontSize={18} fontWeight={500}>
                     Guide name
                 </Text>
-
-                <Box mt={2}>{/*<PersonAboutMe domainId={domainId} person={person} />*/}</Box>
+                fields
             </Flex>
-
-            <Flex direction={'column'} width={'350px'} p={4} gap={4}></Flex>
         </Flex>
     );
 };

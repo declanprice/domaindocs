@@ -1,12 +1,11 @@
 import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { OnboardingGuidePageParams } from './OnboardingGuidePageParams';
+import { TicketSubmissionPageParams } from './TicketSubmissionPageParams';
 import { HiOutlineTicket } from 'react-icons/hi';
-import { GiGraduateCap } from 'react-icons/gi';
 
-export const OnboardingGuidePage = () => {
-    const { domainId, guideId } = useParams() as OnboardingGuidePageParams;
+export const TicketSubmissionPage = () => {
+    const { domainId, ticketId } = useParams() as TicketSubmissionPageParams;
 
     const navigate = useNavigate();
 
@@ -20,7 +19,7 @@ export const OnboardingGuidePage = () => {
                             fontSize={14}
                             onClick={(e) => {
                                 e.preventDefault();
-                                navigate(`/${domainId}/onboarding-centre`);
+                                navigate(`/${domainId}/ticket-desk`);
                             }}
                         >
                             Ticket Centre
@@ -29,7 +28,7 @@ export const OnboardingGuidePage = () => {
 
                     <BreadcrumbItem fontSize={14}>
                         <BreadcrumbLink
-                            href={`/${domainId}/onboarding-centre/${guideId}`}
+                            href={`/${domainId}/ticket-desk/${ticketId}`}
                             onClick={(e) => {
                                 e.preventDefault();
                             }}
@@ -40,11 +39,11 @@ export const OnboardingGuidePage = () => {
                 </Breadcrumb>
 
                 <Flex alignItems={'center'} backgroundColor={'purple.400'} rounded={6} p={2}>
-                    <GiGraduateCap color={'white'} />
+                    <HiOutlineTicket color={'white'} />
                 </Flex>
 
                 <Text fontSize={18} fontWeight={500}>
-                    Guide name
+                    Ticket name
                 </Text>
 
                 <Box mt={2}>{/*<PersonAboutMe domainId={domainId} person={person} />*/}</Box>

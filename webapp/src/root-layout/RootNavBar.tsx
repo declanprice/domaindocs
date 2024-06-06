@@ -5,7 +5,7 @@ import { GoChevronRight, GoPeople } from 'react-icons/go';
 import { useAuthStore } from '../state/stores/auth.store';
 import { useUiStore } from '../state/stores/ui.store';
 import { LuComponent } from 'react-icons/lu';
-import { HiOutlineDocumentText, HiOutlineInformationCircle, HiOutlineTicket } from 'react-icons/hi';
+import { HiOutlineDocumentText, HiOutlineTicket } from 'react-icons/hi';
 import { NavButton } from '../components/nav-button/NavButton';
 import { TiHomeOutline } from 'react-icons/ti';
 import { GiGraduateCap } from 'react-icons/gi';
@@ -87,13 +87,6 @@ export const RootNavBar = () => {
                     icon={<HiOutlineTicket color={'gray.900'} size={18} />}
                     label={'Ticket Desk'}
                     to={`/${activeDomain.domainId}/ticket-desk`}
-                    rightIcon={<GoChevronRight />}
-                />
-
-                <NavButton
-                    icon={<HiOutlineInformationCircle color={'gray.900'} size={18} />}
-                    label={'Knowledge Base'}
-                    to={`/${activeDomain.domainId}/knowledge-base`}
                     rightIcon={<GoChevronRight />}
                 />
 

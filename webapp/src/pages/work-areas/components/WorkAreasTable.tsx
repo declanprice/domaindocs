@@ -1,17 +1,9 @@
-import {
-    Link,
-    Popover,
-    PopoverBody,
-    PopoverCloseButton,
-    PopoverContent,
-    PopoverTrigger,
-    Stack,
-    Text,
-} from '@chakra-ui/react';
-
+import { Avatar, AvatarGroup, Flex, IconButton, Link } from '@chakra-ui/react';
 import { Table } from '../../../components/table/Table';
-import { DetailedWorkArea } from '@domaindocs/types';
-import { PersonAvatar } from '../../../components/person/PersonAvatar';
+import { DetailedTeam, DetailedWorkArea } from '@domaindocs/types';
+import { GoPeople } from 'react-icons/go';
+import { TbDots } from 'react-icons/tb';
+import { MdOutlineWorkOutline } from 'react-icons/md';
 
 type WorkAreasTableProps = {
     areas: DetailedWorkArea[];
@@ -27,7 +19,17 @@ export const WorkAreasTable = (props: WorkAreasTableProps) => {
             fields={[
                 {
                     label: 'Area',
-                    render: (data: DetailedWorkArea) => <Link>{data.area.name}</Link>,
+                    render: (data: DetailedWorkArea) => {
+                        return (
+                            <Flex alignItems="center">
+                                <Flex alignItems={'center'} backgroundColor={'gray.500'} rounded={6} p={2}>
+                                    <MdOutlineWorkOutline color={'white'} />
+                                </Flex>
+
+                                <Link ml={2}>{data.area.name}</Link>
+                            </Flex>
+                        );
+                    },
                     onClick: (row) => {
                         onAreaClick(row);
                     },
@@ -35,33 +37,36 @@ export const WorkAreasTable = (props: WorkAreasTableProps) => {
                 {
                     label: 'People',
                     render: (data: DetailedWorkArea) => {
-                        if (!data.people.length) {
-                            return <Text>No People</Text>;
-                        }
-
                         return (
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Text _hover={{ textDecoration: 'underline' }} cursor={'pointer'}>
-                                        {data.people.length} People
-                                    </Text>
-                                </PopoverTrigger>
-                                <PopoverContent backgroundColor={'lightgray'}>
-                                    <PopoverCloseButton />
-                                    <PopoverBody>
-                                        <Stack spacing={2}>
-                                            {data.people.map((m) => (
-                                                <PersonAvatar
-                                                    firstName={m.firstName}
-                                                    lastName={m.lastName}
-                                                    iconUri={m.iconUri}
-                                                    small
-                                                />
-                                            ))}
-                                        </Stack>
-                                    </PopoverBody>
-                                </PopoverContent>
-                            </Popover>
+                            <AvatarGroup>
+                                {data.people.map((person) => (
+                                    <Avatar
+                                        name={`${person.firstName} ${person.lastName}`}
+                                        src={person.iconUri}
+                                        size={'xs'}
+                                    />
+                                ))}
+                            </AvatarGroup>
+                        );
+                    },
+                    onClick: (row) => {
+                        console.log('clicked row', row);
+                    },
+                },
+                {
+                    headerAlign: 'end',
+                    label: 'Actions',
+                    render: (data: DetailedTeam) => {
+                        return (
+                            <Flex>
+                                <IconButton
+                                    ml={'auto'}
+                                    aria-label={'teams-menu'}
+                                    variant={'ghost'}
+                                    icon={<TbDots />}
+                                    size={'sm'}
+                                />
+                            </Flex>
                         );
                     },
                     onClick: (row) => {

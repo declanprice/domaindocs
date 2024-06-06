@@ -1,38 +1,98 @@
-import { Box, Flex, Input, InputGroup, InputLeftElement, Text } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import {
+    Box,
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    Button,
+    Flex,
+    Input,
+    InputGroup,
+    InputLeftElement,
+    Text,
+} from '@chakra-ui/react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { WorkAreaPageParams } from './WorkAreaPageParams';
 import { useQuery } from '@tanstack/react-query';
 import { DetailedWorkBoard } from '@domaindocs/types';
 import { workApi } from '../../state/api/workApi';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
-import { WorkAreaPageToolbar } from './WorkAreaPageToolbar';
 import { BiSearch } from 'react-icons/bi';
+import React from 'react';
+import { FormTextInput } from '../../components/form/FormTextInput';
+import { CiSearch } from 'react-icons/ci';
+import { useForm } from 'react-hook-form';
 
 export const WorkAreaBoardPage = () => {
     const { domainId, areaId } = useParams() as WorkAreaPageParams;
+
+    const navigate = useNavigate();
 
     const { data: board, isLoading: isBoardLoading } = useQuery<DetailedWorkBoard>({
         queryKey: ['getWorkBoard', { domainId, areaId }],
         queryFn: () => workApi().getWorkBoard(domainId, areaId),
     });
 
+    const searchForm = useForm();
+
     if (!board || isBoardLoading) return <LoadingContainer />;
 
     return (
-        <Flex direction="column" width={'100%'}>
-            <WorkAreaPageToolbar domainId={domainId} area={board.area} />
+        <Flex direction="column" width={'100%'} p={8} gap={4}>
+            <Breadcrumb>
+                <BreadcrumbItem>
+                    <BreadcrumbLink
+                        href={`/${domainId}/people`}
+                        fontSize={14}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/${domainId}/work-areas`);
+                        }}
+                    >
+                        Work Areas
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
 
-            <Flex height={'100%'} width={'100%'} overflowY={'auto'} direction={'column'} p={4}>
-                <Flex alignItems={'center'} borderBottom={'1px'} borderColor={'border'} pb={4}>
-                    <InputGroup size={'sm'} maxWidth={'250px'}>
-                        <InputLeftElement pointerEvents="none">
-                            <BiSearch color="gray.900" />
-                        </InputLeftElement>
-                        <Input variant={'filled'} placeholder="Search board" backgroundColor={'lightgray'} />
-                    </InputGroup>
-                </Flex>
+                <BreadcrumbItem fontSize={14}>
+                    <BreadcrumbLink
+                        href={`/${domainId}/work-areas/${areaId}`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                        }}
+                    >
+                        {board.area.name}
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
+            </Breadcrumb>
 
-                <Flex mt={4} gap={4}>
+            <Text fontSize={18} fontWeight={500}>
+                {board.area.name}'s Board
+            </Text>
+
+            <Flex alignItems={'center'} gap={2}>
+                <Box maxWidth={'180px'}>
+                    <FormTextInput
+                        name={'name'}
+                        control={searchForm.control}
+                        placeholder={'Search board'}
+                        leftElement={<CiSearch />}
+                    />
+                </Box>
+
+                <Button>
+                    <Text>Status</Text>
+                </Button>
+
+                <Button>
+                    <Text>Assignees</Text>
+                </Button>
+
+                <Button>
+                    <Text>Component</Text>
+                </Button>
+            </Flex>
+
+            <Flex height={'100%'} width={'100%'} overflowY={'auto'} direction={'column'}>
+                <Flex gap={4}>
                     {board.statuses.map((status) => (
                         <Flex
                             key={status.id}
