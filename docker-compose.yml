@@ -10,36 +10,36 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
-    command: ['postgres', '-c', 'wal_level=logical']
+    command: [ 'postgres', '-c', 'wal_level=logical' ]
     healthcheck:
-      test: ['CMD', 'psql', '-U', 'postgres', '-c', 'SELECT 1']
+      test: [ 'CMD', 'psql', '-U', 'postgres', '-c', 'SELECT 1' ]
       interval: 10s
       timeout: 5s
       retries: 5
     volumes:
       - postgres:/data
 
-#  rabbitmq:
-#    image: rabbitmq:3.11-management-alpine
-#    container_name: domaindocs_rabbitmq
-#    ports:
-#      - 5672:5672
-#      - 15672:15672
-#    environment:
-#      RABBITMQ_DEFAULT_USER: guest
-#      RABBITMQ_DEFAULT_PASS: guest
-#      RABBITMQ_DEFAULT_VHOST: /
-#
-#  debezium:
-#    image: debezium/server:2.4
-#    container_name: domaindocs_debezium-server
-#    ports:
-#      - 8080:8080
-#    volumes:
-#      - ./debezium:/debezium/conf
-#    depends_on:
-#      - rabbitmq
-#      - postgres
+  #  rabbitmq:
+  #    image: rabbitmq:3.11-management-alpine
+  #    container_name: domaindocs_rabbitmq
+  #    ports:
+  #      - 5672:5672
+  #      - 15672:15672
+  #    environment:
+  #      RABBITMQ_DEFAULT_USER: guest
+  #      RABBITMQ_DEFAULT_PASS: guest
+  #      RABBITMQ_DEFAULT_VHOST: /
+  #
+  #  debezium:
+  #    image: debezium/server:2.4
+  #    container_name: domaindocs_debezium-server
+  #    ports:
+  #      - 8080:8080
+  #    volumes:
+  #      - ./debezium:/debezium/conf
+  #    depends_on:
+  #      - rabbitmq
+  #      - postgres
 
   supertokens:
     image: registry.supertokens.io/supertokens/supertokens-postgresql

@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class EmailService {
-    readonly client = new SESClient();
+    readonly client = new SESClient({ region: 'eu-west-1' });
 
     readonly source: string;
 
