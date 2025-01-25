@@ -1,20 +1,8 @@
-import {
-    Avatar,
-    Box,
-    Flex,
-    IconButton,
-    Popover,
-    PopoverBody,
-    PopoverCloseButton,
-    PopoverContent,
-    PopoverTrigger,
-    Stack,
-    Text,
-} from '@chakra-ui/react';
-import { Table } from '../../../components/table/Table';
-import { DetailedTeam, SearchPerson } from '@domaindocs/types';
-import { PersonAvatar } from '../../../components/person/PersonAvatar';
+import { Flex, IconButton, Popover, PopoverBody, PopoverContent, PopoverTrigger, Stack, Text } from '@chakra-ui/react';
+import { SearchPerson } from '@domaindocs/types';
 import { TbDots } from 'react-icons/tb';
+import { Table } from '../../../components/table/Table';
+import { Avatar } from '../../../components/ui/avatar';
 
 type PeopleTableProps = {
     people: SearchPerson[];
@@ -81,16 +69,16 @@ export const PeopleTable = (props: PeopleTableProps) => {
                         }
 
                         return (
-                            <Popover>
+                            <Popover.Root>
                                 <PopoverTrigger>
                                     <Text _hover={{ textDecoration: 'underline' }} cursor={'pointer'}>
                                         {skills.length} {`${skills.length > 1 ? 'Skills' : 'Skill'}`}
                                     </Text>
                                 </PopoverTrigger>
                                 <PopoverContent backgroundColor={'lightgray'}>
-                                    <PopoverCloseButton />
+                                    <Popover.CloseTrigger />
                                     <PopoverBody>
-                                        <Stack spacing={2}>
+                                        <Stack h={2}>
                                             {skills.map((s) => (
                                                 <Text key={s.skillId} fontSize={12}>
                                                     {s.skillName}
@@ -99,7 +87,7 @@ export const PeopleTable = (props: PeopleTableProps) => {
                                         </Stack>
                                     </PopoverBody>
                                 </PopoverContent>
-                            </Popover>
+                            </Popover.Root>
                         );
                     },
                     onClick: (row) => {
@@ -112,13 +100,9 @@ export const PeopleTable = (props: PeopleTableProps) => {
                     render: (data: SearchPerson) => {
                         return (
                             <Flex>
-                                <IconButton
-                                    ml={'auto'}
-                                    aria-label={'teams-menu'}
-                                    variant={'ghost'}
-                                    icon={<TbDots />}
-                                    size={'sm'}
-                                />
+                                <IconButton ml={'auto'} aria-label={'teams-menu'} variant={'ghost'} size={'sm'}>
+                                    <TbDots />
+                                </IconButton>
                             </Flex>
                         );
                     },

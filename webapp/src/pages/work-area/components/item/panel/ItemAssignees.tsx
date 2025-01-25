@@ -1,18 +1,9 @@
 import { UpdateItemAssigneesData, WorkAreaPerson, WorkItem } from '@domaindocs/types';
-import {
-    Avatar,
-    AvatarGroup,
-    Flex,
-    Menu,
-    MenuButton,
-    MenuItemOption,
-    MenuList,
-    MenuOptionGroup,
-    Text,
-} from '@chakra-ui/react';
+import { Flex, Menu, MenuCheckboxItem, MenuContent, MenuItemGroup, Text } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { workApi } from '../../../../../state/api/workApi';
 import { LoadingContainer } from '../../../../../components/loading/LoadingContainer';
+import { Avatar, AvatarGroup } from '../../../../../components/ui/avatar';
 
 type ItemAssigneesProps = {
     domainId: string;
@@ -58,7 +49,7 @@ export const ItemAssignees = (props: ItemAssigneesProps) => {
 
             return (
                 <Flex alignItems={'center'} gap={2} flex={1}>
-                    <AvatarGroup max={3}>
+                    <AvatarGroup>
                         {assignees.map((a) => (
                             <Avatar name={`${a.firstName} ${a.lastName}`} src={a.iconUri} size={'xs'} />
                         ))}
@@ -74,7 +65,7 @@ export const ItemAssignees = (props: ItemAssigneesProps) => {
         }
 
         return (
-            <AvatarGroup max={3}>
+            <AvatarGroup>
                 {assignees.map((a) => (
                     <Avatar name={`${a.firstName} ${a.lastName}`} src={a.iconUri} size={'xs'} />
                 ))}
@@ -83,8 +74,8 @@ export const ItemAssignees = (props: ItemAssigneesProps) => {
     };
 
     return (
-        <Menu closeOnSelect={false}>
-            <MenuButton
+        <Menu.Root closeOnSelect={false}>
+            <Menu.Trigger
                 p={1}
                 rounded={4}
                 alignItems={'center'}
@@ -98,17 +89,17 @@ export const ItemAssignees = (props: ItemAssigneesProps) => {
                 _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
             >
                 {renderButton()}
-            </MenuButton>
+            </Menu.Trigger>
 
-            <MenuList>
+            <MenuContent>
                 {!people ? (
                     <LoadingContainer />
                 ) : (
-                    <MenuOptionGroup
+                    <MenuItemGroup
                         title="Select assignees"
                         type="checkbox"
                         value={item.assignees.map((a) => a.userId)}
-                        onChange={async (userIds) => {
+                        onChange={async (userIds: string[]) => {
                             if (Array.isArray(userIds)) {
                                 await updateAssignees({
                                     userIds,
@@ -117,18 +108,18 @@ export const ItemAssignees = (props: ItemAssigneesProps) => {
                         }}
                     >
                         {people.map((p) => (
-                            <MenuItemOption key={p.userId} value={p.userId}>
+                            <MenuCheckboxItem key={p.userId} value={p.userId}>
                                 <Flex gap={2}>
                                     <Avatar name={`${p.firstName} ${p.lastName}`} src={p.iconUri} size={'xs'} />
                                     <Text fontSize={12}>
                                         {p.firstName} {p.lastName}
                                     </Text>
                                 </Flex>
-                            </MenuItemOption>
+                            </MenuCheckboxItem>
                         ))}
-                    </MenuOptionGroup>
+                    </MenuItemGroup>
                 )}
-            </MenuList>
-        </Menu>
+            </MenuContent>
+        </Menu.Root>
     );
 };

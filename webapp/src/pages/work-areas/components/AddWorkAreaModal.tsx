@@ -1,20 +1,11 @@
-import {
-    Button,
-    ButtonGroup,
-    Modal,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    useToast,
-} from '@chakra-ui/react';
+import { Button, ButtonGroup, Dialog } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { CreateWorkAreaData } from '@domaindocs/types';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { workApi } from '../../../state/api/workApi';
 import { FormTextInput } from '../../../components/form/FormTextInput';
+import { toaster } from '../../../components/ui/toaster';
 
 type AddWorkAreaModalProps = {
     domainId: string;
@@ -25,8 +16,6 @@ type AddWorkAreaModalProps = {
 
 export const AddWorkAreaModal = (props: AddWorkAreaModalProps) => {
     const { domainId, isOpen, onClose, onAddWorkArea } = props;
-
-    const toast = useToast();
 
     const form = useForm<CreateWorkAreaData>({
         values: {
@@ -48,14 +37,14 @@ export const AddWorkAreaModal = (props: AddWorkAreaModalProps) => {
     const submit = async (data: CreateWorkAreaData) => {
         try {
             await addForm.mutateAsync(data);
-            toast({
+            toaster.create({
                 title: 'Success',
                 colorScheme: 'green',
                 position: 'top',
             });
             close();
         } catch (error) {
-            toast({
+            toaster.create({
                 title: 'Something went wrong',
                 colorScheme: 'red',
                 position: 'top',
@@ -64,29 +53,27 @@ export const AddWorkAreaModal = (props: AddWorkAreaModalProps) => {
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={close}>
-            <ModalOverlay />
-
-            <ModalContent>
-                <ModalHeader>Add new work area</ModalHeader>
+        <Dialog.Root isOpen={isOpen} onClose={close}>
+            <Dialog.Content>
+                <Dialog.Header>Add new work area</Dialog.Header>
 
                 <form onSubmit={form.handleSubmit(submit)}>
-                    <ModalBody>
+                    <Dialog.Body>
                         <FormTextInput
                             name={'name'}
                             control={form.control}
                             label={'Area name'}
                             placeholder={'Team Orion'}
                         />
-                    </ModalBody>
+                    </Dialog.Body>
 
-                    <ModalFooter>
+                    <Dialog.Footer>
                         <ButtonGroup>
                             <Button
                                 onClick={close}
                                 size={'xs'}
                                 colorScheme={'red'}
-                                isDisabled={form.formState.isSubmitting}
+                                disabled={form.formState.isSubmitting}
                             >
                                 Cancel
                             </Button>
@@ -95,14 +82,14 @@ export const AddWorkAreaModal = (props: AddWorkAreaModalProps) => {
                                 colorScheme={'gray'}
                                 variant={'solid'}
                                 type={'submit'}
-                                isLoading={form.formState.isSubmitting}
+                                loading={form.formState.isSubmitting}
                             >
                                 Create Work Area
                             </Button>
                         </ButtonGroup>
-                    </ModalFooter>
+                    </Dialog.Footer>
                 </form>
-            </ModalContent>
-        </Modal>
+            </Dialog.Content>
+        </Dialog.Root>
     );
 };

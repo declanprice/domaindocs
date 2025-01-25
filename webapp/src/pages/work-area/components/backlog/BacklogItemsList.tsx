@@ -1,6 +1,4 @@
-import { Avatar, Button, ButtonGroup, Divider, Flex, List, ListItem, Text } from '@chakra-ui/react';
-import { IoSearchOutline } from 'react-icons/io5';
-import { CiFilter } from 'react-icons/ci';
+import { AvatarRoot, Box, Flex, List, ListItem, Text } from '@chakra-ui/react';
 import { BiBook } from 'react-icons/bi';
 
 export const BacklogItemsList = () => {
@@ -16,7 +14,7 @@ export const BacklogItemsList = () => {
                 </Flex>
             </Flex>
 
-            <List>
+            <List.Root>
                 <ListItem
                     display={'flex'}
                     alignItems={'center'}
@@ -26,11 +24,11 @@ export const BacklogItemsList = () => {
                     _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
                 >
                     <Flex alignItems={'center'} gap={2}>
-                        <Avatar name={'Declan Price'} size={'xs'} />
+                        <AvatarRoot size={'xs'}> Declan Price </AvatarRoot>
                         <Text fontSize={12}>Declan Price</Text>
                     </Flex>
 
-                    <Divider orientation={'vertical'} />
+                    <Box divideY={'1px'} />
 
                     <Flex gap={2}>
                         <BiBook />
@@ -51,11 +49,11 @@ export const BacklogItemsList = () => {
                     _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
                 >
                     <Flex alignItems={'center'} gap={2}>
-                        <Avatar name={'Declan Price'} size={'xs'} />
+                        <AvatarRoot size={'xs'}> Declan Price </AvatarRoot>
                         <Text fontSize={12}>Declan Price</Text>
                     </Flex>
 
-                    <Divider orientation={'vertical'} />
+                    <Box divideY={'1px'} />
 
                     <Flex gap={2}>
                         <BiBook />
@@ -66,7 +64,7 @@ export const BacklogItemsList = () => {
                         Ready
                     </Text>
                 </ListItem>
-            </List>
+            </List.Root>
         </Flex>
     );
 };

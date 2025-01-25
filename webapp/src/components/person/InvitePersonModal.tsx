@@ -1,20 +1,11 @@
-import {
-    Button,
-    ButtonGroup,
-    Modal,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    useToast,
-} from '@chakra-ui/react';
+import { Button, ButtonGroup, Dialog } from '@chakra-ui/react';
 import { FormTextInput } from '../form/FormTextInput';
 import { useForm } from 'react-hook-form';
 import { DefaultError, useMutation } from '@tanstack/react-query';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { SendDomainInviteData } from '@domaindocs/types';
 import { domainsApi } from '../../state/api/domains-api';
+import { toaster } from '../ui/toaster';
 
 type InvitePersonModalProps = {
     domainId: string;
@@ -23,9 +14,7 @@ type InvitePersonModalProps = {
     onInviteSent: () => void;
 };
 export const InvitePersonModal = (props: InvitePersonModalProps) => {
-    const { domainId, isOpen, onClose, onInviteSent } = props;
-
-    const toast = useToast();
+    const { domainId, isOpen, onClose } = props;
 
     const { mutateAsync } = useMutation<void, DefaultError, SendDomainInviteData>({
         mutationKey: ['sendInvite', { domainId }],
@@ -49,7 +38,7 @@ export const InvitePersonModal = (props: InvitePersonModalProps) => {
             await mutateAsync(data);
             close();
         } catch (error) {
-            toast({
+            toaster.error({
                 title: 'Something went wrong',
                 colorScheme: 'red',
                 position: 'top',
@@ -58,23 +47,21 @@ export const InvitePersonModal = (props: InvitePersonModalProps) => {
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={close} isCentered>
-            <ModalOverlay />
-
+        <Dialog.Root isOpen={isOpen} onClose={close} isCentered>
             <form onSubmit={form.handleSubmit(sendInvite)}>
-                <ModalContent>
-                    <ModalHeader title="Send an invite">Send an invite </ModalHeader>
+                <Dialog.Content>
+                    <Dialog.Header title="Send an invite">Send an invite </Dialog.Header>
 
-                    <ModalBody>
+                    <Dialog.Body>
                         <FormTextInput
                             name={'email'}
                             control={form.control}
                             label={'Email'}
                             placeholder={'johndoe@email.com'}
                         />
-                    </ModalBody>
+                    </Dialog.Body>
 
-                    <ModalFooter>
+                    <Dialog.Footer>
                         <ButtonGroup>
                             <Button size="sm" colorScheme={'red'} onClick={close}>
                                 Cancel
@@ -84,9 +71,9 @@ export const InvitePersonModal = (props: InvitePersonModalProps) => {
                                 Send Invite
                             </Button>
                         </ButtonGroup>
-                    </ModalFooter>
-                </ModalContent>
+                    </Dialog.Footer>
+                </Dialog.Content>
             </form>
-        </Modal>
+        </Dialog.Root>
     );
 };

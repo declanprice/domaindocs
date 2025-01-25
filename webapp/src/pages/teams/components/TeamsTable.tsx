@@ -1,8 +1,9 @@
 import { Table } from '../../../components/table/Table';
 import { DetailedTeam } from '@domaindocs/types';
-import { Avatar, AvatarGroup, Flex, IconButton, Link, Text } from '@chakra-ui/react';
+import { Flex, IconButton, Link, Text } from '@chakra-ui/react';
 import { GoPeople } from 'react-icons/go';
 import { TbDots } from 'react-icons/tb';
+import { Avatar, AvatarGroup } from '../../../components/ui/avatar';
 
 type TeamTableProps = {
     teams: DetailedTeam[];
@@ -79,13 +80,9 @@ export const TeamsTable = (props: TeamTableProps) => {
                     render: (data: DetailedTeam) => {
                         return (
                             <Flex>
-                                <IconButton
-                                    ml={'auto'}
-                                    aria-label={'teams-menu'}
-                                    variant={'ghost'}
-                                    icon={<TbDots />}
-                                    size={'sm'}
-                                />
+                                <IconButton ml={'auto'} aria-label={'teams-menu'} variant={'ghost'} size={'sm'}>
+                                    <TbDots />
+                                </IconButton>
                             </Flex>
                         );
                     },

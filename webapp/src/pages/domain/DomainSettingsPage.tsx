@@ -1,16 +1,5 @@
 import { useForm } from 'react-hook-form';
-import {
-    Avatar,
-    Box,
-    Button,
-    Flex,
-    Input,
-    InputGroup,
-    InputLeftElement,
-    Text,
-    useDisclosure,
-    useToast,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Input, Text, useDisclosure } from '@chakra-ui/react';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
@@ -26,11 +15,13 @@ import debounce from 'debounce';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { ConfirmDialog } from '../../components/dialogs/ConfirmDialog';
 import { Pagination } from '../../components/pagination/Pagination';
+import { toaster } from '../../components/ui/toaster';
+import { Avatar } from '../../components/ui/avatar';
+import { InputGroup } from '../../components/ui/input-group';
 
 export const DomainSettingsPage = () => {
     const { domainId } = useParams() as DomainPageParams;
 
-    const toast = useToast();
     const deleteModal = useDisclosure();
 
     const { data: domain, isLoading } = useQuery<DomainSettings>({
@@ -61,14 +52,14 @@ export const DomainSettingsPage = () => {
         try {
             if (domain?.domain.name !== data.domainName) {
                 await updateName(data);
-                toast({
+                toaster.success({
                     title: 'Success',
                     colorScheme: 'green',
                     position: 'top',
                 });
             }
         } catch (error) {
-            toast({
+            toaster.error({
                 title: 'Something went wrong',
                 colorScheme: 'red',
                 position: 'top',
@@ -79,14 +70,14 @@ export const DomainSettingsPage = () => {
     const onDeleteDomain = async () => {
         try {
             await deleteDomain();
-            toast({
+            toaster.success({
                 title: 'Success',
                 colorScheme: 'green',
                 position: 'top',
             });
             window.location.reload();
         } catch (error) {
-            toast({
+            toaster.error({
                 title: 'Something went wrong',
                 colorScheme: 'red',
                 position: 'top',
@@ -127,11 +118,12 @@ export const DomainSettingsPage = () => {
 
                 <Flex direction={'column'} width={'100%'} gap={2} maxWidth={'500px'}>
                     <Flex gap={2}>
-                        <InputGroup size={'xs'} maxWidth={'300px'}>
-                            <InputLeftElement pointerEvents="none">
-                                <BiSearch color="gray.900" />
-                            </InputLeftElement>
-                            <Input variant={'filled'} placeholder="Search people" />
+                        <InputGroup
+                            maxWidth={'300px'}
+                            startElement={<BiSearch color="gray.900" />}
+                            pointerEvents={'none'}
+                        >
+                            <Input variant={'subtle'} placeholder="Search people" />
                         </InputGroup>
 
                         <Box>
@@ -154,7 +146,7 @@ export const DomainSettingsPage = () => {
 
                     <InvitePersonModal
                         domainId={domainId}
-                        isOpen={inviteModal.isOpen}
+                        isOpen={inviteModal.open}
                         onClose={inviteModal.onClose}
                         onInviteSent={() => {}}
                     />
@@ -176,7 +168,7 @@ export const DomainSettingsPage = () => {
                 </Flex>
 
                 <ConfirmDialog
-                    isOpen={deleteModal.isOpen}
+                    isOpen={deleteModal.open}
                     onConfirm={onDeleteDomain}
                     onCancel={deleteModal.onClose}
                     body={'This action is permanent, you will lose all data relating to this domain.'}

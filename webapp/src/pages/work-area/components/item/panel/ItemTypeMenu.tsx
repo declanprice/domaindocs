@@ -1,4 +1,4 @@
-import { Button, Flex, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
+import { Button, Flex, Menu, MenuContent, MenuItem, MenuTrigger, Text } from '@chakra-ui/react';
 import { UpdateItemTypeData, WorkItem, WorkItemType } from '@domaindocs/types';
 import { useMutation } from '@tanstack/react-query';
 import { workApi } from '../../../../../state/api/workApi';
@@ -9,7 +9,6 @@ type ItemTypeMenuProps = {
     areaId: string;
     item: WorkItem;
 };
-
 export const ItemTypeMenu = (props: ItemTypeMenuProps) => {
     const { domainId, areaId, item } = props;
 
@@ -28,7 +27,7 @@ export const ItemTypeMenu = (props: ItemTypeMenuProps) => {
         }
 
         return (
-            <MenuList>
+            <MenuContent>
                 <MenuItem
                     onClick={async () => {
                         if (item.type !== WorkItemType.STORY) {
@@ -39,7 +38,6 @@ export const ItemTypeMenu = (props: ItemTypeMenuProps) => {
                     <ItemTypeIcon type={WorkItemType.STORY} />
                     <Text ml={2}>Story</Text>
                 </MenuItem>
-
                 <MenuItem
                     onClick={async () => {
                         if (item.type !== WorkItemType.TASK) {
@@ -50,7 +48,6 @@ export const ItemTypeMenu = (props: ItemTypeMenuProps) => {
                     <ItemTypeIcon type={WorkItemType.TASK} />
                     <Text ml={2}>Task</Text>
                 </MenuItem>
-
                 <MenuItem
                     onClick={async () => {
                         if (item.type !== WorkItemType.BUG) {
@@ -61,13 +58,14 @@ export const ItemTypeMenu = (props: ItemTypeMenuProps) => {
                     <ItemTypeIcon type={WorkItemType.BUG} />
                     <Text ml={2}>Bug</Text>
                 </MenuItem>
-            </MenuList>
+                );
+            </MenuContent>
         );
     };
 
     return (
-        <Menu>
-            <MenuButton
+        <Menu.Root>
+            <MenuTrigger
                 as={Button}
                 alignItems={'center'}
                 size={'sm'}
@@ -79,9 +77,9 @@ export const ItemTypeMenu = (props: ItemTypeMenuProps) => {
                     <ItemTypeIcon type={item.type} />
                     <Text ml={2}>{item.type}</Text>
                 </Flex>
-            </MenuButton>
+            </MenuTrigger>
 
             {renderTypes()}
-        </Menu>
+        </Menu.Root>
     );
 };

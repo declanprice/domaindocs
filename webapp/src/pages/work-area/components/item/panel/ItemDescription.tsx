@@ -1,7 +1,7 @@
 import { DetailedWorkItem } from '@domaindocs/types';
 import { useEditable } from '../../../../../hooks/useEditable';
 import { FormTextArea } from '../../../../../components/form/FormTextArea';
-import { Button, ButtonGroup, CheckboxIcon, Flex, Stack, Text, useToast } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { UpdateItemDescriptionData } from '../../../../../../../shared/types/src/work-area/update-item-description-data';
@@ -49,7 +49,7 @@ export const ItemDescription = (props: ItemDescriptionProps) => {
                         }}
                     />
                     <CheckIconButton
-                        isLoading={form.formState.isSubmitting}
+                        loading={form.formState.isSubmitting}
                         onClick={() => {
                             form.handleSubmit(async (data) => {
                                 await update.mutateAsync(data);

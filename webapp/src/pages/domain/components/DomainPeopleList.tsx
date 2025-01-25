@@ -1,19 +1,8 @@
-import {
-    Avatar,
-    Badge,
-    Flex,
-    IconButton,
-    List,
-    ListItem,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuList,
-    Text,
-} from '@chakra-ui/react';
+import { Badge, Flex, IconButton, List, ListItem, Menu, MenuContent, MenuItem, Text } from '@chakra-ui/react';
 import { DomainSettingsPerson } from '@domaindocs/types';
 import { TbDots } from 'react-icons/tb';
 import React from 'react';
+import { Avatar } from '../../../components/ui/avatar';
 
 type DomainPeopleTableProps = {
     people: DomainSettingsPerson[];
@@ -23,7 +12,7 @@ export const DomainPeopleList = (props: DomainPeopleTableProps) => {
     const { people } = props;
 
     return (
-        <List spacing={2}>
+        <List.Root h={2}>
             {people.map((data) => (
                 <ListItem key={data.userId}>
                     <Flex
@@ -48,23 +37,23 @@ export const DomainPeopleList = (props: DomainPeopleTableProps) => {
                             <Text fontSize={10}>{data.email}</Text>
                         </Flex>
 
-                        <Menu>
-                            <MenuButton
+                        <Menu.Root>
+                            <Menu.Trigger
                                 variant={'ghost'}
                                 ml={'auto'}
                                 size={'xs'}
                                 as={IconButton}
                                 mr={1}
                                 icon={<TbDots />}
-                            ></MenuButton>
+                            ></Menu.Trigger>
 
-                            <MenuList>
+                            <MenuContent>
                                 <MenuItem>Remove</MenuItem>
-                            </MenuList>
-                        </Menu>
+                            </MenuContent>
+                        </Menu.Root>
                     </Flex>
                 </ListItem>
             ))}
-        </List>
+        </List.Root>
     );
 };

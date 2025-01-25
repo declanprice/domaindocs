@@ -5,12 +5,10 @@ import {
     List,
     ListItem,
     Menu,
-    MenuButton,
+    MenuContent,
     MenuItem,
-    MenuList,
+    MenuTrigger,
     Stack,
-    styled,
-    StyleProps,
     Text,
 } from '@chakra-ui/react';
 import { useHover } from '@uidotdev/usehooks';
@@ -35,9 +33,9 @@ export type DocumentationFolderProps = {
     onDocumentationClick?: (documentation: Documentation) => any;
     readonly?: boolean;
     renderFolder?: (documentation: Documentation, onOpen: () => any) => any;
-} & StyleProps;
+};
 
-export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
+export const DocumentationFolder = (props: DocumentationFolderProps) => {
     const {
         documentation,
         onAddFile,
@@ -69,7 +67,7 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                         <BiNetworkChart color={'white'} />
                     </Flex>
 
-                    <Stack spacing={0}>
+                    <Stack h={0}>
                         <Text color={'gray.900'} fontSize={12} fontWeight={'400'}>
                             {documentation.name}
                         </Text>
@@ -96,7 +94,7 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                         <GoPeople color={'white'} />
                     </Flex>
 
-                    <Stack spacing={0}>
+                    <Stack h={0}>
                         <Text color={'gray.900'} fontSize={12} fontWeight={'400'}>
                             {documentation.name}
                         </Text>
@@ -123,7 +121,7 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                         <BiNetworkChart color={'white'} />
                     </Flex>
 
-                    <Stack spacing={0}>
+                    <Stack h={0}>
                         <Text color={'gray.900'} fontSize={12} fontWeight={'400'}>
                             {documentation.name}
                         </Text>
@@ -148,11 +146,12 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
             >
                 <IconButton
                     aria-label={'toggle-folder'}
-                    icon={isFolderOpen ? <FaRegFolderOpen /> : <FaRegFolderClosed />}
                     variant={'ghost'}
                     ml={props?.parentFolderRef ? `${props.parentFolderRef?.current?.offsetLeft + 2}px` : undefined}
                     size={'xs'}
-                />
+                >
+                    isFolderOpen ? <FaRegFolderOpen /> : <FaRegFolderClosed />{' '}
+                </IconButton>
 
                 <Flex width="100%" direction={'column'}>
                     <Text fontSize={12}>{documentation.name}</Text>
@@ -176,18 +175,19 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
 
                 {props.readonly !== true && (
                     <Flex gap={1} hidden={!hovering}>
-                        <Menu>
-                            <MenuButton>
+                        <Menu.Root>
+                            <MenuTrigger>
                                 <IconButton
                                     variant={'ghost'}
                                     colorScheme={'gray'}
                                     size={'xs'}
                                     aria-label={'folder-menu'}
-                                    icon={<HiOutlineDotsHorizontal />}
-                                ></IconButton>
-                            </MenuButton>
+                                >
+                                    <HiOutlineDotsHorizontal />
+                                </IconButton>
+                            </MenuTrigger>
 
-                            <MenuList>
+                            <MenuContent>
                                 {documentation.type !== DocumentationType.FOLDER && (
                                     <MenuItem>
                                         <Flex width={'100%'} alignItems={'center'} p={1}>
@@ -262,15 +262,15 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                                         </Flex>
                                     </MenuItem>
                                 )}
-                            </MenuList>
-                        </Menu>
+                            </MenuContent>
+                        </Menu.Root>
                     </Flex>
                 )}
             </Flex>
 
             {isFolderOpen && (
-                <List width={'100%'} height={'100%'} spacing={1}>
-                    {documentation?.documentation?.map((doc) => {
+                <List.Root width={'100%'} height={'100%'} h={1}>
+                    {documentation?.documentation?.map((doc: Documentation) => {
                         if (doc.type == DocumentationType.FOLDER) {
                             return (
                                 <DocumentationFolder
@@ -298,8 +298,8 @@ export const DocumentationFolder = styled((props: DocumentationFolderProps) => {
                             );
                         }
                     })}
-                </List>
+                </List.Root>
             )}
         </ListItem>
     );
-});
+};

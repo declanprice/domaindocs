@@ -1,5 +1,6 @@
-import { Avatar, Divider, Flex, List, ListItem, Text } from '@chakra-ui/react';
+import { Box, Flex, List, ListItem, Text } from '@chakra-ui/react';
 import { BiBook } from 'react-icons/bi';
+import { Avatar } from '../../../../components/ui/avatar';
 
 export const BacklogBoardItems = () => {
     return (
@@ -20,7 +21,7 @@ export const BacklogBoardItems = () => {
                 <Text fontSize={12}>1 Item</Text>
             </Flex>
 
-            <List>
+            <List.Root>
                 <ListItem
                     display={'flex'}
                     alignItems={'center'}
@@ -34,7 +35,7 @@ export const BacklogBoardItems = () => {
                         <Text fontSize={12}>Declan Price</Text>
                     </Flex>
 
-                    <Divider orientation={'vertical'} />
+                    <Box divideY={'1px'} />
 
                     <Flex gap={2}>
                         <BiBook />
@@ -45,7 +46,7 @@ export const BacklogBoardItems = () => {
                         In Progress
                     </Text>
                 </ListItem>
-            </List>
+            </List.Root>
         </Flex>
     );
 };

@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useUiStore } from '../../state/stores/ui.store';
 import { NavButton } from '../../components/nav-button/NavButton';
 import { MdArrowBack } from 'react-icons/md';
@@ -10,8 +10,7 @@ import { IoIosSearch } from 'react-icons/io';
 import { FaWpforms } from 'react-icons/fa';
 
 export const TicketDeskPageNavBar = () => {
-    const { isFullNavBar, closeNavBar, openNavBar } = useUiStore();
-    const { activeDomain, setActiveDomain } = useUiStore();
+    const { isFullNavBar, activeDomain } = useUiStore();
     const navigate = useNavigate();
     if (!activeDomain) return <LoadingContainer />;
 
@@ -31,7 +30,6 @@ export const TicketDeskPageNavBar = () => {
             <Button
                 variant={'ghost'}
                 size={'sm'}
-                leftIcon={<MdArrowBack />}
                 width={'100%'}
                 justifyContent={'flex-start'}
                 mt={2}
@@ -40,10 +38,10 @@ export const TicketDeskPageNavBar = () => {
                     navigate(`/${activeDomain.domainId}/dashboard`);
                 }}
             >
-                Go back
+                <MdArrowBack /> Go back
             </Button>
 
-            <Divider />
+            <Box divideY={'1px'} />
 
             <Flex mt={2} px={4} width={'100%'} gap={2} alignItems="center">
                 <Flex alignItems={'center'} backgroundColor={'purple.400'} rounded={6} p={2}>

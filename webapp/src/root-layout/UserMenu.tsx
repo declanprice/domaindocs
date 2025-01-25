@@ -1,19 +1,10 @@
-import {
-    Avatar,
-    Button,
-    Divider,
-    Flex,
-    IconButton,
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-    Text,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, IconButton, Popover, PopoverContent, PopoverTrigger, Text } from '@chakra-ui/react';
 import { CiSettings } from 'react-icons/ci';
 import { PiSignOut } from 'react-icons/pi';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthStore } from '../state/stores/auth.store';
 import { DomainPageParams } from '../types/DomainPageParams';
+import { Avatar } from '../components/ui/avatar';
 
 export const UserMenu = () => {
     const { signOut } = useAuthStore();
@@ -49,13 +40,15 @@ export const UserMenu = () => {
     };
 
     return (
-        <Popover>
+        <Popover.Root>
             <PopoverTrigger>
-                <IconButton
-                    aria-label={'notification'}
-                    variant={'ghost'}
-                    icon={<Avatar size={'sm'} name={`${user.firstName} ${user.lastName}`} />}
-                />
+                <IconButton aria-label={'notification'} variant={'ghost'}>
+                    {' '}
+                    <Avatar size={'sm'}>
+                        {' '}
+                        ${user.firstName} ${user.lastName}{' '}
+                    </Avatar>{' '}
+                </IconButton>
             </PopoverTrigger>
 
             <PopoverContent width={'220px'} p={2} mr={2} mt={1}>
@@ -72,7 +65,7 @@ export const UserMenu = () => {
                         }}
                     />
 
-                    <Divider />
+                    <Box divideX={'1px'} />
 
                     <UserMenuButton
                         label={'Sign Out'}
@@ -84,6 +77,6 @@ export const UserMenu = () => {
                     />
                 </Flex>
             </PopoverContent>
-        </Popover>
+        </Popover.Root>
     );
 };

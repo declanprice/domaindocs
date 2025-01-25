@@ -1,18 +1,8 @@
-import {
-    Button,
-    ButtonGroup,
-    Modal,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    Stack,
-} from '@chakra-ui/react';
+import { Button, ButtonGroup, Dialog, Stack } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { ComponentType, CreateComponentData } from '@domaindocs/types';
-import { FormTextInput } from '../../../components/form/FormTextInput';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
+import { FormTextInput } from '../../../components/form/FormTextInput';
 
 export type CreateComponentModalProps = {
     isOpen: boolean;
@@ -42,12 +32,11 @@ export const CreateComponentModal = (props: CreateComponentModalProps) => {
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={closeAndReset} isCentered size={'lg'}>
-            <ModalOverlay />
-            <ModalContent>
+        <Dialog.Root isOpen={isOpen} onClose={closeAndReset} isCentered size={'lg'}>
+            <Dialog.Content>
                 <form onSubmit={form.handleSubmit(submit)}>
-                    <ModalHeader>Create a new component.</ModalHeader>
-                    <ModalBody>
+                    <Dialog.Header>Create a new component.</Dialog.Header>
+                    <Dialog.Body>
                         <Stack gap={4}>
                             <FormTextInput
                                 label={'Component Name'}
@@ -56,14 +45,14 @@ export const CreateComponentModal = (props: CreateComponentModalProps) => {
                                 placeholder={'Name of the component'}
                             />
                         </Stack>
-                    </ModalBody>
-                    <ModalFooter>
+                    </Dialog.Body>
+                    <Dialog.Footer>
                         <ButtonGroup>
                             <Button
                                 onClick={closeAndReset}
                                 size={'xs'}
                                 colorScheme={'red'}
-                                isDisabled={form.formState.isSubmitting}
+                                disabled={form.formState.isSubmitting}
                             >
                                 Cancel
                             </Button>
@@ -72,14 +61,14 @@ export const CreateComponentModal = (props: CreateComponentModalProps) => {
                                 colorScheme={'gray'}
                                 variant={'solid'}
                                 type={'submit'}
-                                isLoading={form.formState.isSubmitting}
+                                disabled={form.formState.isSubmitting}
                             >
                                 Create Component
                             </Button>
                         </ButtonGroup>
-                    </ModalFooter>
+                    </Dialog.Footer>
                 </form>
-            </ModalContent>
-        </Modal>
+            </Dialog.Content>
+        </Dialog.Root>
     );
 };

@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { useUiStore } from '../../state/stores/ui.store';
 import { NavButton } from '../../components/nav-button/NavButton';
 import { MdArrowBack, MdOutlineCompareArrows } from 'react-icons/md';
@@ -42,7 +42,6 @@ export const ComponentPageNavBar = () => {
             <Button
                 variant={'ghost'}
                 size={'sm'}
-                leftIcon={<MdArrowBack />}
                 width={'100%'}
                 justifyContent={'flex-start'}
                 mt={2}
@@ -51,17 +50,17 @@ export const ComponentPageNavBar = () => {
                     navigate(`/${activeDomain.domainId}/people`);
                 }}
             >
-                Go back
+                <MdArrowBack /> Go back
             </Button>
 
-            <Divider />
+            <Box divideY={'1px'} />
 
             <Flex mt={2} px={4} width={'100%'} gap={2} alignItems="center">
                 <Flex alignItems={'center'} backgroundColor={'teal.400'} rounded={6} p={2}>
                     <LuComponent color={'white'} />
                 </Flex>
 
-                <Stack spacing={0}>
+                <Stack h={0}>
                     <Text color={'gray.900'} fontSize={14} fontWeight={'400'}>
                         {component.component.name}
                     </Text>

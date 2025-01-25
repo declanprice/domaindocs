@@ -1,13 +1,9 @@
-import { Button, Divider, Flex, Stack, Text } from '@chakra-ui/react';
+import { Button, Box, Flex, Text } from '@chakra-ui/react';
 import { useUiStore } from '../../state/stores/ui.store';
 import { NavButton } from '../../components/nav-button/NavButton';
 import { MdArrowBack, MdOutlineWorkOutline, MdWorkOutline } from 'react-icons/md';
-import { LuListMinus, LuSettings } from 'react-icons/lu';
+import { LuSettings } from 'react-icons/lu';
 import { useNavigate, useParams } from 'react-router-dom';
-import { LoadingContainer } from '../../components/loading/LoadingContainer';
-import { HiOutlineTicket } from 'react-icons/hi';
-import { IoIosSearch } from 'react-icons/io';
-import { FaWpforms } from 'react-icons/fa';
 import { WorkAreaPageParams } from './WorkAreaPageParams';
 import { PiPlugsConnectedLight } from 'react-icons/pi';
 import { LiaThListSolid } from 'react-icons/lia';
@@ -34,7 +30,6 @@ export const WorkAreaPageNavBar = () => {
             <Button
                 variant={'ghost'}
                 size={'sm'}
-                leftIcon={<MdArrowBack />}
                 width={'100%'}
                 justifyContent={'flex-start'}
                 mt={2}
@@ -43,10 +38,10 @@ export const WorkAreaPageNavBar = () => {
                     navigate(`/${domainId}/work-areas`);
                 }}
             >
-                Go back
+                <MdArrowBack /> Go back
             </Button>
 
-            <Divider />
+            <Box divideX={'1px'} />
 
             <Flex mt={2} px={4} width={'100%'} gap={2} alignItems="center">
                 <Flex alignItems={'center'} backgroundColor={'gray.500'} rounded={6} p={2}>

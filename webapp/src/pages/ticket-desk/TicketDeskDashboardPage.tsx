@@ -1,4 +1,4 @@
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Divider, Flex, Text } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import React from 'react';

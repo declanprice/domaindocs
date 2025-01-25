@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useUiStore } from '../../state/stores/ui.store';
 import { NavButton } from '../../components/nav-button/NavButton';
 import { MdArrowBack } from 'react-icons/md';
@@ -28,7 +28,6 @@ export const TicketSubmissionPageNavBar = () => {
             <Button
                 variant={'ghost'}
                 size={'sm'}
-                leftIcon={<MdArrowBack />}
                 width={'100%'}
                 justifyContent={'flex-start'}
                 mt={2}
@@ -37,10 +36,10 @@ export const TicketSubmissionPageNavBar = () => {
                     navigate(`/${domainId}/ticket-desk/${ticketId}/overview`);
                 }}
             >
-                Go back
+                <MdArrowBack /> Go back
             </Button>
 
-            <Divider />
+            <Box divideY={'1px'} />
 
             <Flex mt={2} px={4} width={'100%'} gap={2} alignItems="center">
                 <Flex alignItems={'center'} backgroundColor={'purple.400'} rounded={6} p={2}>

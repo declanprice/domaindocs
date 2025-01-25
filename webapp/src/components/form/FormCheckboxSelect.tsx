@@ -1,10 +1,6 @@
-import { FormControl, FormLabel, FormErrorMessage, FormHelperText, FormControlProps } from '@chakra-ui/react';
-
 import { Select } from 'chakra-react-select';
-
 import { Control, useController } from 'react-hook-form';
-import { SelectComponentsConfig } from 'react-select/dist/declarations/src/components';
-import { getFontSize } from '../../util/getFontSize';
+import { Field } from '../ui/field';
 
 type FormCheckboxSelectProps = {
     name: string;
@@ -16,8 +12,8 @@ type FormCheckboxSelectProps = {
     onChange?: (e: any) => void;
     onBlur?: () => void;
     isMulti?: boolean;
-    components?: SelectComponentsConfig<any, any, any>;
-} & Partial<FormControlProps>;
+    components?: any;
+};
 
 export const FormCheckboxSelect = (props: FormCheckboxSelectProps) => {
     const { field, fieldState } = useController({
@@ -26,13 +22,13 @@ export const FormCheckboxSelect = (props: FormCheckboxSelectProps) => {
     });
 
     return (
-        <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
-            {props.label && (
-                <FormLabel mb={1} fontSize={getFontSize(props.size)} fontWeight={400}>
-                    {props.label}
-                </FormLabel>
-            )}
-
+        <Field
+            disabled={field.disabled}
+            label={props.label}
+            helperText={props.helperText}
+            errorText={fieldState?.error?.message}
+            invalid={fieldState.invalid}
+        >
             <Select
                 name={field.name}
                 value={field.value}
@@ -57,12 +53,6 @@ export const FormCheckboxSelect = (props: FormCheckboxSelectProps) => {
                 options={props.options}
                 components={props.components}
             />
-
-            {props.helperText && <FormHelperText fontSize={getFontSize(props.size)}>{props.helperText}</FormHelperText>}
-
-            {fieldState.error && (
-                <FormErrorMessage fontSize={getFontSize(props.size)}>{fieldState.error.message}</FormErrorMessage>
-            )}
-        </FormControl>
+        </Field>
     );
 };

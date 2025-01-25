@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { useUiStore } from '../../state/stores/ui.store';
 import { NavButton } from '../../components/nav-button/NavButton';
 import { MdArrowBack } from 'react-icons/md';
@@ -15,8 +15,7 @@ import { HiOutlineDocumentText } from 'react-icons/hi';
 
 export const TeamPageNavBar = () => {
     const { domainId, teamId } = useParams() as TeamPageParams;
-    const { isFullNavBar, closeNavBar, openNavBar } = useUiStore();
-    const { activeDomain, setActiveDomain } = useUiStore();
+    const { isFullNavBar, activeDomain } = useUiStore();
     const navigate = useNavigate();
 
     const { data: team, isLoading } = useQuery<DetailedTeam>({
@@ -42,7 +41,6 @@ export const TeamPageNavBar = () => {
             <Button
                 variant={'ghost'}
                 size={'sm'}
-                leftIcon={<MdArrowBack />}
                 width={'100%'}
                 justifyContent={'flex-start'}
                 mt={2}
@@ -51,17 +49,17 @@ export const TeamPageNavBar = () => {
                     navigate(`/${activeDomain.domainId}/people`);
                 }}
             >
-                Go back
+                <MdArrowBack /> Go back
             </Button>
 
-            <Divider />
+            <Box divideY={'1px'} />
 
             <Flex mt={2} px={4} width={'100%'} gap={2} alignItems="center">
                 <Flex alignItems={'center'} backgroundColor={'purple.400'} rounded={6} p={2}>
                     <GoPeople color={'white'} />
                 </Flex>
 
-                <Stack spacing={0}>
+                <Stack h={0}>
                     <Text color={'gray.900'} fontSize={14} fontWeight={'400'}>
                         {team.team.name}
                     </Text>

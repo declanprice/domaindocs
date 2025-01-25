@@ -1,15 +1,4 @@
-import {
-    Box,
-    Flex,
-    IconButton,
-    ListItem,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuList,
-    StyleProps,
-    Text,
-} from '@chakra-ui/react';
+import { Box, Flex, IconButton, ListItem, Menu, MenuItem, MenuTrigger, Text } from '@chakra-ui/react';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { useHover } from '@uidotdev/usehooks';
 import { Documentation, DocumentationType } from '@domaindocs/types';
@@ -23,7 +12,7 @@ export type DocumentationFolderItemProps = {
     onDocumentationClick?: (documentation: Documentation) => any;
     parentFolderRef?: any;
     readonly?: boolean;
-} & StyleProps;
+};
 
 export const DocumentationFolderItem = (props: DocumentationFolderItemProps) => {
     const { documentation, readonly, onDocumentationClick, onRemoveDocumentation, activeDocumentation } = props;
@@ -60,36 +49,35 @@ export const DocumentationFolderItem = (props: DocumentationFolderItemProps) => 
 
                 {props.readonly !== true && (
                     <Flex position={'absolute'} right={0} mr={2} gap={1} hidden={!hovering}>
-                        <Menu>
-                            <MenuButton>
+                        <Menu.Root>
+                            <MenuTrigger>
                                 <IconButton
                                     colorScheme={'gray'}
                                     variant={'ghost'}
                                     size={'xs'}
                                     aria-label={'folder-menu'}
-                                    icon={<HiOutlineDotsHorizontal />}
-                                ></IconButton>
-                            </MenuButton>
+                                >
+                                    <HiOutlineDotsHorizontal />
+                                </IconButton>
+                            </MenuTrigger>
 
-                            <MenuList>
-                                <MenuItem>
-                                    <Flex width={'100%'} alignItems={'center'} p={1}>
-                                        <MdOutlineDeleteOutline />
-                                        <Text
-                                            fontSize={12}
-                                            ml={1}
-                                            onClick={() => {
-                                                if (onRemoveDocumentation) {
-                                                    onRemoveDocumentation(documentation);
-                                                }
-                                            }}
-                                        >
-                                            Remove {documentation.type}
-                                        </Text>
-                                    </Flex>
-                                </MenuItem>
-                            </MenuList>
-                        </Menu>
+                            <MenuItem>
+                                <Flex width={'100%'} alignItems={'center'} p={1}>
+                                    <MdOutlineDeleteOutline />
+                                    <Text
+                                        fontSize={12}
+                                        ml={1}
+                                        onClick={() => {
+                                            if (onRemoveDocumentation) {
+                                                onRemoveDocumentation(documentation);
+                                            }
+                                        }}
+                                    >
+                                        Remove {documentation.type}
+                                    </Text>
+                                </Flex>
+                            </MenuItem>
+                        </Menu.Root>
                     </Flex>
                 )}
             </Flex>

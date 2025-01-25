@@ -1,15 +1,4 @@
-import {
-    Box,
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    Divider,
-    Flex,
-    Heading,
-    Stack,
-    Text,
-    useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbRoot, Flex, Text } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { DetailedComponent } from '@domaindocs/types';
@@ -35,7 +24,7 @@ export const ComponentOverviewPage = () => {
     return (
         <Flex width={'100%'}>
             <Flex direction="column" gap={4} flex={1} p={8}>
-                <Breadcrumb>
+                <BreadcrumbRoot>
                     <BreadcrumbItem>
                         <BreadcrumbLink
                             href={`/${domainId}/people`}
@@ -59,7 +48,7 @@ export const ComponentOverviewPage = () => {
                             {component.component.name}
                         </BreadcrumbLink>
                     </BreadcrumbItem>
-                </Breadcrumb>
+                </BreadcrumbRoot>
 
                 <Flex
                     alignItems={'center'}

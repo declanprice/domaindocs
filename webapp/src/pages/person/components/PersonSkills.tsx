@@ -1,44 +1,24 @@
-import {
-    EditPersonRoleData,
-    CreateRoleData,
-    DetailedPerson,
-    PersonRole,
-    Role,
-    Skill,
-    EditPersonSkillData,
-    CreateSkillData,
-    PersonSkill,
-} from '@domaindocs/types';
+import { DetailedPerson, Skill, EditPersonSkillData, CreateSkillData, PersonSkill } from '@domaindocs/types';
 import {
     Button,
     ButtonGroup,
     Flex,
-    List,
-    ListItem,
     Popover,
     PopoverBody,
     PopoverContent,
     PopoverFooter,
     PopoverTrigger,
-    Show,
     SimpleGrid,
     Stack,
     Text,
     useDisclosure,
-    VisuallyHidden,
-    Wrap,
-    WrapItem,
 } from '@chakra-ui/react';
-import { GrWorkshop } from 'react-icons/gr';
 import { AddIconButton } from '../../../components/buttons/AddIconButton';
-import { EditIconButton } from '../../../components/buttons/EditIconButton';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { useHover } from '@uidotdev/usehooks';
 import { PropsWithChildren } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormCheckbox } from '../../../components/form/FormCheckbox';
 import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
-import { rolesApi } from '../../../state/api/roles-api';
 import { FormCreateSelect } from '../../../components/form/FormCreateSelect';
 import { queryClient } from '../../../state/query-client';
 import { peopleApi } from '../../../state/api/people-api';
@@ -46,7 +26,6 @@ import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { ConfirmDialog } from '../../../components/dialogs/ConfirmDialog';
 import { skillsApi } from '../../../state/api/skills-api';
 import { GiSkills } from 'react-icons/gi';
-import { PersonRoleForm } from './PersonRoles';
 
 type PersonSkillsProps = {
     domainId: string;
@@ -70,7 +49,7 @@ export const PersonSkills = (props: PersonSkillsProps) => {
                 </EditPersonSkillForm>
             </Flex>
 
-            <SimpleGrid columns={2} spacing={1}>
+            <SimpleGrid columns={2} h={1}>
                 {person.skills.map((skill) => (
                     <PersonSkillItem domainId={domainId} userId={person.person.userId} skill={skill} />
                 ))}
@@ -100,8 +79,17 @@ export const PersonSkillItem = (props: PersonSkillItemProps) => {
     const [ref, isHovering] = useHover();
 
     return (
-        <WrapItem ref={ref} key={skill.skillId} _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }} rounded={6}>
-            <Flex px={2} height={'35px'} width="100%" alignItems={'center'}>
+        <>
+            <Flex
+                ref={ref}
+                key={skill.skillId}
+                _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
+                rounded={6}
+                px={2}
+                height={'35px'}
+                width="100%"
+                alignItems={'center'}
+            >
                 <Text
                     fontSize={12}
                     fontWeight={400}
@@ -117,12 +105,12 @@ export const PersonSkillItem = (props: PersonSkillItemProps) => {
             </Flex>
 
             <ConfirmDialog
-                isOpen={deleteDialog.isOpen}
+                isOpen={deleteDialog.open}
                 header={'Remove skill?'}
                 onConfirm={deletePersonSkill}
                 onCancel={deleteDialog.onClose}
             />
-        </WrapItem>
+        </>
     );
 };
 
@@ -175,13 +163,13 @@ export const EditPersonSkillForm = (props: EditPersonSkillFormProps) => {
     if (!allSkills || isLoading) return null;
 
     return (
-        <Popover isOpen={menu.isOpen} onOpen={menu.onOpen} onClose={close}>
+        <Popover.Root isOpen={menu.open} onOpen={menu.onOpen} onClose={close}>
             <PopoverTrigger>{props.children}</PopoverTrigger>
 
             <form onSubmit={form.handleSubmit(submit)}>
                 <PopoverContent mr={2} backgroundColor={'white'}>
                     <PopoverBody p={4}>
-                        <Stack spacing={4}>
+                        <Stack h={4}>
                             <FormCreateSelect
                                 label={'Skill'}
                                 name={'skillId'}
@@ -208,9 +196,9 @@ export const EditPersonSkillForm = (props: EditPersonSkillFormProps) => {
                         <ButtonGroup width={'100%'} justifyContent={'flex-end'}>
                             <Button
                                 size={'sm'}
-                                variant={'red'}
+                                colorPalette={'red'}
                                 onClick={close}
-                                isDisabled={form.formState.isSubmitting}
+                                disabled={form.formState.isSubmitting}
                             >
                                 Cancel
                             </Button>
@@ -219,7 +207,7 @@ export const EditPersonSkillForm = (props: EditPersonSkillFormProps) => {
                                 size={'sm'}
                                 colorScheme={'blue'}
                                 type={'submit'}
-                                isLoading={form.formState.isSubmitting}
+                                loading={form.formState.isSubmitting}
                             >
                                 Add
                             </Button>
@@ -227,6 +215,6 @@ export const EditPersonSkillForm = (props: EditPersonSkillFormProps) => {
                     </PopoverFooter>
                 </PopoverContent>
             </form>
-        </Popover>
+        </Popover.Root>
     );
 };

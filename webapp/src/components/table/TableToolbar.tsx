@@ -1,6 +1,7 @@
-import { Box, Button, ButtonGroup, Center, Divider, Flex, Tab, TabList, Tabs, Text } from '@chakra-ui/react';
+import { Box, Button, ButtonGroup, Flex, Tabs, Text } from '@chakra-ui/react';
 import { IoSearchOutline } from 'react-icons/io5';
 import { CiFilter } from 'react-icons/ci';
+
 type TableToolbarProps = {
     title?: string;
     tabs?: { label: string; onClick: () => any; isActive: boolean }[];
@@ -17,7 +18,7 @@ export const TableToolbar = (props: TableToolbarProps) => {
             <Text fontSize={12}>{title}</Text>
 
             {tabs && tabs?.length > 0 && (
-                <Tabs
+                <Tabs.Root
                     index={0}
                     colorScheme={'gray'}
                     size={'md'}
@@ -26,14 +27,14 @@ export const TableToolbar = (props: TableToolbarProps) => {
                     alignItems={'flex-end'}
                     zIndex={1}
                 >
-                    <TabList borderBottom={'0'}>
+                    <Tabs.List borderBottom={'0'}>
                         {tabs?.map((tab) => (
-                            <Tab onClick={tab.onClick} fontSize={12}>
+                            <Tabs.Trigger onClick={tab.onClick} fontSize={12}>
                                 {tab.label}
-                            </Tab>
+                            </Tabs.Trigger>
                         ))}
-                    </TabList>
-                </Tabs>
+                    </Tabs.List>
+                </Tabs.Root>
             )}
 
             <Flex p={1} ml={'auto'} gap={2}>
@@ -41,7 +42,7 @@ export const TableToolbar = (props: TableToolbarProps) => {
                     <Flex flex={1} gap={2} justifyContent={'flex-end'}>
                         {actions}
 
-                        <Divider height="inherit" orientation="vertical" />
+                        <Box height={'inherit'} divideY={'1px'} />
                     </Flex>
                 )}
 

@@ -1,8 +1,6 @@
-import { Avatar, Button, ButtonGroup, Divider, Flex, List, ListItem, Text } from '@chakra-ui/react';
-import { IoSearchOutline } from 'react-icons/io5';
-import { CiFilter } from 'react-icons/ci';
-import { BiBook } from 'react-icons/bi';
+import { Box, Flex, List, ListItem, Text } from '@chakra-ui/react';
 import { BiLogoMicrosoftTeams } from 'react-icons/bi';
+
 export const AutomationsRulesList = () => {
     return (
         <Flex direction="column">
@@ -16,7 +14,7 @@ export const AutomationsRulesList = () => {
                 </Flex>
             </Flex>
 
-            <List>
+            <List.Root>
                 <ListItem
                     display={'flex'}
                     alignItems={'center'}
@@ -28,7 +26,7 @@ export const AutomationsRulesList = () => {
                     <BiLogoMicrosoftTeams color={'purple.300'} />
                     <Text fontSize={12}>When an item is created send a message to a channel</Text>
                 </ListItem>
-            </List>
+            </List.Root>
         </Flex>
     );
 };

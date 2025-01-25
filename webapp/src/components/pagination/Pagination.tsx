@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Divider, IconButton, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { Box, Button, ButtonGroup, IconButton, Menu, MenuContent, MenuItem } from '@chakra-ui/react';
 import { BiChevronDown, BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 
 type PaginationProps = {
@@ -9,8 +9,8 @@ type PaginationProps = {
 export const Pagination = () => {
     return (
         <ButtonGroup alignItems={'center'}>
-            <Menu>
-                <MenuButton
+            <Menu.Root>
+                <Menu.Trigger
                     as={Button}
                     variant={'ghost'}
                     fontSize={12}
@@ -19,18 +19,20 @@ export const Pagination = () => {
                     rightIcon={<BiChevronDown />}
                 >
                     Show 5 Items
-                </MenuButton>
+                </Menu.Trigger>
 
-                <MenuList>
+                <MenuContent>
                     <MenuItem fontSize={12}>5</MenuItem>
                     <MenuItem fontSize={12}>10</MenuItem>
                     <MenuItem fontSize={12}>20</MenuItem>
-                </MenuList>
-            </Menu>
+                </MenuContent>
+            </Menu.Root>
 
-            <Divider orientation={'vertical'} height={'20px'} />
+            <Box divideY={'20px'} />
 
-            <IconButton aria-label={'left'} variant={'ghost'} size={'xs'} icon={<BiChevronLeft />} />
+            <IconButton aria-label={'left'} variant={'ghost'} size={'xs'}>
+                <BiChevronLeft />
+            </IconButton>
 
             <Button fontSize={12} variant={'ghost'} size={'xs'} fontWeight={'normal'}>
                 1
@@ -43,7 +45,10 @@ export const Pagination = () => {
             <Button fontSize={12} variant={'ghost'} size={'xs'} fontWeight={'normal'}>
                 3
             </Button>
-            <IconButton aria-label={'left'} variant={'ghost'} size={'xs'} icon={<BiChevronRight />} />
+
+            <IconButton aria-label={'left'} variant={'ghost'} size={'xs'}>
+                <BiChevronRight />
+            </IconButton>
         </ButtonGroup>
     );
 };

@@ -1,9 +1,10 @@
 import { Domain } from '@domaindocs/types';
-import { Avatar, Box, Button, Divider, Flex, Popover, PopoverContent, PopoverTrigger, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Popover, PopoverContent, PopoverTrigger, Text } from '@chakra-ui/react';
 import { PiPlugsConnected } from 'react-icons/pi';
 import { IoChevronDown } from 'react-icons/io5';
 import { CiSettings } from 'react-icons/ci';
 import { useNavigate } from 'react-router-dom';
+import { Avatar } from '../components/ui/avatar';
 
 type DomainSelectorMenuProps = {
     value: Domain;
@@ -39,7 +40,7 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
     };
 
     return (
-        <Popover>
+        <Popover.Root>
             <PopoverTrigger>
                 <Button size={'md'} aria-label={'domain selector button'} variant={'ghost'}>
                     <Flex width={'100%'} gap={2} alignItems="center">
@@ -78,7 +79,7 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
                         }}
                     />
 
-                    <Divider />
+                    <Box divideX={'1px'} />
 
                     <Text mt={2} ml={2} fontSize={'xs'}>
                         Switch Domains
@@ -102,6 +103,6 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
                     ))}
                 </Flex>
             </PopoverContent>
-        </Popover>
+        </Popover.Root>
     );
 };

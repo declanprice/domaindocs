@@ -1,7 +1,6 @@
-import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Textarea, FormControlProps } from '@chakra-ui/react';
-
+import { Textarea } from '@chakra-ui/react';
 import { Control, useController } from 'react-hook-form';
-import { getFontSize } from '../../util/getFontSize';
+import { Field } from '../ui/field';
 
 type FormTextAreaProps = {
     name: string;
@@ -11,7 +10,7 @@ type FormTextAreaProps = {
     helperText?: string;
     onChange?: (e: any) => void;
     onBlur?: () => void;
-} & Partial<FormControlProps>;
+};
 
 export const FormTextArea = (props: FormTextAreaProps) => {
     const { field, fieldState } = useController({
@@ -20,19 +19,17 @@ export const FormTextArea = (props: FormTextAreaProps) => {
     });
 
     return (
-        <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
-            {props.label && (
-                <FormLabel fontSize={getFontSize(props.size)} fontWeight={400}>
-                    {props.label}
-                </FormLabel>
-            )}
-
+        <Field
+            disabled={field.disabled}
+            label={props.label}
+            helperText={props.helperText}
+            errorText={fieldState?.error?.message}
+            invalid={fieldState.invalid}
+        >
             <Textarea
                 name={field.name}
                 value={field.value}
-                isDisabled={field.disabled}
                 disabled={field.disabled}
-                fontSize={getFontSize(props.size)}
                 ref={field.ref}
                 onChange={(e) => {
                     field.onChange(e);
@@ -46,16 +43,9 @@ export const FormTextArea = (props: FormTextAreaProps) => {
                         props.onBlur();
                     }
                 }}
-                variant={'filled'}
+                variant={'subtle'}
                 placeholder={props.placeholder}
-                size={props.size || 'sm'}
             />
-
-            {props.helperText && <FormHelperText fontSize={getFontSize(props.size)}>{props.helperText}</FormHelperText>}
-
-            {fieldState.error && (
-                <FormErrorMessage fontSize={getFontSize(props.size)}>{fieldState.error.message}</FormErrorMessage>
-            )}
-        </FormControl>
+        </Field>
     );
 };

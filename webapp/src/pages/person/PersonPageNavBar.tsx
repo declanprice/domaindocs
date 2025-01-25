@@ -1,15 +1,16 @@
-import { Avatar, Button, Divider, Flex, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { useUiStore } from '../../state/stores/ui.store';
 import { NavButton } from '../../components/nav-button/NavButton';
 import { MdArrowBack } from 'react-icons/md';
 import { LuListMinus } from 'react-icons/lu';
 import { LuNetwork } from 'react-icons/lu';
-import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DetailedPerson } from '@domaindocs/types';
 import { useQuery } from '@tanstack/react-query';
 import { peopleApi } from '../../state/api/people-api';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { PersonPageParams } from './PersonPageParams';
+import { Avatar } from '../../components/ui/avatar';
 
 export const PersonPageNavBar = () => {
     const { domainId, userId } = useParams() as PersonPageParams;
@@ -40,7 +41,6 @@ export const PersonPageNavBar = () => {
             <Button
                 variant={'ghost'}
                 size={'sm'}
-                leftIcon={<MdArrowBack />}
                 width={'100%'}
                 justifyContent={'flex-start'}
                 mt={2}
@@ -49,10 +49,10 @@ export const PersonPageNavBar = () => {
                     navigate(`/${activeDomain.domainId}/people`);
                 }}
             >
-                Go back
+                <MdArrowBack /> Go back
             </Button>
 
-            <Divider />
+            <Box divideY={'1px'} />
 
             <Flex mt={2} px={4} width={'100%'} gap={2} alignItems="center">
                 <Avatar
@@ -61,7 +61,7 @@ export const PersonPageNavBar = () => {
                     size={'sm'}
                 />
 
-                <Stack spacing={0}>
+                <Stack h={0}>
                     <Text color={'gray.900'} fontSize={14} fontWeight={'400'}>
                         {person.person.firstName} {person.person.lastName}
                     </Text>

@@ -1,4 +1,4 @@
-import { Divider, Flex, Text } from '@chakra-ui/react';
+import { Flex, Text, Box } from '@chakra-ui/react';
 import { DetailedWorkItem, WorkItemType } from '@domaindocs/types';
 import { ItemAssignees } from './ItemAssignees';
 import { ItemReportedBy } from './ItemReportedBy';
@@ -26,19 +26,19 @@ export const ItemPanel = (props: ItemPanelProps) => {
                         <>
                             <ItemParentMenu domainId={domainId} areaId={areaId} item={item} />
 
-                            <Divider orientation={'vertical'} height={'20px'} />
+                            <Box divideY={'20px'} />
                         </>
                     )}
 
                     <ItemTypeMenu domainId={domainId} areaId={areaId} item={item} />
 
-                    <Divider orientation={'vertical'} height={'20px'} />
+                    <Box divideY={'20px'} />
 
                     <ItemAttachmentButton domainId={domainId} areaId={areaId} item={item} />
                 </Flex>
             </Flex>
 
-            <Divider />
+            <Box divideX={'1px'} />
 
             <Flex direction={'column'} gap={2} py={2} maxWidth={'500px'}>
                 <Text fontSize={16}>Details</Text>
@@ -62,11 +62,11 @@ export const ItemPanel = (props: ItemPanelProps) => {
                 </Flex>
             </Flex>
 
-            <Divider />
+            <Box divideX={'1px'} />
 
             <ItemDescription domainId={domainId} areaId={areaId} item={item} />
 
-            <Divider />
+            <Box divideX={'1px'} />
 
             <ItemAttachments domainId={domainId} areaId={areaId} item={item} />
         </Flex>

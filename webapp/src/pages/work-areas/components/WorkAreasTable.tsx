@@ -1,9 +1,9 @@
-import { Avatar, AvatarGroup, Flex, IconButton, Link } from '@chakra-ui/react';
+import { Flex, IconButton, Link } from '@chakra-ui/react';
 import { Table } from '../../../components/table/Table';
 import { DetailedTeam, DetailedWorkArea } from '@domaindocs/types';
-import { GoPeople } from 'react-icons/go';
 import { TbDots } from 'react-icons/tb';
 import { MdOutlineWorkOutline } from 'react-icons/md';
+import { Avatar, AvatarGroup } from '../../../components/ui/avatar';
 
 type WorkAreasTableProps = {
     areas: DetailedWorkArea[];
@@ -59,13 +59,9 @@ export const WorkAreasTable = (props: WorkAreasTableProps) => {
                     render: (data: DetailedTeam) => {
                         return (
                             <Flex>
-                                <IconButton
-                                    ml={'auto'}
-                                    aria-label={'teams-menu'}
-                                    variant={'ghost'}
-                                    icon={<TbDots />}
-                                    size={'sm'}
-                                />
+                                <IconButton ml={'auto'} aria-label={'teams-menu'} variant={'ghost'} size={'sm'}>
+                                    <TbDots />
+                                </IconButton>
                             </Flex>
                         );
                     },

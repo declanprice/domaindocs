@@ -1,18 +1,6 @@
-import {
-    FormControl,
-    FormLabel,
-    FormErrorMessage,
-    FormHelperText,
-    FormControlProps,
-    Menu,
-    MenuOptionGroup,
-    MenuItemOption,
-    MenuList,
-    MenuButton,
-} from '@chakra-ui/react';
-
+import { MenuTrigger, MenuContent, Menu, MenuItemGroup, MenuCheckboxItem, MenuRadioItem } from '@chakra-ui/react';
 import { Control, useController } from 'react-hook-form';
-import { getFontSize } from '../../util/getFontSize';
+import { Field } from '../ui/field';
 
 type FormMenuSelectProps = {
     name: string;
@@ -26,7 +14,7 @@ type FormMenuSelectProps = {
     renderButton: (option?: { value: string; label: string }) => any;
     renderOption: (option: { value: string; label: string }) => any;
     multi?: boolean;
-} & Partial<FormControlProps>;
+};
 
 export const FormMenuSelect = (props: FormMenuSelectProps) => {
     const { field, fieldState } = useController({
@@ -41,21 +29,21 @@ export const FormMenuSelect = (props: FormMenuSelectProps) => {
     };
 
     return (
-        <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
-            {props.label && (
-                <FormLabel fontSize={getFontSize(props.size)} fontWeight={400}>
-                    {props.label}
-                </FormLabel>
-            )}
+        <Field
+            disabled={field.disabled}
+            label={props.label}
+            helperText={props.helperText}
+            errorText={fieldState?.error?.message}
+            invalid={fieldState.invalid}
+        >
+            <Menu.Root>
+                <MenuTrigger type={'button'}>{renderMenuButton()}</MenuTrigger>
 
-            <Menu>
-                <MenuButton type={'button'}>{renderMenuButton()}</MenuButton>
-
-                <MenuList>
-                    <MenuOptionGroup
+                <MenuContent>
+                    <MenuItemGroup
                         type={props.multi ? 'checkbox' : 'radio'}
                         value={field.value}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             console.log(e);
                             field.onChange(e);
                             if (props.onChange) {
@@ -70,18 +58,16 @@ export const FormMenuSelect = (props: FormMenuSelectProps) => {
                         }}
                         placeholder={props.placeholder}
                     >
-                        {props.options.map((option) => (
-                            <MenuItemOption fontSize={getFontSize(props.size)} value={option.value}>
-                                {props.renderOption(option)}
-                            </MenuItemOption>
-                        ))}
-                    </MenuOptionGroup>
-                </MenuList>
-            </Menu>
-
-            {props.helperText && <FormHelperText fontSize={12}>{props.helperText}</FormHelperText>}
-
-            {fieldState.error && <FormErrorMessage fontSize={12}>{fieldState.error.message}</FormErrorMessage>}
-        </FormControl>
+                        {props.multi
+                            ? props.options.map((option) => (
+                                  <MenuCheckboxItem value={option.value}>{props.renderOption(option)}</MenuCheckboxItem>
+                              ))
+                            : props.options.map((option) => (
+                                  <MenuRadioItem value={option.value}>{props.renderOption(option)}</MenuRadioItem>
+                              ))}
+                    </MenuItemGroup>
+                </MenuContent>
+            </Menu.Root>
+        </Field>
     );
 };

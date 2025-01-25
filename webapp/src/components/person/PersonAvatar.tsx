@@ -1,18 +1,5 @@
-import {
-    Avatar,
-    Badge,
-    Box,
-    Flex,
-    Popover,
-    PopoverBody,
-    PopoverCloseButton,
-    PopoverContent,
-    PopoverTrigger,
-    Stack,
-    Text,
-    Tooltip,
-} from '@chakra-ui/react';
-import { PersonRole } from '@domaindocs/types';
+import { Flex, Popover, PopoverBody, PopoverContent, PopoverTrigger, Stack, Text } from '@chakra-ui/react';
+import { Avatar } from '../ui/avatar';
 
 type PersonAvatarProps = {
     firstName?: string;
@@ -54,7 +41,7 @@ export const PersonAvatar = (props: PersonAvatarProps) => {
         }
 
         return (
-            <Popover>
+            <Popover.Root>
                 <PopoverTrigger>
                     <Text
                         _hover={{ textDecoration: 'underline' }}
@@ -69,7 +56,7 @@ export const PersonAvatar = (props: PersonAvatarProps) => {
                 </PopoverTrigger>
                 <PopoverContent backgroundColor={'lightgray'}>
                     <PopoverBody>
-                        <Stack spacing={2}>
+                        <Stack h={2}>
                             {roles.map((r) => (
                                 <Text key={r.roleId} fontSize={12}>
                                     {r.roleName}
@@ -78,7 +65,7 @@ export const PersonAvatar = (props: PersonAvatarProps) => {
                         </Stack>
                     </PopoverBody>
                 </PopoverContent>
-            </Popover>
+            </Popover.Root>
         );
     };
 

@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useUiStore } from '../../state/stores/ui.store';
 import { NavButton } from '../../components/nav-button/NavButton';
 import { MdArrowBack } from 'react-icons/md';
@@ -9,7 +9,7 @@ import { GiGraduateCap } from 'react-icons/gi';
 import { DomainPageParams } from '../../types/DomainPageParams';
 
 export const OnboardingCentrePageNavBar = () => {
-    const { isFullNavBar, closeNavBar, openNavBar } = useUiStore();
+    const { isFullNavBar } = useUiStore();
     const { domainId } = useParams() as DomainPageParams;
     const navigate = useNavigate();
 
@@ -29,7 +29,6 @@ export const OnboardingCentrePageNavBar = () => {
             <Button
                 variant={'ghost'}
                 size={'sm'}
-                leftIcon={<MdArrowBack />}
                 width={'100%'}
                 justifyContent={'flex-start'}
                 mt={2}
@@ -38,10 +37,10 @@ export const OnboardingCentrePageNavBar = () => {
                     navigate(`/${domainId}/dashboard`);
                 }}
             >
-                Go back
+                <MdArrowBack /> Go back
             </Button>
 
-            <Divider />
+            <Box divideX={'1px'} />
 
             <Flex mt={2} px={4} width={'100%'} gap={2} alignItems="center">
                 <Flex alignItems={'center'} backgroundColor={'purple.400'} rounded={6} p={2}>

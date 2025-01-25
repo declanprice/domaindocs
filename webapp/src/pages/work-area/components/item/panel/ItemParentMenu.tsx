@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Menu, MenuContent, MenuItem, Text } from '@chakra-ui/react';
 import { ParentWorkItem, UpdateItemParentData, WorkItem, WorkItemType } from '@domaindocs/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { BiEdit } from 'react-icons/bi';
@@ -68,8 +68,8 @@ export const ItemParentMenu = (props: ItemParentMenuProps) => {
     };
 
     return (
-        <Menu>
-            <MenuButton
+        <Menu.Root>
+            <Menu.Trigger
                 as={Button}
                 alignItems={'center'}
                 size={'sm'}
@@ -85,9 +85,9 @@ export const ItemParentMenu = (props: ItemParentMenuProps) => {
                     {item.parent ? <ItemTypeIcon type={item.parent.type} /> : <BiEdit />}
                     <Text ml={2}>{renderButtonText()}</Text>
                 </Flex>
-            </MenuButton>
+            </Menu.Trigger>
 
-            <MenuList>{!parents ? <LoadingContainer /> : <>{renderList(parents)}</>}</MenuList>
-        </Menu>
+            <MenuContent>{!parents ? <LoadingContainer /> : <>{renderList(parents)}</>}</MenuContent>
+        </Menu.Root>
     );
 };

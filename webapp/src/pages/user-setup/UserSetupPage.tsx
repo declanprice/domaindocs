@@ -4,18 +4,16 @@ import { useForm } from 'react-hook-form';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { object, string } from 'valibot';
 import { useMutation } from '@tanstack/react-query';
-import { useToast } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useAuthStore } from '../../state/stores/auth.store';
 import { usersApi } from '../../state/api/users-api';
 import { FormTextInput } from '../../components/form/FormTextInput';
+import { toaster } from '../../components/ui/toaster';
 
 export const UserSetupPage = () => {
     const { setUser } = useAuthStore();
 
     const navigate = useNavigate();
-
-    const toast = useToast();
 
     const { mutate, error, isPending } = useMutation({
         mutationKey: ['setupUser'],
@@ -37,7 +35,7 @@ export const UserSetupPage = () => {
 
     useEffect(() => {
         if (error) {
-            toast({
+            toaster.create({
                 title: 'Something went wrong',
                 status: 'error',
                 position: 'top',
@@ -67,7 +65,7 @@ export const UserSetupPage = () => {
                     <FormTextInput name={'firstName'} control={control} placeholder={'First Name'} />
                     <FormTextInput name={'lastName'} control={control} placeholder={'Last Name'} />
                     <Button
-                        isLoading={isPending}
+                        loading={isPending}
                         size={'sm'}
                         width={'100%'}
                         type={'submit'}

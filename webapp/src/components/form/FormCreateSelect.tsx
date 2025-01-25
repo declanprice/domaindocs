@@ -1,7 +1,6 @@
-import { FormControl, FormLabel, FormErrorMessage, FormHelperText, FormControlProps } from '@chakra-ui/react';
 import { CreatableProps, CreatableSelect } from 'chakra-react-select';
 import { Control, useController } from 'react-hook-form';
-import { getFontSize } from '../../util/getFontSize';
+import { Field } from '../ui/field';
 
 type FormCreateSelectProps = {
     name: string;
@@ -15,7 +14,7 @@ type FormCreateSelectProps = {
     onCreateOption?: (value: string) => void;
     isMulti?: boolean;
     selectProps?: CreatableProps<any, any, any>;
-} & Partial<FormControlProps>;
+};
 
 export const FormCreateSelect = (props: FormCreateSelectProps) => {
     const { field, fieldState } = useController({
@@ -24,13 +23,13 @@ export const FormCreateSelect = (props: FormCreateSelectProps) => {
     });
 
     return (
-        <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
-            {props.label && (
-                <FormLabel fontSize={getFontSize(props.size)} mb={1} fontWeight={400}>
-                    {props.label}
-                </FormLabel>
-            )}
-
+        <Field
+            disabled={field.disabled}
+            label={props.label}
+            helperText={props.helperText}
+            errorText={fieldState?.error?.message}
+            invalid={fieldState.invalid}
+        >
             <CreatableSelect
                 name={field.name}
                 value={props.options.find((option) => option.value === field.value)}
@@ -58,10 +57,6 @@ export const FormCreateSelect = (props: FormCreateSelectProps) => {
                 options={props.options}
                 {...props.selectProps}
             />
-
-            {props.helperText && <FormHelperText fontSize={12}>{props.helperText}</FormHelperText>}
-
-            {fieldState.error && <FormErrorMessage fontSize={12}>{fieldState.error.message}</FormErrorMessage>}
-        </FormControl>
+        </Field>
     );
 };

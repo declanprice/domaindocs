@@ -1,18 +1,9 @@
 import { DetailedWorkItem, UpdateItemReportedByData, WorkAreaPerson } from '@domaindocs/types';
-import {
-    Avatar,
-    AvatarGroup,
-    Flex,
-    Menu,
-    MenuButton,
-    MenuItemOption,
-    MenuList,
-    MenuOptionGroup,
-    Text,
-} from '@chakra-ui/react';
+import { Flex, Menu, MenuCheckboxItem, MenuContent, MenuItemGroup, MenuTrigger, Text } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { workApi } from '../../../../../state/api/workApi';
 import { LoadingContainer } from '../../../../../components/loading/LoadingContainer';
+import { Avatar, AvatarGroup } from '../../../../../components/ui/avatar';
 
 type ItemReportedByProps = {
     domainId: string;
@@ -37,8 +28,8 @@ export const ItemReportedBy = (props: ItemReportedByProps) => {
     const reportedBy = item.reportedBy;
 
     return (
-        <Menu closeOnSelect={false}>
-            <MenuButton
+        <Menu.Root closeOnSelect={false}>
+            <MenuTrigger
                 p={1}
                 rounded={4}
                 alignItems={'center'}
@@ -52,7 +43,7 @@ export const ItemReportedBy = (props: ItemReportedByProps) => {
                 _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
             >
                 <Flex alignItems={'center'} gap={2} flex={1}>
-                    <AvatarGroup max={3}>
+                    <AvatarGroup>
                         <Avatar
                             name={`${reportedBy.firstName} ${reportedBy.lastName}`}
                             src={reportedBy.iconUri}
@@ -64,37 +55,35 @@ export const ItemReportedBy = (props: ItemReportedByProps) => {
                         {reportedBy.firstName} {reportedBy.lastName}
                     </Text>
                 </Flex>
-            </MenuButton>
+            </MenuTrigger>
 
-            <MenuList>
+            <MenuContent>
                 {!people ? (
                     <LoadingContainer />
                 ) : (
-                    <MenuOptionGroup
+                    <MenuItemGroup
                         title="Select reporter"
                         type="radio"
                         value={item.reportedBy.userId}
-                        onChange={async (userId) => {
-                            if (typeof userId === 'string') {
-                                await updateReportedBy({
-                                    userId,
-                                });
-                            }
+                        onChange={async (userId: string) => {
+                            await updateReportedBy({
+                                userId,
+                            });
                         }}
                     >
                         {people.map((p) => (
-                            <MenuItemOption key={p.userId} value={p.userId}>
+                            <MenuCheckboxItem key={p.userId} value={p.userId}>
                                 <Flex gap={2}>
                                     <Avatar name={`${p.firstName} ${p.lastName}`} src={p.iconUri} size={'xs'} />
                                     <Text fontSize={12}>
                                         {p.firstName} {p.lastName}
                                     </Text>
                                 </Flex>
-                            </MenuItemOption>
+                            </MenuCheckboxItem>
                         ))}
-                    </MenuOptionGroup>
+                    </MenuItemGroup>
                 )}
-            </MenuList>
-        </Menu>
+            </MenuContent>
+        </Menu.Root>
     );
 };

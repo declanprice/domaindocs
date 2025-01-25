@@ -1,14 +1,4 @@
-import {
-    Button,
-    ButtonGroup,
-    Modal,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    Stack,
-} from '@chakra-ui/react';
+import { Button, ButtonGroup, Dialog, Stack } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { FormTextInput } from '../../../components/form/FormTextInput';
 import { CreateTeamData } from '@domaindocs/types';
@@ -41,12 +31,11 @@ export const CreateTeamDialog = (props: CreateTeamDialogProps) => {
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={closeAndReset} isCentered size={'lg'}>
-            <ModalOverlay />
-            <ModalContent>
+        <Dialog.Root isOpen={isOpen} onClose={closeAndReset} isCentered size={'lg'}>
+            <Dialog.Content>
                 <form onSubmit={form.handleSubmit(submit)}>
-                    <ModalHeader>Create a new team.</ModalHeader>
-                    <ModalBody>
+                    <Dialog.Header>Create a new team.</Dialog.Header>
+                    <Dialog.Body>
                         <Stack gap={4}>
                             <FormTextInput
                                 label={'Team Name'}
@@ -55,14 +44,14 @@ export const CreateTeamDialog = (props: CreateTeamDialogProps) => {
                                 placeholder={'Name of team'}
                             />
                         </Stack>
-                    </ModalBody>
-                    <ModalFooter>
+                    </Dialog.Body>
+                    <Dialog.Footer>
                         <ButtonGroup>
                             <Button
                                 onClick={closeAndReset}
                                 size={'xs'}
                                 colorScheme={'red'}
-                                isDisabled={form.formState.isSubmitting}
+                                disabled={form.formState.isSubmitting}
                             >
                                 Cancel
                             </Button>
@@ -71,14 +60,14 @@ export const CreateTeamDialog = (props: CreateTeamDialogProps) => {
                                 colorScheme={'gray'}
                                 variant={'solid'}
                                 type={'submit'}
-                                isLoading={form.formState.isSubmitting}
+                                disabled={form.formState.isSubmitting}
                             >
                                 Create Team
                             </Button>
                         </ButtonGroup>
-                    </ModalFooter>
+                    </Dialog.Footer>
                 </form>
-            </ModalContent>
-        </Modal>
+            </Dialog.Content>
+        </Dialog.Root>
     );
 };

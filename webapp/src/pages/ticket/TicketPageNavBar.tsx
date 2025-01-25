@@ -1,6 +1,4 @@
-import { Button, Divider, Flex, Text } from '@chakra-ui/react';
-import { useUiStore } from '../../state/stores/ui.store';
-import { NavButton } from '../../components/nav-button/NavButton';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { MdArrowBack } from 'react-icons/md';
 import { LuListMinus, LuSettings } from 'react-icons/lu';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,6 +6,8 @@ import { HiOutlineTicket } from 'react-icons/hi';
 import { IoIosSearch } from 'react-icons/io';
 import { TicketPageParams } from './TicketPageParams';
 import { PiPlugsConnected } from 'react-icons/pi';
+import { useUiStore } from '../../state/stores/ui.store';
+import { NavButton } from '../../components/nav-button/NavButton';
 
 export const TicketPageNavBar = () => {
     const { isFullNavBar, closeNavBar, openNavBar } = useUiStore();
@@ -30,7 +30,6 @@ export const TicketPageNavBar = () => {
             <Button
                 variant={'ghost'}
                 size={'sm'}
-                leftIcon={<MdArrowBack />}
                 width={'100%'}
                 justifyContent={'flex-start'}
                 mt={2}
@@ -39,10 +38,10 @@ export const TicketPageNavBar = () => {
                     navigate(`/${domainId}/ticket-desk/${ticketId}`);
                 }}
             >
-                Go back
+                <MdArrowBack /> Go back
             </Button>
 
-            <Divider />
+            <Box divideY={'1px'} />
 
             <Flex mt={2} px={4} width={'100%'} gap={2} alignItems="center">
                 <Flex alignItems={'center'} backgroundColor={'purple.400'} rounded={6} p={2}>
