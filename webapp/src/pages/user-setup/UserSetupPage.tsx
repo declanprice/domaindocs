@@ -58,20 +58,13 @@ export const UserSetupPage = () => {
     });
 
     return (
-        <Flex minWidth={300} height={'100%'} width={'100%'} justifyContent={'center'} alignItems={'center'}>
+        <Flex height={'100%'} width={'100%'} justifyContent={'center'} alignItems={'center'}>
             <form onSubmit={handleSubmit(mutate as any)}>
-                <Flex direction={'column'} alignItems={'end'} gap={6}>
-                    <Heading>About You</Heading>
+                <Flex minWidth={300} direction={'column'} alignItems={'end'} gap={6}>
+                    <Heading size={'3xl'}>About You</Heading>
                     <FormTextInput name={'firstName'} control={control} placeholder={'First Name'} />
                     <FormTextInput name={'lastName'} control={control} placeholder={'Last Name'} />
-                    <Button
-                        loading={isPending}
-                        size={'sm'}
-                        width={'100%'}
-                        type={'submit'}
-                        color={'white'}
-                        backgroundColor={'gray.700'}
-                    >
+                    <Button loading={isPending} type={'submit'} colorPalette={'gray'}>
                         Continue
                     </Button>
                 </Flex>

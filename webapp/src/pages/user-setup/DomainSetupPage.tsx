@@ -29,10 +29,10 @@ export const DomainSetupPage = () => {
     return (
         <Flex height={'100%'} width={'100%'} justifyContent={'center'} alignItems={'center'} gap={2}>
             <form onSubmit={handleSubmit(submit)}>
-                <Flex direction={'column'} alignItems={'end'} gap={6}>
-                    <Heading size={'lg'}>Create Domain</Heading>
+                <Flex minWidth={300} direction={'column'} alignItems={'end'} gap={6}>
+                    <Heading size={'3xl'}>Domain Name</Heading>
                     <FormTextInput name={'domainName'} control={control} placeholder={'Domain Name'} />
-                    <Button type={'submit'} color={'white'} size={'xs'} backgroundColor={'gray.700'}>
+                    <Button type={'submit'} colorPalette={'gray'}>
                         Continue
                     </Button>
                 </Flex>

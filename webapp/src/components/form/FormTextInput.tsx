@@ -34,6 +34,8 @@ export const FormTextInput = (props: FormTextInputProps) => {
                 value={field.value}
                 autoComplete="off"
                 ref={field.ref}
+                variant={'subtle'}
+                width={'100%'}
                 rounded={6}
                 onBlur={() => {
                     field.onBlur();
