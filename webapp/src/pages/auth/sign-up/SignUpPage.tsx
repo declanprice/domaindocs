@@ -31,7 +31,7 @@ export const SignUpPage = () => {
     return (
         <Flex minWidth={300} height={'100%'} width={'100%'} justifyContent={'center'} alignItems={'center'}>
             <form onSubmit={handleSubmit(sendMagicLink)}>
-                <Flex direction={'column'} alignItems={'end'} gap={6}>
+                <Flex minWidth={300} direction={'column'} alignItems={'end'} gap={6}>
                     <Heading size={'3xl'}>Domain Docs</Heading>
                     <Text textStyle={'2xl'}>Sign Up</Text>
                     <FormTextInput name={'email'} control={control} placeholder={'type your email here'} />

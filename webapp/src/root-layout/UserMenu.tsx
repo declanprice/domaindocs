@@ -1,10 +1,11 @@
-import { Box, Button, Flex, IconButton, Popover, PopoverContent, PopoverTrigger, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, IconButton, Text } from '@chakra-ui/react';
 import { CiSettings } from 'react-icons/ci';
 import { PiSignOut } from 'react-icons/pi';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthStore } from '../state/stores/auth.store';
 import { DomainPageParams } from '../types/DomainPageParams';
 import { Avatar } from '../components/ui/avatar';
+import { PopoverContent, PopoverRoot, PopoverTrigger } from '../components/ui/popover';
 
 export const UserMenu = () => {
     const { signOut } = useAuthStore();
@@ -25,35 +26,28 @@ export const UserMenu = () => {
                 alignItems={'center'}
                 justifyContent={'flex-start'}
                 gap={2}
-                size={'sm'}
                 variant={'ghost'}
                 onClick={onClick}
                 fontWeight={'regular'}
             >
                 {icon}
 
-                <Text fontSize={12} color={'gray.900'}>
-                    {label}
-                </Text>
+                <Text color={'gray.900'}>{label}</Text>
             </Button>
         );
     };
 
     return (
-        <Popover.Root>
+        <PopoverRoot>
             <PopoverTrigger>
                 <IconButton aria-label={'notification'} variant={'ghost'}>
-                    {' '}
-                    <Avatar size={'sm'}>
-                        {' '}
-                        ${user.firstName} ${user.lastName}{' '}
-                    </Avatar>{' '}
+                    <Avatar size={'xs'} name={`${user.firstName} ${user.lastName}`} />
                 </IconButton>
             </PopoverTrigger>
 
             <PopoverContent width={'220px'} p={2} mr={2} mt={1}>
-                <Flex direction={'column'} gap={2}>
-                    <Text mt={2} ml={2} fontSize={'sm'}>
+                <Flex direction={'column'} gap={1}>
+                    <Text mt={2} mb={2} ml={2} textStyle={'md'}>
                         Declan Price
                     </Text>
 
@@ -77,6 +71,6 @@ export const UserMenu = () => {
                     />
                 </Flex>
             </PopoverContent>
-        </Popover.Root>
+        </PopoverRoot>
     );
 };

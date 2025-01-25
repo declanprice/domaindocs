@@ -1,10 +1,11 @@
 import { Domain } from '@domaindocs/types';
-import { Box, Button, Flex, Popover, PopoverContent, PopoverTrigger, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { PiPlugsConnected } from 'react-icons/pi';
 import { IoChevronDown } from 'react-icons/io5';
 import { CiSettings } from 'react-icons/ci';
 import { useNavigate } from 'react-router-dom';
 import { Avatar } from '../components/ui/avatar';
+import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from '../components/ui/popover';
 
 type DomainSelectorMenuProps = {
     value: Domain;
@@ -26,13 +27,12 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
                 alignItems={'center'}
                 justifyContent={'flex-start'}
                 gap={2}
-                size={'sm'}
                 variant={'ghost'}
                 onClick={onClick}
             >
                 {icon}
 
-                <Text fontSize={12} color={'gray.900'} fontWeight={'400'}>
+                <Text color={'gray.900'} fontWeight={'400'}>
                     {label}
                 </Text>
             </Button>
@@ -40,13 +40,19 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
     };
 
     return (
-        <Popover.Root>
+        <PopoverRoot>
             <PopoverTrigger>
-                <Button size={'md'} aria-label={'domain selector button'} variant={'ghost'}>
+                <Button maxWidth={'250px'} aria-label={'domain selector button'} variant={'ghost'} pb={6} pt={6}>
                     <Flex width={'100%'} gap={2} alignItems="center">
-                        <Avatar name={value.name} size={'sm'} rounded={'lg'} />
+                        <Avatar name={value.name} size={'xs'} rounded={'lg'} />
 
-                        <Text color={'gray.900'} fontSize={12} fontWeight={'400'}>
+                        <Text
+                            color={'gray.900'}
+                            fontWeight={'400'}
+                            overflow={'hidden'}
+                            textOverflow={'ellipsis'}
+                            whiteSpace={'nowrap'}
+                        >
                             {value.name}
                         </Text>
 
@@ -57,52 +63,52 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
                 </Button>
             </PopoverTrigger>
 
-            <PopoverContent width={'220px'} ml={2}>
-                <Flex direction={'column'} gap={2} p={2}>
-                    <Text mt={2} ml={2} fontSize={'sm'}>
-                        {value.name}
-                    </Text>
+            <PopoverContent>
+                <PopoverBody>
+                    <Flex direction={'column'} gap={2}>
+                        <Text textStyle={'md'}>{value.name}</Text>
 
-                    <MenuButton
-                        label={'Settings'}
-                        icon={<CiSettings />}
-                        onClick={() => {
-                            navigate(`/${value.domainId}/settings`);
-                        }}
-                    />
+                        <MenuButton
+                            label={'Settings'}
+                            icon={<CiSettings />}
+                            onClick={() => {
+                                navigate(`/${value.domainId}/settings`);
+                            }}
+                        />
 
-                    <MenuButton
-                        label={'Integrations'}
-                        icon={<PiPlugsConnected />}
-                        onClick={() => {
-                            navigate(`/${value.domainId}/integrations`);
-                        }}
-                    />
+                        <MenuButton
+                            label={'Integrations'}
+                            icon={<PiPlugsConnected />}
+                            onClick={() => {
+                                navigate(`/${value.domainId}/integrations`);
+                            }}
+                        />
 
-                    <Box divideX={'1px'} />
+                        <Box divideX={'1px'} />
 
-                    <Text mt={2} ml={2} fontSize={'xs'}>
-                        Switch Domains
-                    </Text>
+                        <Text textStyle={'md'}>Switch Domains</Text>
 
-                    {options.map((option) => (
-                        <Button
-                            key={option.domainId}
-                            width={'100%'}
-                            aria-label={'domain selector button'}
-                            variant={'ghost'}
-                        >
-                            <Flex width={'100%'} gap={2} alignItems="center">
-                                <Avatar name={option.name} size={'xs'} rounded={'lg'}></Avatar>
+                        {options.map((option) => (
+                            <Button
+                                key={option.domainId}
+                                width={'100%'}
+                                aria-label={'domain selector button'}
+                                variant={'ghost'}
+                                pb={6}
+                                pt={6}
+                            >
+                                <Flex width={'100%'} gap={2} alignItems="center">
+                                    <Avatar name={option.name} size={'xs'} rounded={'lg'}></Avatar>
 
-                                <Text color={'gray.900'} fontSize={12} fontWeight={'400'}>
-                                    {option.name}
-                                </Text>
-                            </Flex>
-                        </Button>
-                    ))}
-                </Flex>
+                                    <Text color={'gray.900'} fontWeight={'400'}>
+                                        {option.name}
+                                    </Text>
+                                </Flex>
+                            </Button>
+                        ))}
+                    </Flex>
+                </PopoverBody>
             </PopoverContent>
-        </Popover.Root>
+        </PopoverRoot>
     );
 };
