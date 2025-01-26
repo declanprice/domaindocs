@@ -1,6 +1,8 @@
 import { Input } from '@chakra-ui/react';
 import { Control, useController } from 'react-hook-form';
 import { Field } from '../ui/field';
+import { InputGroup } from '../ui/input-group';
+import React from 'react';
 
 export type FormTextInputProps = {
     name: string;
@@ -10,9 +12,8 @@ export type FormTextInputProps = {
     helperText?: string;
     onChange?: (e: any) => void;
     onBlur?: () => void;
-    debounce?: number;
-    onDebounceValue?: () => void;
-    leftElement?: any;
+    leftIcon?: any;
+    rightIcon?: any;
 };
 
 export const FormTextInput = (props: FormTextInputProps) => {
@@ -29,29 +30,31 @@ export const FormTextInput = (props: FormTextInputProps) => {
             errorText={fieldState?.error?.message}
             invalid={fieldState.invalid}
         >
-            <Input
-                name={field.name}
-                value={field.value}
-                autoComplete="off"
-                ref={field.ref}
-                variant={'subtle'}
-                width={'100%'}
-                rounded={6}
-                onBlur={() => {
-                    field.onBlur();
-                    if (props.onBlur) {
-                        props.onBlur();
-                    }
-                }}
-                onChange={(e) => {
-                    field.onChange(e);
-                    if (props.onChange) {
-                        props.onChange(e);
-                    }
-                }}
-                disabled={field.disabled}
-                placeholder={props.placeholder}
-            />
+            <InputGroup startElement={props.leftIcon} endElement={props.rightIcon} width={'100%'}>
+                <Input
+                    name={field.name}
+                    value={field.value}
+                    autoComplete="off"
+                    ref={field.ref}
+                    variant={'subtle'}
+                    width={'100%'}
+                    rounded={6}
+                    onBlur={() => {
+                        field.onBlur();
+                        if (props.onBlur) {
+                            props.onBlur();
+                        }
+                    }}
+                    onChange={(e) => {
+                        field.onChange(e);
+                        if (props.onChange) {
+                            props.onChange(e);
+                        }
+                    }}
+                    disabled={field.disabled}
+                    placeholder={props.placeholder}
+                />
+            </InputGroup>
         </Field>
     );
 };

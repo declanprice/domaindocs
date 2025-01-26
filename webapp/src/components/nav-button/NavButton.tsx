@@ -28,9 +28,8 @@ export const NavButton = (props: NavButtonProps) => {
             display={'flex'}
             fontWeight={'regular'}
             justifyContent={'flex-start'}
-            isActive={isActive}
+            // isActive={isActive}
             size={'md'}
-            rightIcon={rightIcon}
             _active={{
                 backgroundColor: 'gray.100',
             }}
@@ -39,11 +38,14 @@ export const NavButton = (props: NavButtonProps) => {
             onClick={() => {
                 navigate(to);
             }}
-            leftIcon={icon}
         >
-            <Text fontSize={12} color={'gray.900'} fontWeight={'300'} flex={1} textAlign={'start'}>
+            {icon && <>{icon} </>}
+
+            <Text color={'gray.900'} fontWeight={'300'} flex={1} textAlign={'start'}>
                 {label}
             </Text>
+
+            {rightIcon && <>{rightIcon} </>}
         </Button>
     );
 };

@@ -1,11 +1,10 @@
 import { Flex } from '@chakra-ui/react';
-import { MdOutlineWorkOutline } from 'react-icons/md';
 import { IoPersonOutline } from 'react-icons/io5';
 import { GoChevronRight, GoPeople } from 'react-icons/go';
 import { useAuthStore } from '../state/stores/auth.store';
 import { useUiStore } from '../state/stores/ui.store';
 import { LuComponent } from 'react-icons/lu';
-import { HiOutlineDocumentText, HiOutlineTicket } from 'react-icons/hi';
+import { HiOutlineDocumentText } from 'react-icons/hi';
 import { NavButton } from '../components/nav-button/NavButton';
 import { TiHomeOutline } from 'react-icons/ti';
 import { GiGraduateCap } from 'react-icons/gi';
@@ -77,18 +76,18 @@ export const RootNavBar = () => {
                     to={`/${activeDomain.domainId}/docs/relevant`}
                 />
 
-                <NavButton
-                    icon={<MdOutlineWorkOutline color={'gray.900'} size={18} />}
-                    label={'Work Areas'}
-                    to={`/${activeDomain.domainId}/work-areas`}
-                />
+                {/*<NavButton*/}
+                {/*    icon={<MdOutlineWorkOutline color={'gray.900'} size={18} />}*/}
+                {/*    label={'Work Areas'}*/}
+                {/*    to={`/${activeDomain.domainId}/work-areas`}*/}
+                {/*/>*/}
 
-                <NavButton
-                    icon={<HiOutlineTicket color={'gray.900'} size={18} />}
-                    label={'Ticket Desk'}
-                    to={`/${activeDomain.domainId}/ticket-desk`}
-                    rightIcon={<GoChevronRight />}
-                />
+                {/*<NavButton*/}
+                {/*    icon={<HiOutlineTicket color={'gray.900'} size={18} />}*/}
+                {/*    label={'Ticket Desk'}*/}
+                {/*    to={`/${activeDomain.domainId}/ticket-desk`}*/}
+                {/*    rightIcon={<GoChevronRight />}*/}
+                {/*/>*/}
 
                 <NavButton
                     icon={<GiGraduateCap color={'gray.900'} size={18} />}

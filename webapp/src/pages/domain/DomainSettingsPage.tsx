@@ -17,7 +17,6 @@ import { ConfirmDialog } from '../../components/dialogs/ConfirmDialog';
 import { Pagination } from '../../components/pagination/Pagination';
 import { toaster } from '../../components/ui/toaster';
 import { Avatar } from '../../components/ui/avatar';
-import { InputGroup } from '../../components/ui/input-group';
 
 export const DomainSettingsPage = () => {
     const { domainId } = useParams() as DomainPageParams;
@@ -46,6 +45,12 @@ export const DomainSettingsPage = () => {
             domainName: domain?.domain.name || '',
         },
         resolver: classValidatorResolver(UpdateDomainNameData),
+    });
+
+    const searchPeopleForm = useForm<any>({
+        values: {
+            search: '',
+        },
     });
 
     const onUpdateName = async (data: UpdateDomainNameData) => {
@@ -90,19 +95,17 @@ export const DomainSettingsPage = () => {
     return (
         <Flex gap={4} width={'100%'} direction={'column'} overflowY={'auto'}>
             <Flex borderBottom={'1px solid'} borderColor={'border'} pb={30} px={4} pt={6}>
-                <Flex width={'280px'} minWidth={'250px'} gap={4} direction={'column'} mr={20}>
+                <Flex width={'280px'} minWidth={'280px'} gap={4} direction={'column'}>
                     <Text fontSize={16}>Domain Settings</Text>
-                    <Text fontSize={12}>Configure your domain name, and logo.</Text>
+                    <Text fontSize={14}>Configure your domain name, and logo.</Text>
                 </Flex>
 
-                <Flex direction={'column'} gap={4}>
+                <Flex direction={'column'} gap={4} minWidth={'250px'} ml={20}>
                     <Avatar name={'Registers Of Scotland'} size={'lg'} rounded={4} />
 
                     <FormTextInput
                         name={'domainName'}
                         control={form.control}
-                        label={'Domain name'}
-                        debounce={500}
                         onChange={debounce(() => {
                             form.handleSubmit(onUpdateName)();
                         }, 500)}
@@ -111,24 +114,23 @@ export const DomainSettingsPage = () => {
             </Flex>
 
             <Flex borderBottom={'1px solid'} borderColor={'border'} pb={35} px={4} pt={6}>
-                <Flex width={'280px'} minWidth={'250px'} gap={4} direction={'column'} mr={20}>
+                <Flex width={'280px'} minWidth={'280px'} gap={4} direction={'column'}>
                     <Text fontSize={16}>People</Text>
-                    <Text fontSize={12}>Manage the people of your domain.</Text>
+                    <Text fontSize={14}>Manage the people of your domain.</Text>
                 </Flex>
 
-                <Flex direction={'column'} width={'100%'} gap={2} maxWidth={'500px'}>
-                    <Flex gap={2}>
-                        <InputGroup
-                            maxWidth={'300px'}
-                            startElement={<BiSearch color="gray.900" />}
-                            pointerEvents={'none'}
-                        >
-                            <Input variant={'subtle'} placeholder="Search people" />
-                        </InputGroup>
+                <Flex direction={'column'} width={'100%'} gap={2} ml={20}>
+                    <Flex gap={2} mb={2}>
+                        <FormTextInput
+                            leftIcon={<BiSearch color="gray.900" />}
+                            name={'searchPeople'}
+                            placeholder={'Search people'}
+                            control={searchPeopleForm.control}
+                            onChange={debounce(() => {}, 500)}
+                        />
 
                         <Box>
                             <Button
-                                size={'xs'}
                                 onClick={() => {
                                     inviteModal.onOpen();
                                 }}
@@ -154,15 +156,15 @@ export const DomainSettingsPage = () => {
             </Flex>
 
             <Flex borderBottom={'1px solid'} borderColor={'border'} pb={35} px={4} pt={6}>
-                <Flex width={'280px'} minWidth={'250px'} gap={4} direction={'column'} mr={20}>
+                <Flex width={'280px'} minWidth={'280px'} gap={4} direction={'column'}>
                     <Text fontSize={16}>Danger Area</Text>
-                    <Text fontSize={12}>
+                    <Text fontSize={14}>
                         Warning deleting an domain is irreversible, you will lose all data relating to the domain.
                     </Text>
                 </Flex>
 
-                <Flex direction={'column'}>
-                    <Button colorScheme={'red'} size={'xs'} onClick={deleteModal.onOpen}>
+                <Flex direction={'column'} ml={20}>
+                    <Button colorPalette={'red'} onClick={deleteModal.onOpen}>
                         Delete Domain
                     </Button>
                 </Flex>

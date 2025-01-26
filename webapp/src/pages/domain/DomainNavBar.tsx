@@ -1,4 +1,4 @@
-import { Button, Box, Flex, Stack, Text, AvatarRoot } from '@chakra-ui/react';
+import { Button, Box, Flex, Text } from '@chakra-ui/react';
 import { HiOutlineDocumentText } from 'react-icons/hi';
 import { useUiStore } from '../../state/stores/ui.store';
 import { NavButton } from '../../components/nav-button/NavButton';
@@ -8,6 +8,7 @@ import { LuListMinus, LuSettings } from 'react-icons/lu';
 import { LuNetwork } from 'react-icons/lu';
 import { PiPlugsConnected } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
+import { Avatar } from '../../components/ui/avatar';
 
 export const DomainNavBar = () => {
     const { isFullNavBar, closeNavBar, openNavBar } = useUiStore();
@@ -31,7 +32,6 @@ export const DomainNavBar = () => {
         >
             <Button
                 variant={'ghost'}
-                size={'sm'}
                 width={'100%'}
                 justifyContent={'flex-start'}
                 mt={2}
@@ -45,18 +45,26 @@ export const DomainNavBar = () => {
 
             <Box divideX={'1px'} />
 
-            <Flex mt={2} px={4} width={'100%'} gap={2} alignItems="center">
-                <AvatarRoot name={activeDomain.name} size={'sm'} rounded={'lg'} />
+            <Flex mt={2} px={4} width={'100%'} gap={2} alignItems="center" direction={'row'}>
+                <Avatar name={activeDomain.name} size={'sm'} rounded={'lg'} />
 
-                <Stack h={0}>
-                    <Text color={'gray.900'} fontSize={14} fontWeight={'400'}>
+                <Flex direction={'column'}>
+                    <Text
+                        color={'gray.900'}
+                        fontSize={14}
+                        fontWeight={'400'}
+                        maxWidth={'170px'}
+                        textOverflow={'ellipsis'}
+                        overflow={'hidden'}
+                        whiteSpace={'nowrap'}
+                    >
                         {activeDomain.name}
                     </Text>
 
-                    <Text color={'gray.900'} fontSize={10} fontWeight={'300'}>
+                    <Text color={'gray.900'} fontSize={12} fontWeight={'300'}>
                         Domain
                     </Text>
-                </Stack>
+                </Flex>
             </Flex>
 
             <Flex
@@ -75,12 +83,6 @@ export const DomainNavBar = () => {
                     label={'Overview'}
                     icon={<LuListMinus color={'gray.900'} size={18} />}
                     to={`/${activeDomain.domainId}/domain/overview`}
-                />
-
-                <NavButton
-                    icon={<LuNetwork color={'gray.900'} size={18} />}
-                    label={'Subdomains'}
-                    to={`/${activeDomain.domainId}/domain/subdomains`}
                 />
 
                 <NavButton

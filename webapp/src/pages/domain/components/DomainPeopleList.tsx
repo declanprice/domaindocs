@@ -1,8 +1,9 @@
-import { Badge, Flex, IconButton, List, ListItem, Menu, MenuContent, MenuItem, Text } from '@chakra-ui/react';
+import { Badge, Flex, IconButton, Text } from '@chakra-ui/react';
 import { DomainSettingsPerson } from '@domaindocs/types';
 import { TbDots } from 'react-icons/tb';
 import React from 'react';
 import { Avatar } from '../../../components/ui/avatar';
+import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from '../../../components/ui/menu';
 
 type DomainPeopleTableProps = {
     people: DomainSettingsPerson[];
@@ -12,9 +13,9 @@ export const DomainPeopleList = (props: DomainPeopleTableProps) => {
     const { people } = props;
 
     return (
-        <List.Root h={2}>
+        <ul>
             {people.map((data) => (
-                <ListItem key={data.userId}>
+                <li>
                     <Flex
                         p={1}
                         rounded={4}
@@ -22,38 +23,33 @@ export const DomainPeopleList = (props: DomainPeopleTableProps) => {
                         gap={2}
                         _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
                     >
-                        <Avatar size={'xs'} src={data.iconUri} name={`${data.firstName} ${data.lastName}`} />
+                        <Avatar src={data.iconUri} name={`${data.firstName} ${data.lastName}`} />
 
-                        <Flex direction={'column'} justifyContent={'center'}>
-                            <Text fontSize={12} fontWeight={'normal'}>
+                        <Flex direction={'column'} justifyContent={'center'} ml={2}>
+                            <Text fontWeight={'normal'}>
                                 {data.firstName} {data.lastName}
                                 {data.pending && (
-                                    <Badge ml="2" colorScheme="orange" fontSize={10}>
+                                    <Badge ml="2" colorScheme="orange">
                                         Invited
                                     </Badge>
                                 )}
                             </Text>
 
-                            <Text fontSize={10}>{data.email}</Text>
+                            <Text>{data.email}</Text>
                         </Flex>
 
-                        <Menu.Root>
-                            <Menu.Trigger
-                                variant={'ghost'}
-                                ml={'auto'}
-                                size={'xs'}
-                                as={IconButton}
-                                mr={1}
-                                icon={<TbDots />}
-                            ></Menu.Trigger>
+                        <MenuRoot>
+                            <MenuTrigger variant={'ghost'} ml={'auto'} as={IconButton} mr={1}>
+                                <TbDots />
+                            </MenuTrigger>
 
                             <MenuContent>
                                 <MenuItem>Remove</MenuItem>
                             </MenuContent>
-                        </Menu.Root>
+                        </MenuRoot>
                     </Flex>
-                </ListItem>
+                </li>
             ))}
-        </List.Root>
+        </ul>
     );
 };

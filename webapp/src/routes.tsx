@@ -109,12 +109,8 @@ export const routes = createBrowserRouter([
                                                 element: <DomainOverviewPage />,
                                             },
                                             {
-                                                path: 'subdomains',
-                                                element: <DomainDocumentationPage />,
-                                            },
-                                            {
                                                 path: 'documentation',
-                                                element: <DomainSubdomainsPage />,
+                                                element: <DomainDocumentationPage />,
                                             },
                                             {
                                                 path: 'integrations',

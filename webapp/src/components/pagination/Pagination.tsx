@@ -1,5 +1,6 @@
-import { Box, Button, ButtonGroup, IconButton, Menu, MenuContent, MenuItem } from '@chakra-ui/react';
+import { Button, ButtonGroup, IconButton } from '@chakra-ui/react';
 import { BiChevronDown, BiChevronLeft, BiChevronRight } from 'react-icons/bi';
+import { MenuRoot, MenuTrigger, MenuItem, MenuContent } from '../ui/menu';
 
 type PaginationProps = {
     totalItems: number;
@@ -9,44 +10,35 @@ type PaginationProps = {
 export const Pagination = () => {
     return (
         <ButtonGroup alignItems={'center'}>
-            <Menu.Root>
-                <Menu.Trigger
-                    as={Button}
-                    variant={'ghost'}
-                    fontSize={12}
-                    size={'xs'}
-                    fontWeight={'normal'}
-                    rightIcon={<BiChevronDown />}
-                >
-                    Show 5 Items
-                </Menu.Trigger>
+            <MenuRoot>
+                <MenuTrigger>
+                    <Button variant={'ghost'} colorPalette={'gray'}>
+                        Show 5 Items <BiChevronDown />
+                    </Button>
+                </MenuTrigger>
 
                 <MenuContent>
-                    <MenuItem fontSize={12}>5</MenuItem>
-                    <MenuItem fontSize={12}>10</MenuItem>
-                    <MenuItem fontSize={12}>20</MenuItem>
+                    <MenuItem value={5}>5</MenuItem>
+                    <MenuItem value={10}>10</MenuItem>
+                    <MenuItem VALUE={15}>15</MenuItem>
                 </MenuContent>
-            </Menu.Root>
+            </MenuRoot>
 
-            <Box divideY={'20px'} />
-
-            <IconButton aria-label={'left'} variant={'ghost'} size={'xs'}>
+            <IconButton aria-label={'left'} variant={'ghost'}>
                 <BiChevronLeft />
             </IconButton>
 
-            <Button fontSize={12} variant={'ghost'} size={'xs'} fontWeight={'normal'}>
+            <Button variant={'ghost'} fontWeight={'normal'}>
                 1
             </Button>
 
-            <Button fontSize={12} size={'xs'} fontWeight={'normal'}>
-                2
-            </Button>
+            <Button fontWeight={'normal'}>2</Button>
 
-            <Button fontSize={12} variant={'ghost'} size={'xs'} fontWeight={'normal'}>
+            <Button variant={'ghost'} fontWeight={'normal'}>
                 3
             </Button>
 
-            <IconButton aria-label={'left'} variant={'ghost'} size={'xs'}>
+            <IconButton aria-label={'left'} variant={'ghost'}>
                 <BiChevronRight />
             </IconButton>
         </ButtonGroup>
