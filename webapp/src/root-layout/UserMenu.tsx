@@ -39,10 +39,8 @@ export const UserMenu = () => {
 
     return (
         <PopoverRoot>
-            <PopoverTrigger>
-                <IconButton aria-label={'notification'} variant={'ghost'}>
-                    <Avatar size={'xs'} name={`${user.firstName} ${user.lastName}`} />
-                </IconButton>
+            <PopoverTrigger as={IconButton} aria-label={'notification'} variant={'ghost'}>
+                <Avatar size={'xs'} name={`${user.firstName} ${user.lastName}`} />
             </PopoverTrigger>
 
             <PopoverContent width={'220px'} p={2} mr={2} mt={1}>

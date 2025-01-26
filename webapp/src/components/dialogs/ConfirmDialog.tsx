@@ -1,12 +1,13 @@
-import { Button, Dialog } from '@chakra-ui/react';
-
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { Button } from '@chakra-ui/react';
+import { DialogBody, DialogContent, DialogFooter, DialogHeader, DialogRoot } from '../ui/dialog';
+import { OpenChangeDetails } from '@zag-js/dialog';
 
 type ConfirmDialogProps = {
     isOpen: boolean;
     header?: string;
     body?: any;
-    onConfirm: () => void;
+    onConfirm: () => Promise<void>;
     onCancel: () => void;
 };
 
@@ -15,24 +16,48 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
 
     const ref = useRef();
 
+    const [isLoading, setIsLoading] = useState(false);
+
     return (
-        <Dialog.Root isOpen={isOpen} leastDestructiveRef={ref as any} onClose={onCancel}>
-            <Dialog.Content>
-                <Dialog.Header fontSize="lg" fontWeight="bold">
+        <DialogRoot
+            open={isOpen}
+            onOpenChange={(details: OpenChangeDetails) => {
+                if (!details.open) {
+                    // onCancel();
+                }
+            }}
+            leastDestructiveRef={ref as any}
+            onClose={onCancel}
+        >
+            <DialogContent>
+                <DialogHeader fontSize="lg" fontWeight="bold">
                     {header}
-                </Dialog.Header>
+                </DialogHeader>
 
-                {body && <Dialog.Body>{body}</Dialog.Body>}
+                {body && <DialogBody>{body}</DialogBody>}
 
-                <Dialog.Footer>
-                    <Button size={'sm'} ref={ref as any} onClick={onCancel}>
+                <DialogFooter>
+                    <Button ref={ref as any} onClick={onCancel}>
                         Cancel
                     </Button>
-                    <Button size={'sm'} colorScheme="red" onClick={onConfirm} ml={3}>
+
+                    <Button
+                        colorPalette="red"
+                        onClick={async () => {
+                            try {
+                                setIsLoading(true);
+                                await onConfirm();
+                            } finally {
+                                setIsLoading(false);
+                            }
+                        }}
+                        ml={3}
+                        loading={isLoading}
+                    >
                         Confirm
                     </Button>
-                </Dialog.Footer>
-            </Dialog.Content>
-        </Dialog.Root>
+                </DialogFooter>
+            </DialogContent>
+        </DialogRoot>
     );
 };

@@ -41,26 +41,31 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
 
     return (
         <PopoverRoot>
-            <PopoverTrigger>
-                <Button maxWidth={'250px'} aria-label={'domain selector button'} variant={'ghost'} pb={6} pt={6}>
-                    <Flex width={'100%'} gap={2} alignItems="center">
-                        <Avatar name={value.name} size={'xs'} rounded={'lg'} />
+            <PopoverTrigger
+                as={Button}
+                maxWidth={'250px'}
+                aria-label={'domain selector button'}
+                variant={'ghost'}
+                pb={6}
+                pt={6}
+            >
+                <Flex width={'100%'} gap={2} alignItems="center">
+                    <Avatar name={value.name} size={'xs'} rounded={'lg'} />
 
-                        <Text
-                            color={'gray.900'}
-                            fontWeight={'400'}
-                            overflow={'hidden'}
-                            textOverflow={'ellipsis'}
-                            whiteSpace={'nowrap'}
-                        >
-                            {value.name}
-                        </Text>
+                    <Text
+                        color={'gray.900'}
+                        fontWeight={'400'}
+                        overflow={'hidden'}
+                        textOverflow={'ellipsis'}
+                        whiteSpace={'nowrap'}
+                    >
+                        {value.name}
+                    </Text>
 
-                        <Box marginLeft={'auto'}>
-                            <IoChevronDown color={'gray.900'} size={12} />
-                        </Box>
-                    </Flex>
-                </Button>
+                    <Box marginLeft={'auto'}>
+                        <IoChevronDown color={'gray.900'} size={12} />
+                    </Box>
+                </Flex>
             </PopoverTrigger>
 
             <PopoverContent>

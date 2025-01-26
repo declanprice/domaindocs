@@ -5,7 +5,6 @@ import { NavButton } from '../../components/nav-button/NavButton';
 import { useAuthStore } from '../../state/stores/auth.store';
 import { MdArrowBack } from 'react-icons/md';
 import { LuListMinus, LuSettings } from 'react-icons/lu';
-import { LuNetwork } from 'react-icons/lu';
 import { PiPlugsConnected } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 import { Avatar } from '../../components/ui/avatar';

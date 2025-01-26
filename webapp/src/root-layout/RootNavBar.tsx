@@ -9,6 +9,7 @@ import { NavButton } from '../components/nav-button/NavButton';
 import { TiHomeOutline } from 'react-icons/ti';
 import { GiGraduateCap } from 'react-icons/gi';
 import { BiNetworkChart } from 'react-icons/bi';
+import { VscTypeHierarchySub } from 'react-icons/vsc';
 
 export const RootNavBar = () => {
     const { isFullNavBar, closeNavBar, openNavBar } = useUiStore();
@@ -50,6 +51,12 @@ export const RootNavBar = () => {
                     icon={<BiNetworkChart color={'gray.900'} size={18} />}
                     to={`/${activeDomain.domainId}/domain/overview`}
                     rightIcon={<GoChevronRight />}
+                />
+
+                <NavButton
+                    label={'Subdomains'}
+                    icon={<VscTypeHierarchySub color={'gray.900'} size={18} />}
+                    to={`/${activeDomain.domainId}/subdomains`}
                 />
 
                 <NavButton

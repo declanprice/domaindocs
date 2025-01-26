@@ -14,6 +14,7 @@ import { WorkAreasModule } from './modules/work-areas/work-areas.module';
 import { FormsModule } from './modules/forms/forms.module';
 import { IntegrationsModule } from './modules/integrations/integrations.module';
 import { FilesModule } from './modules/files/files.module';
+import { SubdomainsModule } from './modules/subdomains/subdomains.module';
 
 @Module({
     imports: [
@@ -31,6 +32,7 @@ import { FilesModule } from './modules/files/files.module';
         UsersModule,
         PeopleModule,
         DomainsModule,
+        SubdomainsModule,
         TeamsModule,
         ComponentsModule,
         DocumentationModule,

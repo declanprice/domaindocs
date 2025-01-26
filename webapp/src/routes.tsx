@@ -65,6 +65,7 @@ import { OnboardingGuidePageNavBar } from './pages/onboarding-guide/OnboardingGu
 import { OnboardingGuideStepsPage } from './pages/onboarding-guide/OnboardingGuideStepsPage';
 import { OnboardingGuideSettingsPage } from './pages/onboarding-guide/OnboardingGuideSettingsPage';
 import { WorkAreaPageNavBar } from './pages/work-area/WorkAreaPageNavBar';
+import { SubdomainsPage } from './pages/subdomains/SubdomainsPage';
 
 export const routes = createBrowserRouter([
     {
@@ -119,6 +120,16 @@ export const routes = createBrowserRouter([
                                             {
                                                 path: 'settings',
                                                 element: <DomainSettingsPage />,
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        path: 'subdomains',
+                                        element: <RootLayout navbar={<RootNavBar />} />,
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <SubdomainsPage />,
                                             },
                                         ],
                                     },
