@@ -9,7 +9,18 @@ export class SubdomainsService {
     constructor(private prisma: PrismaService) {}
 
     async search(session: UserSession, domainId: string, params: SearchSubdomainsParams): Promise<Subdomain[]> {
-        const subdomains = await this.prisma.subdomain.findMany({ where: { domainId: domainId } });
+        const query: any = {
+            domainId,
+        };
+
+        if (params.name != '') {
+            query.name = { contains: params.name };
+        }
+
+        const subdomains = await this.prisma.subdomain.findMany({
+            where: query,
+        });
+
         return subdomains.map((subdomain) => new Subdomain(subdomain.domainId, subdomain.subdomainId, subdomain.name));
     }
 

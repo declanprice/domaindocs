@@ -10,7 +10,7 @@ import { FormTextInput } from '../../components/form/FormTextInput';
 import { useForm } from 'react-hook-form';
 import { subdomainsApi } from '../../state/api/subdomains-api';
 import { CreateSubdomainDialog } from './components/CreateSubdomainDialog';
-import { ConfirmDialog } from '../../components/dialogs/ConfirmDialog';
+import debounce from 'debounce';
 
 export const SubdomainsPage = () => {
     const { domainId } = useParams() as DomainPageParams;
@@ -19,13 +19,22 @@ export const SubdomainsPage = () => {
 
     const createSubdomainDialog = useDisclosure();
 
+    const searchForm = useForm({
+        values: {
+            name: '',
+        },
+    });
+
     const {
         data: subdomains,
         isLoading,
         refetch,
     } = useQuery<Subdomain[]>({
         queryKey: ['searchSubdomains', { domainId }],
-        queryFn: () => subdomainsApi.search(domainId, {}),
+        queryFn: () =>
+            subdomainsApi.search(domainId, {
+                name: searchForm.getValues('name'),
+            }),
     });
 
     const { mutateAsync: createSubdomain } = useMutation({
@@ -39,12 +48,6 @@ export const SubdomainsPage = () => {
         mutationFn: (subdomainId: string) => subdomainsApi.remove(domainId, subdomainId),
         onSuccess: () => {
             refetch();
-        },
-    });
-
-    const form = useForm({
-        values: {
-            name: '',
         },
     });
 
@@ -84,9 +87,12 @@ export const SubdomainsPage = () => {
                 <Box width={'280px'}>
                     <FormTextInput
                         name={'name'}
-                        control={form.control}
+                        control={searchForm.control}
                         placeholder={'Search subdomains'}
                         leftIcon={<CiSearch />}
+                        onChange={debounce(() => {
+                            refetch();
+                        }, 500)}
                     />
                 </Box>
             </Flex>

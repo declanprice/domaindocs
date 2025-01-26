@@ -1,5 +1,5 @@
 import { SubdomainsService } from './subdomains.service';
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import { CreateSubdomainData, SearchSubdomainsParams } from '@domaindocs/types';
@@ -13,7 +13,7 @@ export class SubdomainsController {
     async search(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
-        @Body() params: SearchSubdomainsParams,
+        @Query() params: SearchSubdomainsParams,
     ) {
         return this.subdomainsService.search(session, domainId, params);
     }

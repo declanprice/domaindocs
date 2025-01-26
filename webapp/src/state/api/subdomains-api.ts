@@ -2,9 +2,9 @@ import { CreateSubdomainData, SearchSubdomainsParams, Subdomain } from '@domaind
 import { apiClient } from './api-client';
 
 export const subdomainsApi = (() => {
-    const search = async (domainId: string, dto: SearchSubdomainsParams = {}): Promise<Subdomain[]> => {
+    const search = async (domainId: string, params: SearchSubdomainsParams = {}): Promise<Subdomain[]> => {
         const result = await apiClient.get<Subdomain[]>(`/domains/${domainId}/subdomains`, {
-            params: dto,
+            params,
         });
 
         return result.data;
