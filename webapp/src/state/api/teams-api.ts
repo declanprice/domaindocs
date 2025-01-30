@@ -23,6 +23,10 @@ export const teamsApi = (() => {
         await apiClient.post(`/domains/${domainId}/teams`, dto);
     };
 
+    const remove = async (domainId: string, teamId: string): Promise<void> => {
+        await apiClient.delete(`/domains/${domainId}/teams/${teamId}`);
+    };
+
     const get = async (domainId: string, teamId: string): Promise<DetailedTeam> => {
         const result = await apiClient.get<DetailedTeam>(`/domains/${domainId}/teams/${teamId}`);
 
@@ -100,6 +104,7 @@ export const teamsApi = (() => {
     return {
         search,
         create,
+        remove,
         get,
         updateDescription,
         addMember,

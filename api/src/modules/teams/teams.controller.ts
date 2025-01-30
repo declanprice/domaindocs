@@ -8,6 +8,7 @@ import {
     CreateTeamData,
     EditTeamDescriptionData,
     AddTeamMemberData,
+    EditTeamLinkData,
 } from '@domaindocs/types';
 
 @Controller('domains/:domainId/teams')
@@ -46,6 +47,15 @@ export class TeamsController {
         return this.teamsService.getTeam(session, domainId, teamId);
     }
 
+    @Delete(':teamId')
+    async deleteTeam(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('teamId') teamId: string,
+    ) {
+        return this.teamsService.removeTeam(session, domainId, teamId);
+    }
+
     @Post(':teamId/description')
     async updateDescription(
         @AuthSession() session: UserSession,
@@ -74,5 +84,36 @@ export class TeamsController {
         @Param('userId') userId: string,
     ) {
         return this.teamsService.removeMember(session, domainId, teamId, userId);
+    }
+
+    @Post(':teamId/links')
+    async addLink(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('teamId') teamId: string,
+        @Body() data: EditTeamLinkData,
+    ) {
+        return this.teamsService.addLink(session, domainId, teamId, data);
+    }
+
+    @Post(':teamId/links/:linkId')
+    async updateLink(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('teamId') teamId: string,
+        @Param('linkId') linkId: string,
+        @Body() data: EditTeamLinkData,
+    ) {
+        return this.teamsService.updateLink(session, domainId, teamId, linkId, data);
+    }
+
+    @Delete(':teamId/links/:linkId')
+    async removeLink(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('teamId') teamId: string,
+        @Param('linkId') linkId: string,
+    ) {
+        return this.teamsService.removeLink(session, domainId, teamId, linkId);
     }
 }

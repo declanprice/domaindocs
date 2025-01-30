@@ -1,14 +1,14 @@
 import { Flex, Stack, Text } from '@chakra-ui/react';
 import { IoInformation } from 'react-icons/io5';
 import { format } from 'date-fns';
-import { DetailedTeam } from '@domaindocs/types';
+import { Domain } from '@domaindocs/types';
 
-type TeamDetailsProps = {
-    team: DetailedTeam;
+type DomainDetailsProps = {
+    domain: Domain;
 };
 
-export const TeamDetails = (props: TeamDetailsProps) => {
-    const { team } = props;
+export const DomainDetails = (props: DomainDetailsProps) => {
+    const { domain } = props;
 
     return (
         <Flex backgroundColor={'lightgray'} p={4} rounded={4} gap={3} direction={'column'}>
@@ -22,11 +22,11 @@ export const TeamDetails = (props: TeamDetailsProps) => {
 
             <Stack gap={1}>
                 <Text fontSize={14} fontWeight={300}>
-                    Date formed
+                    Date created
                 </Text>
 
                 <Text fontSize={14} fontWeight={400}>
-                    {format(team.team.dateFormed, 'Mo MMM yyyy')}
+                    {format(domain.dateCreated, 'Mo MMM yyyy')}
                 </Text>
             </Stack>
         </Flex>

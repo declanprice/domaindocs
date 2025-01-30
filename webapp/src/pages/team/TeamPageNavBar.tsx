@@ -95,12 +95,6 @@ export const TeamPageNavBar = () => {
                 />
 
                 <NavButton
-                    icon={<LuNetwork color={'gray.900'} size={18} />}
-                    label={'Work'}
-                    to={`/${activeDomain.domainId}/teams/${team.team.teamId}/work`}
-                />
-
-                <NavButton
                     icon={<LuSettings color={'gray.900'} size={18} />}
                     label={'Settings'}
                     to={`/${activeDomain.domainId}/teams/${team.team.teamId}/settings`}

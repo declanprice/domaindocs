@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class EditTeamLinkData {
+export class EditDomainLinkData {
     @IsString()
     @IsNotEmpty()
     href: string;

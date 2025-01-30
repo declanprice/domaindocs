@@ -4,5 +4,7 @@ export const ros = (): Domain => {
     return {
         domainId: 'registersofscotland',
         name: 'Registers Of Scotland',
+        description: '',
+        dateCreated: new Date(),
     };
 };

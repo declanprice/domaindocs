@@ -1,14 +1,14 @@
 import { IsNotEmpty, IsString, ValidateIf } from 'class-validator';
-import { TeamContactType } from '../team';
+import { ContactType } from '../contacts/contact-type';
 
 export class EditComponentContactData {
     @IsString()
     @IsNotEmpty()
-    type: TeamContactType;
+    type: ContactType;
 
     @IsString()
     @IsNotEmpty()
-    @ValidateIf((o) => o.type === TeamContactType.LINK)
+    @ValidateIf((o) => o.type === ContactType.LINK)
     href?: string;
 
     @IsString()

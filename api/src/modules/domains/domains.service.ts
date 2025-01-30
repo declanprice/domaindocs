@@ -1,10 +1,18 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import { createSlug } from '../../util/create-slug';
 import {
+    ContactType,
+    DetailedDomain,
     Domain,
+    DomainContact,
+    DomainLink,
     DomainSettings,
     DomainSettingsPerson,
+    EditContactData,
+    EditDomainContactData,
+    EditDomainDescriptionData,
+    EditTeamLinkData,
     SendDomainInviteData,
     SetupDomainData,
     UpdateDomainNameData,
@@ -12,6 +20,7 @@ import {
 import { PrismaService } from '../../shared/prisma.service';
 import { EmailService } from '../../shared/services/email.service';
 import { AuthService } from '../../auth/auth.service';
+import { v4 } from 'uuid';
 
 @Injectable()
 export class DomainsService {
@@ -29,6 +38,8 @@ export class DomainsService {
                 data: {
                     domainId,
                     name: dto.domainName,
+                    description: '',
+                    dateCreated: new Date(),
                 },
             });
 
@@ -98,6 +109,36 @@ export class DomainsService {
         await this.emailService.sendInvite(data.email, domain.name, link);
     }
 
+    async getDomain(session: UserSession, domainId: string): Promise<DetailedDomain> {
+        const result = await this.prisma.domain.findUniqueOrThrow({
+            where: {
+                domainId,
+            },
+            include: {
+                links: true,
+                contacts: true,
+            },
+        });
+
+        if (!result) {
+            throw new NotFoundException();
+        }
+
+        return new DetailedDomain(
+            new Domain(result.domainId, result.name, result.description, result.dateCreated.toISOString()),
+            result.contacts.map(
+                (contact) =>
+                    new DomainContact(
+                        contact.contactId,
+                        contact.type as ContactType,
+                        contact.description,
+                        contact.href,
+                    ),
+            ),
+            result.links.map((link) => new DomainLink(link.linkId, link.href, link.description)),
+        );
+    }
+
     async getSettings(session: UserSession, domainId: string): Promise<DomainSettings> {
         const result = await this.prisma.domain.findUniqueOrThrow({
             where: {
@@ -113,7 +154,7 @@ export class DomainsService {
         });
 
         return new DomainSettings(
-            new Domain(result.domainId, result.name),
+            new Domain(result.domainId, result.name, result.description, result.dateCreated.toISOString()),
             result.people.map(
                 (p) =>
                     new DomainSettingsPerson(
@@ -139,27 +180,56 @@ export class DomainsService {
         });
     }
 
-    async delete(session: UserSession, domainId: string) {
-        // await this.prisma.$transaction(async (tx) => {
-        //     await tx.onboardingGuideProgress.deleteMany({ where: { domainId } });
-        //     await tx.onboardingGuideStep.deleteMany({ where: { domainId } });
-        //     await tx.onboardingGuide.deleteMany({ where: { domainId } });
-        //     await tx.documentationFile.deleteMany({ where: { domainId } });
-        //     await tx.documentationDocument.deleteMany({ where: { domainId } });
-        //     await tx.documentation.deleteMany({ where: { domainId } });
-        //     await tx.projectLink.deleteMany({ where: { domainId } });
-        //     await tx.projectOwnership.deleteMany({ where: { domainId } });
-        //     await tx.project.deleteMany({ where: { domainId } });
-        //     await tx.teamMember.deleteMany({ where: { domainId } });
-        //     await tx.team.deleteMany({ where: { domainId } });
-        //     await tx.personContact.deleteMany({ where: { domainId } });
-        //     await tx.personSkill.deleteMany({ where: { domainId } });
-        //     await tx.personRole.deleteMany({ where: { domainId } });
-        //     await tx.person.deleteMany({ where: { domainId } });
-        //     await tx.role.deleteMany({ where: { domainId } });
-        //     await tx.skill.deleteMany({ where: { domainId } });
-        //     await tx.domainInvite.deleteMany({ where: { domainId } });
-        //     await tx.domain.deleteMany();
-        // });
+    async updateDescription(session: UserSession, domainId: string, data: EditDomainDescriptionData) {}
+
+    async addContact(session: UserSession, domainId: string, data: EditContactData) {
+        await this.prisma.domainContact.create({
+            data: {
+                domainId,
+                contactId: v4(),
+                type: data.type,
+                href: data.href,
+                reason: '',
+                description: data.description,
+            },
+        });
+
+        return this.getDomain(session, domainId);
     }
+
+    async updateContact(session: UserSession, domainId: string, contactId: string, data: EditContactData) {
+        await this.prisma.domainContact.update({
+            where: {
+                domainId,
+                contactId,
+            },
+            data: {
+                type: data.type,
+                href: data.href,
+                reason: '',
+                description: data.description,
+            },
+        });
+
+        return this.getDomain(session, domainId);
+    }
+
+    async removeContact(session: UserSession, domainId: string, contactId: string) {
+        await this.prisma.domainContact.delete({
+            where: {
+                domainId,
+                contactId,
+            },
+        });
+
+        return this.getDomain(session, domainId);
+    }
+
+    async addLink(session: UserSession, domainId: string, dto: EditTeamLinkData) {}
+
+    async updateLink(session: UserSession, domainId: string, linkId: string, dto: EditTeamLinkData) {}
+
+    async removeLink(session: UserSession, domainId: string, linkId: string) {}
+
+    async delete(session: UserSession, domainId: string) {}
 }

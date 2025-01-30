@@ -1,22 +1,5 @@
-import {
-    Avatar,
-    Button,
-    ButtonGroup,
-    Flex,
-    Link,
-    List,
-    ListItem,
-    Popover,
-    PopoverBody,
-    PopoverContent,
-    PopoverFooter,
-    PopoverTrigger,
-    Portal,
-    Stack,
-    Text,
-    useDisclosure,
-} from '@chakra-ui/react';
-import { AddTeamMemberData, DetailedPerson, Person, TeamMember } from '@domaindocs/types';
+import { Box, Button, ButtonGroup, Flex, Link, Portal, Stack, Text, useDisclosure } from '@chakra-ui/react';
+import { AddTeamMemberData, DetailedPerson, Person, SearchPerson, TeamMember } from '@domaindocs/types';
 import { PropsWithChildren, RefObject, useRef } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
@@ -29,6 +12,14 @@ import { peopleApi } from '../../../state/api/people-api';
 import { FormSelect } from '../../../components/form/FormSelect';
 import { PersonAvatar } from '../../../components/person/PersonAvatar';
 import { GoPeople } from 'react-icons/go';
+import {
+    PopoverRoot,
+    PopoverTrigger,
+    PopoverBody,
+    PopoverContent,
+    PopoverFooter,
+} from '../../../components/ui/popover';
+import { Avatar } from '../../../components/ui/avatar';
 
 type TeamMembersProps = {
     domainId: string;
@@ -42,7 +33,7 @@ export const TeamMembers = (props: TeamMembersProps) => {
     const ref = useRef(null);
 
     return (
-        <Flex backgroundColor={'lightgray'} p={2} rounded={4} gap={3} direction={'column'}>
+        <Flex backgroundColor={'lightgray'} p={4} rounded={4} gap={3} direction={'column'}>
             <Flex ref={ref} alignItems={'center'}>
                 <Flex alignItems={'center'} backgroundColor={'teal.300'} rounded={6} p={2}>
                     <GoPeople color={'white'} />
@@ -50,16 +41,18 @@ export const TeamMembers = (props: TeamMembersProps) => {
 
                 <Text ml={4}>Members</Text>
 
-                <TeamMemberForm domainId={domainId} teamId={teamId} containerRef={ref}>
-                    <AddIconButton size={'xs'} ml={'auto'} />
-                </TeamMemberForm>
+                <Box ml={'auto'}>
+                    <TeamMemberForm domainId={domainId} teamId={teamId} containerRef={ref}>
+                        <AddIconButton ml={'auto'} />
+                    </TeamMemberForm>
+                </Box>
             </Flex>
 
-            <List>
+            <ul>
                 {members.map((member) => (
                     <TeamMemberListItem domainId={domainId} teamId={teamId} member={member} />
                 ))}
-            </List>
+            </ul>
         </Flex>
     );
 };
@@ -84,14 +77,7 @@ export const TeamMemberListItem = (props: TeamMemberListItemProps) => {
     });
 
     return (
-        <ListItem
-            ref={ref}
-            key={member.userId}
-            p={1}
-            _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
-            rounded={6}
-            data-group
-        >
+        <li ref={ref} key={member.userId} _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }} rounded={6}>
             <Flex alignItems={'center'}>
                 <Flex gap={2} alignItems={'center'} height={'30px'}>
                     <Avatar name={`${member.firstName} ${member.lastName}`} size={'xs'} src={member.iconUri} />
@@ -101,18 +87,18 @@ export const TeamMemberListItem = (props: TeamMemberListItemProps) => {
                     </Link>
                 </Flex>
 
-                <ButtonGroup display={'none'} _groupHover={{ display: 'flex' }} spacing={1} ml={'auto'}>
-                    <CloseIconButton size={'xs'} onClick={deleteDialog.onOpen} />
+                <ButtonGroup display={'none'} _groupHover={{ display: 'flex' }} gap={1} ml={'auto'}>
+                    <CloseIconButton onClick={deleteDialog.onOpen} />
                 </ButtonGroup>
             </Flex>
 
             <ConfirmDialog
-                isOpen={deleteDialog.isOpen}
+                isOpen={deleteDialog.open}
                 header={'Remove member?'}
                 onConfirm={removeMember}
                 onCancel={deleteDialog.onClose}
             />
-        </ListItem>
+        </li>
     );
 };
 
@@ -127,7 +113,7 @@ export const TeamMemberForm = (props: TeamMemberFormProps) => {
 
     const menu = useDisclosure();
 
-    const { data: allPeople, isLoading: isPeopleLoading } = useQuery<DetailedPerson[]>({
+    const { data: allPeople, isLoading: isPeopleLoading } = useQuery<SearchPerson[]>({
         queryKey: ['searchPeople', { domainId }],
         queryFn: () => peopleApi.search(domainId, {}),
         initialData: [],
@@ -155,14 +141,23 @@ export const TeamMemberForm = (props: TeamMemberFormProps) => {
     };
 
     return (
-        <Popover isOpen={menu.isOpen} onOpen={menu.onOpen} onClose={close}>
+        <PopoverRoot
+            open={menu.open}
+            onOpenChange={(details) => {
+                if (details.open) {
+                    menu.onOpen();
+                } else {
+                    menu.onClose();
+                }
+            }}
+        >
             <PopoverTrigger>{props.children}</PopoverTrigger>
 
             <Portal containerRef={containerRef}>
                 <PopoverContent mr={2} backgroundColor={'white'}>
                     <form onSubmit={form.handleSubmit(submit)}>
                         <PopoverBody>
-                            <Stack spacing={4}>
+                            <Stack gap={4}>
                                 <FormSelect
                                     name={'userId'}
                                     control={form.control}
@@ -175,7 +170,7 @@ export const TeamMemberForm = (props: TeamMemberFormProps) => {
                                     label="Select user"
                                     isMulti={false}
                                     components={{
-                                        Option: (option) => {
+                                        Option: (option: any) => {
                                             const person = option.data.person as Person;
 
                                             return (
@@ -197,21 +192,11 @@ export const TeamMemberForm = (props: TeamMemberFormProps) => {
 
                         <PopoverFooter>
                             <ButtonGroup width={'100%'} justifyContent={'flex-end'}>
-                                <Button
-                                    size={'sm'}
-                                    variant={'red'}
-                                    onClick={close}
-                                    isDisabled={form.formState.isSubmitting}
-                                >
+                                <Button colorPalette={'red'} onClick={close} disabled={form.formState.isSubmitting}>
                                     Cancel
                                 </Button>
 
-                                <Button
-                                    size={'sm'}
-                                    colorScheme={'blue'}
-                                    type={'submit'}
-                                    isLoading={form.formState.isSubmitting}
-                                >
+                                <Button colorPalette={'gray'} type={'submit'} loading={form.formState.isSubmitting}>
                                     Add Member
                                 </Button>
                             </ButtonGroup>
@@ -219,6 +204,6 @@ export const TeamMemberForm = (props: TeamMemberFormProps) => {
                     </form>
                 </PopoverContent>
             </Portal>
-        </Popover>
+        </PopoverRoot>
     );
 };

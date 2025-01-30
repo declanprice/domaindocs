@@ -86,15 +86,15 @@ export const DomainNavBar = () => {
 
                 <NavButton
                     icon={<HiOutlineDocumentText color={'gray.900'} size={18} />}
-                    label={'Documentation'}
+                    label={'Docs'}
                     to={`/${activeDomain.domainId}/domain/documentation`}
                 />
 
-                <NavButton
-                    icon={<PiPlugsConnected color={'gray.900'} size={18} />}
-                    label={'Integrations'}
-                    to={`/${activeDomain.domainId}/domain/integrations`}
-                />
+                {/*<NavButton*/}
+                {/*    icon={<PiPlugsConnected color={'gray.900'} size={18} />}*/}
+                {/*    label={'Integrations'}*/}
+                {/*    to={`/${activeDomain.domainId}/domain/integrations`}*/}
+                {/*/>*/}
 
                 <NavButton
                     icon={<LuSettings color={'gray.900'} size={18} />}

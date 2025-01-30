@@ -38,7 +38,7 @@ type TeamLinksProps = {
     links: TeamLink[];
 };
 
-export const TeamLinks = (props: TeamLinksProps) => {
+export const DomainLinks = (props: TeamLinksProps) => {
     const { domainId, teamId, links } = props;
 
     const ref = useRef(null);

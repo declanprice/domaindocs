@@ -3,3 +3,6 @@ export * from './setup-domain-data';
 export * from './domain-settings';
 export * from './send-domain-invite-data';
 export * from './update-domain-name-data';
+export * from './edit-domain-description-data';
+export * from './edit-domain-contact-data';
+export * from './edit-domain-link-data';

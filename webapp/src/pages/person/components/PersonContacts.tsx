@@ -25,7 +25,7 @@ import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { ConfirmDialog } from '../../../components/dialogs/ConfirmDialog';
 import { useForm } from 'react-hook-form';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { FormMenuSelect } from '../../../components/form/FormMenuSelect';
+import { FormMenuRadioSelect } from '../../../components/form/FormMenuRadioSelect';
 import { FormTextInput } from '../../../components/form/FormTextInput';
 import { AddIconButton } from '../../../components/buttons/AddIconButton';
 
@@ -203,7 +203,7 @@ export const PersonContactForm = (props: PersonContactFormProps) => {
                     <form onSubmit={form.handleSubmit(submit)}>
                         <PopoverBody>
                             <Stack spacing={4}>
-                                <FormMenuSelect
+                                <FormMenuRadioSelect
                                     label={'Contact type'}
                                     name={'type'}
                                     control={form.control}

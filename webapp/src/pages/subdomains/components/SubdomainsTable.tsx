@@ -29,7 +29,13 @@ export const SubdomainsTable = (props: SubdomainsTableProps) => {
                                     <VscTypeHierarchySub color={'white'} size={18} />
                                 </Flex>
 
-                                <Link ml={4} textStyle={'sm'}>
+                                <Link
+                                    ml={4}
+                                    textStyle={'sm'}
+                                    whiteSpace={'nowrap'}
+                                    overflow={'hidden'}
+                                    textOverflow={'ellipsis'}
+                                >
                                     {data.name}
                                 </Link>
                             </Flex>
@@ -43,7 +49,7 @@ export const SubdomainsTable = (props: SubdomainsTableProps) => {
                     headerAlign: 'end',
                     label: 'Actions',
                     render: (data: Subdomain) => {
-                        return <RemoveSubdomainCell subdomain={data} onRemove={onRemove} />;
+                        return <SubdomainsActionsCell subdomain={data} onRemove={onRemove} />;
                     },
                     onClick: (row) => {
                         console.log('clicked row', row);
@@ -54,12 +60,12 @@ export const SubdomainsTable = (props: SubdomainsTableProps) => {
     );
 };
 
-type RemoveSubdomainCellProps = {
+type SubdomainsActionsCellProps = {
     subdomain: Subdomain;
     onRemove: (subdomain: Subdomain) => Promise<void>;
 };
 
-export const RemoveSubdomainCell = (props: RemoveSubdomainCellProps) => {
+export const SubdomainsActionsCell = (props: SubdomainsActionsCellProps) => {
     const removeSubdomainDialog = useDisclosure();
 
     return (

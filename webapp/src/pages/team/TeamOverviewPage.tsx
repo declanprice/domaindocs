@@ -1,4 +1,4 @@
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { DetailedTeam } from '@domaindocs/types';
@@ -12,6 +12,7 @@ import { TeamDescription } from './components/TeamDescription';
 import { TeamContacts } from './components/TeamContacts';
 import { TeamLinks } from './components/TeamLinks';
 import { TeamMembers } from './components/TeamMembers';
+import { BreadcrumbLink, BreadcrumbRoot } from '../../components/ui/breadcrumb';
 
 export const TeamOverviewPage = () => {
     const { domainId, teamId } = useParams() as TeamPageParams;
@@ -28,33 +29,29 @@ export const TeamOverviewPage = () => {
     return (
         <Flex width={'100%'}>
             <Flex direction="column" gap={4} flex={1} p={8}>
-                <Breadcrumb>
-                    <BreadcrumbItem>
-                        <BreadcrumbLink
-                            href={`/${domainId}/people`}
-                            fontSize={14}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                navigate(`/${domainId}/teams`);
-                            }}
-                        >
-                            Teams
-                        </BreadcrumbLink>
-                    </BreadcrumbItem>
+                <BreadcrumbRoot>
+                    <BreadcrumbLink
+                        href={`/${domainId}/people`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/${domainId}/teams`);
+                        }}
+                    >
+                        Teams
+                    </BreadcrumbLink>
 
-                    <BreadcrumbItem fontSize={14}>
-                        <BreadcrumbLink
-                            href={`/${domainId}/teams/${team.team.teamId}`}
-                            onClick={(e) => {
-                                e.preventDefault();
-                            }}
-                        >
-                            {team.team.name}
-                        </BreadcrumbLink>
-                    </BreadcrumbItem>
-                </Breadcrumb>
+                    <BreadcrumbLink
+                        href={`/${domainId}/teams/${team.team.teamId}`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                        }}
+                    >
+                        {team.team.name}
+                    </BreadcrumbLink>
+                </BreadcrumbRoot>
 
                 <Flex
+                    mt={2}
                     alignItems={'center'}
                     justifyContent={'center'}
                     backgroundColor={'purple.400'}
@@ -66,7 +63,7 @@ export const TeamOverviewPage = () => {
                     <GoPeople color={'white'} />
                 </Flex>
 
-                <Text fontSize={18} fontWeight={500}>
+                <Text mt={2} fontSize={20} fontWeight={500}>
                     {team.team.name}
                 </Text>
 

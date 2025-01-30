@@ -1,9 +1,9 @@
 import { IconButton, IconButtonProps } from '@chakra-ui/react';
-import { IoMdClose } from 'react-icons/io';
 import React from 'react';
+import { IoTrashBin } from 'react-icons/io5';
 
-export const CloseIconButton = React.forwardRef((props: Partial<IconButtonProps>, ref: any) => (
+export const DeleteIconButton = React.forwardRef((props: Partial<IconButtonProps>, ref: any) => (
     <IconButton ref={ref} variant={'outline'} aria-label="close" {...props}>
-        <IoMdClose />
+        <IoTrashBin />
     </IconButton>
 ));

@@ -1,8 +1,10 @@
-import { Button, ButtonGroup, Dialog, Stack } from '@chakra-ui/react';
+import { Button, ButtonGroup, Stack } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { FormTextInput } from '../../../components/form/FormTextInput';
 import { CreateTeamData } from '@domaindocs/types';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
+import { DialogBody, DialogContent, DialogFooter, DialogHeader, DialogRoot } from '../../../components/ui/dialog';
+import { OpenChangeDetails } from '@zag-js/dialog';
 
 export type CreateTeamDialogProps = {
     isOpen: boolean;
@@ -31,33 +33,31 @@ export const CreateTeamDialog = (props: CreateTeamDialogProps) => {
     };
 
     return (
-        <Dialog.Root isOpen={isOpen} onClose={closeAndReset} isCentered size={'lg'}>
-            <Dialog.Content>
+        <DialogRoot
+            open={isOpen}
+            onOpenChange={(details: OpenChangeDetails) => {
+                if (!details.open) {
+                    closeAndReset();
+                }
+            }}
+            isCentered
+            size={'lg'}
+        >
+            <DialogContent>
                 <form onSubmit={form.handleSubmit(submit)}>
-                    <Dialog.Header>Create a new team.</Dialog.Header>
-                    <Dialog.Body>
+                    <DialogHeader>Create a new team.</DialogHeader>
+                    <DialogBody>
                         <Stack gap={4}>
-                            <FormTextInput
-                                label={'Team Name'}
-                                name={'name'}
-                                control={form.control}
-                                placeholder={'Name of team'}
-                            />
+                            <FormTextInput name={'name'} control={form.control} placeholder={'Team name'} />
                         </Stack>
-                    </Dialog.Body>
-                    <Dialog.Footer>
+                    </DialogBody>
+                    <DialogFooter>
                         <ButtonGroup>
-                            <Button
-                                onClick={closeAndReset}
-                                size={'xs'}
-                                colorScheme={'red'}
-                                disabled={form.formState.isSubmitting}
-                            >
+                            <Button onClick={closeAndReset} colorPalette={'red'} disabled={form.formState.isSubmitting}>
                                 Cancel
                             </Button>
                             <Button
-                                size={'xs'}
-                                colorScheme={'gray'}
+                                colorPalette={'gray'}
                                 variant={'solid'}
                                 type={'submit'}
                                 disabled={form.formState.isSubmitting}
@@ -65,9 +65,9 @@ export const CreateTeamDialog = (props: CreateTeamDialogProps) => {
                                 Create Team
                             </Button>
                         </ButtonGroup>
-                    </Dialog.Footer>
+                    </DialogFooter>
                 </form>
-            </Dialog.Content>
-        </Dialog.Root>
+            </DialogContent>
+        </DialogRoot>
     );
 };

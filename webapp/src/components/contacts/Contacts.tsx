@@ -1,33 +1,26 @@
-import { Box, Button, ButtonGroup, Flex, Link, Portal, Stack, Text, useDisclosure } from '@chakra-ui/react';
-import { EditTeamContactData, TeamContact, ContactType } from '@domaindocs/types';
-import { MdConnectWithoutContact, MdOutlineEmail, MdOutlineLink, MdOutlinePhone } from 'react-icons/md';
+import { DomainContact, EditTeamContactData, ContactType, Contact, EditContactData } from '@domaindocs/types';
 import { PropsWithChildren, RefObject, useRef } from 'react';
-import { DefaultError, useMutation } from '@tanstack/react-query';
-import { EditIconButton } from '../../../components/buttons/EditIconButton';
-import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
-import { ConfirmDialog } from '../../../components/dialogs/ConfirmDialog';
+import { Box, Button, ButtonGroup, Flex, Link, Portal, Stack, Text, useDisclosure } from '@chakra-ui/react';
+import { MdConnectWithoutContact, MdOutlineEmail, MdOutlineLink, MdOutlinePhone } from 'react-icons/md';
+import { AddIconButton } from '../buttons/AddIconButton';
+import { EditIconButton } from '../buttons/EditIconButton';
+import { CloseIconButton } from '../buttons/CloseIconButton';
+import { ConfirmDialog } from '../dialogs/ConfirmDialog';
 import { useForm } from 'react-hook-form';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { FormMenuRadioSelect } from '../../../components/form/FormMenuRadioSelect';
-import { FormTextInput } from '../../../components/form/FormTextInput';
-import { AddIconButton } from '../../../components/buttons/AddIconButton';
-import { teamsApi } from '../../../state/api/teams-api';
-import {
-    PopoverRoot,
-    PopoverTrigger,
-    PopoverBody,
-    PopoverContent,
-    PopoverFooter,
-} from '../../../components/ui/popover';
+import { PopoverBody, PopoverContent, PopoverFooter, PopoverRoot, PopoverTrigger } from '../ui/popover';
+import { FormMenuRadioSelect } from '../form/FormMenuRadioSelect';
+import { FormTextInput } from '../form/FormTextInput';
 
-type TeamContactsProps = {
-    domainId: string;
-    teamId: string;
-    contacts: TeamContact[];
+type ContactsProps = {
+    contacts: DomainContact[];
+    onAddContact: (data: EditContactData) => Promise<any>;
+    onUpdateContact: (data: EditContactData) => Promise<any>;
+    onRemoveContact: (contact: Contact) => Promise<any>;
 };
 
-export const TeamContacts = (props: TeamContactsProps) => {
-    const { domainId, teamId, contacts } = props;
+export const Contacts = (props: ContactsProps) => {
+    const { onAddContact, onUpdateContact, onRemoveContact, contacts } = props;
 
     const ref = useRef(null);
 
@@ -43,42 +36,41 @@ export const TeamContacts = (props: TeamContactsProps) => {
                 </Text>
 
                 <Box ml={'auto'}>
-                    <TeamContactForm domainId={domainId} teamId={teamId} containerRef={ref}>
+                    <ContactForm onUpdateContact={onUpdateContact} onAddContact={onAddContact} containerRef={ref}>
                         <AddIconButton />
-                    </TeamContactForm>
+                    </ContactForm>
                 </Box>
             </Flex>
 
             <ul>
                 {contacts.map((contact) => (
-                    <TeamContactListItem domainId={domainId} teamId={teamId} contact={contact} />
+                    <ContactListItem
+                        onUpdateContact={onUpdateContact}
+                        onAddContact={onAddContact}
+                        onRemoveContact={onRemoveContact}
+                        contact={contact}
+                    />
                 ))}
             </ul>
         </Flex>
     );
 };
 
-type TeamContactListItemProps = {
-    domainId: string;
-    teamId: string;
-    contact: TeamContact;
+type ContactListItemProps = {
+    onAddContact: (data: EditContactData) => Promise<any>;
+    onUpdateContact: (data: EditContactData) => Promise<any>;
+    onRemoveContact: (contact: Contact) => Promise<any>;
+    contact: Contact;
 };
 
-export const TeamContactListItem = (props: TeamContactListItemProps) => {
-    const { domainId, teamId, contact } = props;
+export const ContactListItem = (props: ContactListItemProps) => {
+    const { onAddContact, onUpdateContact, onRemoveContact, contact } = props;
 
     const deleteDialog = useDisclosure();
 
     const editPopover = useDisclosure();
 
     const ref = useRef(null);
-
-    const { mutateAsync: deleteContact } = useMutation<void, DefaultError>({
-        mutationKey: ['deleteContact', { domainId, teamId, contactId: contact.contactId }],
-        mutationFn: async () => {
-            return teamsApi.deleteContact(domainId, teamId, contact.contactId);
-        },
-    });
 
     const renderDescription = () => {
         if (contact.type === ContactType.LINK) {
@@ -106,9 +98,14 @@ export const TeamContactListItem = (props: TeamContactListItemProps) => {
                 </Flex>
 
                 <ButtonGroup display={'none'} _groupHover={{ display: 'flex' }} gap={1} ml={'auto'}>
-                    <TeamContactForm domainId={domainId} teamId={teamId} contact={contact} containerRef={ref}>
+                    <ContactForm
+                        onAddContact={onAddContact}
+                        onUpdateContact={onUpdateContact}
+                        contact={contact}
+                        containerRef={ref}
+                    >
                         <EditIconButton size={'xs'} onClick={editPopover.onOpen} />
-                    </TeamContactForm>
+                    </ContactForm>
 
                     <CloseIconButton size={'xs'} onClick={deleteDialog.onOpen} />
                 </ButtonGroup>
@@ -117,35 +114,30 @@ export const TeamContactListItem = (props: TeamContactListItemProps) => {
             <ConfirmDialog
                 isOpen={deleteDialog.open}
                 header={'Remove contact?'}
-                onConfirm={deleteContact}
+                onConfirm={async () => {
+                    await onRemoveContact(contact);
+                }}
                 onCancel={deleteDialog.onClose}
             />
         </li>
     );
 };
 
-type TeamContactFormProps = {
-    domainId: string;
-    teamId: string;
-    contact?: TeamContact;
+type ContactFormProps = {
+    onAddContact: (data: EditContactData) => Promise<any>;
+    onUpdateContact: (data: EditContactData) => Promise<any>;
+    contact?: Contact;
     containerRef: RefObject<any>;
 } & PropsWithChildren;
 
-export const TeamContactForm = (props: TeamContactFormProps) => {
-    const { domainId, teamId, contact, containerRef } = props;
+export const ContactForm = (props: ContactFormProps) => {
+    const { onAddContact, onUpdateContact, contact, containerRef } = props;
 
     const menu = useDisclosure();
 
-    const { mutateAsync: createContact } = useMutation<void, any, EditTeamContactData>({
-        mutationFn: (data) => teamsApi.createContact(domainId, teamId, data),
-    });
-
-    const { mutateAsync: updateContact } = useMutation<void, any, EditTeamContactData>({
-        mutationFn: (data) => teamsApi.updateContact(domainId, teamId, contact?.contactId!, data),
-    });
-
-    const form = useForm<EditTeamContactData>({
+    const form = useForm<EditContactData>({
         values: {
+            contactId: contact ? contact.contactId : undefined,
             type: contact ? contact.type : ContactType.EMAIL,
             href: contact ? contact.href : '',
             description: contact ? contact.description : '',
@@ -158,11 +150,11 @@ export const TeamContactForm = (props: TeamContactFormProps) => {
         form.reset();
     };
 
-    const submit = async (data: EditTeamContactData) => {
-        if (contact) {
-            await updateContact(data);
+    const submit = async (data: EditContactData) => {
+        if (data.contactId == undefined) {
+            await onAddContact(data);
         } else {
-            await createContact(data);
+            await onUpdateContact(data);
         }
         close();
     };
@@ -185,7 +177,7 @@ export const TeamContactForm = (props: TeamContactFormProps) => {
     return (
         <PopoverRoot
             open={menu.open}
-            onOpenChange={(details: any) => {
+            onOpenChange={(details: { open: boolean }) => {
                 if (details.open) {
                     menu.onOpen();
                 } else {

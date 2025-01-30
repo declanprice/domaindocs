@@ -1,23 +1,20 @@
 import { ButtonGroup, Flex, Stack, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import { DetailedPerson, DetailedTeam, EditTeamDescriptionData } from '@domaindocs/types';
+import { Domain, EditDomainDescriptionData } from '@domaindocs/types';
 import { FormTextArea } from '../../../components/form/FormTextArea';
 import { useEditable } from '../../../hooks/useEditable';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { CheckIconButton } from '../../../components/buttons/CheckIconButton';
-import { peopleApi } from '../../../state/api/people-api';
-import { EditPersonAboutMeData } from '../../../../../shared/types/src/person/edit-person-about-me-data';
-import { teamsApi } from '../../../state/api/teams-api';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
+import { domainsApi } from '../../../state/api/domains-api';
 
-type TeamDescriptionProps = {
-    domainId: string;
-    team: DetailedTeam;
+type DomainDescriptionProps = {
+    domain: Domain;
 };
 
-export const TeamDescription = (props: TeamDescriptionProps) => {
-    const { domainId, team } = props;
+export const DomainDescription = (props: DomainDescriptionProps) => {
+    const { domain } = props;
 
     const editing = useEditable();
 
@@ -26,7 +23,7 @@ export const TeamDescription = (props: TeamDescriptionProps) => {
             <Text fontSize={16}>Description</Text>
 
             {editing.isEditing ? (
-                <TeamDescriptionForm domainId={domainId} team={team} onClose={editing.onClose} />
+                <DomainDescriptionForm domain={domain} onClose={editing.onClose} />
             ) : (
                 <Flex
                     _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
@@ -35,7 +32,7 @@ export const TeamDescription = (props: TeamDescriptionProps) => {
                     onClick={editing.onEdit}
                 >
                     <Text fontSize={14}>
-                        {team.team.description == '' ? 'Add a team description' : team.team.description}
+                        {domain.description == '' ? 'Add a domain description' : domain.description}
                     </Text>
                 </Flex>
             )}
@@ -43,24 +40,23 @@ export const TeamDescription = (props: TeamDescriptionProps) => {
     );
 };
 
-type TeamDescriptionFormProps = {
-    domainId: string;
-    team: DetailedTeam;
+type DomainDescriptionFormProps = {
+    domain: Domain;
     onClose: () => any;
 };
 
-export const TeamDescriptionForm = (props: TeamDescriptionFormProps) => {
-    const { domainId, team, onClose } = props;
+export const DomainDescriptionForm = (props: DomainDescriptionFormProps) => {
+    const { domain, onClose } = props;
 
-    const form = useForm<EditTeamDescriptionData>({
+    const form = useForm<EditDomainDescriptionData>({
         values: {
-            description: team.team.description,
+            description: domain.description,
         },
-        resolver: classValidatorResolver(EditTeamDescriptionData),
+        resolver: classValidatorResolver(EditDomainDescriptionData),
     });
 
-    const { mutateAsync: updateDescription } = useMutation<void, any, EditTeamDescriptionData>({
-        mutationFn: (data) => teamsApi.updateDescription(domainId, team.team.teamId, data),
+    const { mutateAsync: updateDescription } = useMutation<void, any, EditDomainDescriptionData>({
+        mutationFn: (data) => domainsApi.updateDescription(domain.domainId, data),
     });
 
     const close = () => {
@@ -68,7 +64,7 @@ export const TeamDescriptionForm = (props: TeamDescriptionFormProps) => {
         onClose();
     };
 
-    const submit = async (data: EditTeamDescriptionData) => {
+    const submit = async (data: EditDomainDescriptionData) => {
         await updateDescription(data);
         close();
     };

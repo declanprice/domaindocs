@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import { v4 } from 'uuid';
 import {
@@ -9,11 +9,10 @@ import {
     TeamMember,
     EditTeamDescriptionData,
     AddTeamMemberData,
-    PersonContact,
-    PersonContactType,
-    TeamContactType,
     TeamContact,
     TeamLink,
+    EditTeamLinkData,
+    ContactType,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 
@@ -21,11 +20,17 @@ import { PrismaService } from '../../shared/prisma.service';
 export class TeamsService {
     constructor(private prisma: PrismaService) {}
 
-    async searchByDomain(session: UserSession, domainId: string, dto: SearchTeamParams): Promise<DetailedTeam[]> {
+    async searchByDomain(session: UserSession, domainId: string, params: SearchTeamParams): Promise<DetailedTeam[]> {
+        const query: any = {
+            domainId,
+        };
+
+        if (params.name != '') {
+            query.name = { contains: params.name, mode: 'insensitive' };
+        }
+
         const results = await this.prisma.team.findMany({
-            where: {
-                domainId,
-            },
+            where: query,
             include: {
                 members: {
                     include: {
@@ -63,9 +68,7 @@ export class TeamsService {
                                 })),
                             ),
                     ),
-                    t.contacts.map(
-                        (c) => new TeamContact(c.contactId, c.type as TeamContactType, c.description, c.href),
-                    ),
+                    t.contacts.map((c) => new TeamContact(c.contactId, c.type as ContactType, c.description, c.href)),
                     t.links.map((link) => new TeamLink(link.linkId, link.href, link.description)),
                 ),
         );
@@ -121,9 +124,29 @@ export class TeamsService {
                         })),
                     ),
             ),
-            result.contacts.map((c) => new TeamContact(c.contactId, c.type as TeamContactType, c.description, c.href)),
+            result.contacts.map((c) => new TeamContact(c.contactId, c.type as ContactType, c.description, c.href)),
             result.links.map((link) => new TeamLink(link.linkId, link.href, link.description)),
         );
+    }
+
+    async removeTeam(session: UserSession, domainId: string, teamId: string) {
+        const result = await this.prisma.team.findUnique({
+            where: {
+                domainId,
+                teamId,
+            },
+        });
+
+        if (!result) {
+            throw new NotFoundException(`team ${teamId} does not exist`);
+        }
+
+        await this.prisma.team.delete({
+            where: {
+                domainId,
+                teamId,
+            },
+        });
     }
 
     async updateDescription(session: UserSession, domainId: string, teamId: string, data: EditTeamDescriptionData) {
@@ -158,6 +181,46 @@ export class TeamsService {
                     teamId,
                     userId,
                 },
+            },
+        });
+
+        return this.getTeam(session, domainId, teamId);
+    }
+
+    async addLink(session: UserSession, domainId: string, teamId: string, data: EditTeamLinkData) {
+        await this.prisma.teamLink.create({
+            data: {
+                domainId,
+                teamId,
+                linkId: v4(),
+                href: data.href,
+                description: data.description,
+            },
+        });
+
+        return this.getTeam(session, domainId, teamId);
+    }
+
+    async updateLink(session: UserSession, domainId: string, teamId: string, linkId: string, data: EditTeamLinkData) {
+        await this.prisma.teamLink.update({
+            where: {
+                teamId,
+                linkId,
+            },
+            data: {
+                href: data.href,
+                description: data.description,
+            },
+        });
+
+        return this.getTeam(session, domainId, teamId);
+    }
+
+    async removeLink(session: UserSession, domainId: string, teamId: string, linkId: string) {
+        await this.prisma.teamLink.delete({
+            where: {
+                teamId,
+                linkId,
             },
         });
 

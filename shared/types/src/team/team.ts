@@ -1,3 +1,5 @@
+import { ContactType } from '../contacts';
+
 export class TeamMember {
     constructor(
         public userId: string,
@@ -8,16 +10,10 @@ export class TeamMember {
     ) {}
 }
 
-export enum TeamContactType {
-    EMAIL = 'Email',
-    MOBILE = 'Mobile',
-    LINK = 'Link',
-}
-
 export class TeamContact {
     constructor(
         public contactId: string,
-        public type: TeamContactType,
+        public type: ContactType,
         public description: string,
         public href?: string,
     ) {}

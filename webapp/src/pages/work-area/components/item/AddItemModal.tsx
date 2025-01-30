@@ -17,7 +17,7 @@ import { useForm } from 'react-hook-form';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { FormTextInput } from '../../../../components/form/FormTextInput';
 import { BiPlus } from 'react-icons/bi';
-import { FormMenuSelect } from '../../../../components/form/FormMenuSelect';
+import { FormMenuRadioSelect } from '../../../../components/form/FormMenuRadioSelect';
 import React from 'react';
 import { ItemTypeIcon } from './ItemTypeIcon';
 import { FormTextArea } from '../../../../components/form/FormTextArea';
@@ -71,7 +71,7 @@ export const AddItemModal = (props: AddItemModalProps) => {
                                 placeholder={'Create api endpoint'}
                             />
 
-                            <FormMenuSelect
+                            <FormMenuRadioSelect
                                 label={'Type'}
                                 size={'sm'}
                                 name={'type'}

@@ -30,8 +30,10 @@ model User {
 }
 
 model Domain {
-  domainId String @id @map("domain_id")
-  name     String @map("name")
+  domainId    String   @id @map("domain_id")
+  name        String   @map("name")
+  description String   @map("description")
+  dateCreated DateTime @map("date_created")
 
   subdomains              Subdomain[]
   skills                  Skill[]
@@ -64,8 +66,36 @@ model Domain {
   workItemAttachments     WorkItemAttachment[]
   invites                 DomainInvite[]
   files                   File[]
+  contacts                DomainContact[]
+  links                   DomainLink[]
 
   @@map("domain")
+}
+
+model DomainContact {
+  contactId   String  @id @map("contact_id")
+  domainId    String  @map("domain_id")
+  type        String  @map("type")
+  href        String? @map("href")
+  description String  @map("description")
+  reason      String  @map("reason")
+
+  domain Domain @relation(fields: [domainId], references: [domainId])
+
+  @@index([domainId])
+  @@map("domain_comtact")
+}
+
+model DomainLink {
+  linkId      String @id @map("link_id")
+  domainId    String @map("domain_id")
+  href        String @map("href")
+  description String @map("description")
+
+  domain Domain @relation(fields: [domainId], references: [domainId])
+
+  @@index([domainId])
+  @@map("domain_link")
 }
 
 model Subdomain {
