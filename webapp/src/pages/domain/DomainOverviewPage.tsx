@@ -10,6 +10,7 @@ import { DetailedDomain } from '@domaindocs/types';
 import { Avatar } from '../../components/ui/avatar';
 import { DomainDescription } from './components/DomainDescription';
 import { DomainContacts } from './components/DomainContacts';
+import { DomainLinks } from './components/DomainLinks';
 
 export const DomainOverviewPage = () => {
     const { domainId } = useParams() as DomainPageParams;
@@ -35,12 +36,12 @@ export const DomainOverviewPage = () => {
                 </Box>
             </Flex>
 
-            <Flex direction={'column'} width={'350px'} p={4} gap={4}>
+            <Flex direction={'column'} width={'450px'} p={4} gap={4}>
                 <DomainDetails domain={domain.domain} />
 
                 <DomainContacts domainId={domainId} contacts={domain.contacts} />
 
-                {/*<DomainLinks domainId={domainId} links={team.links} />*/}
+                <DomainLinks domainId={domainId} links={domain.links} />
             </Flex>
         </Flex>
     );

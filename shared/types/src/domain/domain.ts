@@ -1,4 +1,5 @@
-import { ContactType } from '../contacts';
+import { Contact } from '../contacts';
+import { Link } from '../links';
 
 export class Domain {
     constructor(
@@ -9,27 +10,10 @@ export class Domain {
     ) {}
 }
 
-export class DomainContact {
-    constructor(
-        public contactId: string,
-        public type: ContactType,
-        public description: string,
-        public href?: string,
-    ) {}
-}
-
-export class DomainLink {
-    constructor(
-        public linkId: string,
-        public href: string,
-        public description: string,
-    ) {}
-}
-
 export class DetailedDomain {
     constructor(
         public domain: Domain,
-        public contacts: DomainContact[],
-        public links: DomainLink[],
+        public contacts: Contact[],
+        public links: Link[],
     ) {}
 }

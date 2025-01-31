@@ -7,6 +7,7 @@ import {
     EditDomainContactData,
     EditDomainDescriptionData,
     EditDomainLinkData,
+    EditLinkData,
     SendDomainInviteData,
     SetupDomainData,
     UpdateDomainNameData,
@@ -96,7 +97,7 @@ export class DomainsController {
     async addLink(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
-        @Body() data: EditDomainLinkData,
+        @Body() data: EditLinkData,
     ) {
         return this.domainService.addLink(session, domainId, data);
     }
@@ -106,7 +107,7 @@ export class DomainsController {
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('linkId') linkId: string,
-        @Body() data: EditDomainLinkData,
+        @Body() data: EditLinkData,
     ) {
         return this.domainService.updateLink(session, domainId, linkId, data);
     }

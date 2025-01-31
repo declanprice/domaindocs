@@ -6,7 +6,7 @@ import {
     DomainSettings,
     EditContactData,
     EditDomainDescriptionData,
-    EditDomainLinkData,
+    EditLinkData,
     SendDomainInviteData,
     SetupDomainData,
     UpdateDomainNameData,
@@ -61,12 +61,12 @@ export const domainsApi = (() => {
         updateLocalData(domainId, result.data);
     };
 
-    const addLink = async (domainId: string, data: EditDomainLinkData): Promise<void> => {
+    const addLink = async (domainId: string, data: EditLinkData): Promise<void> => {
         const result = await apiClient.post<Domain>(`/domains/${domainId}/links`, data);
         updateLocalData(domainId, result.data);
     };
 
-    const updateLink = async (domainId: string, linkId: string, data: EditDomainLinkData): Promise<void> => {
+    const updateLink = async (domainId: string, linkId: string, data: EditLinkData): Promise<void> => {
         const result = await apiClient.post<Domain>(`/domains/${domainId}/links/${linkId}`, data);
         updateLocalData(domainId, result.data);
     };

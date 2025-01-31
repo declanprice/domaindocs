@@ -18,4 +18,8 @@ export class EditContactData {
     @IsString()
     @IsNotEmpty({ message: 'Description field cannot be empty' })
     description: string;
+
+    @IsString()
+    @IsNotEmpty({ message: 'Reason field cannot be empty' })
+    reason: string;
 }

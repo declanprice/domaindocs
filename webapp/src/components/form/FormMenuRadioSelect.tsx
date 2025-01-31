@@ -1,15 +1,6 @@
 import { Control, useController } from 'react-hook-form';
 import { Field } from '../ui/field';
-import {
-    MenuCheckboxItem,
-    MenuContent,
-    MenuItemGroup,
-    MenuRadioItem,
-    MenuRadioItemGroup,
-    MenuRoot,
-    MenuTrigger,
-} from '../ui/menu';
-import { useCheckboxGroup } from '@chakra-ui/react';
+import { MenuContent, MenuRadioItem, MenuRadioItemGroup, MenuRoot, MenuTrigger } from '../ui/menu';
 
 type FormMenuRadioSelectProps = {
     name: string;
@@ -22,6 +13,7 @@ type FormMenuRadioSelectProps = {
     onBlur?: () => void;
     renderButton: (option?: { value: string; label: string }) => any;
     renderOption: (option: { value: string; label: string }) => any;
+    containerRef?: any;
 };
 
 export const FormMenuRadioSelect = (props: FormMenuRadioSelectProps) => {
@@ -52,10 +44,12 @@ export const FormMenuRadioSelect = (props: FormMenuRadioSelectProps) => {
             <MenuRoot>
                 <MenuTrigger as={'div'}>{renderMenuButton()}</MenuTrigger>
 
-                <MenuContent>
+                <MenuContent portalRef={props.containerRef}>
                     <MenuRadioItemGroup
                         value={field.value}
-                        onValueChange={field.onChange}
+                        onValueChange={(value: any) => {
+                            field.onChange(value.value);
+                        }}
                         placeholder={props.placeholder}
                     >
                         {props.options.map((option) => (

@@ -2,17 +2,16 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { UserSession } from '../../auth/auth-session';
 import { createSlug } from '../../util/create-slug';
 import {
+    Contact,
     ContactType,
     DetailedDomain,
     Domain,
-    DomainContact,
-    DomainLink,
     DomainSettings,
     DomainSettingsPerson,
     EditContactData,
-    EditDomainContactData,
     EditDomainDescriptionData,
-    EditTeamLinkData,
+    EditLinkData,
+    Link,
     SendDomainInviteData,
     SetupDomainData,
     UpdateDomainNameData,
@@ -128,14 +127,15 @@ export class DomainsService {
             new Domain(result.domainId, result.name, result.description, result.dateCreated.toISOString()),
             result.contacts.map(
                 (contact) =>
-                    new DomainContact(
+                    new Contact(
                         contact.contactId,
                         contact.type as ContactType,
                         contact.description,
+                        contact.reason,
                         contact.href,
                     ),
             ),
-            result.links.map((link) => new DomainLink(link.linkId, link.href, link.description)),
+            result.links.map((link) => new Link(link.linkId, link.href, link.description)),
         );
     }
 
@@ -189,7 +189,7 @@ export class DomainsService {
                 contactId: v4(),
                 type: data.type,
                 href: data.href,
-                reason: '',
+                reason: data.reason,
                 description: data.description,
             },
         });
@@ -206,7 +206,7 @@ export class DomainsService {
             data: {
                 type: data.type,
                 href: data.href,
-                reason: '',
+                reason: data.reason,
                 description: data.description,
             },
         });
@@ -225,11 +225,44 @@ export class DomainsService {
         return this.getDomain(session, domainId);
     }
 
-    async addLink(session: UserSession, domainId: string, dto: EditTeamLinkData) {}
+    async addLink(session: UserSession, domainId: string, data: EditLinkData) {
+        await this.prisma.domainLink.create({
+            data: {
+                domainId,
+                linkId: v4(),
+                href: data.href,
+                description: data.description,
+            },
+        });
 
-    async updateLink(session: UserSession, domainId: string, linkId: string, dto: EditTeamLinkData) {}
+        return this.getDomain(session, domainId);
+    }
 
-    async removeLink(session: UserSession, domainId: string, linkId: string) {}
+    async updateLink(session: UserSession, domainId: string, linkId: string, data: EditLinkData) {
+        await this.prisma.domainLink.update({
+            where: {
+                domainId,
+                linkId,
+            },
+            data: {
+                href: data.href,
+                description: data.description,
+            },
+        });
+
+        return this.getDomain(session, domainId);
+    }
+
+    async removeLink(session: UserSession, domainId: string, linkId: string) {
+        await this.prisma.domainLink.delete({
+            where: {
+                domainId,
+                linkId,
+            },
+        });
+
+        return this.getDomain(session, domainId);
+    }
 
     async delete(session: UserSession, domainId: string) {}
 }

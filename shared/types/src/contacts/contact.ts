@@ -5,6 +5,7 @@ export class Contact {
         public contactId: string,
         public type: ContactType,
         public description: string,
+        public reason: string,
         public href?: string,
     ) {}
 }
