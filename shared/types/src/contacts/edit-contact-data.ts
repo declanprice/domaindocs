@@ -20,6 +20,5 @@ export class EditContactData {
     description: string;
 
     @IsString()
-    @IsNotEmpty({ message: 'Reason field cannot be empty' })
     reason: string;
 }

@@ -5,6 +5,7 @@ import {
     Domain,
     DomainSettings,
     EditContactData,
+    EditDescriptionData,
     EditDomainDescriptionData,
     EditLinkData,
     SendDomainInviteData,
@@ -38,8 +39,9 @@ export const domainsApi = (() => {
         await apiClient.post(`/domains/${domainId}/name`, data);
     };
 
-    const updateDescription = async (domainId: string, data: EditDomainDescriptionData): Promise<void> => {
-        await apiClient.post(`/domains/${domainId}/description`, data);
+    const updateDescription = async (domainId: string, data: EditDescriptionData): Promise<void> => {
+        const result = await apiClient.post(`/domains/${domainId}/description`, data);
+        updateLocalData(domainId, result.data);
     };
 
     const deleteDomain = async (domainId: string): Promise<void> => {

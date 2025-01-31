@@ -180,7 +180,18 @@ export class DomainsService {
         });
     }
 
-    async updateDescription(session: UserSession, domainId: string, data: EditDomainDescriptionData) {}
+    async updateDescription(session: UserSession, domainId: string, data: EditDomainDescriptionData) {
+        await this.prisma.domain.update({
+            where: {
+                domainId,
+            },
+            data: {
+                description: data.description,
+            },
+        });
+
+        return this.getDomain(session, domainId);
+    }
 
     async addContact(session: UserSession, domainId: string, data: EditContactData) {
         await this.prisma.domainContact.create({

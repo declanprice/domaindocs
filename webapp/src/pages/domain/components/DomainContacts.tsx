@@ -1,11 +1,11 @@
 import { DefaultError, useMutation } from '@tanstack/react-query';
-import { DomainContact, EditContactData, Contact } from '@domaindocs/types';
+import { EditContactData, Contact } from '@domaindocs/types';
 import { Contacts } from '../../../components/contacts/Contacts';
 import { domainsApi } from '../../../state/api/domains-api';
 
 type DomainContactsProps = {
     domainId: string;
-    contacts: DomainContact[];
+    contacts: Contact[];
 };
 
 export const DomainContacts = (props: DomainContactsProps) => {

@@ -215,7 +215,7 @@ export const ContactForm = (props: ContactFormProps) => {
                                         },
                                     ]}
                                     renderButton={(option) => (
-                                        <Button>
+                                        <Button variant={'subtle'}>
                                             {option && renderIcon(option.value as any)}
                                             {option?.label || 'Select Option'}
                                         </Button>
@@ -230,8 +230,6 @@ export const ContactForm = (props: ContactFormProps) => {
                                     )}
                                 />
 
-                                <FormTextInput label={'Reason'} name={'reason'} control={form.control} />
-
                                 <FormTextInput
                                     label={renderDescriptionLabel()}
                                     name={'description'}
@@ -241,6 +239,8 @@ export const ContactForm = (props: ContactFormProps) => {
                                 {selectedType === ContactType.LINK && (
                                     <FormTextInput label={'Href'} name={'href'} control={form.control} />
                                 )}
+
+                                <FormTextInput label={'Reason'} name={'reason'} control={form.control} />
                             </Stack>
                         </PopoverBody>
 
