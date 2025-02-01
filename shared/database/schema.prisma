@@ -68,6 +68,8 @@ model Domain {
   files                   File[]
   contacts                DomainContact[]
   links                   DomainLink[]
+  subdomainContacts       SubdomainContact[]
+  subdomainLinks          SubdomainLink[]
 
   @@map("domain")
 }
@@ -106,8 +108,38 @@ model Subdomain {
   domain     Domain          @relation(fields: [domainId], references: [domainId])
   components Component[]
   teams      SubdomainTeam[]
+  links      SubdomainLink[]
 
   @@map("subdomain")
+}
+
+model SubdomainContact {
+  contactId   String  @id @map("contact_id")
+  domainId    String  @map("domain_id")
+  type        String  @map("type")
+  href        String? @map("href")
+  description String  @map("description")
+  reason      String  @map("reason")
+
+  domain Domain @relation(fields: [domainId], references: [domainId])
+
+  @@index([domainId])
+  @@map("subdomain_contact")
+}
+
+model SubdomainLink {
+  linkId      String @id @map("link_id")
+  subdomainId String @map("subdomain_id")
+  domainId    String @map("domain_id")
+  href        String @map("href")
+  description String @map("description")
+
+  subdomain Subdomain @relation(fields: [subdomainId], references: [subdomainId])
+  domain    Domain    @relation(fields: [domainId], references: [domainId])
+
+  @@index([domainId])
+  @@index([subdomainId])
+  @@map("subdomain_link")
 }
 
 model SubdomainTeam {
@@ -248,6 +280,7 @@ model TeamContact {
   domainId    String  @map("domain_id")
   type        String  @map("type")
   href        String? @map("href")
+  reason      String  @map("reason")
   description String  @map("description")
 
   domain Domain @relation(fields: [domainId], references: [domainId])
@@ -317,6 +350,7 @@ model ComponentContact {
   domainId    String  @map("domain_id")
   type        String  @map("type")
   href        String? @map("href")
+  reason      String  @map("reason")
   description String  @map("description")
 
   domain    Domain    @relation(fields: [domainId], references: [domainId])

@@ -1,6 +1,5 @@
-import { Domain } from '@domaindocs/types';
+import { Domain, UserDomain } from '@domaindocs/types';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
-import { PiPlugsConnected } from 'react-icons/pi';
 import { IoChevronDown } from 'react-icons/io5';
 import { CiSettings } from 'react-icons/ci';
 import { useNavigate } from 'react-router-dom';
@@ -8,8 +7,8 @@ import { Avatar } from '../components/ui/avatar';
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from '../components/ui/popover';
 
 type DomainSelectorMenuProps = {
-    value: Domain;
-    options: Domain[];
+    value: UserDomain;
+    options: UserDomain[];
     onSelect: (domain: Domain) => void;
 };
 
@@ -77,17 +76,17 @@ export const DomainSelectorMenu = (props: DomainSelectorMenuProps) => {
                             label={'Settings'}
                             icon={<CiSettings />}
                             onClick={() => {
-                                navigate(`/${value.domainId}/settings`);
+                                navigate(`/${value.domainId}/domain/settings`);
                             }}
                         />
 
-                        <MenuButton
-                            label={'Integrations'}
-                            icon={<PiPlugsConnected />}
-                            onClick={() => {
-                                navigate(`/${value.domainId}/integrations`);
-                            }}
-                        />
+                        {/*<MenuButton*/}
+                        {/*    label={'Integrations'}*/}
+                        {/*    icon={<PiPlugsConnected />}*/}
+                        {/*    onClick={() => {*/}
+                        {/*        navigate(`/${value.domainId}/integrations`);*/}
+                        {/*    }}*/}
+                        {/*/>*/}
 
                         <Box divideX={'1px'} />
 

@@ -10,18 +10,12 @@ import { onboarding, onboardingSteps } from './onboarding';
 import { workAreaPeople, workAreas, workItemAssignees, workItemAttachments, workItems, workItemStatuses } from './work';
 import { files } from './files';
 import { componentContacts, componentLinks, deedSearchComponent } from './components';
+import { generatePeople } from './generators/generate-people';
 
 const client = new PrismaClient();
 
 (async () => {
     /** CLEAR **/
-
-    await client.workItemAssigne.deleteMany();
-    await client.workItemAttachment.deleteMany();
-    await client.workItem.deleteMany();
-    await client.workItemStatus.deleteMany();
-    await client.workAreaPerson.deleteMany();
-    await client.workArea.deleteMany();
 
     await client.onboardingGuideProgress.deleteMany();
     await client.onboardingGuideStep.deleteMany();
@@ -50,6 +44,12 @@ const client = new PrismaClient();
     await client.skill.deleteMany();
 
     await client.file.deleteMany();
+
+    await client.subdomainTeam.deleteMany();
+    await client.subdomainLink.deleteMany();
+    await client.subdomainContact.deleteMany();
+    await client.subdomain.deleteMany();
+
     await client.domain.deleteMany();
     await client.user.deleteMany();
 
@@ -58,6 +58,12 @@ const client = new PrismaClient();
     await client.user.createMany({ data: [declanUser(), benUser(), natashaUser()] });
 
     await client.domain.create({ data: ros() });
+
+    const people = generatePeople(ros().domainId, 100);
+
+    await client.user.createMany({ data: people.map((p) => p.user) });
+
+    await client.person.createMany({ data: people.map((p) => p.person) });
 
     await client.file.createMany({ data: files() });
 
@@ -89,11 +95,5 @@ const client = new PrismaClient();
     await client.onboardingGuide.createMany({ data: onboarding() });
     await client.onboardingGuideStep.createMany({ data: onboardingSteps() });
 
-    await client.workArea.createMany({ data: workAreas() });
-    await client.workAreaPerson.createMany({ data: workAreaPeople() });
-    await client.workItemStatus.createMany({ data: workItemStatuses() });
-    await client.workItem.createMany({ data: workItems() });
-    await client.workItemAssigne.createMany({ data: workItemAssignees() });
-    await client.workItemAttachment.createMany({ data: workItemAttachments() });
     process.exit(0);
 })();

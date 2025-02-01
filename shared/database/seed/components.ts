@@ -2,7 +2,7 @@ import { ros } from './domain';
 import { v4 } from 'uuid';
 import { teamOrion } from './teams';
 import { Component, ComponentLink, ComponentContact } from '@prisma/client';
-import { ComponentType, TeamContactType } from '../../types/src';
+import { ComponentType, ContactType } from '../../types/src';
 
 export const deedSearchComponent = (): Component => {
     return {
@@ -41,7 +41,8 @@ export const componentContacts = (): ComponentContact[] => {
             contactId: v4(),
             componentId: deedSearchComponent().componentId,
             domainId: ros().domainId,
-            type: TeamContactType.EMAIL,
+            type: ContactType.EMAIL,
+            reason: '',
             description: 'declanprice1@gmail.com',
             href: null,
         },
@@ -49,15 +50,17 @@ export const componentContacts = (): ComponentContact[] => {
             contactId: v4(),
             componentId: deedSearchComponent().componentId,
             domainId: ros().domainId,
-            type: TeamContactType.MOBILE,
+            type: ContactType.MOBILE,
             description: '0732564895',
+            reason: '',
             href: null,
         },
         {
             contactId: v4(),
             componentId: deedSearchComponent().componentId,
             domainId: ros().domainId,
-            type: TeamContactType.LINK,
+            type: ContactType.LINK,
+            reason: '',
             href: 'https://google.com',
             description: 'Google',
         },

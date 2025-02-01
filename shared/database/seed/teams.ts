@@ -2,7 +2,7 @@ import { ros } from './domain';
 import { benUser, declanUser, natashaUser } from './users';
 import { Team, TeamContact, TeamLink, TeamMember } from '@prisma/client';
 import { v4 } from 'uuid';
-import { TeamContactType } from '../../types/src';
+import { ContactType } from '../../types/src';
 
 export const teamOrion = (): Team => {
     return {
@@ -63,7 +63,8 @@ export const teamContacts = (): TeamContact[] => {
             contactId: v4(),
             teamId: teamOrion().teamId,
             domainId: ros().domainId,
-            type: TeamContactType.EMAIL,
+            type: ContactType.EMAIL,
+            reason: '',
             description: 'declanprice1@gmail.com',
             href: null,
         },
@@ -71,7 +72,8 @@ export const teamContacts = (): TeamContact[] => {
             contactId: v4(),
             teamId: teamOrion().teamId,
             domainId: ros().domainId,
-            type: TeamContactType.MOBILE,
+            type: ContactType.MOBILE,
+            reason: '',
             description: '0732564895',
             href: null,
         },
@@ -79,8 +81,9 @@ export const teamContacts = (): TeamContact[] => {
             contactId: v4(),
             teamId: teamOrion().teamId,
             domainId: ros().domainId,
-            type: TeamContactType.LINK,
+            type: ContactType.LINK,
             href: 'https://google.com',
+            reason: '',
             description: 'Google',
         },
     ];

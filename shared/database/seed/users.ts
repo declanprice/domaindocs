@@ -1,16 +1,14 @@
-const linuxUser = 'af3f9552-9957-4bad-888a-7f10c3143a49';
-
-const macUser = 'e6ba44aa-bfa7-45c9-963e-ed867e422f9b';
+const declanUserId = '0e584fd1-424b-4e26-a5ad-dfc8266e3569';
 
 import { User } from '@prisma/client';
 
 export const declanUser = (): User => {
     return {
-        userId: linuxUser,
+        userId: declanUserId,
         firstName: 'Declan',
         lastName: 'Price',
         fullName: 'Declan Price',
-        email: 'aws.declanprice@gmail.com',
+        email: 'declaprice1@gmail.com',
         iconUri: null,
     };
 };

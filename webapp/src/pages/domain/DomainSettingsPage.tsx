@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { Box, Button, Flex, Input, Text, useDisclosure } from '@chakra-ui/react';
+import { Button, Flex, Text, useDisclosure } from '@chakra-ui/react';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
@@ -7,14 +7,11 @@ import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
 import { domainsApi } from '../../state/api/domains-api';
 import { DomainSettings, UpdateDomainNameData } from '@domaindocs/types';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
-import { DomainPeopleList } from './components/DomainPeopleList';
-import { InvitePersonModal } from '../../components/person/InvitePersonModal';
-import { BiSearch } from 'react-icons/bi';
+import { DomainUserList } from './components/DomainUserList';
 import { FormTextInput } from '../../components/form/FormTextInput';
 import debounce from 'debounce';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { ConfirmDialog } from '../../components/dialogs/ConfirmDialog';
-import { Pagination } from '../../components/pagination/Pagination';
 import { toaster } from '../../components/ui/toaster';
 import { Avatar } from '../../components/ui/avatar';
 
@@ -24,7 +21,7 @@ export const DomainSettingsPage = () => {
     const deleteModal = useDisclosure();
 
     const { data: domain, isLoading } = useQuery<DomainSettings>({
-        queryKey: ['getDomain', { domainId }],
+        queryKey: ['getDomainSettings', { domainId }],
         queryFn: () => domainsApi.getSettings(domainId),
     });
 
@@ -38,19 +35,11 @@ export const DomainSettingsPage = () => {
         mutationFn: () => domainsApi.deleteDomain(domainId),
     });
 
-    const inviteModal = useDisclosure();
-
     const form = useForm<UpdateDomainNameData>({
         values: {
             domainName: domain?.domain.name || '',
         },
         resolver: classValidatorResolver(UpdateDomainNameData),
-    });
-
-    const searchPeopleForm = useForm<any>({
-        values: {
-            search: '',
-        },
     });
 
     const onUpdateName = async (data: UpdateDomainNameData) => {
@@ -115,44 +104,11 @@ export const DomainSettingsPage = () => {
 
             <Flex borderBottom={'1px solid'} borderColor={'border'} pb={35} px={4} pt={6}>
                 <Flex width={'280px'} minWidth={'280px'} gap={4} direction={'column'}>
-                    <Text fontSize={16}>People</Text>
-                    <Text fontSize={14}>Manage the people of your domain.</Text>
+                    <Text fontSize={16}>Users</Text>
+                    <Text fontSize={14}>Manage the users of your domain.</Text>
                 </Flex>
 
-                <Flex direction={'column'} width={'100%'} gap={2} ml={20}>
-                    <Flex gap={2} mb={2}>
-                        <FormTextInput
-                            leftIcon={<BiSearch color="gray.900" />}
-                            name={'searchPeople'}
-                            placeholder={'Search people'}
-                            control={searchPeopleForm.control}
-                            onChange={debounce(() => {}, 500)}
-                        />
-
-                        <Box>
-                            <Button
-                                onClick={() => {
-                                    inviteModal.onOpen();
-                                }}
-                            >
-                                Invite
-                            </Button>
-                        </Box>
-                    </Flex>
-
-                    <DomainPeopleList people={domain.people} />
-
-                    <Flex justifyContent={'flex-end'}>
-                        <Pagination />
-                    </Flex>
-
-                    <InvitePersonModal
-                        domainId={domainId}
-                        isOpen={inviteModal.open}
-                        onClose={inviteModal.onClose}
-                        onInviteSent={() => {}}
-                    />
-                </Flex>
+                <DomainUserList domainId={domainId} />
             </Flex>
 
             <Flex borderBottom={'1px solid'} borderColor={'border'} pb={35} px={4} pt={6}>

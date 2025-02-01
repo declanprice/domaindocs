@@ -15,3 +15,4 @@ export * from './subdomain';
 export * from './contacts';
 export * from './links';
 export * from './description';
+export * from './pagination';

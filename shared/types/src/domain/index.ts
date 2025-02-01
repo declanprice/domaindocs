@@ -6,3 +6,5 @@ export * from './update-domain-name-data';
 export * from './edit-domain-description-data';
 export * from './edit-domain-contact-data';
 export * from './edit-domain-link-data';
+export * from './search-domain-users-params';
+export * from './domain-user';

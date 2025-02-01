@@ -3,11 +3,13 @@ import { apiClient } from './api-client';
 import {
     DetailedDomain,
     Domain,
+    DomainUser,
     DomainSettings,
     EditContactData,
     EditDescriptionData,
-    EditDomainDescriptionData,
     EditLinkData,
+    PagedResult,
+    SearchDomainUsersParams,
     SendDomainInviteData,
     SetupDomainData,
     UpdateDomainNameData,
@@ -32,6 +34,14 @@ export const domainsApi = (() => {
 
     const getSettings = async (domainId: string): Promise<DomainSettings> => {
         const result = await apiClient.get<DomainSettings>(`/domains/${domainId}/settings`);
+        return result.data;
+    };
+
+    const searchUsers = async (domainId: string, params: SearchDomainUsersParams): Promise<PagedResult<DomainUser>> => {
+        const result = await apiClient.get<PagedResult<DomainUser>>(`/domains/${domainId}/users`, {
+            params,
+        });
+
         return result.data;
     };
 
@@ -84,6 +94,7 @@ export const domainsApi = (() => {
 
     return {
         getDomain,
+        searchPeople: searchUsers,
         setupDomain,
         sendInvite,
         getSettings,

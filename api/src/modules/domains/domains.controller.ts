@@ -1,17 +1,16 @@
-import { DomainsService } from './domains.service';
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '../../auth/auth.guard';
-import { AuthSession, UserSession } from '../../auth/auth-session';
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import {
     EditContactData,
-    EditDomainContactData,
     EditDomainDescriptionData,
-    EditDomainLinkData,
     EditLinkData,
     SendDomainInviteData,
     SetupDomainData,
     UpdateDomainNameData,
+    SearchDomainUsersParams,
 } from '@domaindocs/types';
+import { DomainsService } from './domains.service';
+import { AuthGuard } from '../../auth/auth.guard';
+import { AuthSession, UserSession } from '../../auth/auth-session';
 
 @Controller('domains')
 @UseGuards(AuthGuard)
@@ -21,6 +20,15 @@ export class DomainsController {
     @Get(':domainId')
     async getDomain(@AuthSession() session: UserSession, @Param('domainId') domainId: string) {
         return this.domainService.getDomain(session, domainId);
+    }
+
+    @Get(':domainId/users')
+    async searchUsers(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Query() query: SearchDomainUsersParams,
+    ) {
+        return this.domainService.searchUsers(session, domainId, query);
     }
 
     @Post('')

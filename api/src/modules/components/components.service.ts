@@ -265,6 +265,7 @@ export class ComponentsService {
                 contactId: v4(),
                 type: data.type,
                 href: data.href,
+                reason: '',
                 description: data.description,
             },
         });

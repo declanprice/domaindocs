@@ -7,14 +7,15 @@ import {
     DetailedDomain,
     Domain,
     DomainSettings,
-    DomainSettingsPerson,
     EditContactData,
     EditDomainDescriptionData,
     EditLinkData,
     Link,
+    SearchDomainUsersParams,
     SendDomainInviteData,
     SetupDomainData,
     UpdateDomainNameData,
+    DomainUser,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 import { EmailService } from '../../shared/services/email.service';
@@ -49,6 +50,56 @@ export class DomainsService {
                 },
             });
         });
+    }
+
+    async searchUsers(session: UserSession, domainId: string, params: SearchDomainUsersParams) {
+        const query: any = {
+            domainId,
+        };
+
+        if (params.search) {
+            query.user = {
+                OR: [
+                    {
+                        fullName: {
+                            contains: params.search.toLowerCase(),
+                            mode: 'insensitive',
+                        },
+                    },
+                    {
+                        email: {
+                            contains: params.search.toLowerCase(),
+                            mode: 'insensitive',
+                        },
+                    },
+                ],
+            };
+        }
+
+        const result = await this.prisma.person.findMany({
+            where: query,
+            include: {
+                user: true,
+            },
+            take: params.take,
+            skip: params.offset,
+            orderBy: {
+                user: {
+                    fullName: 'asc',
+                },
+            },
+        });
+
+        const total = await this.prisma.person.count({
+            where: query,
+        });
+
+        return {
+            data: result.map(
+                (p) => new DomainUser(p.userId, p.user.email, p.user.firstName, p.user.lastName, p.user.iconUri, false),
+            ),
+            total,
+        };
     }
 
     async sendInvite(session: UserSession, domainId: string, data: SendDomainInviteData) {
@@ -155,17 +206,6 @@ export class DomainsService {
 
         return new DomainSettings(
             new Domain(result.domainId, result.name, result.description, result.dateCreated.toISOString()),
-            result.people.map(
-                (p) =>
-                    new DomainSettingsPerson(
-                        p.userId,
-                        p.user.firstName,
-                        p.user.lastName,
-                        p.user.email,
-                        false,
-                        p.user.iconUri,
-                    ),
-            ),
         );
     }
 
