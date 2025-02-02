@@ -7,6 +7,7 @@ import {
     SetupDomainData,
     UpdateDomainNameData,
     SearchDomainUsersParams,
+    SearchDomainInvitesParams,
 } from '@domaindocs/types';
 import { DomainsService } from './domains.service';
 import { AuthGuard } from '../../auth/auth.guard';
@@ -41,6 +42,15 @@ export class DomainsController {
         return this.domainService.getSettings(session, domainId);
     }
 
+    @Get('/:domainId/invites')
+    async searchInvites(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Query() params: SearchDomainInvitesParams,
+    ) {
+        return this.domainService.searchInvites(session, domainId, params);
+    }
+
     @Post('/:domainId/send-invite')
     async sendInvite(
         @AuthSession() session: UserSession,
@@ -48,6 +58,24 @@ export class DomainsController {
         @Body() data: SendDomainInviteData,
     ) {
         return this.domainService.sendInvite(session, domainId, data);
+    }
+
+    @Post('/:domainId/invites/:email/resend')
+    async resendInvite(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('email') email: string,
+    ) {
+        return this.domainService.resendInvite(session, domainId, email);
+    }
+
+    @Delete('/:domainId/invites/:email')
+    async removeInvite(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('email') email: string,
+    ) {
+        return this.domainService.removeInvite(session, domainId, email);
     }
 
     @Post('/:domainId/name')

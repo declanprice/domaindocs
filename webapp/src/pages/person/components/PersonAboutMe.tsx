@@ -50,7 +50,7 @@ export const PersonAboutMeForm = (props: PersonAboutMeFormProps) => {
 
     const form = useForm({
         values: {
-            aboutMe: person.person.aboutMe,
+            description: person.person.description,
         },
     });
 

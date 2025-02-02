@@ -116,7 +116,7 @@ export const LinkListItem = (props: LinkListItemProps) => {
                 onConfirm={async () => {
                     await onRemoveLink(link);
                 }}
-                onCancel={deleteDialog.onClose}
+                onClose={deleteDialog.onClose}
             />
         </li>
     );

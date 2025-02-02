@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { Button, Flex, Text, useDisclosure } from '@chakra-ui/react';
+import { Button, Flex, Tabs, Text, useDisclosure } from '@chakra-ui/react';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
@@ -14,6 +14,8 @@ import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { ConfirmDialog } from '../../components/dialogs/ConfirmDialog';
 import { toaster } from '../../components/ui/toaster';
 import { Avatar } from '../../components/ui/avatar';
+import { IoPersonOutline, IoSendOutline } from 'react-icons/io5';
+import { DomainInvitesList } from './components/DomainInvitesList';
 
 export const DomainSettingsPage = () => {
     const { domainId } = useParams() as DomainPageParams;
@@ -108,7 +110,26 @@ export const DomainSettingsPage = () => {
                     <Text fontSize={14}>Manage the users of your domain.</Text>
                 </Flex>
 
-                <DomainUserList domainId={domainId} />
+                <Tabs.Root defaultValue={'users'} flex={1}>
+                    <Tabs.List>
+                        <Tabs.Trigger value={'users'}>
+                            <IoPersonOutline />
+                            Users
+                        </Tabs.Trigger>
+                        <Tabs.Trigger value={'invites'}>
+                            <IoSendOutline />
+                            Pending Invites
+                        </Tabs.Trigger>
+                    </Tabs.List>
+
+                    <Tabs.Content value={'users'}>
+                        <DomainUserList domainId={domainId} />
+                    </Tabs.Content>
+
+                    <Tabs.Content value={'invites'}>
+                        <DomainInvitesList domainId={domainId} />
+                    </Tabs.Content>
+                </Tabs.Root>
             </Flex>
 
             <Flex borderBottom={'1px solid'} borderColor={'border'} pb={35} px={4} pt={6}>
@@ -128,7 +149,7 @@ export const DomainSettingsPage = () => {
                 <ConfirmDialog
                     isOpen={deleteModal.open}
                     onConfirm={onDeleteDomain}
-                    onCancel={deleteModal.onClose}
+                    onClose={deleteModal.onClose}
                     body={'This action is permanent, you will lose all data relating to this domain.'}
                 />
             </Flex>

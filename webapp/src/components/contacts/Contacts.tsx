@@ -118,7 +118,7 @@ export const ContactListItem = (props: ContactListItemProps) => {
                 onConfirm={async () => {
                     await onRemoveContact(contact);
                 }}
-                onCancel={deleteDialog.onClose}
+                onClose={deleteDialog.onClose}
             />
         </li>
     );

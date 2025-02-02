@@ -8,11 +8,11 @@ type ConfirmDialogProps = {
     header?: string;
     body?: any;
     onConfirm: () => Promise<void>;
-    onCancel: () => void;
+    onClose: () => void;
 };
 
 export const ConfirmDialog = (props: ConfirmDialogProps) => {
-    const { isOpen, header, body, onConfirm, onCancel } = props;
+    const { isOpen, header, body, onConfirm, onClose } = props;
 
     const ref = useRef();
 
@@ -23,11 +23,11 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
             open={isOpen}
             onOpenChange={(details: OpenChangeDetails) => {
                 if (!details.open) {
-                    // onCancel();
+                    onClose();
                 }
             }}
             leastDestructiveRef={ref as any}
-            onClose={onCancel}
+            onClose={onClose}
         >
             <DialogContent>
                 <DialogHeader fontSize="lg" fontWeight="bold">
@@ -37,7 +37,7 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
                 {body && <DialogBody>{body}</DialogBody>}
 
                 <DialogFooter>
-                    <Button ref={ref as any} onClick={onCancel}>
+                    <Button ref={ref as any} onClick={onClose}>
                         Cancel
                     </Button>
 
@@ -47,6 +47,7 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
                             try {
                                 setIsLoading(true);
                                 await onConfirm();
+                                onClose();
                             } finally {
                                 setIsLoading(false);
                             }

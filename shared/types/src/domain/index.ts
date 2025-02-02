@@ -8,3 +8,5 @@ export * from './edit-domain-contact-data';
 export * from './edit-domain-link-data';
 export * from './search-domain-users-params';
 export * from './domain-user';
+export * from './domain-invite';
+export * from './search-domain-invites-params';

@@ -1,9 +1,8 @@
+import { Person, PersonContact, PersonRole, PersonSkill } from '@prisma/client';
 import { benUser, declanUser, natashaUser } from './users';
 import { ros } from './domain';
 import { softwareDevRole, teamLeadRole } from './roles';
 import { apiDevSkill, devOpsSkill, uiDevSkill } from './skills';
-
-import { Person, PersonContact, PersonRole, PersonSkill } from '@prisma/client';
 import { PersonContactType } from '../../types/src';
 import { v4 } from 'uuid';
 
@@ -12,7 +11,7 @@ export const declanPerson = (): Person => {
         userId: declanUser().userId,
         domainId: ros().domainId,
         dateJoined: new Date(),
-        aboutMe: 'I am a software developer',
+        description: 'I am a software developer',
     };
 };
 
@@ -21,7 +20,7 @@ export const benPerson = (): Person => {
         userId: benUser().userId,
         domainId: ros().domainId,
         dateJoined: new Date(),
-        aboutMe: 'I am a software developer',
+        description: 'I am a software developer',
     };
 };
 
@@ -30,7 +29,7 @@ export const natashaPerson = (): Person => {
         userId: natashaUser().userId,
         domainId: ros().domainId,
         dateJoined: new Date(),
-        aboutMe: 'I am a software developer',
+        description: 'I am a software developer',
     };
 };
 

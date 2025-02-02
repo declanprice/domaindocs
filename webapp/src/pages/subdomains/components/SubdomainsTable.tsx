@@ -87,7 +87,7 @@ export const SubdomainsActionsCell = (props: SubdomainsActionsCellProps) => {
                 onConfirm={async () => {
                     await props.onRemove(props.subdomain);
                 }}
-                onCancel={removeSubdomainDialog.onClose}
+                onClose={removeSubdomainDialog.onClose}
             />
         </Flex>
     );

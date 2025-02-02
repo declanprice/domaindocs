@@ -127,7 +127,7 @@ export const TeamsTableActions = (props: TeamsTableActionsProps) => {
                 onConfirm={async () => {
                     await props.onRemove(props.team);
                 }}
-                onCancel={removeDialog.onClose}
+                onClose={removeDialog.onClose}
             />
         </Flex>
     );

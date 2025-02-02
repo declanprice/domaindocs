@@ -13,6 +13,8 @@ import {
     SendDomainInviteData,
     SetupDomainData,
     UpdateDomainNameData,
+    SearchDomainInvitesParams,
+    DomainInvite,
 } from '@domaindocs/types';
 
 import { queryClient } from '../query-client';
@@ -30,6 +32,7 @@ export const domainsApi = (() => {
 
     const sendInvite = async (domainId: string, data: SendDomainInviteData): Promise<void> => {
         await apiClient.post(`/domains/${domainId}/send-invite`, data);
+        await invalidateInvitesQuery();
     };
 
     const getSettings = async (domainId: string): Promise<DomainSettings> => {
@@ -43,6 +46,26 @@ export const domainsApi = (() => {
         });
 
         return result.data;
+    };
+
+    const searchInvites = async (
+        domainId: string,
+        params: SearchDomainInvitesParams,
+    ): Promise<PagedResult<DomainInvite>> => {
+        const result = await apiClient.get<PagedResult<DomainInvite>>(`/domains/${domainId}/invites`, {
+            params,
+        });
+
+        return result.data;
+    };
+
+    const resendInvite = async (domainId: string, email: string): Promise<void> => {
+        await apiClient.post(`/domains/${domainId}/invites/${email}/resend`);
+    };
+
+    const removeInvite = async (domainId: string, email: string): Promise<void> => {
+        await apiClient.delete(`/domains/${domainId}/invites/${email}`);
+        await invalidateInvitesQuery();
     };
 
     const updateName = async (domainId: string, data: UpdateDomainNameData): Promise<void> => {
@@ -92,9 +115,19 @@ export const domainsApi = (() => {
         queryClient.setQueryData(['getDomain', { domainId }], domain);
     };
 
+    const invalidateInvitesQuery = async () => {
+        await queryClient.invalidateQueries({
+            queryKey: ['searchDomainInvites'],
+            exact: false,
+        });
+    };
+
     return {
         getDomain,
-        searchPeople: searchUsers,
+        searchUsers,
+        searchInvites,
+        resendInvite,
+        removeInvite,
         setupDomain,
         sendInvite,
         getSettings,

@@ -19,7 +19,7 @@ export const generatePeople = (domainId: string, count: number): { user: User; p
             person: {
                 userId,
                 domainId,
-                aboutMe: '',
+                description: '',
                 dateJoined: new Date(),
             },
         });

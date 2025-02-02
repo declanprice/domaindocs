@@ -118,7 +118,7 @@ export const TeamContactListItem = (props: TeamContactListItemProps) => {
                 isOpen={deleteDialog.open}
                 header={'Remove contact?'}
                 onConfirm={deleteContact}
-                onCancel={deleteDialog.onClose}
+                onClose={deleteDialog.onClose}
             />
         </li>
     );

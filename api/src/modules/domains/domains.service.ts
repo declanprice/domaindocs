@@ -16,11 +16,15 @@ import {
     SetupDomainData,
     UpdateDomainNameData,
     DomainUser,
+    SearchDomainInvitesParams,
+    DomainInvite,
+    PagedResult,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 import { EmailService } from '../../shared/services/email.service';
 import { AuthService } from '../../auth/auth.service';
 import { v4 } from 'uuid';
+import { differenceInMinutes } from 'date-fns';
 
 @Injectable()
 export class DomainsService {
@@ -102,6 +106,38 @@ export class DomainsService {
         };
     }
 
+    async searchInvites(
+        session: UserSession,
+        domainId: string,
+        params: SearchDomainInvitesParams,
+    ): Promise<PagedResult<DomainInvite>> {
+        const query: any = {
+            domainId,
+        };
+
+        if (params.search) {
+            query.email = {
+                contains: params.search.toLowerCase(),
+                mode: 'insensitive',
+            };
+        }
+
+        const result = await this.prisma.domainInvite.findMany({
+            where: query,
+            take: params.take,
+            skip: params.offset,
+        });
+
+        const total = await this.prisma.domainInvite.count({
+            where: query,
+        });
+
+        return {
+            data: result.map((i) => new DomainInvite(i.domainId, i.email, i.dateSent.toISOString())),
+            total,
+        };
+    }
+
     async sendInvite(session: UserSession, domainId: string, data: SendDomainInviteData) {
         const user = await this.prisma.user.findFirst({
             where: {
@@ -118,21 +154,20 @@ export class DomainsService {
             });
 
             if (person) {
-                throw new BadRequestException('person has already joined the domain');
+                throw new BadRequestException('user has already joined the domain');
+            } else {
+                await this.prisma.person.create({
+                    data: {
+                        userId: user.userId,
+                        domainId: domainId,
+                    },
+                });
             }
-
-            await this.prisma.person.create({
-                data: {
-                    userId: user.userId,
-                    domainId,
-                },
-            });
-
-            return;
         }
 
         const invite = await this.prisma.domainInvite.findFirst({
             where: {
+                domainId: domainId,
                 email: data.email,
             },
         });
@@ -151,12 +186,59 @@ export class DomainsService {
             data: {
                 domainId: domainId,
                 email: data.email,
+                dateSent: new Date(),
             },
         });
 
         const link = await this.authService.createMagicLink(data.email);
 
         await this.emailService.sendInvite(data.email, domain.name, link);
+    }
+
+    async resendInvite(session: UserSession, domainId: string, email: string) {
+        const invite = await this.prisma.domainInvite.findFirst({
+            where: {
+                domainId: domainId,
+                email: email,
+            },
+        });
+
+        if (!invite) {
+            throw new BadRequestException('invite does not exist');
+        }
+
+        const domain = await this.prisma.domain.findUniqueOrThrow({
+            where: {
+                domainId,
+            },
+        });
+
+        if (differenceInMinutes(invite.dateSent, new Date()) > 10) {
+            throw new BadRequestException('invite has already been sent recently');
+        }
+
+        const link = await this.authService.createMagicLink(email);
+
+        await this.emailService.sendInvite(email, domain.name, link);
+
+        await this.prisma.domainInvite.update({
+            where: {
+                domainId,
+                email,
+            },
+            data: {
+                dateSent: new Date(),
+            },
+        });
+    }
+
+    async removeInvite(session: UserSession, domainId: string, email: string): Promise<void> {
+        await this.prisma.domainInvite.delete({
+            where: {
+                domainId,
+                email,
+            },
+        });
     }
 
     async getDomain(session: UserSession, domainId: string): Promise<DetailedDomain> {

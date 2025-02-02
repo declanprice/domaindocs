@@ -1,12 +1,14 @@
 import { Box, Button, Flex, HStack, IconButton, Text, useDisclosure } from '@chakra-ui/react';
-import { DomainUser, PagedResult } from '@domaindocs/types';
+import { DomainInvite, PagedResult } from '@domaindocs/types';
 import { TbDots } from 'react-icons/tb';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import React from 'react';
+import { BiSearch } from 'react-icons/bi';
+import debounce from 'debounce';
+import { useForm } from 'react-hook-form';
 import { Avatar } from '../../../components/ui/avatar';
 import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from '../../../components/ui/menu';
 import { FormTextInput } from '../../../components/form/FormTextInput';
-import { BiSearch } from 'react-icons/bi';
-import debounce from 'debounce';
 import {
     PaginationItems,
     PaginationNextTrigger,
@@ -14,22 +16,26 @@ import {
     PaginationRoot,
 } from '../../../components/ui/pagination';
 import { InvitePersonModal } from '../../../components/person/InvitePersonModal';
-import { useQuery } from '@tanstack/react-query';
 import { domainsApi } from '../../../state/api/domains-api';
-import { useForm } from 'react-hook-form';
 import { usePaging } from '../../../hooks/usePaging';
 import { LoadingContainer } from '../../../components/loading/LoadingContainer';
+import { ConfirmDialog } from '../../../components/dialogs/ConfirmDialog';
+import { toaster } from '../../../components/ui/toaster';
+import { format } from 'date-fns';
+import { apiErrorToast } from '../../../util/toasts';
 
-type DomainUserListProps = {
+type DomainInvitesListProps = {
     domainId: string;
 };
 
-export const DomainUserList = (props: DomainUserListProps) => {
+export const DomainInvitesList = (props: DomainInvitesListProps) => {
     const { domainId } = props;
 
     const inviteModal = useDisclosure();
+    const resendConfirmModal = useDisclosure();
+    const removeConfirmModal = useDisclosure();
 
-    const searchUsersForm = useForm<any>({
+    const searchInvitesForm = useForm<any>({
         values: {
             search: '',
         },
@@ -38,22 +44,22 @@ export const DomainUserList = (props: DomainUserListProps) => {
     const pagination = usePaging();
 
     const {
-        data: usersData,
-        isLoading: isUsersLoading,
-        refetch: searchUsers,
-    } = useQuery<PagedResult<DomainUser>>({
+        data: invitesData,
+        isLoading: isInvitesLoading,
+        refetch: searchInvites,
+    } = useQuery<PagedResult<DomainInvite>>({
         queryKey: [
-            'searchDomainUsers',
+            'searchDomainInvites',
             {
                 domainId,
                 page: pagination.page,
                 pageSize: pagination.pageSize,
-                search: searchUsersForm.getValues('search'),
+                search: searchInvitesForm.getValues('search'),
             },
         ],
         queryFn: async () => {
-            const result = await domainsApi.searchUsers(domainId, {
-                search: searchUsersForm.getValues('search'),
+            const result = await domainsApi.searchInvites(domainId, {
+                search: searchInvitesForm.getValues('search'),
                 take: pagination.pageSize,
                 offset: (pagination.page - 1) * pagination.pageSize,
             });
@@ -62,16 +68,26 @@ export const DomainUserList = (props: DomainUserListProps) => {
         },
     });
 
+    const { mutateAsync: removeInvite } = useMutation({
+        mutationFn: (email: string) => domainsApi.removeInvite(domainId, email),
+        onError: apiErrorToast,
+    });
+
+    const { mutateAsync: resendInvite } = useMutation({
+        mutationFn: (email: string) => domainsApi.resendInvite(domainId, email),
+        onError: apiErrorToast,
+    });
+
     return (
         <Flex direction={'column'} gap={2}>
             <Flex gap={2} mb={2}>
                 <FormTextInput
                     leftIcon={<BiSearch color="gray.900" />}
                     name={'search'}
-                    placeholder={'Search users'}
-                    control={searchUsersForm.control}
+                    placeholder={'Search invites'}
+                    control={searchInvitesForm.control}
                     onChange={debounce(() => {
-                        searchUsers().then();
+                        searchInvites().then();
                     }, 250)}
                 />
 
@@ -86,14 +102,14 @@ export const DomainUserList = (props: DomainUserListProps) => {
                 </Box>
             </Flex>
 
-            {!usersData || isUsersLoading ? (
+            {!invitesData || isInvitesLoading ? (
                 <Box p={2}>
                     <LoadingContainer height={'40px'} width={'40px'} />
                 </Box>
             ) : (
                 <ul>
-                    {usersData.data.map((data) => (
-                        <li key={data.userId}>
+                    {invitesData.data.map((data) => (
+                        <li key={data.email}>
                             <Flex
                                 p={1}
                                 rounded={4}
@@ -102,14 +118,14 @@ export const DomainUserList = (props: DomainUserListProps) => {
                                 mt={2}
                                 _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
                             >
-                                <Avatar src={data.iconUri} name={`${data.firstName} ${data.lastName}`} />
+                                <Avatar name={`${data.email}`} />
 
-                                <Flex direction={'column'} justifyContent={'center'} ml={2}>
-                                    <Text fontWeight={'normal'}>
-                                        {data.firstName} {data.lastName}
-                                    </Text>
-
+                                <Flex direction={'column'} justifyContent={'center'} ml={2} gap={0.5}>
                                     <Text>{data.email}</Text>
+
+                                    <Text fontSize={14} fontWeight={400}>
+                                        Invite sent on {format(data.dateSent, 'Mo MMM yyyy')}
+                                    </Text>
                                 </Flex>
 
                                 <MenuRoot>
@@ -118,9 +134,34 @@ export const DomainUserList = (props: DomainUserListProps) => {
                                     </MenuTrigger>
 
                                     <MenuContent>
-                                        <MenuItem>Remove</MenuItem>
+                                        <MenuItem value={'resend'} onClick={resendConfirmModal.onOpen}>
+                                            Resend
+                                        </MenuItem>
+                                        <MenuItem value={'remove'} onClick={removeConfirmModal.onOpen}>
+                                            Remove
+                                        </MenuItem>
                                     </MenuContent>
                                 </MenuRoot>
+
+                                <ConfirmDialog
+                                    header={'Resend Invite'}
+                                    body={'Are you sure you want to send another invite email?'}
+                                    isOpen={resendConfirmModal.open}
+                                    onConfirm={async () => {
+                                        await resendInvite(data.email);
+                                    }}
+                                    onClose={resendConfirmModal.onClose}
+                                />
+
+                                <ConfirmDialog
+                                    header={'Remove Invite'}
+                                    body={'Are you sure you want to delete pending invite?'}
+                                    isOpen={removeConfirmModal.open}
+                                    onConfirm={async () => {
+                                        await removeInvite(data.email);
+                                    }}
+                                    onClose={removeConfirmModal.onClose}
+                                />
                             </Flex>
                         </li>
                     ))}

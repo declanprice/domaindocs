@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class EmailService {
-    readonly client = new SESClient({ region: 'eu-west-1' });
+    readonly client = new SESClient();
 
     readonly source: string;
 
@@ -48,7 +48,7 @@ export class EmailService {
             },
             Message: {
                 Subject: {
-                    Data: `You have been invited to join ${domainName}. ${link}`,
+                    Data: `You have been invited to join ${domainName} Domaindocs.`,
                 },
                 Body: {
                     Text: {

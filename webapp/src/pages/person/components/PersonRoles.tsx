@@ -122,7 +122,7 @@ export const PersonRoleListItem = (props: PersonRoleListItemProps) => {
                 isOpen={deleteDialog.isOpen}
                 header={'Remove role?'}
                 onConfirm={deletePersonRole}
-                onCancel={deleteDialog.onClose}
+                onClose={deleteDialog.onClose}
             />
         </ListItem>
     );

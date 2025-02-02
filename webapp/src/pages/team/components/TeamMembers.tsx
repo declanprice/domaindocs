@@ -96,7 +96,7 @@ export const TeamMemberListItem = (props: TeamMemberListItemProps) => {
                 isOpen={deleteDialog.open}
                 header={'Remove member?'}
                 onConfirm={removeMember}
-                onCancel={deleteDialog.onClose}
+                onClose={deleteDialog.onClose}
             />
         </li>
     );

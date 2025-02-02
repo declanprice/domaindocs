@@ -52,7 +52,7 @@ export class PeopleService {
                         p.user.userId,
                         p.user.firstName,
                         p.user.lastName,
-                        p.aboutMe,
+                        p.description,
                         p.dateJoined.toISOString(),
                         p.user.email,
                         p.user.iconUri,
@@ -95,7 +95,7 @@ export class PeopleService {
                 result.user.userId,
                 result.user.firstName,
                 result.user.lastName,
-                result.aboutMe,
+                result.description,
                 result.dateJoined.toISOString(),
                 result.user.email,
                 result.user.iconUri,
@@ -332,7 +332,7 @@ export class PeopleService {
                 },
             },
             data: {
-                aboutMe: data.aboutMe,
+                description: data.description,
             },
         });
 

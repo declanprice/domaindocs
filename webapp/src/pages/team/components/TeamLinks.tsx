@@ -124,7 +124,7 @@ export const TeamLinkListItem = (props: TeamLinkListItemProps) => {
                 isOpen={deleteDialog.open}
                 header={'Remove link?'}
                 onConfirm={deleteLink}
-                onCancel={deleteDialog.onClose}
+                onClose={deleteDialog.onClose}
             />
         </li>
     );

@@ -108,7 +108,7 @@ export const PersonSkillItem = (props: PersonSkillItemProps) => {
                 isOpen={deleteDialog.open}
                 header={'Remove skill?'}
                 onConfirm={deletePersonSkill}
-                onCancel={deleteDialog.onClose}
+                onClose={deleteDialog.onClose}
             />
         </>
     );

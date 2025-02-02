@@ -41,7 +41,7 @@ export class Person {
         public userId: string,
         public firstName: string,
         public lastName: string,
-        public aboutMe: string,
+        public description: string,
         public dateJoined: string,
         public email: string,
         public iconUri?: string,

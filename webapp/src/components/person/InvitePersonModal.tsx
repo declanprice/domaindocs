@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Dialog } from '@chakra-ui/react';
+import { Button, ButtonGroup } from '@chakra-ui/react';
 import { FormTextInput } from '../form/FormTextInput';
 import { useForm } from 'react-hook-form';
 import { DefaultError, useMutation } from '@tanstack/react-query';
@@ -6,6 +6,7 @@ import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { SendDomainInviteData } from '@domaindocs/types';
 import { domainsApi } from '../../state/api/domains-api';
 import { toaster } from '../ui/toaster';
+import { DialogContent, DialogRoot, DialogFooter, DialogHeader, DialogBody } from '../ui/dialog';
 
 type InvitePersonModalProps = {
     domainId: string;
@@ -47,33 +48,41 @@ export const InvitePersonModal = (props: InvitePersonModalProps) => {
     };
 
     return (
-        <Dialog.Root isOpen={isOpen} onClose={close} isCentered>
-            <form onSubmit={form.handleSubmit(sendInvite)}>
-                <Dialog.Content>
-                    <Dialog.Header title="Send an invite">Send an invite </Dialog.Header>
+        <DialogRoot
+            open={isOpen}
+            onOpenChange={(details: { open: boolean }) => {
+                if (!details.open) {
+                    onClose();
+                }
+            }}
+            isCentered
+        >
+            <DialogContent>
+                <form onSubmit={form.handleSubmit(sendInvite)}>
+                    <DialogHeader title="Send an invite">Send an invite </DialogHeader>
 
-                    <Dialog.Body>
+                    <DialogBody>
                         <FormTextInput
                             name={'email'}
                             control={form.control}
                             label={'Email'}
                             placeholder={'johndoe@email.com'}
                         />
-                    </Dialog.Body>
+                    </DialogBody>
 
-                    <Dialog.Footer>
+                    <DialogFooter>
                         <ButtonGroup>
-                            <Button size="sm" colorScheme={'red'} onClick={close}>
+                            <Button colorPalette={'red'} onClick={close} disabled={form.formState.isSubmitting}>
                                 Cancel
                             </Button>
 
-                            <Button size="sm" type={'submit'}>
+                            <Button type={'submit'} loading={form.formState.isSubmitting}>
                                 Send Invite
                             </Button>
                         </ButtonGroup>
-                    </Dialog.Footer>
-                </Dialog.Content>
-            </form>
-        </Dialog.Root>
+                    </DialogFooter>
+                </form>
+            </DialogContent>
+        </DialogRoot>
     );
 };

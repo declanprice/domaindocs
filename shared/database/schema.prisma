@@ -154,8 +154,9 @@ model SubdomainTeam {
 }
 
 model DomainInvite {
-  email    String @id @map("email")
-  domainId String @map("domain_id")
+  email    String   @id @map("email")
+  domainId String   @map("domain_id")
+  dateSent DateTime @map("date_sent")
 
   domain Domain @relation(fields: [domainId], references: [domainId])
 
@@ -163,10 +164,11 @@ model DomainInvite {
 }
 
 model Person {
-  userId     String   @map("user_id")
-  domainId   String   @map("domain_id")
-  aboutMe    String   @default("") @map("about_me")
-  dateJoined DateTime @default(now()) @map("date_joined")
+  userId   String @map("user_id")
+  domainId String @map("domain_id")
+
+  description String   @default("") @map("description")
+  dateJoined  DateTime @default(now()) @map("date_joined")
 
   domain                  Domain                    @relation(fields: [domainId], references: [domainId])
   user                    User                      @relation(fields: [userId], references: [userId])

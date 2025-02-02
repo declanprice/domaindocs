@@ -130,7 +130,7 @@ export const PersonContactListItem = (props: PersonContactListItemProps) => {
                 isOpen={deleteDialog.isOpen}
                 header={'Remove contact?'}
                 onConfirm={deleteContact}
-                onCancel={deleteDialog.onClose}
+                onClose={deleteDialog.onClose}
             />
         </ListItem>
     );

@@ -43,7 +43,6 @@ import { NoAuthGuard } from './components/guards/NoAuthGuard';
 import { RootNavBar } from './root-layout/RootNavBar';
 import { DomainSettingsPage } from './pages/domain/DomainSettingsPage';
 import { DomainIntegrationsPage } from './pages/domain/DomainIntegrationsPage';
-import { DomainSubdomainsPage } from './pages/domain/DomainSubdomainsPage';
 import { DomainNavBar } from './pages/domain/DomainNavBar';
 import { DashboardPage } from './pages/dashboard/DashboardPage';
 import { PersonPageNavBar } from './pages/person/PersonPageNavBar';
