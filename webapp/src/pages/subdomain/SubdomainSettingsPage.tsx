@@ -55,8 +55,8 @@ export const SubdomainSettingsPage = () => {
         <Flex gap={4} width={'100%'} direction={'column'} overflowY={'auto'}>
             <Flex borderBottom={'1px solid'} borderColor={'border'} pb={30} px={4} pt={6}>
                 <Flex width={'280px'} minWidth={'280px'} gap={4} direction={'column'}>
-                    <Text fontSize={16}>Domain Settings</Text>
-                    <Text fontSize={14}>Configure your domain name, and logo.</Text>
+                    <Text fontSize={16}>subdomain Settings</Text>
+                    <Text fontSize={14}>Configure your subdomain name.</Text>
                 </Flex>
 
                 <Flex direction={'column'} gap={4} minWidth={'250px'} ml={20}>

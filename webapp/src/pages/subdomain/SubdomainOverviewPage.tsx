@@ -11,6 +11,8 @@ import { subdomainsApi } from '../../state/api/subdomains-api';
 import { SubdomainPageParams } from '../../types/SubdomainPageParams';
 import { VscTypeHierarchySub } from 'react-icons/vsc';
 import { GoPeople } from 'react-icons/go';
+import { SubdomainContacts } from './components/SubdomainContacts';
+import { SubdomainLinks } from './components/SubdomainLinks';
 
 export const SubdomainOverviewPage = () => {
     const { domainId, subdomainId } = useParams() as SubdomainPageParams;
@@ -50,9 +52,9 @@ export const SubdomainOverviewPage = () => {
             <Flex direction={'column'} width={'450px'} p={4} gap={4}>
                 <SubdomainDetails subdomain={data.subdomain} />
 
-                {/*<SubdomainContacts domainId={domainId} contacts={domain.contacts} />*/}
+                <SubdomainContacts domainId={domainId} subdomainId={subdomainId} contacts={data.contacts} />
 
-                {/*<DomainLinks domainId={domainId} links={domain.links} />*/}
+                <SubdomainLinks domainId={domainId} subdomainId={subdomainId} links={data.links} />
             </Flex>
         </Flex>
     );

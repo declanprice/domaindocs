@@ -1,32 +1,37 @@
 import { Link, EditLinkData } from '@domaindocs/types';
 import { useMutation } from '@tanstack/react-query';
 import { Links } from '../../../components/links/Links';
-import { domainsApi } from '../../../state/api/domains-api';
+import { subdomainsApi } from '../../../state/api/subdomains-api';
+import { apiErrorToast } from '../../../util/toasts';
 
-type DomainLinksProps = {
+type SubdomainLinksProps = {
     domainId: string;
+    subdomainId: string;
     links: Link[];
 };
 
-export const DomainLinks = (props: DomainLinksProps) => {
-    const { domainId, links } = props;
+export const SubdomainLinks = (props: SubdomainLinksProps) => {
+    const { domainId, subdomainId, links } = props;
 
     const { mutateAsync: addLink } = useMutation({
         mutationFn: async (data: EditLinkData) => {
-            return domainsApi.addLink(domainId, data);
+            return subdomainsApi.addLink(domainId, subdomainId, data);
         },
+        onError: apiErrorToast,
     });
 
     const { mutateAsync: updateLink } = useMutation({
         mutationFn: async (data: EditLinkData) => {
-            return domainsApi.updateLink(domainId, data.linkId!, data);
+            return subdomainsApi.updateLink(domainId, subdomainId, data.linkId!, data);
         },
+        onError: apiErrorToast,
     });
 
     const { mutateAsync: removeLink } = useMutation({
         mutationFn: async (link: Link) => {
-            return domainsApi.removeLink(domainId, link.linkId);
+            return subdomainsApi.removeLink(domainId, subdomainId, link.linkId);
         },
+        onError: apiErrorToast,
     });
 
     return <Links onAddLink={addLink} onUpdateLink={updateLink} onRemoveLink={removeLink} links={links} />;

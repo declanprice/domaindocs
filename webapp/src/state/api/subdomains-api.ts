@@ -3,6 +3,7 @@ import {
     DetailedSubdomain,
     EditContactData,
     EditDescriptionData,
+    EditLinkData,
     SearchSubdomainsParams,
     Subdomain,
     UpdateNameData,
@@ -47,7 +48,10 @@ export const subdomainsApi = (() => {
     };
 
     const addContact = async (domainId: string, subdomainId: string, data: EditContactData): Promise<void> => {
-        const result = await apiClient.post<DetailedSubdomain>(`/domains/${domainId}/contacts`, data);
+        const result = await apiClient.post<DetailedSubdomain>(
+            `/domains/${domainId}/subdomains/${subdomainId}/contacts`,
+            data,
+        );
         updateLocalData(domainId, subdomainId, result.data);
     };
 
@@ -57,12 +61,45 @@ export const subdomainsApi = (() => {
         contactId: string,
         data: EditContactData,
     ): Promise<void> => {
-        const result = await apiClient.post<DetailedSubdomain>(`/domains/${domainId}/contacts/${contactId}`, data);
+        const result = await apiClient.post<DetailedSubdomain>(
+            `/domains/${domainId}/subdomains/${subdomainId}/contacts/${contactId}`,
+            data,
+        );
         updateLocalData(domainId, subdomainId, result.data);
     };
 
     const removeContact = async (domainId: string, subdomainId: string, contactId: string): Promise<void> => {
-        const result = await apiClient.delete<DetailedSubdomain>(`/domains/${domainId}/contacts/${contactId}`);
+        const result = await apiClient.delete<DetailedSubdomain>(
+            `/domains/${domainId}/subdomains/${subdomainId}/contacts/${contactId}`,
+        );
+        updateLocalData(domainId, subdomainId, result.data);
+    };
+
+    const addLink = async (domainId: string, subdomainId: string, data: EditLinkData): Promise<void> => {
+        const result = await apiClient.post<DetailedSubdomain>(
+            `/domains/${domainId}/subdomains/${subdomainId}/links`,
+            data,
+        );
+        updateLocalData(domainId, subdomainId, result.data);
+    };
+
+    const updateLink = async (
+        domainId: string,
+        subdomainId: string,
+        linkId: string,
+        data: EditLinkData,
+    ): Promise<void> => {
+        const result = await apiClient.post<DetailedSubdomain>(
+            `/domains/${domainId}/subdomains/${subdomainId}/links/${linkId}`,
+            data,
+        );
+        updateLocalData(domainId, subdomainId, result.data);
+    };
+
+    const removeLink = async (domainId: string, subdomainId: string, linkId: string): Promise<void> => {
+        const result = await apiClient.delete<DetailedSubdomain>(
+            `/domains/${domainId}/subdomains/${subdomainId}/links/${linkId}`,
+        );
         updateLocalData(domainId, subdomainId, result.data);
     };
 
@@ -80,5 +117,8 @@ export const subdomainsApi = (() => {
         addContact,
         updateContact,
         removeContact,
+        addLink,
+        removeLink,
+        updateLink,
     };
 })();

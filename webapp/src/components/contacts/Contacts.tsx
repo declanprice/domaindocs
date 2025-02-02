@@ -77,14 +77,30 @@ export const ContactListItem = (props: ContactListItemProps) => {
     const renderDescription = () => {
         if (contact.type === ContactType.LINK) {
             return (
-                <Link target={'_blank'} href={contact.href} fontSize={14} fontWeight={500}>
+                <Link
+                    target={'_blank'}
+                    href={contact.href}
+                    fontSize={14}
+                    fontWeight={500}
+                    whiteSpace={'nowrap'}
+                    maxWidth={'200px'}
+                    overflow={'hidden'}
+                    textOverflow={'ellipsis'}
+                >
                     {contact.description}
                 </Link>
             );
         }
 
         return (
-            <Text fontSize={14} fontWeight={500}>
+            <Text
+                fontSize={14}
+                fontWeight={500}
+                whiteSpace={'nowrap'}
+                maxWidth={'250px'}
+                overflow={'hidden'}
+                textOverflow={'ellipsis'}
+            >
                 {contact.description}
             </Text>
         );
@@ -99,17 +115,25 @@ export const ContactListItem = (props: ContactListItemProps) => {
                     <Flex ml={2} direction={'column'} alignItems={'start'}>
                         {renderDescription()}
 
-                        <Text fontSize={12}>{contact.reason}</Text>
+                        <Text
+                            fontSize={12}
+                            whiteSpace={'nowrap'}
+                            maxWidth={'250px'}
+                            overflow={'hidden'}
+                            textOverflow={'ellipsis'}
+                        >
+                            {contact.reason}
+                        </Text>
                     </Flex>
                 </Flex>
 
-                <Box ml={'auto'} visibility={isHovering ? 'visible' : 'hidden'}>
+                <ButtonGroup ml={'auto'} visibility={isHovering ? 'visible' : 'hidden'}>
                     <CloseIconButton variant={'ghost'} onClick={deleteDialog.onOpen} />
 
                     <ContactForm onAddContact={onAddContact} onUpdateContact={onUpdateContact} contact={contact}>
                         <EditIconButton variant={'ghost'} onClick={editPopover.onOpen} />
                     </ContactForm>
-                </Box>
+                </ButtonGroup>
             </Flex>
 
             <ConfirmDialog
@@ -188,7 +212,7 @@ export const ContactForm = (props: ContactFormProps) => {
                 }
             }}
         >
-            <PopoverTrigger>{props.children}</PopoverTrigger>
+            <PopoverTrigger as={'div'}>{props.children}</PopoverTrigger>
 
             <Portal>
                 <PopoverContent mr={2} backgroundColor={'white'} ref={containerRef}>

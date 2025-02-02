@@ -6,6 +6,7 @@ import {
     CreateSubdomainData,
     EditContactData,
     EditDescriptionData,
+    EditLinkData,
     SearchSubdomainsParams,
     UpdateNameData,
 } from '@domaindocs/types';
@@ -100,5 +101,36 @@ export class SubdomainsController {
         @Param('contactId') contactId: string,
     ) {
         return this.subdomainsService.removeContact(session, domainId, subdomainId, contactId);
+    }
+
+    @Post(':subdomainId/links')
+    async addLink(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('subdomainId') subdomainId: string,
+        @Body() data: EditLinkData,
+    ) {
+        return this.subdomainsService.addLink(session, domainId, subdomainId, data);
+    }
+
+    @Post(':subdomainId/links/:linkId')
+    async updateLink(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('subdomainId') subdomainId: string,
+        @Param('linkId') linkId: string,
+        @Body() data: EditLinkData,
+    ) {
+        return this.subdomainsService.updateLink(session, domainId, subdomainId, linkId, data);
+    }
+
+    @Delete(':subdomainId/links/:linkId')
+    async removeLink(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('subdomainId') subdomainId: string,
+        @Param('linkId') linkId: string,
+    ) {
+        return this.subdomainsService.removeLink(session, domainId, subdomainId, linkId);
     }
 }

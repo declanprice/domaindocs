@@ -11,6 +11,7 @@ import {
     SearchSubdomainsParams,
     UpdateNameData,
     Subdomain,
+    EditLinkData,
 } from '@domaindocs/types';
 import { UserSession } from '../../auth/auth-session';
 import { PrismaService } from '../../shared/prisma.service';
@@ -182,6 +183,48 @@ export class SubdomainsService {
                 domainId,
                 subdomainId,
                 contactId,
+            },
+        });
+
+        return this.get(session, domainId, subdomainId);
+    }
+
+    async addLink(session: UserSession, domainId: string, subdomainId: string, data: EditLinkData) {
+        await this.prisma.subdomainLink.create({
+            data: {
+                domainId,
+                subdomainId,
+                linkId: v4(),
+                href: data.href,
+                description: data.description,
+            },
+        });
+
+        return this.get(session, domainId, subdomainId);
+    }
+
+    async updateLink(session: UserSession, domainId: string, subdomainId: string, linkId: string, data: EditLinkData) {
+        await this.prisma.subdomainLink.update({
+            where: {
+                domainId,
+                subdomainId,
+                linkId,
+            },
+            data: {
+                href: data.href,
+                description: data.description,
+            },
+        });
+
+        return this.get(session, domainId, subdomainId);
+    }
+
+    async removeLink(session: UserSession, domainId: string, subdomainId: string, linkId: string) {
+        await this.prisma.subdomainLink.delete({
+            where: {
+                domainId,
+                subdomainId,
+                linkId,
             },
         });
 
