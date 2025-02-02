@@ -101,14 +101,17 @@ model DomainLink {
 }
 
 model Subdomain {
-  subdomainId String @id @map("subdomain_id")
-  domainId    String @map("domain_id")
-  name        String @map("name")
+  subdomainId String   @id @map("subdomain_id")
+  domainId    String   @map("domain_id")
+  name        String   @map("name")
+  description String   @map("description")
+  dateCreated DateTime @default(now()) @map("date_created")
 
-  domain     Domain          @relation(fields: [domainId], references: [domainId])
+  domain     Domain             @relation(fields: [domainId], references: [domainId])
   components Component[]
   teams      SubdomainTeam[]
   links      SubdomainLink[]
+  contacts   SubdomainContact[]
 
   @@map("subdomain")
 }
@@ -116,12 +119,14 @@ model Subdomain {
 model SubdomainContact {
   contactId   String  @id @map("contact_id")
   domainId    String  @map("domain_id")
+  subdomainId String  @map("subdomain_id")
   type        String  @map("type")
   href        String? @map("href")
   description String  @map("description")
   reason      String  @map("reason")
 
-  domain Domain @relation(fields: [domainId], references: [domainId])
+  domain    Domain    @relation(fields: [domainId], references: [domainId])
+  subdomain Subdomain @relation(fields: [subdomainId], references: [subdomainId])
 
   @@index([domainId])
   @@map("subdomain_contact")

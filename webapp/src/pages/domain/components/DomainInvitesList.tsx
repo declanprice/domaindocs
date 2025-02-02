@@ -20,7 +20,6 @@ import { domainsApi } from '../../../state/api/domains-api';
 import { usePaging } from '../../../hooks/usePaging';
 import { LoadingContainer } from '../../../components/loading/LoadingContainer';
 import { ConfirmDialog } from '../../../components/dialogs/ConfirmDialog';
-import { toaster } from '../../../components/ui/toaster';
 import { format } from 'date-fns';
 import { apiErrorToast } from '../../../util/toasts';
 

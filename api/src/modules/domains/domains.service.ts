@@ -8,17 +8,17 @@ import {
     Domain,
     DomainSettings,
     EditContactData,
-    EditDomainDescriptionData,
     EditLinkData,
     Link,
     SearchDomainUsersParams,
     SendDomainInviteData,
     SetupDomainData,
-    UpdateDomainNameData,
+    UpdateNameData,
     DomainUser,
     SearchDomainInvitesParams,
     DomainInvite,
     PagedResult,
+    EditDescriptionData,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 import { EmailService } from '../../shared/services/email.service';
@@ -291,18 +291,18 @@ export class DomainsService {
         );
     }
 
-    async updateName(session: UserSession, domainId: string, data: UpdateDomainNameData) {
+    async updateName(session: UserSession, domainId: string, data: UpdateNameData) {
         await this.prisma.domain.update({
             where: {
                 domainId,
             },
             data: {
-                name: data.domainName,
+                name: data.name,
             },
         });
     }
 
-    async updateDescription(session: UserSession, domainId: string, data: EditDomainDescriptionData) {
+    async updateDescription(session: UserSession, domainId: string, data: EditDescriptionData) {
         await this.prisma.domain.update({
             where: {
                 domainId,

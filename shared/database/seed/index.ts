@@ -11,6 +11,7 @@ import { workAreaPeople, workAreas, workItemAssignees, workItemAttachments, work
 import { files } from './files';
 import { componentContacts, componentLinks, deedSearchComponent } from './components';
 import { generatePeople } from './generators/generate-people';
+import { customerExperience, mobileBanking } from './subdomains';
 
 const client = new PrismaClient();
 
@@ -60,6 +61,10 @@ const client = new PrismaClient();
     await client.domain.create({ data: ros() });
 
     const people = generatePeople(ros().domainId, 100);
+
+    await client.subdomain.createMany({
+        data: [mobileBanking(), customerExperience()],
+    });
 
     await client.user.createMany({ data: people.map((p) => p.user) });
 

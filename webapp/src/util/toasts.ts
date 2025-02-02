@@ -14,3 +14,9 @@ export const apiErrorToast = (error: any) => {
         });
     }
 };
+
+export const apiSuccessToast = (message?: string) => {
+    toaster.success({
+        title: message ?? 'Success',
+    });
+};

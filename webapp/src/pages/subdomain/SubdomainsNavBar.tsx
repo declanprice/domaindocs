@@ -1,20 +1,30 @@
 import { Button, Box, Flex, Text } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
+import { DetailedSubdomain } from '@domaindocs/types';
 import { HiOutlineDocumentText } from 'react-icons/hi';
 import { useUiStore } from '../../state/stores/ui.store';
 import { NavButton } from '../../components/nav-button/NavButton';
-import { useAuthStore } from '../../state/stores/auth.store';
 import { MdArrowBack } from 'react-icons/md';
 import { LuListMinus, LuSettings } from 'react-icons/lu';
-import { PiPlugsConnected } from 'react-icons/pi';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Avatar } from '../../components/ui/avatar';
+import { SubdomainPageParams } from '../../types/SubdomainPageParams';
+import { LoadingContainer } from '../../components/loading/LoadingContainer';
+import { subdomainsApi } from '../../state/api/subdomains-api';
+import { GoPeople } from 'react-icons/go';
+import { VscTypeHierarchySub } from 'react-icons/vsc';
 
-export const DomainNavBar = () => {
-    const { isFullNavBar, closeNavBar, openNavBar } = useUiStore();
-    const domains = useAuthStore((state) => state.user?.domains);
-    const { activeDomain, setActiveDomain } = useUiStore();
+export const SubdomainsNavBar = () => {
+    const { domainId, subdomainId } = useParams() as SubdomainPageParams;
+    const { isFullNavBar } = useUiStore();
     const navigate = useNavigate();
-    if (!domains || !activeDomain) return 'active domains not set.';
+
+    const { data, isLoading } = useQuery<DetailedSubdomain>({
+        queryKey: ['getSubdomain', { domainId, subdomainId }],
+        queryFn: () => subdomainsApi.get(domainId, subdomainId),
+    });
+
+    if (!data || isLoading) return <LoadingContainer />;
 
     return (
         <Flex
@@ -36,7 +46,7 @@ export const DomainNavBar = () => {
                 mt={2}
                 fontWeight={'300'}
                 onClick={() => {
-                    navigate(`/${activeDomain.domainId}/dashboard`);
+                    navigate(`/${domainId}/subdomains`);
                 }}
             >
                 <MdArrowBack /> Go back
@@ -44,8 +54,10 @@ export const DomainNavBar = () => {
 
             <Box divideX={'1px'} />
 
-            <Flex mt={2} px={4} width={'100%'} gap={2} alignItems="center" direction={'row'}>
-                <Avatar name={activeDomain.name} size={'sm'} rounded={'lg'} />
+            <Flex mt={2} px={4} width={'100%'} gap={3} alignItems="center" direction={'row'}>
+                <Flex alignItems={'center'} backgroundColor={'green.600'} rounded={6} p={2}>
+                    <VscTypeHierarchySub color={'white'} />
+                </Flex>
 
                 <Flex direction={'column'}>
                     <Text
@@ -57,11 +69,11 @@ export const DomainNavBar = () => {
                         overflow={'hidden'}
                         whiteSpace={'nowrap'}
                     >
-                        {activeDomain.name}
+                        {data.subdomain.name}
                     </Text>
 
                     <Text color={'gray.900'} fontSize={12} fontWeight={'300'}>
-                        Domain
+                        Subdomain
                     </Text>
                 </Flex>
             </Flex>
@@ -81,25 +93,19 @@ export const DomainNavBar = () => {
                 <NavButton
                     label={'Overview'}
                     icon={<LuListMinus color={'gray.900'} size={18} />}
-                    to={`/${activeDomain.domainId}/domain/overview`}
+                    to={`/${domainId}/subdomains/${subdomainId}/overview`}
                 />
 
                 <NavButton
                     icon={<HiOutlineDocumentText color={'gray.900'} size={18} />}
                     label={'Docs'}
-                    to={`/${activeDomain.domainId}/domain/docs`}
+                    to={`/${domainId}/subdomains/${subdomainId}/docs`}
                 />
-
-                {/*<NavButton*/}
-                {/*    icon={<PiPlugsConnected color={'gray.900'} size={18} />}*/}
-                {/*    label={'Integrations'}*/}
-                {/*    to={`/${activeDomain.domainId}/domain/integrations`}*/}
-                {/*/>*/}
 
                 <NavButton
                     icon={<LuSettings color={'gray.900'} size={18} />}
                     label={'Settings'}
-                    to={`/${activeDomain.domainId}/domain/settings`}
+                    to={`/${domainId}/subdomains/${subdomainId}/settings`}
                 />
             </Flex>
         </Flex>

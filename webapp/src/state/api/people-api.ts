@@ -106,6 +106,6 @@ export const peopleApi = (() => {
         createContact,
         updateContact,
         deleteContact,
-        updateAboutMe,
+        updateDescription: updateAboutMe,
     };
 })();

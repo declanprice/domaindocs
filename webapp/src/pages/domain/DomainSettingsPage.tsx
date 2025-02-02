@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
 import { domainsApi } from '../../state/api/domains-api';
-import { DomainSettings, UpdateDomainNameData } from '@domaindocs/types';
+import { DomainSettings, UpdateNameData } from '@domaindocs/types';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { DomainUserList } from './components/DomainUserList';
 import { FormTextInput } from '../../components/form/FormTextInput';
@@ -27,7 +27,7 @@ export const DomainSettingsPage = () => {
         queryFn: () => domainsApi.getSettings(domainId),
     });
 
-    const { mutateAsync: updateName } = useMutation<void, DefaultError, UpdateDomainNameData>({
+    const { mutateAsync: updateName } = useMutation<void, DefaultError, UpdateNameData>({
         mutationKey: ['updateDomainName', { domainId }],
         mutationFn: (data) => domainsApi.updateName(domainId, data),
     });
@@ -37,16 +37,16 @@ export const DomainSettingsPage = () => {
         mutationFn: () => domainsApi.deleteDomain(domainId),
     });
 
-    const form = useForm<UpdateDomainNameData>({
+    const form = useForm<UpdateNameData>({
         values: {
-            domainName: domain?.domain.name || '',
+            name: domain?.domain.name || '',
         },
-        resolver: classValidatorResolver(UpdateDomainNameData),
+        resolver: classValidatorResolver(UpdateNameData),
     });
 
-    const onUpdateName = async (data: UpdateDomainNameData) => {
+    const onUpdateName = async (data: UpdateNameData) => {
         try {
-            if (domain?.domain.name !== data.domainName) {
+            if (domain?.domain.name !== data.name) {
                 await updateName(data);
                 toaster.success({
                     title: 'Success',

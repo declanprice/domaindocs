@@ -2,7 +2,13 @@ import { SubdomainsService } from './subdomains.service';
 import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
-import { CreateSubdomainData, SearchSubdomainsParams } from '@domaindocs/types';
+import {
+    CreateSubdomainData,
+    EditContactData,
+    EditDescriptionData,
+    SearchSubdomainsParams,
+    UpdateNameData,
+} from '@domaindocs/types';
 
 @Controller('domains/:domainId/subdomains')
 @UseGuards(AuthGuard)
@@ -36,6 +42,26 @@ export class SubdomainsController {
         return this.subdomainsService.get(session, domainId, subdomainId);
     }
 
+    @Post(':subdomainId/name')
+    async updateName(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('subdomainId') subdomainId: string,
+        @Body() data: UpdateNameData,
+    ) {
+        return this.subdomainsService.updateName(session, domainId, subdomainId, data);
+    }
+
+    @Post(':subdomainId/description')
+    async updateDescription(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('subdomainId') subdomainId: string,
+        @Body() data: EditDescriptionData,
+    ) {
+        return this.subdomainsService.updateDescription(session, domainId, subdomainId, data);
+    }
+
     @Delete(':subdomainId')
     async delete(
         @AuthSession() session: UserSession,
@@ -43,5 +69,36 @@ export class SubdomainsController {
         @Param('subdomainId') subdomainId: string,
     ) {
         return this.subdomainsService.delete(session, domainId, subdomainId);
+    }
+
+    @Post(':subdomainId/contacts')
+    async addContact(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('subdomainId') subdomainId: string,
+        @Body() data: EditContactData,
+    ) {
+        return this.subdomainsService.addContact(session, domainId, subdomainId, data);
+    }
+
+    @Post(':subdomainId/contacts/:contactId')
+    async updateContact(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('subdomainId') subdomainId: string,
+        @Param('contactId') contactId: string,
+        @Body() data: EditContactData,
+    ) {
+        return this.subdomainsService.updateContact(session, domainId, subdomainId, contactId, data);
+    }
+
+    @Delete(':subdomainId/contacts/:contactId')
+    async removeContact(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('subdomainId') subdomainId: string,
+        @Param('contactId') contactId: string,
+    ) {
+        return this.subdomainsService.removeContact(session, domainId, subdomainId, contactId);
     }
 }

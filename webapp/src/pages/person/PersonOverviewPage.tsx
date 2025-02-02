@@ -10,7 +10,7 @@ import { PersonRoles } from './components/PersonRoles';
 import { PersonSkills } from './components/PersonSkills';
 import { PersonTeams } from './components/PersonTeams';
 import { PersonContacts } from './components/PersonContacts';
-import { PersonAboutMe } from './components/PersonAboutMe';
+import { PersonDescription } from './components/PersonDescription';
 
 export const PersonOverviewPage = () => {
     const { domainId, userId } = useParams() as PersonPageParams;
@@ -68,7 +68,7 @@ export const PersonOverviewPage = () => {
                 </Text>
 
                 <Box mt={2}>
-                    <PersonAboutMe domainId={domainId} person={person} />
+                    <PersonDescription domainId={domainId} person={person} />
                 </Box>
             </Flex>
 

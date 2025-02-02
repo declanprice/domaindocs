@@ -1,5 +1,14 @@
-import { CreateSubdomainData, SearchSubdomainsParams, Subdomain } from '@domaindocs/types';
+import {
+    CreateSubdomainData,
+    DetailedSubdomain,
+    EditContactData,
+    EditDescriptionData,
+    SearchSubdomainsParams,
+    Subdomain,
+    UpdateNameData,
+} from '@domaindocs/types';
 import { apiClient } from './api-client';
+import { queryClient } from '../query-client';
 
 export const subdomainsApi = (() => {
     const search = async (domainId: string, params: SearchSubdomainsParams = {}): Promise<Subdomain[]> => {
@@ -14,13 +23,51 @@ export const subdomainsApi = (() => {
         await apiClient.post(`/domains/${domainId}/subdomains`, dto);
     };
 
+    const updateDescription = async (
+        domainId: string,
+        subdomainId: string,
+        data: EditDescriptionData,
+    ): Promise<void> => {
+        const result = await apiClient.post(`/domains/${domainId}/subdomains/${subdomainId}/description`, data);
+        updateLocalData(domainId, subdomainId, result.data);
+    };
+
+    const updateName = async (domainId: string, subdomainId: string, data: UpdateNameData): Promise<void> => {
+        const result = await apiClient.post(`/domains/${domainId}/subdomains/${subdomainId}/name`, data);
+        updateLocalData(domainId, subdomainId, result.data);
+    };
+
     const remove = async (domainId: string, subdomainId: string): Promise<void> => {
         await apiClient.delete(`/domains/${domainId}/subdomains/${subdomainId}`);
     };
 
-    const get = async (domainId: string, subdomainId: string): Promise<Subdomain> => {
-        const result = await apiClient.get<Subdomain>(`/domains/${domainId}/subdomains/${subdomainId}`);
+    const get = async (domainId: string, subdomainId: string): Promise<DetailedSubdomain> => {
+        const result = await apiClient.get<DetailedSubdomain>(`/domains/${domainId}/subdomains/${subdomainId}`);
         return result.data;
+    };
+
+    const addContact = async (domainId: string, subdomainId: string, data: EditContactData): Promise<void> => {
+        const result = await apiClient.post<DetailedSubdomain>(`/domains/${domainId}/contacts`, data);
+        updateLocalData(domainId, subdomainId, result.data);
+    };
+
+    const updateContact = async (
+        domainId: string,
+        subdomainId: string,
+        contactId: string,
+        data: EditContactData,
+    ): Promise<void> => {
+        const result = await apiClient.post<DetailedSubdomain>(`/domains/${domainId}/contacts/${contactId}`, data);
+        updateLocalData(domainId, subdomainId, result.data);
+    };
+
+    const removeContact = async (domainId: string, subdomainId: string, contactId: string): Promise<void> => {
+        const result = await apiClient.delete<DetailedSubdomain>(`/domains/${domainId}/contacts/${contactId}`);
+        updateLocalData(domainId, subdomainId, result.data);
+    };
+
+    const updateLocalData = (domainId: string, subdomainId: string, subdomain: DetailedSubdomain) => {
+        queryClient.setQueryData(['getSubdomain', { domainId, subdomainId }], subdomain);
     };
 
     return {
@@ -28,5 +75,10 @@ export const subdomainsApi = (() => {
         create,
         get,
         remove,
+        updateName,
+        updateDescription,
+        addContact,
+        updateContact,
+        removeContact,
     };
 })();

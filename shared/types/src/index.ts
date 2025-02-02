@@ -16,3 +16,4 @@ export * from './contacts';
 export * from './links';
 export * from './description';
 export * from './pagination';
+export * from './name';

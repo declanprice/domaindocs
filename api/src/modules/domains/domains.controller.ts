@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import {
     EditContactData,
-    EditDomainDescriptionData,
     EditLinkData,
     SendDomainInviteData,
     SetupDomainData,
-    UpdateDomainNameData,
+    UpdateNameData,
     SearchDomainUsersParams,
     SearchDomainInvitesParams,
+    EditDescriptionData,
 } from '@domaindocs/types';
 import { DomainsService } from './domains.service';
 import { AuthGuard } from '../../auth/auth.guard';
@@ -82,7 +82,7 @@ export class DomainsController {
     async updateName(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
-        @Body() data: UpdateDomainNameData,
+        @Body() data: UpdateNameData,
     ) {
         return this.domainService.updateName(session, domainId, data);
     }
@@ -96,7 +96,7 @@ export class DomainsController {
     async updateDescription(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
-        @Body() data: EditDomainDescriptionData,
+        @Body() data: EditDescriptionData,
     ) {
         return this.domainService.updateDescription(session, domainId, data);
     }

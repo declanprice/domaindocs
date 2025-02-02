@@ -12,9 +12,9 @@ import {
     SearchDomainUsersParams,
     SendDomainInviteData,
     SetupDomainData,
-    UpdateDomainNameData,
     SearchDomainInvitesParams,
     DomainInvite,
+    UpdateNameData,
 } from '@domaindocs/types';
 
 import { queryClient } from '../query-client';
@@ -68,7 +68,7 @@ export const domainsApi = (() => {
         await invalidateInvitesQuery();
     };
 
-    const updateName = async (domainId: string, data: UpdateDomainNameData): Promise<void> => {
+    const updateName = async (domainId: string, data: UpdateNameData): Promise<void> => {
         await apiClient.post(`/domains/${domainId}/name`, data);
     };
 

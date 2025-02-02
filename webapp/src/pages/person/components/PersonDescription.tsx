@@ -1,7 +1,7 @@
 import { ButtonGroup, Flex, Stack, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import { DetailedPerson } from '@domaindocs/types';
+import { DetailedPerson, EditDescriptionData } from '@domaindocs/types';
 import { FormTextArea } from '../../../components/form/FormTextArea';
 import { useEditable } from '../../../hooks/useEditable';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
@@ -9,18 +9,18 @@ import { CheckIconButton } from '../../../components/buttons/CheckIconButton';
 import { peopleApi } from '../../../state/api/people-api';
 import { EditPersonAboutMeData } from '../../../../../shared/types/src/person/edit-person-about-me-data';
 
-type PersonAboutMeProps = {
+type PersonDescriptionProps = {
     domainId: string;
     person: DetailedPerson;
 };
 
-export const PersonAboutMe = (props: PersonAboutMeProps) => {
+export const PersonDescription = (props: PersonDescriptionProps) => {
     const { domainId, person } = props;
 
     const editing = useEditable();
 
     return (
-        <Stack spacing={2}>
+        <Stack gap={2}>
             <Text fontSize={14}>About Me</Text>
 
             {editing.isEditing ? (
@@ -32,7 +32,7 @@ export const PersonAboutMe = (props: PersonAboutMeProps) => {
                     rounded={6}
                     onClick={editing.onEdit}
                 >
-                    <Text fontSize={12}>{person.person.aboutMe}</Text>
+                    <Text fontSize={12}>{person.person.description}</Text>
                 </Flex>
             )}
         </Stack>
@@ -54,8 +54,8 @@ export const PersonAboutMeForm = (props: PersonAboutMeFormProps) => {
         },
     });
 
-    const { mutateAsync: updateAboutMe } = useMutation<void, any, EditPersonAboutMeData>({
-        mutationFn: (data) => peopleApi.updateAboutMe(domainId, person.person.userId, data),
+    const { mutateAsync: updateDescription } = useMutation<void, any, EditDescriptionData>({
+        mutationFn: (data) => peopleApi.updateDescription(domainId, person.person.userId, data),
     });
 
     const close = () => {
@@ -63,8 +63,8 @@ export const PersonAboutMeForm = (props: PersonAboutMeFormProps) => {
         onClose();
     };
 
-    const submit = async (data: EditPersonAboutMeData) => {
-        await updateAboutMe(data);
+    const submit = async (data: EditDescriptionData) => {
+        await updateDescription(data);
         close();
     };
 
@@ -73,8 +73,8 @@ export const PersonAboutMeForm = (props: PersonAboutMeFormProps) => {
             <Flex alignItems={'center'} direction={'column'} gap={1}>
                 <FormTextArea name={'aboutMe'} control={form.control} />
                 <ButtonGroup ml={'auto'}>
-                    <CloseIconButton variant={'solid'} onClick={close} isDisabled={form.formState.isSubmitting} />
-                    <CheckIconButton variant={'solid'} type={'submit'} isLoading={form.formState.isSubmitting} />
+                    <CloseIconButton variant={'solid'} onClick={close} disabled={form.formState.isSubmitting} />
+                    <CheckIconButton variant={'solid'} type={'submit'} loading={form.formState.isSubmitting} />
                 </ButtonGroup>
             </Flex>
         </form>

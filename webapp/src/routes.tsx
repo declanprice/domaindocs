@@ -32,7 +32,7 @@ import { TicketOverviewPage } from './pages/ticket/TicketOverviewPage';
 import { TicketFieldsPage } from './pages/ticket/TicketFieldsPage';
 import { TicketIntegrationsPage } from './pages/ticket/TicketIntegrationsPage';
 import { TicketSettingsPage } from './pages/ticket/TicketSettingsPage';
-import { DomainDocumentationPage } from './pages/domain/DomainDocumentationPage';
+import { DomainDocsPage } from './pages/domain/DomainDocsPage';
 import { TeamDocsPage } from './pages/team/TeamDocsPage';
 import { TeamSettingsPage } from './pages/team/TeamSettingsPage';
 import { OnboardingGuidePage } from './pages/onboarding-guide/OnboardingGuidePage';
@@ -65,6 +65,10 @@ import { OnboardingGuideStepsPage } from './pages/onboarding-guide/OnboardingGui
 import { OnboardingGuideSettingsPage } from './pages/onboarding-guide/OnboardingGuideSettingsPage';
 import { WorkAreaPageNavBar } from './pages/work-area/WorkAreaPageNavBar';
 import { SubdomainsPage } from './pages/subdomains/SubdomainsPage';
+import { SubdomainsNavBar } from './pages/subdomain/SubdomainsNavBar';
+import { SubdomainOverviewPage } from './pages/subdomain/SubdomainOverviewPage';
+import { SubdomainDocsPage } from './pages/subdomain/SubdomainDocsPage';
+import { SubdomainSettingsPage } from './pages/subdomain/SubdomainSettingsPage';
 
 export const routes = createBrowserRouter([
     {
@@ -109,8 +113,8 @@ export const routes = createBrowserRouter([
                                                 element: <DomainOverviewPage />,
                                             },
                                             {
-                                                path: 'documentation',
-                                                element: <DomainDocumentationPage />,
+                                                path: 'docs',
+                                                element: <DomainDocsPage />,
                                             },
                                             {
                                                 path: 'integrations',
@@ -129,6 +133,28 @@ export const routes = createBrowserRouter([
                                             {
                                                 path: '',
                                                 element: <SubdomainsPage />,
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        path: 'subdomains/:subdomainId',
+                                        element: <RootLayout navbar={<SubdomainsNavBar />} />,
+                                        children: [
+                                            {
+                                                path: '',
+                                                element: <Navigate to={'overview'} />,
+                                            },
+                                            {
+                                                path: 'overview',
+                                                element: <SubdomainOverviewPage />,
+                                            },
+                                            {
+                                                path: 'docs',
+                                                element: <SubdomainDocsPage />,
+                                            },
+                                            {
+                                                path: 'settings',
+                                                element: <SubdomainSettingsPage />,
                                             },
                                         ],
                                     },

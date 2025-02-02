@@ -1,9 +1,10 @@
 import { Flex } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { DomainPageParams } from '../../types/DomainPageParams';
+import { SubdomainPageParams } from '../../types/SubdomainPageParams';
 
-export const DomainDocumentationPage = () => {
-    const { domainId } = useParams() as DomainPageParams;
+export const SubdomainDocsPage = () => {
+    const { domainId, subdomainId } = useParams() as SubdomainPageParams;
 
     // const {
     //     data: documentation,

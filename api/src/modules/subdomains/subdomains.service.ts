@@ -1,6 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
-import { CreateSubdomainData, SearchSubdomainsParams, Subdomain } from '@domaindocs/types';
+import {
+    Contact,
+    ContactType,
+    CreateSubdomainData,
+    DetailedSubdomain,
+    EditContactData,
+    EditDescriptionData,
+    Link,
+    SearchSubdomainsParams,
+    UpdateNameData,
+    Subdomain,
+} from '@domaindocs/types';
 import { UserSession } from '../../auth/auth-session';
 import { PrismaService } from '../../shared/prisma.service';
 
@@ -21,14 +32,59 @@ export class SubdomainsService {
             where: query,
         });
 
-        return subdomains.map((subdomain) => new Subdomain(subdomain.domainId, subdomain.subdomainId, subdomain.name));
+        return subdomains.map(
+            (subdomain) =>
+                new Subdomain(
+                    subdomain.domainId,
+                    subdomain.subdomainId,
+                    subdomain.name,
+                    subdomain.description,
+                    subdomain.dateCreated.toISOString(),
+                ),
+        );
     }
 
-    async get(session: UserSession, domainId: string, subdomainId: string): Promise<Subdomain> {
+    async get(session: UserSession, domainId: string, subdomainId: string): Promise<DetailedSubdomain> {
         const subdomain = await this.prisma.subdomain.findUnique({
             where: { domainId: domainId, subdomainId: subdomainId },
+            include: {
+                contacts: true,
+                links: true,
+            },
         });
-        return new Subdomain(subdomain.domainId, subdomain.subdomainId, subdomain.name);
+
+        return new DetailedSubdomain(
+            new Subdomain(
+                subdomain.domainId,
+                subdomain.subdomainId,
+                subdomain.name,
+                subdomain.description,
+                subdomain.dateCreated.toISOString(),
+            ),
+            subdomain.contacts.map(
+                (c) => new Contact(c.contactId, c.type as ContactType, c.description, c.reason, c.href),
+            ),
+            subdomain.links.map((l) => new Link(l.linkId, l.href, l.description)),
+        );
+    }
+
+    async updateName(
+        session: UserSession,
+        domainId: string,
+        subdomainId: string,
+        data: UpdateNameData,
+    ): Promise<DetailedSubdomain> {
+        await this.prisma.subdomain.update({
+            where: {
+                domainId,
+                subdomainId,
+            },
+            data: {
+                name: data.name,
+            },
+        });
+
+        return this.get(session, domainId, subdomainId);
     }
 
     async delete(session: UserSession, domainId: string, subdomainId: string): Promise<void> {
@@ -50,12 +106,85 @@ export class SubdomainsService {
     async create(session: UserSession, domainId: string, dto: CreateSubdomainData): Promise<Subdomain> {
         const subdomain = await this.prisma.subdomain.create({
             data: {
-                subdomainId: v4(),
                 domainId: domainId,
+                subdomainId: v4(),
                 name: dto.name,
+                description: '',
             },
         });
 
-        return new Subdomain(subdomain.domainId, subdomain.subdomainId, subdomain.name);
+        return new Subdomain(
+            subdomain.domainId,
+            subdomain.subdomainId,
+            subdomain.name,
+            subdomain.description,
+            subdomain.dateCreated.toISOString(),
+        );
+    }
+
+    async updateDescription(session: UserSession, domainId: string, subdomainId: string, data: EditDescriptionData) {
+        await this.prisma.subdomain.update({
+            where: {
+                domainId,
+                subdomainId,
+            },
+            data: {
+                description: data.description,
+            },
+        });
+
+        return this.get(session, domainId, subdomainId);
+    }
+
+    async addContact(session: UserSession, domainId: string, subdomainId: string, data: EditContactData) {
+        await this.prisma.subdomainContact.create({
+            data: {
+                domainId,
+                subdomainId,
+                contactId: v4(),
+                type: data.type,
+                href: data.href,
+                reason: data.reason,
+                description: data.description,
+            },
+        });
+
+        return this.get(session, domainId, subdomainId);
+    }
+
+    async updateContact(
+        session: UserSession,
+        domainId: string,
+        subdomainId: string,
+        contactId: string,
+        data: EditContactData,
+    ) {
+        await this.prisma.subdomainContact.update({
+            where: {
+                domainId,
+                subdomainId,
+                contactId,
+            },
+            data: {
+                type: data.type,
+                href: data.href,
+                reason: data.reason,
+                description: data.description,
+            },
+        });
+
+        return this.get(session, domainId, subdomainId);
+    }
+
+    async removeContact(session: UserSession, domainId: string, subdomainId: string, contactId: string) {
+        await this.prisma.subdomainContact.delete({
+            where: {
+                domainId,
+                subdomainId,
+                contactId,
+            },
+        });
+
+        return this.get(session, domainId, subdomainId);
     }
 }

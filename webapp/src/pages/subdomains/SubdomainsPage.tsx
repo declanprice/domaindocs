@@ -100,7 +100,7 @@ export const SubdomainsPage = () => {
             <SubdomainsTable
                 subdomains={subdomains}
                 onClick={(subdomain) => {
-                    navigate(`/${domainId}/subdomains/${subdomain.subdomainId}`);
+                    navigate(`/${domainId}/subdomains/${subdomain.subdomainId}/overview`);
                 }}
                 onRemove={async (subdomain) => {
                     await removeSubdomain(subdomain.subdomainId);
