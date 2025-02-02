@@ -1,6 +1,6 @@
 import { Box, Button, ButtonGroup, Flex, Link, Portal, Stack, Text, useDisclosure } from '@chakra-ui/react';
-import { AddTeamMemberData, DetailedPerson, Person, SearchPerson, TeamMember } from '@domaindocs/types';
-import { PropsWithChildren, RefObject, useRef } from 'react';
+import { AddTeamMemberData, Person, SearchPerson, TeamMember } from '@domaindocs/types';
+import { PropsWithChildren, useRef, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { ConfirmDialog } from '../../../components/dialogs/ConfirmDialog';
@@ -30,11 +30,9 @@ type TeamMembersProps = {
 export const TeamMembers = (props: TeamMembersProps) => {
     const { domainId, teamId, members } = props;
 
-    const ref = useRef(null);
-
     return (
         <Flex backgroundColor={'lightgray'} p={4} rounded={4} gap={3} direction={'column'}>
-            <Flex ref={ref} alignItems={'center'}>
+            <Flex alignItems={'center'}>
                 <Flex alignItems={'center'} backgroundColor={'teal.300'} rounded={6} p={2}>
                     <GoPeople color={'white'} />
                 </Flex>
@@ -42,7 +40,7 @@ export const TeamMembers = (props: TeamMembersProps) => {
                 <Text ml={4}>Members</Text>
 
                 <Box ml={'auto'}>
-                    <TeamMemberForm domainId={domainId} teamId={teamId} containerRef={ref}>
+                    <TeamMemberForm domainId={domainId} teamId={teamId}>
                         <AddIconButton ml={'auto'} />
                     </TeamMemberForm>
                 </Box>
@@ -50,7 +48,11 @@ export const TeamMembers = (props: TeamMembersProps) => {
 
             <ul>
                 {members.map((member) => (
-                    <TeamMemberListItem domainId={domainId} teamId={teamId} member={member} />
+                    <>
+                        <TeamMemberListItem domainId={domainId} teamId={teamId} member={member} />
+
+                        <Box mt={4}></Box>
+                    </>
                 ))}
             </ul>
         </Flex>
@@ -68,7 +70,7 @@ export const TeamMemberListItem = (props: TeamMemberListItemProps) => {
 
     const deleteDialog = useDisclosure();
 
-    const ref = useRef(null);
+    const [isHovering, setIsHovering] = useState(false);
 
     const { mutateAsync: removeMember } = useMutation({
         mutationFn: async () => {
@@ -77,17 +79,17 @@ export const TeamMemberListItem = (props: TeamMemberListItemProps) => {
     });
 
     return (
-        <li ref={ref} key={member.userId} _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }} rounded={6}>
+        <li key={member.userId} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
             <Flex alignItems={'center'}>
-                <Flex gap={2} alignItems={'center'} height={'30px'}>
+                <Flex gap={3} alignItems={'center'} height={'30px'}>
                     <Avatar name={`${member.firstName} ${member.lastName}`} size={'xs'} src={member.iconUri} />
 
-                    <Link fontSize={12} href={`/${domainId}/people/${member.userId}`} target={'_blank'}>
+                    <Link fontSize={14} href={`/${domainId}/people/${member.userId}`} target={'_blank'}>
                         {member.firstName} {member.lastName}
                     </Link>
                 </Flex>
 
-                <ButtonGroup display={'none'} _groupHover={{ display: 'flex' }} gap={1} ml={'auto'}>
+                <ButtonGroup display={'none'} visibility={isHovering ? 'visible' : 'hidden'} gap={1} ml={'auto'}>
                     <CloseIconButton onClick={deleteDialog.onOpen} />
                 </ButtonGroup>
             </Flex>
@@ -105,11 +107,10 @@ export const TeamMemberListItem = (props: TeamMemberListItemProps) => {
 type TeamMemberFormProps = {
     domainId: string;
     teamId: string;
-    containerRef: RefObject<any>;
 } & PropsWithChildren;
 
 export const TeamMemberForm = (props: TeamMemberFormProps) => {
-    const { domainId, teamId, containerRef } = props;
+    const { domainId, teamId } = props;
 
     const menu = useDisclosure();
 
@@ -143,7 +144,7 @@ export const TeamMemberForm = (props: TeamMemberFormProps) => {
     return (
         <PopoverRoot
             open={menu.open}
-            onOpenChange={(details) => {
+            onOpenChange={(details: { open: boolean }) => {
                 if (details.open) {
                     menu.onOpen();
                 } else {
@@ -153,7 +154,7 @@ export const TeamMemberForm = (props: TeamMemberFormProps) => {
         >
             <PopoverTrigger>{props.children}</PopoverTrigger>
 
-            <Portal containerRef={containerRef}>
+            <Portal>
                 <PopoverContent mr={2} backgroundColor={'white'}>
                     <form onSubmit={form.handleSubmit(submit)}>
                         <PopoverBody>

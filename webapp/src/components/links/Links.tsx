@@ -93,10 +93,10 @@ export const LinkListItem = (props: LinkListItemProps) => {
             onMouseLeave={() => setIsHovering(false)}
         >
             <Flex alignItems={'center'} height={'40px'}>
-                <Flex px={1} gap={2} alignItems={'center'} height={'30px'}>
-                    <MdOutlineLink size={20} />
+                <Flex px={1} gap={3} alignItems={'center'} height={'30px'}>
+                    <MdOutlineLink size={24} />
 
-                    <ChakraLink fontSize={16} href={link.href} target={'_blank'}>
+                    <ChakraLink fontSize={14} href={link.href} target={'_blank'}>
                         {link.description}
                     </ChakraLink>
                 </Flex>

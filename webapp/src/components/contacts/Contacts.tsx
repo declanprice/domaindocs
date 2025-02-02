@@ -81,7 +81,6 @@ export const ContactListItem = (props: ContactListItemProps) => {
                     target={'_blank'}
                     href={contact.href}
                     fontSize={14}
-                    fontWeight={500}
                     whiteSpace={'nowrap'}
                     maxWidth={'200px'}
                     overflow={'hidden'}
@@ -93,14 +92,7 @@ export const ContactListItem = (props: ContactListItemProps) => {
         }
 
         return (
-            <Text
-                fontSize={14}
-                fontWeight={500}
-                whiteSpace={'nowrap'}
-                maxWidth={'250px'}
-                overflow={'hidden'}
-                textOverflow={'ellipsis'}
-            >
+            <Text fontSize={14} whiteSpace={'nowrap'} maxWidth={'250px'} overflow={'hidden'} textOverflow={'ellipsis'}>
                 {contact.description}
             </Text>
         );
@@ -109,10 +101,10 @@ export const ContactListItem = (props: ContactListItemProps) => {
     return (
         <li key={contact.contactId} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
             <Flex alignItems={'center'}>
-                <Flex px={1} gap={2} alignItems={'center'} height={'30px'}>
+                <Flex px={1} gap={3} alignItems={'center'} height={'30px'}>
                     {renderIcon(contact.type)}
 
-                    <Flex ml={2} direction={'column'} alignItems={'start'}>
+                    <Flex direction={'column'} alignItems={'start'}>
                         {renderDescription()}
 
                         <Text

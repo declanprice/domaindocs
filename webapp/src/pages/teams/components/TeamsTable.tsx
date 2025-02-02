@@ -53,7 +53,7 @@ export const TeamsTable = (props: TeamTableProps) => {
                         return (
                             <Text
                                 mr={6}
-                                fontSize={12}
+                                fontSize={14}
                                 textOverflow={'ellipsis'}
                                 overflow={'hidden'}
                                 whiteSpace={'nowrap'}
@@ -75,7 +75,7 @@ export const TeamsTable = (props: TeamTableProps) => {
                                     <Avatar
                                         name={`${member.firstName} ${member.lastName}`}
                                         src={member.iconUri}
-                                        size={'xs'}
+                                        size={'sm'}
                                     />
                                 ))}
                             </AvatarGroup>

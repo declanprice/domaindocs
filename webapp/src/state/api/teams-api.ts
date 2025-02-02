@@ -5,8 +5,8 @@ import {
     DetailedTeam,
     SearchTeamParams,
     EditTeamDescriptionData,
-    EditTeamContactData,
-    EditTeamLinkData,
+    EditLinkData,
+    EditContactData,
 } from '@domaindocs/types';
 import { queryClient } from '../query-client';
 
@@ -52,7 +52,7 @@ export const teamsApi = (() => {
         updateLocalTeam(domainId, teamId, result.data);
     };
 
-    const createContact = async (domainId: string, teamId: string, data: EditTeamContactData): Promise<void> => {
+    const createContact = async (domainId: string, teamId: string, data: EditContactData): Promise<void> => {
         const result = await apiClient.post<DetailedTeam>(`/domains/${domainId}/teams/${teamId}/contacts`, data);
         updateLocalTeam(domainId, teamId, result.data);
     };
@@ -61,7 +61,7 @@ export const teamsApi = (() => {
         domainId: string,
         teamId: string,
         contactId: string,
-        data: EditTeamContactData,
+        data: EditContactData,
     ): Promise<void> => {
         const result = await apiClient.post<DetailedTeam>(
             `/domains/${domainId}/teams/${teamId}/contacts/${contactId}`,
@@ -77,17 +77,12 @@ export const teamsApi = (() => {
         updateLocalTeam(domainId, teamId, result.data);
     };
 
-    const createLink = async (domainId: string, teamId: string, data: EditTeamLinkData): Promise<void> => {
+    const createLink = async (domainId: string, teamId: string, data: EditLinkData): Promise<void> => {
         const result = await apiClient.post<DetailedTeam>(`/domains/${domainId}/teams/${teamId}/links`, data);
         updateLocalTeam(domainId, teamId, result.data);
     };
 
-    const updateLink = async (
-        domainId: string,
-        teamId: string,
-        linkId: string,
-        data: EditTeamLinkData,
-    ): Promise<void> => {
+    const updateLink = async (domainId: string, teamId: string, linkId: string, data: EditLinkData): Promise<void> => {
         const result = await apiClient.post<DetailedTeam>(`/domains/${domainId}/teams/${teamId}/links/${linkId}`, data);
         updateLocalTeam(domainId, teamId, result.data);
     };
