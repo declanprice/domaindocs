@@ -7,6 +7,8 @@ import {
     EditTeamDescriptionData,
     EditLinkData,
     EditContactData,
+    UpdateNameData,
+    EditDescriptionData,
 } from '@domaindocs/types';
 import { queryClient } from '../query-client';
 
@@ -33,11 +35,12 @@ export const teamsApi = (() => {
         return result.data;
     };
 
-    const updateDescription = async (
-        domainId: string,
-        teamId: string,
-        data: EditTeamDescriptionData,
-    ): Promise<void> => {
+    const updateName = async (domainId: string, teamId: string, data: UpdateNameData): Promise<void> => {
+        const result = await apiClient.post<DetailedTeam>(`/domains/${domainId}/teams/${teamId}/name`, data);
+        updateLocalTeam(domainId, teamId, result.data);
+    };
+
+    const updateDescription = async (domainId: string, teamId: string, data: EditDescriptionData): Promise<void> => {
         const result = await apiClient.post<DetailedTeam>(`/domains/${domainId}/teams/${teamId}/description`, data);
         updateLocalTeam(domainId, teamId, result.data);
     };
@@ -101,6 +104,7 @@ export const teamsApi = (() => {
         create,
         remove,
         get,
+        updateName,
         updateDescription,
         addMember,
         removeMember,

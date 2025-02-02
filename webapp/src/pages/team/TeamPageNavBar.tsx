@@ -54,20 +54,20 @@ export const TeamPageNavBar = () => {
 
             <Box divideY={'1px'} />
 
-            <Flex mt={2} px={4} width={'100%'} gap={2} alignItems="center">
+            <Flex mt={2} px={4} width={'100%'} gap={3} alignItems="center">
                 <Flex alignItems={'center'} backgroundColor={'purple.400'} rounded={6} p={2}>
                     <GoPeople color={'white'} />
                 </Flex>
 
-                <Stack h={0}>
+                <Flex direction={'column'}>
                     <Text color={'gray.900'} fontSize={14} fontWeight={'400'}>
                         {team.team.name}
                     </Text>
 
-                    <Text color={'gray.900'} fontSize={10} fontWeight={'300'}>
+                    <Text color={'gray.900'} fontSize={12} fontWeight={'300'}>
                         Team
                     </Text>
-                </Stack>
+                </Flex>
             </Flex>
 
             <Flex

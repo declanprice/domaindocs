@@ -1,4 +1,5 @@
-import { ContactType } from '../contacts';
+import { Contact } from '../contacts';
+import { Link } from '../links';
 
 export class TeamMember {
     constructor(
@@ -7,23 +8,6 @@ export class TeamMember {
         public lastName: string,
         public iconUri?: string,
         public roles?: { roleId: string; roleName: string }[],
-    ) {}
-}
-
-export class TeamContact {
-    constructor(
-        public contactId: string,
-        public type: ContactType,
-        public description: string,
-        public href?: string,
-    ) {}
-}
-
-export class TeamLink {
-    constructor(
-        public linkId: string,
-        public href: string,
-        public description: string,
     ) {}
 }
 
@@ -49,7 +33,7 @@ export class DetailedTeam {
     constructor(
         public team: Team,
         public members: TeamMember[],
-        public contacts: TeamContact[],
-        public links: TeamLink[],
+        public contacts: Contact[],
+        public links: Link[],
     ) {}
 }

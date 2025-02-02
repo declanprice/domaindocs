@@ -7,12 +7,13 @@ import {
     SearchTeamParams,
     Team,
     TeamMember,
-    EditTeamDescriptionData,
     AddTeamMemberData,
-    TeamContact,
-    TeamLink,
     EditTeamLinkData,
     ContactType,
+    EditDescriptionData,
+    UpdateNameData,
+    Contact,
+    Link,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 
@@ -68,8 +69,8 @@ export class TeamsService {
                                 })),
                             ),
                     ),
-                    t.contacts.map((c) => new TeamContact(c.contactId, c.type as ContactType, c.description, c.href)),
-                    t.links.map((link) => new TeamLink(link.linkId, link.href, link.description)),
+                    t.contacts.map((c) => new Contact(c.contactId, c.type as ContactType, c.description, c.href)),
+                    t.links.map((link) => new Link(link.linkId, link.href, link.description)),
                 ),
         );
     }
@@ -124,8 +125,8 @@ export class TeamsService {
                         })),
                     ),
             ),
-            result.contacts.map((c) => new TeamContact(c.contactId, c.type as ContactType, c.description, c.href)),
-            result.links.map((link) => new TeamLink(link.linkId, link.href, link.description)),
+            result.contacts.map((c) => new Contact(c.contactId, c.type as ContactType, c.description, c.href)),
+            result.links.map((link) => new Link(link.linkId, link.href, link.description)),
         );
     }
 
@@ -149,7 +150,20 @@ export class TeamsService {
         });
     }
 
-    async updateDescription(session: UserSession, domainId: string, teamId: string, data: EditTeamDescriptionData) {
+    async updateName(session: UserSession, domainId: string, teamId: string, data: UpdateNameData) {
+        await this.prisma.team.update({
+            where: {
+                teamId,
+            },
+            data: {
+                name: data.name,
+            },
+        });
+
+        return this.getTeam(session, domainId, teamId);
+    }
+
+    async updateDescription(session: UserSession, domainId: string, teamId: string, data: EditDescriptionData) {
         await this.prisma.team.update({
             where: {
                 teamId,

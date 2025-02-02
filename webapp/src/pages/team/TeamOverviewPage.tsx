@@ -72,7 +72,7 @@ export const TeamOverviewPage = () => {
                 </Box>
             </Flex>
 
-            <Flex direction={'column'} width={'350px'} p={4} gap={4}>
+            <Flex direction={'column'} width={'450px'} p={4} gap={4}>
                 <TeamDetails team={team} />
 
                 <TeamMembers domainId={domainId} teamId={team.team.teamId} members={team.members} />

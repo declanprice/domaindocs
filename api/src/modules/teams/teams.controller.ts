@@ -9,6 +9,8 @@ import {
     EditTeamDescriptionData,
     AddTeamMemberData,
     EditTeamLinkData,
+    UpdateNameData,
+    EditDescriptionData,
 } from '@domaindocs/types';
 
 @Controller('domains/:domainId/teams')
@@ -56,12 +58,22 @@ export class TeamsController {
         return this.teamsService.removeTeam(session, domainId, teamId);
     }
 
+    @Post(':teamId/name')
+    async updateName(
+        @AuthSession() session: UserSession,
+        @Param('domainId') domainId: string,
+        @Param('teamId') teamId: string,
+        @Body() data: UpdateNameData,
+    ) {
+        return this.teamsService.updateName(session, domainId, teamId, data);
+    }
+
     @Post(':teamId/description')
     async updateDescription(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('teamId') teamId: string,
-        @Body() data: EditTeamDescriptionData,
+        @Body() data: EditDescriptionData,
     ) {
         return this.teamsService.updateDescription(session, domainId, teamId, data);
     }
