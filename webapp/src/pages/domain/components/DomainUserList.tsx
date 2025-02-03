@@ -55,7 +55,7 @@ export const DomainUserList = (props: DomainUserListProps) => {
             const result = await domainsApi.searchUsers(domainId, {
                 search: searchUsersForm.getValues('search'),
                 take: pagination.pageSize,
-                offset: (pagination.page - 1) * pagination.pageSize,
+                offset: pagination.getOffset(),
             });
             pagination.setCount(result.total);
             return result;

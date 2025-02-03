@@ -11,14 +11,6 @@ export class TeamMember {
     ) {}
 }
 
-export class TeamProject {
-    constructor(
-        public projectId: string,
-        public projectName: string,
-        public ownershipDescription?: string,
-    ) {}
-}
-
 export class Team {
     constructor(
         public teamId: string,

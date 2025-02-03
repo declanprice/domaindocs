@@ -8,12 +8,12 @@ import {
     Team,
     TeamMember,
     AddTeamMemberData,
-    EditTeamLinkData,
     ContactType,
     EditDescriptionData,
     UpdateNameData,
     Contact,
     Link,
+    EditLinkData,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 
@@ -166,6 +166,7 @@ export class TeamsService {
     async updateDescription(session: UserSession, domainId: string, teamId: string, data: EditDescriptionData) {
         await this.prisma.team.update({
             where: {
+                domainId,
                 teamId,
             },
             data: {
@@ -201,7 +202,7 @@ export class TeamsService {
         return this.getTeam(session, domainId, teamId);
     }
 
-    async addLink(session: UserSession, domainId: string, teamId: string, data: EditTeamLinkData) {
+    async addLink(session: UserSession, domainId: string, teamId: string, data: EditLinkData) {
         await this.prisma.teamLink.create({
             data: {
                 domainId,
@@ -215,7 +216,7 @@ export class TeamsService {
         return this.getTeam(session, domainId, teamId);
     }
 
-    async updateLink(session: UserSession, domainId: string, teamId: string, linkId: string, data: EditTeamLinkData) {
+    async updateLink(session: UserSession, domainId: string, teamId: string, linkId: string, data: EditLinkData) {
         await this.prisma.teamLink.update({
             where: {
                 teamId,

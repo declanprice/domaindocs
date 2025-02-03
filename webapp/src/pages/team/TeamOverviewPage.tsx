@@ -31,7 +31,7 @@ export const TeamOverviewPage = () => {
             <Flex direction="column" gap={4} flex={1} p={8}>
                 <BreadcrumbRoot>
                     <BreadcrumbLink
-                        href={`/${domainId}/people`}
+                        href={`/${domainId}/teams`}
                         onClick={(e) => {
                             e.preventDefault();
                             navigate(`/${domainId}/teams`);

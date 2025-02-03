@@ -17,7 +17,7 @@ export const SubdomainDetails = (props: SubdomainDetailsProps) => {
                     <IoInformation color={'white'} />
                 </Flex>
 
-                <Text>Details</Text>
+                <Text fontSize={18}>Details</Text>
             </Flex>
 
             <Stack gap={1}>

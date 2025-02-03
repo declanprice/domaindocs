@@ -1,16 +1,24 @@
-import { Box, Button, Flex, Heading, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, HStack, Text, useDisclosure } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { DomainPageParams } from '../../types/DomainPageParams';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { SubdomainsTable } from './components/SubdomainsTable';
-import { CreateSubdomainData, Subdomain } from '@domaindocs/types';
+import { CreateSubdomainData, PagedResult, Subdomain } from '@domaindocs/types';
 import { CiSearch } from 'react-icons/ci';
 import { FormTextInput } from '../../components/form/FormTextInput';
 import { useForm } from 'react-hook-form';
 import { subdomainsApi } from '../../state/api/subdomains-api';
 import { CreateSubdomainDialog } from './components/CreateSubdomainDialog';
 import debounce from 'debounce';
+import {
+    PaginationItems,
+    PaginationNextTrigger,
+    PaginationPrevTrigger,
+    PaginationRoot,
+} from '../../components/ui/pagination';
+import React from 'react';
+import { usePaging } from '../../hooks/usePaging';
 
 export const SubdomainsPage = () => {
     const { domainId } = useParams() as DomainPageParams;
@@ -19,6 +27,8 @@ export const SubdomainsPage = () => {
 
     const createSubdomainDialog = useDisclosure();
 
+    const pagination = usePaging({ pageSize: 5 });
+
     const searchForm = useForm({
         values: {
             name: '',
@@ -26,15 +36,30 @@ export const SubdomainsPage = () => {
     });
 
     const {
-        data: subdomains,
+        data: result,
         isLoading,
         refetch,
-    } = useQuery<Subdomain[]>({
-        queryKey: ['searchSubdomains', { domainId }],
-        queryFn: () =>
-            subdomainsApi.search(domainId, {
+    } = useQuery<PagedResult<Subdomain>>({
+        queryKey: [
+            'searchSubdomains',
+            {
+                domainId,
+                page: pagination.page,
+                pageSize: pagination.pageSize,
+                search: searchForm.getValues('name'),
+            },
+        ],
+        queryFn: async () => {
+            const result = await subdomainsApi.search(domainId, {
                 name: searchForm.getValues('name'),
-            }),
+                take: pagination.pageSize,
+                offset: pagination.getOffset(),
+            });
+
+            pagination.setCount(result.total);
+
+            return result;
+        },
     });
 
     const { mutateAsync: createSubdomain } = useMutation({
@@ -51,7 +76,7 @@ export const SubdomainsPage = () => {
         },
     });
 
-    if (!subdomains || isLoading) return <LoadingContainer />;
+    if (!result || isLoading) return <LoadingContainer />;
 
     return (
         <Flex direction="column" p={4} width={'100%'} gap={4}>
@@ -98,7 +123,7 @@ export const SubdomainsPage = () => {
             </Flex>
 
             <SubdomainsTable
-                subdomains={subdomains}
+                subdomains={result.data}
                 onClick={(subdomain) => {
                     navigate(`/${domainId}/subdomains/${subdomain.subdomainId}/overview`);
                 }}
@@ -106,6 +131,24 @@ export const SubdomainsPage = () => {
                     await removeSubdomain(subdomain.subdomainId);
                 }}
             />
+
+            <PaginationRoot
+                ml={'auto'}
+                mt={2}
+                count={pagination.count}
+                pageSize={pagination.pageSize}
+                defaultPage={pagination.page}
+                variant={'solid'}
+                onPageChange={(details: { page: number }) => {
+                    pagination.setPage(details.page);
+                }}
+            >
+                <HStack>
+                    <PaginationPrevTrigger />
+                    <PaginationItems />
+                    <PaginationNextTrigger />
+                </HStack>
+            </PaginationRoot>
         </Flex>
     );
 };

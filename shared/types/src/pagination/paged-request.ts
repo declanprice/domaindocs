@@ -9,7 +9,7 @@ export class PagedRequest {
 
     @IsInt()
     @Type(() => Number)
-    @Min(10)
+    @Min(5)
     @Max(25)
     take: number;
 }

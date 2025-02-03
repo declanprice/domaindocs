@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import React from 'react';
@@ -13,9 +13,12 @@ import { VscTypeHierarchySub } from 'react-icons/vsc';
 import { GoPeople } from 'react-icons/go';
 import { SubdomainContacts } from './components/SubdomainContacts';
 import { SubdomainLinks } from './components/SubdomainLinks';
+import { BreadcrumbLink, BreadcrumbRoot } from '../../components/ui/breadcrumb';
 
 export const SubdomainOverviewPage = () => {
     const { domainId, subdomainId } = useParams() as SubdomainPageParams;
+
+    const navigate = useNavigate();
 
     const { data, isLoading } = useQuery<DetailedSubdomain>({
         queryKey: ['getSubdomain', { domainId, subdomainId }],
@@ -27,6 +30,27 @@ export const SubdomainOverviewPage = () => {
     return (
         <Flex width={'100%'}>
             <Flex direction="column" gap={4} flex={1} p={8}>
+                <BreadcrumbRoot>
+                    <BreadcrumbLink
+                        href={`/${domainId}/subdomains`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/${domainId}/subdomains`);
+                        }}
+                    >
+                        Subdomains
+                    </BreadcrumbLink>
+
+                    <BreadcrumbLink
+                        href={`/${domainId}/subdomains/${data.subdomain.subdomainId}/overview`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                        }}
+                    >
+                        {data.subdomain.name}
+                    </BreadcrumbLink>
+                </BreadcrumbRoot>
+
                 <Flex
                     mt={2}
                     alignItems={'center'}

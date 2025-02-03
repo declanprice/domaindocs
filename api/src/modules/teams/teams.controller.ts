@@ -6,11 +6,10 @@ import {
     DetailedTeam,
     SearchTeamParams,
     CreateTeamData,
-    EditTeamDescriptionData,
     AddTeamMemberData,
-    EditTeamLinkData,
     UpdateNameData,
     EditDescriptionData,
+    EditLinkData,
 } from '@domaindocs/types';
 
 @Controller('domains/:domainId/teams')
@@ -103,7 +102,7 @@ export class TeamsController {
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('teamId') teamId: string,
-        @Body() data: EditTeamLinkData,
+        @Body() data: EditLinkData,
     ) {
         return this.teamsService.addLink(session, domainId, teamId, data);
     }
@@ -114,7 +113,7 @@ export class TeamsController {
         @Param('domainId') domainId: string,
         @Param('teamId') teamId: string,
         @Param('linkId') linkId: string,
-        @Body() data: EditTeamLinkData,
+        @Body() data: EditLinkData,
     ) {
         return this.teamsService.updateLink(session, domainId, teamId, linkId, data);
     }

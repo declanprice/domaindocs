@@ -12,6 +12,8 @@ import {
     UpdateNameData,
     Subdomain,
     EditLinkData,
+    PagedRequest,
+    PagedResult,
 } from '@domaindocs/types';
 import { UserSession } from '../../auth/auth-session';
 import { PrismaService } from '../../shared/prisma.service';
@@ -20,7 +22,11 @@ import { PrismaService } from '../../shared/prisma.service';
 export class SubdomainsService {
     constructor(private prisma: PrismaService) {}
 
-    async search(session: UserSession, domainId: string, params: SearchSubdomainsParams): Promise<Subdomain[]> {
+    async search(
+        session: UserSession,
+        domainId: string,
+        params: SearchSubdomainsParams,
+    ): Promise<PagedResult<Subdomain>> {
         const query: any = {
             domainId,
         };
@@ -31,18 +37,27 @@ export class SubdomainsService {
 
         const subdomains = await this.prisma.subdomain.findMany({
             where: query,
+            skip: params.offset,
+            take: params.take,
         });
 
-        return subdomains.map(
-            (subdomain) =>
-                new Subdomain(
-                    subdomain.domainId,
-                    subdomain.subdomainId,
-                    subdomain.name,
-                    subdomain.description,
-                    subdomain.dateCreated.toISOString(),
-                ),
-        );
+        const total = await this.prisma.subdomain.count({
+            where: query,
+        });
+
+        return {
+            data: subdomains.map(
+                (subdomain) =>
+                    new Subdomain(
+                        subdomain.domainId,
+                        subdomain.subdomainId,
+                        subdomain.name,
+                        subdomain.description,
+                        subdomain.dateCreated.toISOString(),
+                    ),
+            ),
+            total,
+        };
     }
 
     async get(session: UserSession, domainId: string, subdomainId: string): Promise<DetailedSubdomain> {

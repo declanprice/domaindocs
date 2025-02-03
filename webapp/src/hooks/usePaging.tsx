@@ -1,9 +1,17 @@
 import { useState } from 'react';
 
-export const usePaging = () => {
+type PagingDefaults = {
+    pageSize?: number;
+};
+
+export const usePaging = (defaults: PagingDefaults = { pageSize: 10 }) => {
     const [count, setCount] = useState(0);
-    const [pageSize, setPageSize] = useState(10);
+    const [pageSize, setPageSize] = useState(defaults?.pageSize ?? 10);
     const [page, setPage] = useState(1);
+
+    const getOffset = () => {
+        return (page - 1) * pageSize;
+    };
 
     return {
         count,
@@ -12,5 +20,6 @@ export const usePaging = () => {
         setCount,
         setPage,
         setPageSize,
+        getOffset,
     };
 };

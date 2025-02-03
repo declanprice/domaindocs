@@ -109,7 +109,6 @@ model Subdomain {
 
   domain     Domain             @relation(fields: [domainId], references: [domainId])
   components Component[]
-  teams      SubdomainTeam[]
   links      SubdomainLink[]
   contacts   SubdomainContact[]
 
@@ -145,17 +144,6 @@ model SubdomainLink {
   @@index([domainId])
   @@index([subdomainId])
   @@map("subdomain_link")
-}
-
-model SubdomainTeam {
-  subdomainId String @map("subdomain_id")
-  teamId      String @map("team_id")
-
-  subdomain Subdomain @relation(fields: [subdomainId], references: [subdomainId])
-  team      Team      @relation(fields: [teamId], references: [teamId])
-
-  @@id([subdomainId, teamId])
-  @@map("subdomain_team")
 }
 
 model DomainInvite {
@@ -258,7 +246,6 @@ model Team {
   labels        TeamLabel[]
   components    Component[]
   documentation Documentation[]
-  subdomains    SubdomainTeam[]
 
   @@index([domainId])
   @@map("team")

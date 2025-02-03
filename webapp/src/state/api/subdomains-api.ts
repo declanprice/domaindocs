@@ -4,6 +4,7 @@ import {
     EditContactData,
     EditDescriptionData,
     EditLinkData,
+    PagedResult,
     SearchSubdomainsParams,
     Subdomain,
     UpdateNameData,
@@ -12,8 +13,8 @@ import { apiClient } from './api-client';
 import { queryClient } from '../query-client';
 
 export const subdomainsApi = (() => {
-    const search = async (domainId: string, params: SearchSubdomainsParams = {}): Promise<Subdomain[]> => {
-        const result = await apiClient.get<Subdomain[]>(`/domains/${domainId}/subdomains`, {
+    const search = async (domainId: string, params: SearchSubdomainsParams): Promise<PagedResult<Subdomain>> => {
+        const result = await apiClient.get<PagedResult<Subdomain>>(`/domains/${domainId}/subdomains`, {
             params,
         });
 
