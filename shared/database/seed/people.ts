@@ -40,6 +40,7 @@ export const personContacts = (): PersonContact[] => {
             userId: declanUser().userId,
             domainId: ros().domainId,
             type: ContactType.EMAIL,
+            reason: 'Bug reports',
             description: 'declanprice1@gmail.com',
             href: null,
         },
@@ -49,15 +50,8 @@ export const personContacts = (): PersonContact[] => {
             domainId: ros().domainId,
             type: ContactType.MOBILE,
             description: '0732564895',
+            reason: 'Failure reports',
             href: null,
-        },
-        {
-            contactId: v4(),
-            userId: natashaUser().userId,
-            domainId: ros().domainId,
-            type: ContactType.LINK,
-            href: 'https://google.com',
-            description: 'Google',
         },
     ];
 };

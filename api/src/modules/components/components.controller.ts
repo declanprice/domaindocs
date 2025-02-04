@@ -1,17 +1,16 @@
 import { ComponentsService } from './components.service';
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import {
     SearchComponentsParams,
     CreateComponentData,
     EditComponentDescriptionData,
-    EditComponentLinkData,
-    SearchComponent,
     EditComponentOwnershipData,
     EditComponentSubdomainData,
-    EditComponentContactData,
     EditComponentLabelData,
+    EditLinkData,
+    EditContactData,
 } from '@domaindocs/types';
 
 @Controller('domains/:domainId/components')
@@ -99,13 +98,13 @@ export class ComponentsController {
     }
 
     @Post(':componentId/links')
-    async createLink(
+    async addLink(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('componentId') componentId: string,
-        @Body() data: EditComponentLinkData,
+        @Body() data: EditLinkData,
     ) {
-        return this.componentsService.createLink(session, domainId, componentId, data);
+        return this.componentsService.addLink(session, domainId, componentId, data);
     }
 
     @Post(':componentId/links/:linkId')
@@ -114,7 +113,7 @@ export class ComponentsController {
         @Param('domainId') domainId: string,
         @Param('componentId') componentId: string,
         @Param('linkId') linkId: string,
-        @Body() data: EditComponentLinkData,
+        @Body() data: EditLinkData,
     ) {
         return this.componentsService.updateLink(session, domainId, componentId, linkId, data);
     }
@@ -129,14 +128,14 @@ export class ComponentsController {
         return this.componentsService.removeLink(session, domainId, componentId, linkId);
     }
 
-    @Post(':componentId/links')
-    async createContact(
+    @Post(':componentId/contacts')
+    async addContact(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('componentId') componentId: string,
-        @Body() data: EditComponentContactData,
+        @Body() data: EditContactData,
     ) {
-        return this.componentsService.createContact(session, domainId, componentId, data);
+        return this.componentsService.addContact(session, domainId, componentId, data);
     }
 
     @Post(':componentId/contacts/:contactId')
@@ -145,7 +144,7 @@ export class ComponentsController {
         @Param('domainId') domainId: string,
         @Param('componentId') componentId: string,
         @Param('contactId') contactId: string,
-        @Body() data: EditComponentContactData,
+        @Body() data: EditContactData,
     ) {
         return this.componentsService.updateContact(session, domainId, componentId, contactId, data);
     }

@@ -3,7 +3,6 @@ import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Query,
 import { AuthGuard } from '../../auth/auth.guard';
 import { AuthSession, UserSession } from '../../auth/auth-session';
 import {
-    DetailedTeam,
     SearchTeamParams,
     CreateTeamData,
     AddTeamMemberData,
@@ -28,6 +27,15 @@ export class TeamsController {
         }
 
         return this.teamsService.searchByDomain(session, domainId, params);
+    }
+
+    @Get('lookup')
+    async getAll(@AuthSession() session: UserSession, @Param('domainId') domainId: string) {
+        if (!domainId) {
+            throw new BadRequestException('missing params (domainId)');
+        }
+
+        return this.teamsService.getAll(session, domainId);
     }
 
     @Post('')

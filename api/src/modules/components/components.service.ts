@@ -6,21 +6,21 @@ import {
     Component,
     SearchComponentsParams,
     EditComponentDescriptionData,
-    EditComponentLinkData,
     SearchComponent,
     ComponentType,
     ComponentOwnerTeam,
     ComponentSubdomain,
     DetailedComponent,
-    ComponentLink,
-    ComponentContact,
-    ComponentContactType,
     ComponentLabel,
     EditComponentOwnershipData,
-    EditComponentContactData,
     PagedResult,
     EditComponentSubdomainData,
     EditComponentLabelData,
+    Link,
+    Contact,
+    ContactType,
+    EditLinkData,
+    EditContactData,
 } from '@domaindocs/types';
 import { v4 } from 'uuid';
 import { createSlug } from '../../util/create-slug';
@@ -115,13 +115,14 @@ export class ComponentsService {
             component.subdomain
                 ? new ComponentSubdomain(component.subdomain.subdomainId, component.subdomain.name)
                 : null,
-            component.links.map((link) => new ComponentLink(link.linkId, link.href, link.description)),
+            component.links.map((link) => new Link(link.linkId, link.href, link.description)),
             component.contacts.map(
                 (contact) =>
-                    new ComponentContact(
+                    new Contact(
                         contact.contactId,
-                        contact.type as ComponentContactType,
+                        contact.type as ContactType,
                         contact.description,
+                        contact.reason,
                         contact.href,
                     ),
             ),
@@ -236,7 +237,7 @@ export class ComponentsService {
         return this.getComponent(session, domainId, componentId);
     }
 
-    async createLink(session: UserSession, domainId: string, componentId: string, data: EditComponentLinkData) {
+    async addLink(session: UserSession, domainId: string, componentId: string, data: EditLinkData) {
         await this.prisma.componentLink.create({
             data: {
                 domainId,
@@ -250,13 +251,7 @@ export class ComponentsService {
         return this.getComponent(session, domainId, componentId);
     }
 
-    async updateLink(
-        session: UserSession,
-        domainId: string,
-        componentId: string,
-        linkId: string,
-        data: EditComponentLinkData,
-    ) {
+    async updateLink(session: UserSession, domainId: string, componentId: string, linkId: string, data: EditLinkData) {
         await this.prisma.componentLink.update({
             where: {
                 linkId,
@@ -280,7 +275,7 @@ export class ComponentsService {
         return this.getComponent(session, domainId, componentId);
     }
 
-    async createContact(session: UserSession, domainId: string, componentId: string, data: EditComponentContactData) {
+    async addContact(session: UserSession, domainId: string, componentId: string, data: EditContactData) {
         await this.prisma.componentContact.create({
             data: {
                 domainId,
@@ -288,7 +283,7 @@ export class ComponentsService {
                 contactId: v4(),
                 type: data.type,
                 href: data.href,
-                reason: '',
+                reason: data.reason,
                 description: data.description,
             },
         });
@@ -301,7 +296,7 @@ export class ComponentsService {
         domainId: string,
         componentId: string,
         contactId: string,
-        data: EditComponentContactData,
+        data: EditContactData,
     ) {
         await this.prisma.componentContact.update({
             where: {
@@ -311,6 +306,7 @@ export class ComponentsService {
                 type: data.type,
                 href: data.href,
                 description: data.description,
+                reason: data.reason,
             },
         });
 

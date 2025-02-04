@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { DetailedComponent } from '@domaindocs/types';
@@ -10,6 +10,8 @@ import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { BreadcrumbLink, BreadcrumbRoot } from '../../components/ui/breadcrumb';
 import { ComponentDescription } from './components/ComponentDescription';
 import { ComponentDetails } from './components/ComponentDetails';
+import { ComponentOwnerTeam } from './components/ComponentOwnerTeam';
+import { ComponentContacts } from './components/ComponentContacts';
 
 export const ComponentOverviewPage = () => {
     const { domainId, componentId } = useParams() as ComponentPageParams;
@@ -69,6 +71,14 @@ export const ComponentOverviewPage = () => {
 
             <Flex direction={'column'} width={'450px'} p={4} gap={4}>
                 <ComponentDetails domainId={domainId} component={component} />
+
+                <ComponentOwnerTeam domainId={domainId} component={component} />
+
+                <ComponentContacts
+                    domainId={domainId}
+                    componentId={component.component.componentId}
+                    contacts={component.contacts}
+                />
             </Flex>
         </Flex>
     );

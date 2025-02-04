@@ -43,7 +43,7 @@ export const componentContacts = (): ComponentContact[] => {
             componentId: deedSearchComponent().componentId,
             domainId: ros().domainId,
             type: ContactType.EMAIL,
-            reason: '',
+            reason: 'Bug reports',
             description: 'declanprice1@gmail.com',
             href: null,
         },
@@ -53,17 +53,8 @@ export const componentContacts = (): ComponentContact[] => {
             domainId: ros().domainId,
             type: ContactType.MOBILE,
             description: '0732564895',
-            reason: '',
+            reason: 'Service failure',
             href: null,
-        },
-        {
-            contactId: v4(),
-            componentId: deedSearchComponent().componentId,
-            domainId: ros().domainId,
-            type: ContactType.LINK,
-            reason: '',
-            href: 'https://google.com',
-            description: 'Google',
         },
     ];
 };

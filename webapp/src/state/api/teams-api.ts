@@ -9,6 +9,7 @@ import {
     UpdateNameData,
     EditDescriptionData,
     PagedResult,
+    Team,
 } from '@domaindocs/types';
 import { queryClient } from '../query-client';
 
@@ -17,6 +18,12 @@ export const teamsApi = (() => {
         const result = await apiClient.get<PagedResult<DetailedTeam>>(`/domains/${domainId}/teams`, {
             params,
         });
+
+        return result.data;
+    };
+
+    const getAll = async (domainId: string): Promise<Team[]> => {
+        const result = await apiClient.get<Team[]>(`/domains/${domainId}/teams/lookup`);
 
         return result.data;
     };
@@ -101,6 +108,7 @@ export const teamsApi = (() => {
 
     return {
         search,
+        getAll,
         create,
         remove,
         get,

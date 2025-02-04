@@ -118,7 +118,9 @@ export class PeopleService {
                 result.user.email,
                 result.user.iconUri,
             ),
-            result.contacts.map((c) => new Contact(c.contactId, c.type as ContactType, c.description, c.href)),
+            result.contacts.map(
+                (c) => new Contact(c.contactId, c.type as ContactType, c.description, c.reason, c.href),
+            ),
             result.skills.map((s) => new PersonSkill(s.skill.skillId, s.skill.name)),
             result.teamMembers.map((t) => new PersonTeam(t.team.teamId, t.team.name, t.team.iconUri)),
             result.roles.map((r) => new PersonRole(r.role.roleId, r.role.name, r.isPrimary)),

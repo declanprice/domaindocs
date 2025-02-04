@@ -221,6 +221,7 @@ model PersonContact {
   domainId    String  @map("domain_id")
   type        String  @map("type")
   href        String? @map("href")
+  reason      String  @map("reason")
   description String  @map("description")
 
   domain Domain @relation(fields: [domainId], references: [domainId])

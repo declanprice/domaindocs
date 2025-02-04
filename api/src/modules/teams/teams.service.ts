@@ -80,7 +80,9 @@ export class TeamsService {
                                 })),
                             ),
                     ),
-                    t.contacts.map((c) => new Contact(c.contactId, c.type as ContactType, c.description, c.href)),
+                    t.contacts.map(
+                        (c) => new Contact(c.contactId, c.type as ContactType, c.description, c.reason, c.href),
+                    ),
                     t.links.map((link) => new Link(link.linkId, link.href, link.description)),
                 ),
         );
@@ -89,6 +91,16 @@ export class TeamsService {
             data,
             total,
         };
+    }
+
+    async getAll(session: UserSession, domainId: string): Promise<Team[]> {
+        const result = await this.prisma.team.findMany({
+            where: {
+                domainId,
+            },
+        });
+
+        return result.map((t) => new Team(t.teamId, t.name, t.description, t.dateFormed.toISOString(), t.iconUri));
     }
 
     async createTeam(session: UserSession, domainId: string, data: CreateTeamData) {
@@ -141,7 +153,9 @@ export class TeamsService {
                         })),
                     ),
             ),
-            result.contacts.map((c) => new Contact(c.contactId, c.type as ContactType, c.description, c.href)),
+            result.contacts.map(
+                (c) => new Contact(c.contactId, c.type as ContactType, c.description, c.reason, c.href),
+            ),
             result.links.map((link) => new Link(link.linkId, link.href, link.description)),
         );
     }

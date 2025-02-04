@@ -1,3 +1,6 @@
+import { Contact } from '../contacts';
+import { Link } from '../links';
+
 export enum ComponentType {
     SERVICE = 'Service',
     LIBRARY = 'Library',
@@ -5,29 +8,6 @@ export enum ComponentType {
     DASHBOARD = 'Dashboard',
     WEBSITE = 'Website',
     OTHER = 'Other',
-}
-
-export enum ComponentContactType {
-    EMAIL = 'Email',
-    MOBILE = 'Mobile',
-    LINK = 'Link',
-}
-
-export class ComponentContact {
-    constructor(
-        public contactId: string,
-        public type: ComponentContactType,
-        public description: string,
-        public href?: string,
-    ) {}
-}
-
-export class ComponentLink {
-    constructor(
-        public linkId: string,
-        public href: string,
-        public description: string,
-    ) {}
 }
 
 export class ComponentLabel {
@@ -74,8 +54,8 @@ export class DetailedComponent {
         public component: Component,
         public team: ComponentOwnerTeam | null,
         public subdomain: ComponentSubdomain | null,
-        public links: ComponentLink[],
-        public contacts: ComponentContact[],
+        public links: Link[],
+        public contacts: Contact[],
         public labels: ComponentLabel[],
     ) {}
 }

@@ -1,9 +1,6 @@
 import { Box, Button, ButtonGroup, Flex, Link, Portal, Text, useDisclosure } from '@chakra-ui/react';
-import { IoInformation } from 'react-icons/io5';
-import { format } from 'date-fns';
-import { DetailedComponent, EditComponentSubdomainData, Subdomain } from '@domaindocs/types';
+import { DetailedComponent, EditComponentOwnershipData, Team } from '@domaindocs/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { subdomainsApi } from '../../../state/api/subdomains-api';
 import { useForm } from 'react-hook-form';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import {
@@ -17,13 +14,15 @@ import { FormSelect } from '../../../components/form/FormSelect';
 import { PropsWithChildren, useState } from 'react';
 import { componentsApi } from '../../../state/api/components-api';
 import { EditIconButton } from '../../../components/buttons/EditIconButton';
+import { teamsApi } from '../../../state/api/teams-api';
+import { GoPeople } from 'react-icons/go';
 
-type ComponentDetailsProps = {
+type ComponentOwnerTeamProps = {
     domainId: string;
     component: DetailedComponent;
 };
 
-export const ComponentDetails = (props: ComponentDetailsProps) => {
+export const ComponentOwnerTeam = (props: ComponentOwnerTeamProps) => {
     const { domainId, component } = props;
 
     const [isHovering, setIsHovering] = useState(false);
@@ -31,85 +30,67 @@ export const ComponentDetails = (props: ComponentDetailsProps) => {
     return (
         <Flex backgroundColor={'lightgray'} p={4} rounded={4} gap={4} direction={'column'}>
             <Flex alignItems={'center'} gap={4}>
-                <Flex alignItems={'center'} fontSize={16} backgroundColor={'pink.400'} rounded={6} p={2}>
-                    <IoInformation color={'white'} />
+                <Flex alignItems={'center'} fontSize={16} backgroundColor={'purple.400'} rounded={6} p={2}>
+                    <GoPeople color={'white'} />
                 </Flex>
 
-                <Text fontSize={18}>Details</Text>
-            </Flex>
-
-            <Flex direction={'column'} gap={2}>
-                <Text fontSize={16} fontWeight={400}>
-                    Date formed
-                </Text>
-
-                <Text fontSize={14} fontWeight={300}>
-                    {format(component.component.dateCreated, 'Mo MMM yyyy')}
-                </Text>
+                <Text fontSize={18}>Owner Team</Text>
             </Flex>
 
             <Flex direction={'column'} alignItems={'start'}>
-                <Text fontSize={16} fontWeight={400}>
-                    Subdomain
-                </Text>
-
-                {component.subdomain ? (
+                {component.team ? (
                     <Flex
                         width={'100%'}
                         alignItems={'center'}
                         onMouseEnter={() => setIsHovering(true)}
                         onMouseLeave={() => setIsHovering(false)}
                     >
-                        <Link
-                            fontSize={14}
-                            fontWeight={300}
-                            href={`/${domainId}/subdomains/${component.subdomain.subdomainId}`}
-                        >
-                            {component.subdomain.name}
+                        <Link fontSize={14} fontWeight={300} href={`/${domainId}/teams/${component.team.teamId}`}>
+                            {component.team.name}
                         </Link>
 
                         <Box ml={'auto'} visibility={isHovering ? 'visible' : 'hidden'}>
-                            <AssignSubdomainForm domainId={domainId} component={component}>
+                            <AssignOwnerTeamForm domainId={domainId} component={component}>
                                 <EditIconButton variant={'ghost'} />
-                            </AssignSubdomainForm>
+                            </AssignOwnerTeamForm>
                         </Box>
                     </Flex>
                 ) : (
-                    <AssignSubdomainForm domainId={domainId} component={component}>
+                    <AssignOwnerTeamForm domainId={domainId} component={component}>
                         <Button variant={'surface'} width={'fit'}>
                             Assign
                         </Button>
-                    </AssignSubdomainForm>
+                    </AssignOwnerTeamForm>
                 )}
             </Flex>
         </Flex>
     );
 };
 
-type AssignSubdomainFormProps = {
+type AssignOwnerTeamFormProps = {
     domainId: string;
     component: DetailedComponent;
 } & PropsWithChildren;
 
-export const AssignSubdomainForm = (props: AssignSubdomainFormProps) => {
+export const AssignOwnerTeamForm = (props: AssignOwnerTeamFormProps) => {
     const { domainId, component } = props;
 
     const menu = useDisclosure();
 
-    const { data: allSubdomains, isLoading: isSubdomainsLoading } = useQuery<Subdomain[]>({
-        queryKey: ['getAllSubdomains', { domainId }],
-        queryFn: () => subdomainsApi.getAll(domainId),
+    const { data: allTeams, isLoading: isTeamsLoading } = useQuery<Team[]>({
+        queryKey: ['getAllTeams', { domainId }],
+        queryFn: () => teamsApi.getAll(domainId),
     });
 
-    const { mutateAsync: assignSubdomain } = useMutation<void, any, EditComponentSubdomainData>({
-        mutationFn: (data) => componentsApi.updateSubdomain(domainId, component.component.componentId, data),
+    const { mutateAsync: assignTeam } = useMutation<void, any, EditComponentOwnershipData>({
+        mutationFn: (data) => componentsApi.updateOwnership(domainId, component.component.componentId, data),
     });
 
-    const form = useForm<EditComponentSubdomainData>({
+    const form = useForm<EditComponentOwnershipData>({
         values: {
-            subdomainId: component.subdomain?.subdomainId ?? '',
+            teamId: component.team?.teamId ?? '',
         },
-        resolver: classValidatorResolver(EditComponentSubdomainData),
+        resolver: classValidatorResolver(EditComponentOwnershipData),
     });
 
     const close = () => {
@@ -117,8 +98,8 @@ export const AssignSubdomainForm = (props: AssignSubdomainFormProps) => {
         menu.onClose();
     };
 
-    const submit = async (data: EditComponentSubdomainData) => {
-        await assignSubdomain(data);
+    const submit = async (data: EditComponentOwnershipData) => {
+        await assignTeam(data);
         close();
     };
 
@@ -140,23 +121,23 @@ export const AssignSubdomainForm = (props: AssignSubdomainFormProps) => {
                     <form onSubmit={form.handleSubmit(submit)}>
                         <PopoverBody>
                             <FormSelect
-                                name={'subdomainId'}
+                                name={'teamId'}
                                 control={form.control}
-                                isLoading={!allSubdomains || isSubdomainsLoading}
+                                isLoading={!allTeams || isTeamsLoading}
                                 options={
-                                    allSubdomains
-                                        ? allSubdomains.map((subdomain) => ({
-                                              label: `${subdomain.name}`,
-                                              value: subdomain.subdomainId,
-                                              subdomain,
+                                    allTeams
+                                        ? allTeams.map((team) => ({
+                                              label: `${team.name}`,
+                                              value: team.teamId,
+                                              team,
                                           }))
                                         : []
                                 }
-                                label="Select subdomain"
+                                label="Select team"
                                 isMulti={false}
                                 components={{
                                     Option: (option: any) => {
-                                        const subdomain = option.data.subdomain as Subdomain;
+                                        const team = option.data.team as Team;
 
                                         return (
                                             <Flex
@@ -166,7 +147,7 @@ export const AssignSubdomainForm = (props: AssignSubdomainFormProps) => {
                                                     option.selectOption(option);
                                                 }}
                                             >
-                                                <Text fontSize={14}>{subdomain.name}</Text>
+                                                <Text fontSize={14}>{team.name}</Text>
                                             </Flex>
                                         );
                                     },
