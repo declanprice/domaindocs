@@ -4,18 +4,18 @@ import {
     CreateTeamData,
     DetailedTeam,
     SearchTeamParams,
-    EditTeamDescriptionData,
     EditLinkData,
     EditContactData,
     UpdateNameData,
     EditDescriptionData,
+    PagedResult,
 } from '@domaindocs/types';
 import { queryClient } from '../query-client';
 
 export const teamsApi = (() => {
-    const search = async (domainId: string, dto: SearchTeamParams = {}): Promise<DetailedTeam[]> => {
-        const result = await apiClient.get<DetailedTeam[]>(`/domains/${domainId}/teams`, {
-            params: dto,
+    const search = async (domainId: string, params: SearchTeamParams): Promise<PagedResult<DetailedTeam>> => {
+        const result = await apiClient.get<PagedResult<DetailedTeam>>(`/domains/${domainId}/teams`, {
+            params,
         });
 
         return result.data;

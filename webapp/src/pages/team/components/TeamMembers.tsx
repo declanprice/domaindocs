@@ -1,6 +1,5 @@
 import { Box, Button, ButtonGroup, Flex, Link, Portal, Stack, Text, useDisclosure } from '@chakra-ui/react';
-import { AddTeamMemberData, Person, SearchPerson, TeamMember } from '@domaindocs/types';
-import { PropsWithChildren, useRef, useState } from 'react';
+import { AddTeamMemberData, PagedResult, Person, SearchPerson, TeamMember } from '@domaindocs/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { ConfirmDialog } from '../../../components/dialogs/ConfirmDialog';
@@ -20,6 +19,7 @@ import {
     PopoverFooter,
 } from '../../../components/ui/popover';
 import { Avatar } from '../../../components/ui/avatar';
+import { PropsWithChildren, useState } from 'react';
 
 type TeamMembersProps = {
     domainId: string;
@@ -114,10 +114,13 @@ export const TeamMemberForm = (props: TeamMemberFormProps) => {
 
     const menu = useDisclosure();
 
-    const { data: allPeople, isLoading: isPeopleLoading } = useQuery<SearchPerson[]>({
-        queryKey: ['searchPeople', { domainId }],
+    const { data: allPeopleResult, isLoading: isPeopleLoading } = useQuery<PagedResult<SearchPerson>>({
+        queryKey: ['searchPeople', { domainId, page: 0, pageSize: 1000 }],
         queryFn: () => peopleApi.search(domainId, {}),
-        initialData: [],
+        initialData: {
+            data: [],
+            total: 0,
+        },
     });
 
     const { mutateAsync: addMember } = useMutation<void, any, AddTeamMemberData>({
@@ -163,7 +166,7 @@ export const TeamMemberForm = (props: TeamMemberFormProps) => {
                                     name={'userId'}
                                     control={form.control}
                                     isLoading={isPeopleLoading}
-                                    options={allPeople.map(({ person }) => ({
+                                    options={allPeopleResult.data.map(({ person }) => ({
                                         label: `${person.firstName} ${person.lastName}`,
                                         value: person.userId,
                                         person,

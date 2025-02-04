@@ -7,9 +7,9 @@ import {
     DetailedComponent,
     EditComponentOwnershipData,
     EditComponentSubdomainData,
-    DetailedTeam,
     EditComponentContactData,
     EditComponentLabelData,
+    PagedResult,
 } from '@domaindocs/types';
 
 import { apiClient } from './api-client';
@@ -18,9 +18,9 @@ import { queryClient } from '../query-client';
 export const componentsApi = (() => {
     const searchComponents = async (
         domainId: string,
-        params: SearchComponentsParams = {},
-    ): Promise<SearchComponent[]> => {
-        const result = await apiClient.get<SearchComponent[]>(`/domains/${domainId}/components`, {
+        params: SearchComponentsParams,
+    ): Promise<PagedResult<SearchComponent>> => {
+        const result = await apiClient.get<PagedResult<SearchComponent>>(`/domains/${domainId}/components`, {
             params,
         });
 

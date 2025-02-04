@@ -21,13 +21,13 @@ export class TeamsController {
     async searchTeams(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
-        @Query() dto: SearchTeamParams,
-    ): Promise<DetailedTeam[]> {
+        @Query() params: SearchTeamParams,
+    ) {
         if (!domainId) {
             throw new BadRequestException('missing params (domainId)');
         }
 
-        return this.teamsService.searchByDomain(session, domainId, dto);
+        return this.teamsService.searchByDomain(session, domainId, params);
     }
 
     @Post('')

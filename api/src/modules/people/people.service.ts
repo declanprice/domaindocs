@@ -13,6 +13,7 @@ import {
     EditPersonSkillData,
     EditPersonContactData,
     SearchPerson,
+    PagedResult,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 import { v4 } from 'uuid';
@@ -22,14 +23,20 @@ import { EditPersonAboutMeData } from '../../../../shared/types/src/person/edit-
 export class PeopleService {
     constructor(private prisma: PrismaService) {}
 
-    async searchPeople(session: UserSession, domainId: string, params: SearchPeopleParams): Promise<SearchPerson[]> {
-        const results = await this.prisma.person.findMany({
-            where: {
-                domainId: domainId,
-                user: {
-                    fullName: params.name ? { contains: 'Dec' } : undefined,
-                },
+    async searchPeople(
+        session: UserSession,
+        domainId: string,
+        params: SearchPeopleParams,
+    ): Promise<PagedResult<SearchPerson>> {
+        const query = {
+            domainId: domainId,
+            user: {
+                fullName: params.name ? { contains: params.name } : undefined,
             },
+        };
+
+        const results = await this.prisma.person.findMany({
+            where: query,
             include: {
                 user: true,
                 skills: {
@@ -43,9 +50,15 @@ export class PeopleService {
                     },
                 },
             },
+            take: params.take,
+            skip: params.offset,
         });
 
-        return results.map(
+        const total = await this.prisma.person.count({
+            where: query,
+        });
+
+        const data = results.map(
             (p) =>
                 new SearchPerson(
                     new Person(
@@ -61,6 +74,11 @@ export class PeopleService {
                     p.roles.map((r) => new PersonRole(r.role.roleId, r.role.name, r.isPrimary)),
                 ),
         );
+
+        return {
+            data,
+            total,
+        };
     }
 
     async getPerson(session: UserSession, domainId: string, userId: string): Promise<DetailedPerson> {

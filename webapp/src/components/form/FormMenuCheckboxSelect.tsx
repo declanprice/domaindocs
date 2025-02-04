@@ -50,6 +50,7 @@ export const FormMenuCheckboxSelect = (props: FormMenuCheckboxSelectProps) => {
                     props.onBlur();
                 }
             }}
+            width={'fit'}
         >
             <MenuRoot>
                 <MenuTrigger as={'div'}>{renderMenuButton()}</MenuTrigger>

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserSession } from '../../auth/auth-session';
 import {
     CreateComponentData,
@@ -18,6 +18,7 @@ import {
     ComponentLabel,
     EditComponentOwnershipData,
     EditComponentContactData,
+    PagedResult,
 } from '@domaindocs/types';
 import { v4 } from 'uuid';
 import { createSlug } from '../../util/create-slug';
@@ -33,18 +34,33 @@ export class ComponentsService {
         session: UserSession,
         domainId: string,
         params: SearchComponentsParams,
-    ): Promise<SearchComponent[]> {
+    ): Promise<PagedResult<SearchComponent>> {
+        const query: any = {
+            domainId: domainId,
+        };
+
+        if (params.name) {
+            query.name = {
+                contains: params.name,
+                mode: 'insensitive',
+            };
+        }
+
         const results = await this.prisma.component.findMany({
-            where: {
-                domainId: domainId,
-            },
+            where: query,
             include: {
                 ownerTeam: true,
                 subdomain: true,
             },
+            take: params.take,
+            skip: params.offset,
         });
 
-        return results.map(
+        const total = await this.prisma.component.count({
+            where: query,
+        });
+
+        const data = results.map(
             (component) =>
                 new SearchComponent(
                     new Component(
@@ -61,6 +77,11 @@ export class ComponentsService {
                         : null,
                 ),
         );
+
+        return {
+            data,
+            total,
+        };
     }
 
     async getComponent(session: UserSession, domainId: string, componentId: string): Promise<DetailedComponent> {

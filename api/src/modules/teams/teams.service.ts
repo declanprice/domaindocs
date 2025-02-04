@@ -14,6 +14,7 @@ import {
     Contact,
     Link,
     EditLinkData,
+    PagedResult,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 
@@ -21,7 +22,11 @@ import { PrismaService } from '../../shared/prisma.service';
 export class TeamsService {
     constructor(private prisma: PrismaService) {}
 
-    async searchByDomain(session: UserSession, domainId: string, params: SearchTeamParams): Promise<DetailedTeam[]> {
+    async searchByDomain(
+        session: UserSession,
+        domainId: string,
+        params: SearchTeamParams,
+    ): Promise<PagedResult<DetailedTeam>> {
         const query: any = {
             domainId,
         };
@@ -50,9 +55,15 @@ export class TeamsService {
                 contacts: true,
                 links: true,
             },
+            take: params.take,
+            skip: params.offset,
         });
 
-        return results.map(
+        const total = await this.prisma.team.count({
+            where: query,
+        });
+
+        const data = results.map(
             (t) =>
                 new DetailedTeam(
                     new Team(t.teamId, t.name, t.description, t.dateFormed.toISOString(), t.iconUri),
@@ -73,6 +84,11 @@ export class TeamsService {
                     t.links.map((link) => new Link(link.linkId, link.href, link.description)),
                 ),
         );
+
+        return {
+            data,
+            total,
+        };
     }
 
     async createTeam(session: UserSession, domainId: string, data: CreateTeamData) {

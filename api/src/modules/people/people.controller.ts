@@ -21,9 +21,9 @@ export class PeopleController {
     async searchPeople(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
-        @Query() dto: SearchPeopleParams,
-    ): Promise<SearchPerson[]> {
-        return this.peopleService.searchPeople(session, domainId, dto);
+        @Query() params: SearchPeopleParams,
+    ) {
+        return this.peopleService.searchPeople(session, domainId, params);
     }
 
     @Get(':userId')

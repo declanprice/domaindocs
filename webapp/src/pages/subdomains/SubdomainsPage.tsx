@@ -79,7 +79,7 @@ export const SubdomainsPage = () => {
     if (!result || isLoading) return <LoadingContainer />;
 
     return (
-        <Flex direction="column" p={4} width={'100%'} gap={4}>
+        <Flex direction="column" p={4} width={'100%'} gap={4} overflow={'auto'}>
             <Flex alignItems={'center'}>
                 <Heading fontSize={18} fontWeight={400}>
                     Subdomains

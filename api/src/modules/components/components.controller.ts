@@ -24,7 +24,7 @@ export class ComponentsController {
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Query() dto: SearchComponentsParams,
-    ): Promise<SearchComponent[]> {
+    ) {
         if (!domainId) {
             throw new BadRequestException('missing params (domainId)');
         }
