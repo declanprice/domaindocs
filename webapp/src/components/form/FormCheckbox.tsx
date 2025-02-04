@@ -29,8 +29,8 @@ export const FormCheckbox = (props: FormCheckboxProps) => {
             <Checkbox
                 name={field.name}
                 value={field.value}
-                isChecked={field.value === true}
-                isDisabled={field.disabled}
+                checked={field.value == true}
+                disabled={field.disabled}
                 ref={field.ref}
                 onChange={(e: any) => {
                     field.onChange(e);

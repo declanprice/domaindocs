@@ -20,8 +20,6 @@ export const Description = (props: DescriptionProps) => {
 
     return (
         <Stack gap={2}>
-            <Text fontSize={16}>Description</Text>
-
             {editing.isEditing ? (
                 <DescriptionForm
                     description={description}

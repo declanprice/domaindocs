@@ -116,7 +116,11 @@ export const TeamMemberForm = (props: TeamMemberFormProps) => {
 
     const { data: allPeopleResult, isLoading: isPeopleLoading } = useQuery<PagedResult<SearchPerson>>({
         queryKey: ['searchPeople', { domainId, page: 0, pageSize: 1000 }],
-        queryFn: () => peopleApi.search(domainId, {}),
+        queryFn: () =>
+            peopleApi.search(domainId, {
+                take: 1000,
+                offset: 0,
+            }),
         initialData: {
             data: [],
             total: 0,

@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, HStack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, HStack, Text, useDisclosure } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { peopleApi } from '../../state/api/people-api';
@@ -18,6 +18,7 @@ import {
 import React from 'react';
 import { FormMenuCheckboxSelect } from '../../components/form/FormMenuCheckboxSelect';
 import debounce from 'debounce';
+import { InvitePersonModal } from '../../components/person/InvitePersonModal';
 
 type PeoplePageParams = {
     domainId: string;
@@ -29,6 +30,8 @@ export const PeoplePage = () => {
     const navigate = useNavigate();
 
     const pagination = usePaging({ pageSize: 5 });
+
+    const inviteModal = useDisclosure();
 
     const searchForm = useForm({
         values: {
@@ -72,9 +75,16 @@ export const PeoplePage = () => {
                     People
                 </Heading>
 
-                <Button ml={'auto'} size={'sm'} fontWeight={400}>
+                <Button ml={'auto'} size={'sm'} fontWeight={400} onClick={inviteModal.onOpen}>
                     Invite People
                 </Button>
+
+                <InvitePersonModal
+                    domainId={domainId}
+                    isOpen={inviteModal.open}
+                    onClose={inviteModal.onClose}
+                    onInviteSent={() => {}}
+                />
             </Flex>
 
             <Text fontWeight={300} fontSize={14}>

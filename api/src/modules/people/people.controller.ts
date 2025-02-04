@@ -7,10 +7,10 @@ import {
     DetailedPerson,
     EditPersonRoleData,
     EditPersonSkillData,
-    EditPersonContactData,
     SearchPerson,
+    EditDescriptionData,
+    EditContactData,
 } from '@domaindocs/types';
-import { EditPersonAboutMeData } from '../../../../shared/types/src/person/edit-person-about-me-data';
 
 @Controller('domains/:domainId/people')
 @UseGuards(AuthGuard)
@@ -91,9 +91,9 @@ export class PeopleController {
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('userId') userId: string,
-        @Body() data: EditPersonContactData,
+        @Body() data: EditContactData,
     ): Promise<DetailedPerson> {
-        return this.peopleService.createContact(session, domainId, userId, data);
+        return this.peopleService.addContact(session, domainId, userId, data);
     }
 
     @Post(':userId/contacts/:contactId')
@@ -102,7 +102,7 @@ export class PeopleController {
         @Param('domainId') domainId: string,
         @Param('userId') userId: string,
         @Param('contactId') contactId: string,
-        @Body() data: EditPersonContactData,
+        @Body() data: EditContactData,
     ): Promise<DetailedPerson> {
         return this.peopleService.updateContact(session, domainId, userId, contactId, data);
     }
@@ -114,16 +114,16 @@ export class PeopleController {
         @Param('userId') userId: string,
         @Param('contactId') contactId: string,
     ): Promise<DetailedPerson> {
-        return this.peopleService.deleteContact(session, domainId, userId, contactId);
+        return this.peopleService.removeContact(session, domainId, userId, contactId);
     }
 
-    @Post(':userId/about-me')
+    @Post(':userId/description')
     async updateAboutMe(
         @AuthSession() session: UserSession,
         @Param('domainId') domainId: string,
         @Param('userId') userId: string,
-        @Body() data: EditPersonAboutMeData,
+        @Body() data: EditDescriptionData,
     ): Promise<DetailedPerson> {
-        return this.peopleService.updateAboutMe(session, domainId, userId, data);
+        return this.peopleService.updateDescription(session, domainId, userId, data);
     }
 }

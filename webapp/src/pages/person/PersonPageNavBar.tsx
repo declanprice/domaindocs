@@ -54,22 +54,22 @@ export const PersonPageNavBar = () => {
 
             <Box divideY={'1px'} />
 
-            <Flex mt={2} px={4} width={'100%'} gap={2} alignItems="center">
+            <Flex mt={2} px={4} width={'100%'} gap={3} alignItems="center">
                 <Avatar
                     name={`${person.person.firstName} ${person.person.lastName}`}
                     src={person.person.iconUri}
                     size={'sm'}
                 />
 
-                <Stack h={0}>
+                <Flex direction={'column'}>
                     <Text color={'gray.900'} fontSize={14} fontWeight={'400'}>
                         {person.person.firstName} {person.person.lastName}
                     </Text>
 
-                    <Text color={'gray.900'} fontSize={10} fontWeight={'300'}>
+                    <Text color={'gray.900'} fontSize={12} fontWeight={'300'}>
                         Person
                     </Text>
-                </Stack>
+                </Flex>
             </Flex>
 
             <Flex
@@ -88,12 +88,6 @@ export const PersonPageNavBar = () => {
                     label={'Overview'}
                     icon={<LuListMinus color={'gray.900'} size={18} />}
                     to={`/${activeDomain.domainId}/people/${person.person.userId}/overview`}
-                />
-
-                <NavButton
-                    icon={<LuNetwork color={'gray.900'} size={18} />}
-                    label={'Work'}
-                    to={`/${activeDomain.domainId}/people/${person.person.userId}/work`}
                 />
             </Flex>
         </Flex>

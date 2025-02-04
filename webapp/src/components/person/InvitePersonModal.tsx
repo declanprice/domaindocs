@@ -7,6 +7,7 @@ import { SendDomainInviteData } from '@domaindocs/types';
 import { domainsApi } from '../../state/api/domains-api';
 import { toaster } from '../ui/toaster';
 import { DialogContent, DialogRoot, DialogFooter, DialogHeader, DialogBody } from '../ui/dialog';
+import { apiErrorToast, apiSuccessToast } from '../../util/toasts';
 
 type InvitePersonModalProps = {
     domainId: string;
@@ -20,6 +21,8 @@ export const InvitePersonModal = (props: InvitePersonModalProps) => {
     const { mutateAsync } = useMutation<void, DefaultError, SendDomainInviteData>({
         mutationKey: ['sendInvite', { domainId }],
         mutationFn: (data) => domainsApi.sendInvite(domainId, data),
+        onSuccess: () => apiSuccessToast('Invite successfully sent to email'),
+        onError: apiErrorToast,
     });
 
     const form = useForm({

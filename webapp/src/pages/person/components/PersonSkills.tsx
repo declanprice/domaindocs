@@ -1,22 +1,8 @@
 import { DetailedPerson, Skill, EditPersonSkillData, CreateSkillData, PersonSkill } from '@domaindocs/types';
-import {
-    Button,
-    ButtonGroup,
-    Flex,
-    Popover,
-    PopoverBody,
-    PopoverContent,
-    PopoverFooter,
-    PopoverTrigger,
-    SimpleGrid,
-    Stack,
-    Text,
-    useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Button, ButtonGroup, Flex, SimpleGrid, Text, useDisclosure } from '@chakra-ui/react';
 import { AddIconButton } from '../../../components/buttons/AddIconButton';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
-import { useHover } from '@uidotdev/usehooks';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { DefaultError, useMutation, useQuery } from '@tanstack/react-query';
 import { FormCreateSelect } from '../../../components/form/FormCreateSelect';
@@ -26,6 +12,13 @@ import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { ConfirmDialog } from '../../../components/dialogs/ConfirmDialog';
 import { skillsApi } from '../../../state/api/skills-api';
 import { GiSkills } from 'react-icons/gi';
+import {
+    PopoverRoot,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverFooter,
+    PopoverBody,
+} from '../../../components/ui/popover';
 
 type PersonSkillsProps = {
     domainId: string;
@@ -36,20 +29,24 @@ export const PersonSkills = (props: PersonSkillsProps) => {
     const { domainId, person } = props;
 
     return (
-        <Flex backgroundColor={'lightgray'} p={2} rounded={4} gap={3} direction={'column'}>
+        <Flex backgroundColor={'lightgray'} p={4} rounded={4} gap={3} direction={'column'}>
             <Flex alignItems={'center'}>
                 <Flex alignItems={'center'} backgroundColor={'blue.400'} rounded={6} p={2}>
                     <GiSkills color={'white'} />
                 </Flex>
 
-                <Text ml={4}>Skills</Text>
+                <Text fontSize={18} ml={4}>
+                    Skills
+                </Text>
 
-                <EditPersonSkillForm domainId={domainId} userId={person.person.userId}>
-                    <AddIconButton size={'xs'} ml={'auto'} />
-                </EditPersonSkillForm>
+                <Box ml={'auto'}>
+                    <EditPersonSkillForm domainId={domainId} userId={person.person.userId}>
+                        <AddIconButton />
+                    </EditPersonSkillForm>
+                </Box>
             </Flex>
 
-            <SimpleGrid columns={2} h={1}>
+            <SimpleGrid columns={2} gap={1}>
                 {person.skills.map((skill) => (
                     <PersonSkillItem domainId={domainId} userId={person.person.userId} skill={skill} />
                 ))}
@@ -76,12 +73,13 @@ export const PersonSkillItem = (props: PersonSkillItemProps) => {
         },
     });
 
-    const [ref, isHovering] = useHover();
+    const [isHovering, setIsHovering] = useState(false);
 
     return (
         <>
             <Flex
-                ref={ref}
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
                 key={skill.skillId}
                 _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }}
                 rounded={6}
@@ -91,7 +89,7 @@ export const PersonSkillItem = (props: PersonSkillItemProps) => {
                 alignItems={'center'}
             >
                 <Text
-                    fontSize={12}
+                    fontSize={14}
                     fontWeight={400}
                     flex={1}
                     whiteSpace={'nowrap'}
@@ -101,7 +99,12 @@ export const PersonSkillItem = (props: PersonSkillItemProps) => {
                     {skill.skillName}
                 </Text>
 
-                <CloseIconButton hidden={!isHovering} ml={'auto'} size={'xs'} onClick={deleteDialog.onOpen} />
+                <CloseIconButton
+                    visibility={isHovering ? 'visible' : 'hidden'}
+                    ml={'auto'}
+                    variant={'ghost'}
+                    onClick={deleteDialog.onOpen}
+                />
             </Flex>
 
             <ConfirmDialog
@@ -151,25 +154,35 @@ export const EditPersonSkillForm = (props: EditPersonSkillFormProps) => {
     });
 
     const close = () => {
-        menu.onClose();
         form.reset();
+        menu.onClose();
     };
 
     const submit = async (data: EditPersonSkillData) => {
         await createPersonSkill(data);
+        form.reset();
         close();
     };
 
     if (!allSkills || isLoading) return null;
 
     return (
-        <Popover.Root isOpen={menu.open} onOpen={menu.onOpen} onClose={close}>
+        <PopoverRoot
+            open={menu.open}
+            onOpenChange={(details: { open: boolean }) => {
+                if (details.open) {
+                    menu.onOpen();
+                } else {
+                    menu.onClose();
+                }
+            }}
+        >
             <PopoverTrigger>{props.children}</PopoverTrigger>
 
-            <form onSubmit={form.handleSubmit(submit)}>
-                <PopoverContent mr={2} backgroundColor={'white'}>
+            <PopoverContent mr={2} backgroundColor={'white'}>
+                <form onSubmit={form.handleSubmit(submit)}>
                     <PopoverBody p={4}>
-                        <Stack h={4}>
+                        <Flex direction={'column'}>
                             <FormCreateSelect
                                 label={'Skill'}
                                 name={'skillId'}
@@ -189,32 +202,22 @@ export const EditPersonSkillForm = (props: EditPersonSkillFormProps) => {
                                     queryClient.setQueryData(['searchSkills', { domainId }], [...allSkills, skill]);
                                 }}
                             />
-                        </Stack>
+                        </Flex>
                     </PopoverBody>
 
                     <PopoverFooter>
                         <ButtonGroup width={'100%'} justifyContent={'flex-end'}>
-                            <Button
-                                size={'sm'}
-                                colorPalette={'red'}
-                                onClick={close}
-                                disabled={form.formState.isSubmitting}
-                            >
+                            <Button colorPalette={'red'} onClick={close} disabled={form.formState.isSubmitting}>
                                 Cancel
                             </Button>
 
-                            <Button
-                                size={'sm'}
-                                colorScheme={'blue'}
-                                type={'submit'}
-                                loading={form.formState.isSubmitting}
-                            >
+                            <Button type={'submit'} loading={form.formState.isSubmitting}>
                                 Add
                             </Button>
                         </ButtonGroup>
                     </PopoverFooter>
-                </PopoverContent>
-            </form>
-        </Popover.Root>
+                </form>
+            </PopoverContent>
+        </PopoverRoot>
     );
 };

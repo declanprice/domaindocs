@@ -4,20 +4,20 @@ import {
     EditPersonRoleData,
     DetailedPerson,
     Person,
-    PersonContact,
-    PersonContactType,
     PersonRole,
     PersonSkill,
     PersonTeam,
     SearchPeopleParams,
     EditPersonSkillData,
-    EditPersonContactData,
     SearchPerson,
     PagedResult,
+    EditContactData,
+    Contact,
+    ContactType,
+    EditDescriptionData,
 } from '@domaindocs/types';
 import { PrismaService } from '../../shared/prisma.service';
 import { v4 } from 'uuid';
-import { EditPersonAboutMeData } from '../../../../shared/types/src/person/edit-person-about-me-data';
 
 @Injectable()
 export class PeopleService {
@@ -118,9 +118,7 @@ export class PeopleService {
                 result.user.email,
                 result.user.iconUri,
             ),
-            result.contacts.map(
-                (c) => new PersonContact(c.contactId, c.type as PersonContactType, c.description, c.href),
-            ),
+            result.contacts.map((c) => new Contact(c.contactId, c.type as ContactType, c.description, c.href)),
             result.skills.map((s) => new PersonSkill(s.skill.skillId, s.skill.name)),
             result.teamMembers.map((t) => new PersonTeam(t.team.teamId, t.team.name, t.team.iconUri)),
             result.roles.map((r) => new PersonRole(r.role.roleId, r.role.name, r.isPrimary)),
@@ -280,11 +278,11 @@ export class PeopleService {
         return this.getPerson(session, domainId, userId);
     }
 
-    async createContact(
+    async addContact(
         session: UserSession,
         domainId: string,
         userId: string,
-        data: EditPersonContactData,
+        data: EditContactData,
     ): Promise<DetailedPerson> {
         await this.prisma.personContact.create({
             data: {
@@ -305,7 +303,7 @@ export class PeopleService {
         domainId: string,
         userId: string,
         contactId: string,
-        data: EditPersonContactData,
+        data: EditContactData,
     ): Promise<DetailedPerson> {
         await this.prisma.personContact.update({
             where: {
@@ -321,7 +319,7 @@ export class PeopleService {
         return this.getPerson(session, domainId, userId);
     }
 
-    async deleteContact(
+    async removeContact(
         session: UserSession,
         domainId: string,
         userId: string,
@@ -336,11 +334,11 @@ export class PeopleService {
         return this.getPerson(session, domainId, userId);
     }
 
-    async updateAboutMe(
+    async updateDescription(
         session: UserSession,
         domainId: string,
         userId: string,
-        data: EditPersonAboutMeData,
+        data: EditDescriptionData,
     ): Promise<DetailedPerson> {
         await this.prisma.person.update({
             where: {

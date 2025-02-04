@@ -1,3 +1,5 @@
+import { Contact } from '../contacts';
+
 export class PersonTeam {
     constructor(
         public teamId: string,
@@ -21,21 +23,6 @@ export class PersonRole {
     ) {}
 }
 
-export enum PersonContactType {
-    EMAIL = 'Email',
-    MOBILE = 'Mobile',
-    LINK = 'Link',
-}
-
-export class PersonContact {
-    constructor(
-        public contactId: string,
-        public type: PersonContactType,
-        public description: string,
-        public href?: string,
-    ) {}
-}
-
 export class Person {
     constructor(
         public userId: string,
@@ -51,7 +38,7 @@ export class Person {
 export class DetailedPerson {
     constructor(
         public person: Person,
-        public contacts: PersonContact[],
+        public contacts: Contact[],
         public skills: PersonSkill[],
         public teams: PersonTeam[],
         public roles: PersonRole[],
