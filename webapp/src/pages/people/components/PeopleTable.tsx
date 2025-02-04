@@ -19,14 +19,14 @@ export const PeopleTable = (props: PeopleTableProps) => {
                 {
                     label: 'Person',
                     render: (data: SearchPerson) => (
-                        <Flex alignItems="center" gap={2}>
+                        <Flex alignItems="center" gap={3}>
                             <Avatar
-                                size={'xs'}
+                                size={'sm'}
                                 name={`${data.person.firstName} ${data.person.lastName}`}
                                 src={data.person.iconUri}
                             />
 
-                            <Text>
+                            <Text fontSize={14}>
                                 {data.person.firstName} {data.person.lastName}
                             </Text>
                         </Flex>
@@ -38,7 +38,7 @@ export const PeopleTable = (props: PeopleTableProps) => {
                 {
                     label: 'Email',
                     render: (data: SearchPerson) => {
-                        return <Text>{data.person.email}</Text>;
+                        return <Text fontSize={14}>{data.person.email}</Text>;
                     },
                     onClick: (row) => {
                         console.log('clicked row', row);
@@ -50,10 +50,10 @@ export const PeopleTable = (props: PeopleTableProps) => {
                         const role = data.roles.find((r) => r.isPrimary);
 
                         if (!role) {
-                            return <Text>No Role</Text>;
+                            return <Text fontSize={14}>No Role</Text>;
                         }
 
-                        return <Text fontSize={12}>{role.roleName}</Text>;
+                        return <Text fontSize={14}>{role.roleName}</Text>;
                     },
                     onClick: (row) => {
                         console.log('clicked row', row);
@@ -65,13 +65,13 @@ export const PeopleTable = (props: PeopleTableProps) => {
                         const skills = data.skills;
 
                         if (!skills.length) {
-                            return <Text>None</Text>;
+                            return <Text fontSize={14}>None</Text>;
                         }
 
                         return (
                             <Popover.Root>
                                 <PopoverTrigger>
-                                    <Text _hover={{ textDecoration: 'underline' }} cursor={'pointer'}>
+                                    <Text fontSize={14} _hover={{ textDecoration: 'underline' }} cursor={'pointer'}>
                                         {skills.length} {`${skills.length > 1 ? 'Skills' : 'Skill'}`}
                                     </Text>
                                 </PopoverTrigger>
@@ -80,7 +80,7 @@ export const PeopleTable = (props: PeopleTableProps) => {
                                     <PopoverBody>
                                         <Stack h={2}>
                                             {skills.map((s) => (
-                                                <Text key={s.skillId} fontSize={12}>
+                                                <Text key={s.skillId} fontSize={14}>
                                                     {s.skillName}
                                                 </Text>
                                             ))}
@@ -100,7 +100,7 @@ export const PeopleTable = (props: PeopleTableProps) => {
                     render: (data: SearchPerson) => {
                         return (
                             <Flex>
-                                <IconButton ml={'auto'} aria-label={'teams-menu'} variant={'ghost'} size={'sm'}>
+                                <IconButton ml={'auto'} aria-label={'teams-menu'} variant={'ghost'}>
                                     <TbDots />
                                 </IconButton>
                             </Flex>

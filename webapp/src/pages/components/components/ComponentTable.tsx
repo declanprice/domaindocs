@@ -21,11 +21,11 @@ export const ComponentTable = (props: ComponentTableProps) => {
                     label: 'Component',
                     render: (data: SearchComponent) => {
                         return (
-                            <Flex alignItems="center" gap={2}>
+                            <Flex alignItems="center" gap={3}>
                                 <Flex alignItems={'center'} backgroundColor={'teal.400'} rounded={6} p={2}>
-                                    <LuComponent color={'white'} />{' '}
+                                    <LuComponent color={'white'} size={18} />
                                 </Flex>
-                                <Link>{data.component.name}</Link>
+                                <Link textStyle={'sm'}>{data.component.name}</Link>
                             </Flex>
                         );
                     },
@@ -38,7 +38,11 @@ export const ComponentTable = (props: ComponentTableProps) => {
                     render: (data: SearchComponent) => {
                         if (data.team) {
                             return (
-                                <Link target={'_blank'} href={`/${domainId}/teams/${data.team.teamId}`}>
+                                <Link
+                                    textStyle={'sm'}
+                                    target={'_blank'}
+                                    href={`/${domainId}/teams/${data.team.teamId}`}
+                                >
                                     {data.team.name}
                                 </Link>
                             );
@@ -51,7 +55,7 @@ export const ComponentTable = (props: ComponentTableProps) => {
                 {
                     label: 'Subdomain',
                     render: (data: SearchComponent) => {
-                        return <Text>{data.subdomain?.name ? data.subdomain.name : 'No Subdomain'}</Text>;
+                        return <Text fontSize={14}>{data.subdomain?.name ? data.subdomain.name : 'No Subdomain'}</Text>;
                     },
                     onClick: () => {},
                 },
