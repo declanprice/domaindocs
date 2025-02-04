@@ -19,19 +19,6 @@ import { DocsPage } from './pages/docs/DocsPage';
 import { TeamOverviewPage } from './pages/team/TeamOverviewPage';
 import { UserSettingsPage } from './pages/user-settings/UserSettingsPage';
 import { PersonOverviewPage } from './pages/person/PersonOverviewPage';
-import { WorkAreasPage } from './pages/work-areas/WorkAreasPage';
-import { WorkAreaBoardPage } from './pages/work-area/WorkAreaBoardPage';
-import { WorkAreaBacklogPage } from './pages/work-area/WorkAreaBacklogPage';
-import { WorkAreaItemsPage } from './pages/work-area/WorkAreaItemsPage';
-import { WorkAreaIntegrationsPage } from './pages/work-area/WorkAreaIntegrationsPage';
-import { WorkAreaSettingsPage } from './pages/work-area/WorkAreaSettingsPage';
-import { TicketDeskDashboardPage } from './pages/ticket-desk/TicketDeskDashboardPage';
-import { TicketDeskBrowsePage } from './pages/ticket-desk/TicketDeskBrowsePage';
-import { TicketDeskYourSubmissionsPage } from './pages/ticket-desk/TicketDeskYourSubmissionsPage';
-import { TicketOverviewPage } from './pages/ticket/TicketOverviewPage';
-import { TicketFieldsPage } from './pages/ticket/TicketFieldsPage';
-import { TicketIntegrationsPage } from './pages/ticket/TicketIntegrationsPage';
-import { TicketSettingsPage } from './pages/ticket/TicketSettingsPage';
 import { DomainDocsPage } from './pages/domain/DomainDocsPage';
 import { TeamDocsPage } from './pages/team/TeamDocsPage';
 import { TeamSettingsPage } from './pages/team/TeamSettingsPage';
@@ -50,20 +37,13 @@ import { PersonWorkPage } from './pages/person/PersonWorkPage';
 import { TeamPageNavBar } from './pages/team/TeamPageNavBar';
 import { TeamWorkPage } from './pages/team/TeamWorkPage';
 import { ComponentPageNavBar } from './pages/component/ComponentPageNavBar';
-import { ComponentWorkPage } from './pages/component/ComponentWorkPage';
-import { ComponentAnnouncementsPage } from './pages/component/ComponentAnnouncementsPage';
 import { ComponentDependenciesPage } from './pages/component/ComponentDependenciesPage';
-import { TicketDeskPageNavBar } from './pages/ticket-desk/TicketDeskPageNavBar';
-import { TicketPageNavBar } from './pages/ticket/TicketPageNavBar';
-import { TicketSubmissionPage } from './pages/ticket-submission/TicketSubmissionPage';
-import { TicketSubmissionPageNavBar } from './pages/ticket-submission/TicketSubmissionPageNavBar';
 import { OnboardingCentreDashboardPage } from './pages/onboarding-centre/OnboardingCentreDashboardPage';
 import { OnboardingCentrePageNavBar } from './pages/onboarding-centre/OnboardingCentrePageNavBar';
 import { OnboardingCentreBrowsePage } from './pages/onboarding-centre/OnboardingCentreBrowsePage';
 import { OnboardingGuidePageNavBar } from './pages/onboarding-guide/OnboardingGuidePageNavBar';
 import { OnboardingGuideStepsPage } from './pages/onboarding-guide/OnboardingGuideStepsPage';
 import { OnboardingGuideSettingsPage } from './pages/onboarding-guide/OnboardingGuideSettingsPage';
-import { WorkAreaPageNavBar } from './pages/work-area/WorkAreaPageNavBar';
 import { SubdomainsPage } from './pages/subdomains/SubdomainsPage';
 import { SubdomainsNavBar } from './pages/subdomain/SubdomainsNavBar';
 import { SubdomainOverviewPage } from './pages/subdomain/SubdomainOverviewPage';
@@ -249,16 +229,8 @@ export const routes = createBrowserRouter([
                                                 element: <ComponentDocsPage />,
                                             },
                                             {
-                                                path: 'work',
-                                                element: <ComponentWorkPage />,
-                                            },
-                                            {
                                                 path: 'deps',
                                                 element: <ComponentDependenciesPage />,
-                                            },
-                                            {
-                                                path: 'announcements',
-                                                element: <ComponentAnnouncementsPage />,
                                             },
                                             {
                                                 path: 'settings',
@@ -284,109 +256,109 @@ export const routes = createBrowserRouter([
                                                 element: <DocsPage />,
                                             },
                                         ],
-                                    },
-                                    {
-                                        path: 'work-areas',
-                                        element: <RootLayout navbar={<RootNavBar />} />,
-                                        children: [
-                                            {
-                                                path: '',
-                                                element: <WorkAreasPage />,
-                                            },
-                                        ],
-                                    },
-                                    {
-                                        path: 'work-areas/:areaId',
-                                        element: <RootLayout navbar={<WorkAreaPageNavBar />} />,
-                                        children: [
-                                            {
-                                                path: '',
-                                                element: <Navigate to={'board'} />,
-                                            },
-                                            {
-                                                path: 'board',
-                                                element: <WorkAreaBoardPage />,
-                                            },
-                                            {
-                                                path: 'backlog',
-                                                element: <WorkAreaBacklogPage />,
-                                            },
-                                            {
-                                                path: 'items',
-                                                element: <WorkAreaItemsPage />,
-                                            },
-                                            {
-                                                path: 'integrations',
-                                                element: <WorkAreaIntegrationsPage />,
-                                            },
-                                            {
-                                                path: 'settings',
-                                                element: <WorkAreaSettingsPage />,
-                                            },
-                                        ],
-                                    },
-                                    {
-                                        path: 'ticket-desk',
-                                        element: <RootLayout navbar={<TicketDeskPageNavBar />} />,
-                                        children: [
-                                            {
-                                                path: '',
-                                                element: <Navigate to={'dashboard'} />,
-                                            },
-                                            {
-                                                path: 'dashboard',
-                                                element: <TicketDeskDashboardPage />,
-                                            },
-                                            {
-                                                path: 'browse',
-                                                element: <TicketDeskBrowsePage />,
-                                            },
-                                            {
-                                                path: 'submissions',
-                                                element: <TicketDeskYourSubmissionsPage />,
-                                            },
-                                        ],
-                                    },
-                                    {
-                                        path: 'ticket-desk/:ticketId',
-                                        element: <RootLayout navbar={<TicketPageNavBar />} />,
-                                        children: [
-                                            {
-                                                path: '',
-                                                element: <Navigate to={'overview'} />,
-                                            },
-                                            {
-                                                path: 'overview',
-                                                element: <TicketOverviewPage />,
-                                            },
-                                            {
-                                                path: 'fields',
-                                                element: <TicketFieldsPage />,
-                                            },
-                                            {
-                                                path: 'integrations',
-                                                element: <TicketIntegrationsPage />,
-                                            },
-                                            {
-                                                path: 'settings',
-                                                element: <TicketSettingsPage />,
-                                            },
-                                        ],
-                                    },
-                                    {
-                                        path: 'ticket-desk/:ticketId/submissions/:submissionId',
-                                        element: <RootLayout navbar={<TicketSubmissionPageNavBar />} />,
-                                        children: [
-                                            {
-                                                path: '',
-                                                element: <Navigate to={'submission'} />,
-                                            },
-                                            {
-                                                path: 'submission',
-                                                element: <TicketSubmissionPage />,
-                                            },
-                                        ],
-                                    },
+                                    }, // {
+                                    //     path: 'work-areas',
+                                    //     element: <RootLayout navbar={<RootNavBar />} />,
+                                    //     children: [
+                                    //         {
+                                    //             path: '',
+                                    //             element: <WorkAreasPage />,
+                                    //         },
+                                    //     ],
+                                    // },
+                                    // {
+                                    //     path: 'work-areas/:areaId',
+                                    //     element: <RootLayout navbar={<WorkAreaPageNavBar />} />,
+                                    //     children: [
+                                    //         {
+                                    //             path: '',
+                                    //             element: <Navigate to={'board'} />,
+                                    //         },
+                                    //         {
+                                    //             path: 'board',
+                                    //             element: <WorkAreaBoardPage />,
+                                    //         },
+                                    //         {
+                                    //             path: 'backlog',
+                                    //             element: <WorkAreaBacklogPage />,
+                                    //         },
+                                    //         {
+                                    //             path: 'items',
+                                    //             element: <WorkAreaItemsPage />,
+                                    //         },
+                                    //         {
+                                    //             path: 'integrations',
+                                    //             element: <WorkAreaIntegrationsPage />,
+                                    //         },
+                                    //         {
+                                    //             path: 'settings',
+                                    //             element: <WorkAreaSettingsPage />,
+                                    //         },
+                                    //     ],
+                                    // },
+                                    //
+                                    //   {
+                                    //       path: 'ticket-desk',
+                                    //       element: <RootLayout navbar={<TicketDeskPageNavBar />} />,
+                                    //       children: [
+                                    //           {
+                                    //               path: '',
+                                    //               element: <Navigate to={'dashboard'} />,
+                                    //           },
+                                    //           {
+                                    //               path: 'dashboard',
+                                    //               element: <TicketDeskDashboardPage />,
+                                    //           },
+                                    //           {
+                                    //               path: 'browse',
+                                    //               element: <TicketDeskBrowsePage />,
+                                    //           },
+                                    //           {
+                                    //               path: 'submissions',
+                                    //               element: <TicketDeskYourSubmissionsPage />,
+                                    //           },
+                                    //       ],
+                                    //   },
+                                    //   {
+                                    //       path: 'ticket-desk/:ticketId',
+                                    //       element: <RootLayout navbar={<TicketPageNavBar />} />,
+                                    //       children: [
+                                    //           {
+                                    //               path: '',
+                                    //               element: <Navigate to={'overview'} />,
+                                    //           },
+                                    //           {
+                                    //               path: 'overview',
+                                    //               element: <TicketOverviewPage />,
+                                    //           },
+                                    //           {
+                                    //               path: 'fields',
+                                    //               element: <TicketFieldsPage />,
+                                    //           },
+                                    //           {
+                                    //               path: 'integrations',
+                                    //               element: <TicketIntegrationsPage />,
+                                    //           },
+                                    //           {
+                                    //               path: 'settings',
+                                    //               element: <TicketSettingsPage />,
+                                    //           },
+                                    //       ],
+                                    //   },
+                                    //   {
+                                    //       path: 'ticket-desk/:ticketId/submissions/:submissionId',
+                                    //       element: <RootLayout navbar={<TicketSubmissionPageNavBar />} />,
+                                    //       children: [
+                                    //           {
+                                    //               path: '',
+                                    //               element: <Navigate to={'submission'} />,
+                                    //           },
+                                    //           {
+                                    //               path: 'submission',
+                                    //               element: <TicketSubmissionPage />,
+                                    //           },
+                                    //       ],
+                                    //   },
                                     {
                                         path: 'onboarding-centre',
                                         element: <RootLayout navbar={<OnboardingCentrePageNavBar />} />,

@@ -19,12 +19,12 @@ import {
     EditComponentOwnershipData,
     EditComponentContactData,
     PagedResult,
+    EditComponentSubdomainData,
+    EditComponentLabelData,
 } from '@domaindocs/types';
 import { v4 } from 'uuid';
 import { createSlug } from '../../util/create-slug';
 import { PrismaService } from '../../shared/prisma.service';
-import { EditComponentSubdomainData } from '../../../../shared/types/src/component/edit-component-subdomain-data';
-import { EditComponentLabelData } from '../../../../shared/types/src/component/edit-component-label-data';
 
 @Injectable()
 export class ComponentsService {
@@ -68,6 +68,7 @@ export class ComponentsService {
                         component.name,
                         component.type as ComponentType,
                         component.description,
+                        component.dateCreated.toISOString(),
                     ),
                     component.ownerTeam
                         ? new ComponentOwnerTeam(component.ownerTeam.teamId, component.ownerTeam.name)
@@ -108,6 +109,7 @@ export class ComponentsService {
                 component.name,
                 component.type as ComponentType,
                 component.description,
+                component.dateCreated.toISOString(),
             ),
             component.ownerTeam ? new ComponentOwnerTeam(component.ownerTeam.teamId, component.ownerTeam.name) : null,
             component.subdomain

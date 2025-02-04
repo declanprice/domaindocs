@@ -12,6 +12,7 @@ export const deedSearchComponent = (): Component => {
         subdomainId: null,
         domainId: ros().domainId,
         name: 'Deed Search',
+        dateCreated: new Date(),
         description: 'Deed search is a web service built to allow people within ROS to search for deeds.',
     };
 };

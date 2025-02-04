@@ -3,7 +3,6 @@ import { useUiStore } from '../../state/stores/ui.store';
 import { NavButton } from '../../components/nav-button/NavButton';
 import { MdArrowBack, MdOutlineCompareArrows } from 'react-icons/md';
 import { LuComponent, LuListMinus, LuSettings } from 'react-icons/lu';
-import { LuNetwork } from 'react-icons/lu';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DetailedComponent } from '@domaindocs/types';
 import { useQuery } from '@tanstack/react-query';
@@ -11,7 +10,6 @@ import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { HiOutlineDocumentText } from 'react-icons/hi';
 import { componentsApi } from '../../state/api/components-api';
 import { ComponentPageParams } from './ComponentPageParams';
-import { GrAnnounce } from 'react-icons/gr';
 
 export const ComponentPageNavBar = () => {
     const { domainId, componentId } = useParams() as ComponentPageParams;
@@ -55,20 +53,20 @@ export const ComponentPageNavBar = () => {
 
             <Box divideY={'1px'} />
 
-            <Flex mt={2} px={4} width={'100%'} gap={2} alignItems="center">
+            <Flex mt={2} px={4} width={'100%'} gap={3} alignItems="center">
                 <Flex alignItems={'center'} backgroundColor={'teal.400'} rounded={6} p={2}>
                     <LuComponent color={'white'} />
                 </Flex>
 
-                <Stack h={0}>
+                <Flex direction={'column'}>
                     <Text color={'gray.900'} fontSize={14} fontWeight={'400'}>
                         {component.component.name}
                     </Text>
 
-                    <Text color={'gray.900'} fontSize={10} fontWeight={'300'}>
+                    <Text color={'gray.900'} fontSize={12} fontWeight={'300'}>
                         Component
                     </Text>
-                </Stack>
+                </Flex>
             </Flex>
 
             <Flex
@@ -99,18 +97,6 @@ export const ComponentPageNavBar = () => {
                     icon={<MdOutlineCompareArrows color={'gray.900'} size={18} />}
                     label={'Dependencies'}
                     to={`/${activeDomain.domainId}/components/${componentId}/deps`}
-                />
-
-                <NavButton
-                    icon={<GrAnnounce color={'gray.900'} size={18} />}
-                    label={'Announcements'}
-                    to={`/${activeDomain.domainId}/components/${componentId}/announcements`}
-                />
-
-                <NavButton
-                    icon={<LuNetwork color={'gray.900'} size={18} />}
-                    label={'Work'}
-                    to={`/${activeDomain.domainId}/components/${componentId}/work`}
                 />
 
                 <NavButton

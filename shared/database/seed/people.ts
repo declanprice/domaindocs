@@ -3,7 +3,7 @@ import { benUser, declanUser, natashaUser } from './users';
 import { ros } from './domain';
 import { softwareDevRole, teamLeadRole } from './roles';
 import { apiDevSkill, devOpsSkill, uiDevSkill } from './skills';
-import { PersonContactType } from '../../types/src';
+import { ContactType } from '../../types/src';
 import { v4 } from 'uuid';
 
 export const declanPerson = (): Person => {
@@ -39,7 +39,7 @@ export const personContacts = (): PersonContact[] => {
             contactId: v4(),
             userId: declanUser().userId,
             domainId: ros().domainId,
-            type: PersonContactType.EMAIL,
+            type: ContactType.EMAIL,
             description: 'declanprice1@gmail.com',
             href: null,
         },
@@ -47,7 +47,7 @@ export const personContacts = (): PersonContact[] => {
             contactId: v4(),
             userId: benUser().userId,
             domainId: ros().domainId,
-            type: PersonContactType.MOBILE,
+            type: ContactType.MOBILE,
             description: '0732564895',
             href: null,
         },
@@ -55,7 +55,7 @@ export const personContacts = (): PersonContact[] => {
             contactId: v4(),
             userId: natashaUser().userId,
             domainId: ros().domainId,
-            type: PersonContactType.LINK,
+            type: ContactType.LINK,
             href: 'https://google.com',
             description: 'Google',
         },

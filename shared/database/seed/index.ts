@@ -46,12 +46,14 @@ const client = new PrismaClient();
 
     await client.file.deleteMany();
 
-    await client.subdomainTeam.deleteMany();
     await client.subdomainLink.deleteMany();
     await client.subdomainContact.deleteMany();
     await client.subdomain.deleteMany();
 
+    await client.domainContact.deleteMany();
+    await client.domainLink.deleteMany();
     await client.domain.deleteMany();
+
     await client.user.deleteMany();
 
     /** INSERTS **/

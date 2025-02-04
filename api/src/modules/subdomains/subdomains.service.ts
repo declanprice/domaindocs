@@ -60,6 +60,25 @@ export class SubdomainsService {
         };
     }
 
+    async getAll(session: UserSession, domainId: string): Promise<Subdomain[]> {
+        const subdomains = await this.prisma.subdomain.findMany({
+            where: {
+                domainId,
+            },
+        });
+
+        return subdomains.map(
+            (subdomain) =>
+                new Subdomain(
+                    subdomain.domainId,
+                    subdomain.subdomainId,
+                    subdomain.name,
+                    subdomain.description,
+                    subdomain.dateCreated.toISOString(),
+                ),
+        );
+    }
+
     async get(session: UserSession, domainId: string, subdomainId: string): Promise<DetailedSubdomain> {
         const subdomain = await this.prisma.subdomain.findUnique({
             where: { domainId: domainId, subdomainId: subdomainId },

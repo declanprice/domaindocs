@@ -317,13 +317,14 @@ model TeamLabel {
 }
 
 model Component {
-  componentId String  @id @map("component_id")
-  domainId    String  @map("domain_id")
-  name        String  @map("name")
-  description String  @default("") @map("description")
-  type        String  @map("type")
-  ownerTeamId String? @map("owner_team_id")
-  subdomainId String? @map("subdomain_id")
+  componentId String   @id @map("component_id")
+  domainId    String   @map("domain_id")
+  name        String   @map("name")
+  description String   @default("") @map("description")
+  type        String   @map("type")
+  ownerTeamId String?  @map("owner_team_id")
+  subdomainId String?  @map("subdomain_id")
+  dateCreated DateTime @default(now()) @map("date_created")
 
   domain    Domain     @relation(fields: [domainId], references: [domainId])
   subdomain Subdomain? @relation(fields: [subdomainId], references: [subdomainId])

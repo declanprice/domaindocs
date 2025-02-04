@@ -57,6 +57,7 @@ export class Component {
         public name: string,
         public type: ComponentType,
         public description: string,
+        public dateCreated: string,
     ) {}
 }
 

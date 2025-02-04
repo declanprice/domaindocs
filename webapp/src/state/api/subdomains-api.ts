@@ -21,6 +21,12 @@ export const subdomainsApi = (() => {
         return result.data;
     };
 
+    const getAll = async (domainId: string): Promise<Subdomain[]> => {
+        const result = await apiClient.get<Subdomain[]>(`/domains/${domainId}/subdomains/lookup`);
+
+        return result.data;
+    };
+
     const create = async (domainId: string, dto: CreateSubdomainData): Promise<void> => {
         await apiClient.post(`/domains/${domainId}/subdomains`, dto);
     };
@@ -110,6 +116,7 @@ export const subdomainsApi = (() => {
 
     return {
         search,
+        getAll,
         create,
         get,
         remove,

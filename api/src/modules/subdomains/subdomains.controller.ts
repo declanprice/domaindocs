@@ -25,6 +25,11 @@ export class SubdomainsController {
         return this.subdomainsService.search(session, domainId, params);
     }
 
+    @Get('lookup')
+    async getAll(@AuthSession() session: UserSession, @Param('domainId') domainId: string) {
+        return this.subdomainsService.getAll(session, domainId);
+    }
+
     @Post('/')
     async create(
         @AuthSession() session: UserSession,
