@@ -1,5 +1,5 @@
 import { Box, Button, ButtonGroup, Flex, Link, Portal, Stack, Text, useDisclosure } from '@chakra-ui/react';
-import { AddTeamMemberData, PagedResult, Person, SearchPerson, TeamMember } from '@domaindocs/types';
+import { AddTeamMemberData, Person, TeamMember } from '@domaindocs/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { CloseIconButton } from '../../../components/buttons/CloseIconButton';
 import { ConfirmDialog } from '../../../components/dialogs/ConfirmDialog';
@@ -89,8 +89,8 @@ export const TeamMemberListItem = (props: TeamMemberListItemProps) => {
                     </Link>
                 </Flex>
 
-                <ButtonGroup display={'none'} visibility={isHovering ? 'visible' : 'hidden'} gap={1} ml={'auto'}>
-                    <CloseIconButton onClick={deleteDialog.onOpen} />
+                <ButtonGroup visibility={isHovering ? 'visible' : 'hidden'} gap={1} ml={'auto'}>
+                    <CloseIconButton variant={'ghost'} onClick={deleteDialog.onOpen} />
                 </ButtonGroup>
             </Flex>
 
@@ -114,17 +114,10 @@ export const TeamMemberForm = (props: TeamMemberFormProps) => {
 
     const menu = useDisclosure();
 
-    const { data: allPeopleResult, isLoading: isPeopleLoading } = useQuery<PagedResult<SearchPerson>>({
-        queryKey: ['searchPeople', { domainId, page: 0, pageSize: 1000 }],
-        queryFn: () =>
-            peopleApi.search(domainId, {
-                take: 1000,
-                offset: 0,
-            }),
-        initialData: {
-            data: [],
-            total: 0,
-        },
+    const { data: allPeopleResult, isLoading: isPeopleLoading } = useQuery({
+        queryKey: ['getAllPeople', { domainId }],
+        queryFn: () => peopleApi.getAll(domainId),
+        initialData: [],
     });
 
     const { mutateAsync: addMember } = useMutation<void, any, AddTeamMemberData>({
@@ -170,7 +163,7 @@ export const TeamMemberForm = (props: TeamMemberFormProps) => {
                                     name={'userId'}
                                     control={form.control}
                                     isLoading={isPeopleLoading}
-                                    options={allPeopleResult.data.map(({ person }) => ({
+                                    options={allPeopleResult.map((person) => ({
                                         label: `${person.firstName} ${person.lastName}`,
                                         value: person.userId,
                                         person,

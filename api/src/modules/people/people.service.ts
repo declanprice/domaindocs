@@ -81,6 +81,30 @@ export class PeopleService {
         };
     }
 
+    async getAll(session: UserSession, domainId: string): Promise<Person[]> {
+        const results = await this.prisma.person.findMany({
+            where: {
+                domainId: domainId,
+            },
+            include: {
+                user: true,
+            },
+        });
+
+        return results.map(
+            (p) =>
+                new Person(
+                    p.userId,
+                    p.user.firstName,
+                    p.user.lastName,
+                    p.description,
+                    p.dateJoined.toISOString(),
+                    p.user.email,
+                    p.user.iconUri,
+                ),
+        );
+    }
+
     async getPerson(session: UserSession, domainId: string, userId: string): Promise<DetailedPerson> {
         const result = await this.prisma.person.findFirstOrThrow({
             where: {

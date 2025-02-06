@@ -7,7 +7,6 @@ import {
     DetailedPerson,
     EditPersonRoleData,
     EditPersonSkillData,
-    SearchPerson,
     EditDescriptionData,
     EditContactData,
 } from '@domaindocs/types';
@@ -24,6 +23,11 @@ export class PeopleController {
         @Query() params: SearchPeopleParams,
     ) {
         return this.peopleService.searchPeople(session, domainId, params);
+    }
+
+    @Get('lookup')
+    async getAll(@AuthSession() session: UserSession, @Param('domainId') domainId: string) {
+        return this.peopleService.getAll(session, domainId);
     }
 
     @Get(':userId')

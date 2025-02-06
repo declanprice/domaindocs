@@ -5,11 +5,11 @@ import {
     SearchPeopleParams,
     EditPersonRoleData,
     EditPersonSkillData,
-    EditPersonContactData,
     SearchPerson,
     PagedResult,
     EditDescriptionData,
     EditContactData,
+    Person,
 } from '@domaindocs/types';
 
 import { queryClient } from '../query-client';
@@ -19,6 +19,12 @@ export const peopleApi = (() => {
         const result = await apiClient.get<PagedResult<SearchPerson>>(`/domains/${domainId}/people`, {
             params,
         });
+
+        return result.data;
+    };
+
+    const getAll = async (domainId: string): Promise<Person[]> => {
+        const result = await apiClient.get<Person[]>(`/domains/${domainId}/people/lookup`);
 
         return result.data;
     };
@@ -100,6 +106,7 @@ export const peopleApi = (() => {
     return {
         search,
         get,
+        getAll,
         createSkill,
         deleteSkill,
         createRole,

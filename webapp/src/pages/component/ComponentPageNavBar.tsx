@@ -1,7 +1,7 @@
-import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useUiStore } from '../../state/stores/ui.store';
 import { NavButton } from '../../components/nav-button/NavButton';
-import { MdArrowBack, MdOutlineCompareArrows } from 'react-icons/md';
+import { MdArrowBack, MdOutlineCompareArrows, MdOutlineBugReport } from 'react-icons/md';
 import { LuComponent, LuListMinus, LuSettings } from 'react-icons/lu';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DetailedComponent } from '@domaindocs/types';
@@ -10,6 +10,7 @@ import { LoadingContainer } from '../../components/loading/LoadingContainer';
 import { HiOutlineDocumentText } from 'react-icons/hi';
 import { componentsApi } from '../../state/api/components-api';
 import { ComponentPageParams } from './ComponentPageParams';
+import { FaWpforms } from 'react-icons/fa';
 
 export const ComponentPageNavBar = () => {
     const { domainId, componentId } = useParams() as ComponentPageParams;
@@ -97,6 +98,18 @@ export const ComponentPageNavBar = () => {
                     icon={<MdOutlineCompareArrows color={'gray.900'} size={18} />}
                     label={'Dependencies'}
                     to={`/${activeDomain.domainId}/components/${componentId}/deps`}
+                />
+
+                <NavButton
+                    icon={<MdOutlineBugReport color={'gray.900'} size={18} />}
+                    label={'Issues'}
+                    to={`/${activeDomain.domainId}/components/${componentId}/issues`}
+                />
+
+                <NavButton
+                    icon={<FaWpforms color={'gray.900'} size={18} />}
+                    label={'Requests'}
+                    to={`/${activeDomain.domainId}/components/${componentId}/requests`}
                 />
 
                 <NavButton
