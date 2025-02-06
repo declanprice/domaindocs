@@ -95,7 +95,7 @@ export const DomainSettingsPage = () => {
                     <Avatar name={'Registers Of Scotland'} size={'lg'} rounded={4} />
 
                     <FormTextInput
-                        name={'domainName'}
+                        name={'name'}
                         control={form.control}
                         onChange={debounce(() => {
                             form.handleSubmit(onUpdateName)();

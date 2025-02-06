@@ -27,6 +27,7 @@ export class FilesService {
         data: GenerateFileSignedUrlData,
     ): Promise<FileWithSignedUrl> {
         const fileId = v4();
+
         const key = `${domainId}/${fileId}`;
 
         const file = await this.prisma.file.create({

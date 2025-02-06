@@ -292,6 +292,7 @@ export class PeopleService {
                 userId,
                 contactId: v4(),
                 description: data.description,
+                reason: data.reason,
                 href: data.href,
                 type: data.type,
             },

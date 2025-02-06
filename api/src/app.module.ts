@@ -10,8 +10,6 @@ import { DocumentationModule } from './modules/documentation/documentation.modul
 import { RolesModule } from './modules/roles/roles.module';
 import { SkillsModule } from './modules/skills/skills.module';
 import { OnboardingModule } from './modules/onboarding/onboarding.module';
-import { WorkAreasModule } from './modules/work-areas/work-areas.module';
-import { FormsModule } from './modules/forms/forms.module';
 import { IntegrationsModule } from './modules/integrations/integrations.module';
 import { FilesModule } from './modules/files/files.module';
 import { SubdomainsModule } from './modules/subdomains/subdomains.module';
@@ -39,8 +37,6 @@ import { SubdomainsModule } from './modules/subdomains/subdomains.module';
         RolesModule,
         SkillsModule,
         OnboardingModule,
-        WorkAreasModule,
-        FormsModule,
         IntegrationsModule,
         FilesModule,
     ],
